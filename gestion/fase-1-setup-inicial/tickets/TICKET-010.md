@@ -2,7 +2,7 @@
 
 **Fase:** 1 - Setup Inicial
 **Sprint:** 1
-**Estado:** TODO
+**Estado:** DONE
 **Prioridad:** Alta
 **Estimación:** 15 minutos
 **Asignado a:** Claude Code / Victor Valotto
