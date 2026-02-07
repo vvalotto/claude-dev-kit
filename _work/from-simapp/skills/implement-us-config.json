@@ -1,0 +1,105 @@
+{
+  "version": "1.0",
+  "skill_name": "implement-us",
+  "description": "Implementador asistido de Historias de Usuario con arquitectura MVC",
+
+  "paths": {
+    "templates_dir": ".claude/templates",
+    "plans_dir": "docs/plans",
+    "reports_dir": "docs/reports",
+    "features_dir": "tests/features",
+    "quality_reports_dir": "quality/reports",
+    "tracking_dir": ".claude/tracking",
+    "metrics_dir": ".claude/metrics"
+  },
+
+  "quality_gates": {
+    "pylint_min": 8.0,
+    "cc_max": 10,
+    "mi_min": 20,
+    "coverage_min": 95.0
+  },
+
+  "tracking": {
+    "enabled": true,
+    "auto_start": true,
+    "auto_pause_on_error": true,
+    "track_user_approval_time": true,
+    "storage_path": ".claude/tracking",
+    "metrics_path": ".claude/metrics",
+    "generate_reports": true,
+    "report_formats": ["markdown", "json"]
+  },
+
+  "workflow": {
+    "checkpoint_approval": true,
+    "auto_run_tests": true,
+    "generate_bdd": true,
+    "generate_plan": true,
+    "generate_report": true,
+    "update_changelog": true
+  },
+
+  "test_framework": {
+    "runner": "pytest",
+    "plugins": ["pytest-qt", "pytest-cov", "pytest-bdd"],
+    "coverage_format": "html",
+    "verbose": true
+  },
+
+  "architecture_patterns": {
+    "mvc": {
+      "files_per_panel": ["modelo.py", "vista.py", "controlador.py"],
+      "base_classes": ["ModeloBase", "VistaBase", "ControladorBase"],
+      "fixtures_required": true
+    },
+    "factory": {
+      "class_name": "ComponenteFactoryUX",
+      "method_pattern": "_crear_ctrl_{component}"
+    },
+    "coordinator": {
+      "class_name": "UXCoordinator",
+      "connections": "signals"
+    }
+  },
+
+  "templates": {
+    "bdd_scenario": "bdd-scenario.feature",
+    "implementation_plan": "implementation-plan.md",
+    "unit_test": "test-unit.py",
+    "implementation_report": "implementation-report.md"
+  },
+
+  "logging": {
+    "enabled": true,
+    "level": "INFO",
+    "file": ".claude/logs/implement-us-{timestamp}.log",
+    "console": true
+  },
+
+  "git_integration": {
+    "enabled": false,
+    "auto_commit": false,
+    "branch_pattern": "feature/{us_id}",
+    "commit_message_pattern": "{us_id}: {task_description}"
+  },
+
+  "jira_integration": {
+    "enabled": false,
+    "auto_update_status": false,
+    "transition_on_complete": "Done"
+  },
+
+  "notifications": {
+    "enabled": false,
+    "on_complete": false,
+    "on_error": false
+  },
+
+  "preferences": {
+    "language": "es",
+    "date_format": "YYYY-MM-DD",
+    "time_format": "HH:mm:ss",
+    "timezone": "America/Argentina/Buenos_Aires"
+  }
+}
