@@ -173,7 +173,7 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+.idea/
 
 # Abstra
 # Abstra is an AI-powered process automation framework.
@@ -205,3 +205,38 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ============================================
+# Claude Dev Kit - Specific Exclusions
+# ============================================
+
+# Decision: _work/ is INCLUDED in git
+# Rationale: Contains valuable reference material from migration (skills, templates, tracking)
+# that is useful for development and understanding the project's evolution.
+# NOT excluded: _work/
+
+# VSCode settings (optional, team can decide)
+# Uncomment if you want to exclude VSCode settings:
+# .vscode/
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Project-specific temporary files
+# (None yet, add as needed during development)
