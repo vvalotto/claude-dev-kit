@@ -8,9 +8,9 @@
 
 ## 🎯 Objetivo
 
-Mantener contexto automático entre sesiones de Claude Code:
+Mantener contexto entre sesiones de Claude Code:
 - **Al salir:** Guardar metadata automáticamente mediante hook `SessionEnd`
-- **Al iniciar:** Mostrar resumen de sesión anterior + próximas actividades
+- **Al iniciar:** Restaurar contexto con comando `/resume`
 
 ---
 
@@ -45,22 +45,20 @@ Mantener contexto automático entre sesiones de Claude Code:
                      │
                      ▼ Inicia nueva sesión
 ┌─────────────────────────────────────────────────────────┐
-│  HOOK SessionStart (automático)                        │
-│  Script: .claude/hooks/check-session-start.sh          │
-│  ├─ Verifica si existe session-needs-summary.flag     │
-│  └─ Si existe, notifica a Claude para generar resumen │
+│  NUEVA SESIÓN                                           │
+│  Usuario ejecuta: /resume                              │
 └────────────────────┬────────────────────────────────────┘
                      │
-                     ▼ Claude recibe notificación
+                     ▼ Skill /resume invocado
 ┌─────────────────────────────────────────────────────────┐
-│  GENERACIÓN DE RESUMEN (Claude automático)             │
+│  RESTAURACIÓN DE CONTEXTO (Skill resume)              │
 │  1. Leo session-metadata.json                           │
-│  2. Leo transcript de sesión anterior (si necesario)    │
-│  3. Genero resumen inteligente                         │
-│  4. Muestro: resumen + próximas actividades            │
-│  5. Actualizo session-current.md                       │
-│  6. Agrego entrada a session-history.md               │
-│  7. Elimino flag                                       │
+│  2. Leo session-current.md                             │
+│  3. Leo session-history.md                             │
+│  4. Genero resumen inteligente                         │
+│  5. Muestro: resumen + próximas actividades            │
+│  6. Actualizo archivos de tracking                     │
+│  7. Elimino flag (si existe)                           │
 └─────────────────────────────────────────────────────────┘
 ```
 
