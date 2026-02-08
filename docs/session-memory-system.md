@@ -45,7 +45,15 @@ Mantener contexto automático entre sesiones de Claude Code:
                      │
                      ▼ Inicia nueva sesión
 ┌─────────────────────────────────────────────────────────┐
-│  INICIO DE SESIÓN (Claude detecta flag)                │
+│  HOOK SessionStart (automático)                        │
+│  Script: .claude/hooks/check-session-start.sh          │
+│  ├─ Verifica si existe session-needs-summary.flag     │
+│  └─ Si existe, notifica a Claude para generar resumen │
+└────────────────────┬────────────────────────────────────┘
+                     │
+                     ▼ Claude recibe notificación
+┌─────────────────────────────────────────────────────────┐
+│  GENERACIÓN DE RESUMEN (Claude automático)             │
 │  1. Leo session-metadata.json                           │
 │  2. Leo transcript de sesión anterior (si necesario)    │
 │  3. Genero resumen inteligente                         │
@@ -65,6 +73,7 @@ claude-dev-kitc/                              # Proyecto
 ├── .claude/
 │   ├── settings.json                         # Configuración de hooks
 │   └── hooks/
+│       ├── check-session-start.sh            # Script de inicio (ejecutable)
 │       └── save-session.sh                   # Script de exit (ejecutable)
 ├── docs/
 │   └── session-memory-system.md              # Este documento
@@ -146,13 +155,57 @@ chmod +x .claude/hooks/save-session.sh
 
 ---
 
-### Paso 3: Configurar Hook en settings.json
+### Paso 3: Crear Script de SessionStart
+
+**Archivo:** `.claude/hooks/check-session-start.sh`
+
+```bash
+#!/bin/bash
+
+MEMORY_DIR="$HOME/.claude/projects/-Users-victor-PycharmProjects-claude-dev-kitc/memory"
+FLAG_FILE="$MEMORY_DIR/session-needs-summary.flag"
+
+if [ -f "$FLAG_FILE" ]; then
+  echo "IMPORTANT: Session summary needed. The file session-needs-summary.flag exists."
+  echo "You MUST generate a session summary before proceeding with any other task."
+  echo ""
+  echo "Steps:"
+  echo "1. Read session-metadata.json for basic context"
+  echo "2. Generate summary of previous session"
+  echo "3. Show summary to user"
+  echo "4. Ask about next activities"
+  echo "5. Remove the flag file"
+  exit 0
+else
+  # No flag, normal session start
+  exit 0
+fi
+```
+
+**Hacer ejecutable:**
+```bash
+chmod +x .claude/hooks/check-session-start.sh
+```
+
+---
+
+### Paso 4: Configurar Hooks en settings.json
 
 **Archivo:** `.claude/settings.json`
 
 ```json
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/check-session-start.sh"
+          }
+        ]
+      }
+    ],
     "SessionEnd": [
       {
         "hooks": [
@@ -171,7 +224,7 @@ chmod +x .claude/hooks/save-session.sh
 
 ---
 
-### Paso 4: Crear Archivos Base de Memoria
+### Paso 5: Crear Archivos Base de Memoria
 
 **Archivo:** `~/.claude/projects/-Users-victor-PycharmProjects-claude-dev-kitc/memory/MEMORY.md`
 
@@ -238,7 +291,7 @@ _El historial se comenzará a registrar después de implementar el sistema._
 
 ---
 
-### Paso 5: Crear TODO.md en Raíz del Proyecto
+### Paso 6: Crear TODO.md en Raíz del Proyecto
 
 **Archivo:** `TODO.md` (raíz del proyecto)
 
@@ -331,12 +384,14 @@ Al iniciar de nuevo, Claude detecta el flag y repite el ciclo.
 
 ```bash
 # 1. Verificar estructura de directorios
+ls -la .claude/hooks/check-session-start.sh
 ls -la .claude/hooks/save-session.sh
 ls -la .claude/settings.json
 ls -la ~/.claude/projects/-Users-victor-PycharmProjects-claude-dev-kitc/memory/
 
-# 2. Verificar que el script es ejecutable
-test -x .claude/hooks/save-session.sh && echo "✅ Ejecutable" || echo "❌ NO ejecutable"
+# 2. Verificar que los scripts son ejecutables
+test -x .claude/hooks/check-session-start.sh && echo "✅ check-session-start.sh ejecutable" || echo "❌ NO ejecutable"
+test -x .claude/hooks/save-session.sh && echo "✅ save-session.sh ejecutable" || echo "❌ NO ejecutable"
 
 # 3. Verificar sintaxis JSON del settings.json
 jq empty .claude/settings.json && echo "✅ JSON válido" || echo "❌ JSON inválido"
@@ -546,6 +601,13 @@ Probar el sistema completo y comenzar Fase 2
 ---
 
 ## 📝 Changelog del Sistema
+
+### v1.1 - 2026-02-08 (actualización)
+
+- ✅ Agregado hook SessionStart para detección automática
+- ✅ Script check-session-start.sh para notificar a Claude
+- ✅ Mejora en flujo automático de inicio de sesión
+- ✅ Documentación actualizada con ambos hooks
 
 ### v1.0 - 2026-02-08
 
