@@ -158,7 +158,7 @@ chmod +x .claude/hooks/save-session.sh
         "hooks": [
           {
             "type": "command",
-            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/save-session.sh"
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/save-session.sh"
           }
         ]
       }
@@ -166,6 +166,8 @@ chmod +x .claude/hooks/save-session.sh
   }
 }
 ```
+
+**Nota:** No usar comillas escapadas alrededor de `$CLAUDE_PROJECT_DIR` - la variable de entorno debe usarse directamente.
 
 ---
 
