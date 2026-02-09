@@ -22,18 +22,18 @@ Desarrollar el sistema de instalación completo que permita desplegar el Claude 
 - [x] **TICKET-013**: Desarrollar `install/installer.py` (instalador Python multiplataforma)
 - [x] **TICKET-014**: Crear `scripts/validate-setup.py` (validador post-instalación)
 - [x] **TICKET-015**: Crear `install/install.sh` (script para Unix/macOS)
+- [x] **TICKET-017**: Crear `install/README.md` (documentación de instalación)
 
 ### En Progreso 🔄
 
 Ninguno aún.
 
+### Suspendidos 💤
+
+- [ ] **TICKET-016**: Crear `install/install.ps1` (script para Windows PowerShell) [OPCIONAL]
+
 ### Pendientes 📋
-- [ ] **TICKET-012**: Crear `install/config.yaml` con configuración base
-- [ ] **TICKET-013**: Desarrollar `install/installer.py` (instalador Python multiplataforma)
-- [ ] **TICKET-014**: Crear `scripts/validate-setup.py` (validador post-instalación)
-- [ ] **TICKET-015**: Crear `install/install.sh` (script para Unix/macOS)
-- [ ] **TICKET-016**: Crear `install/install.ps1` (script para Windows PowerShell) [SUSPENDIDO - Opcional]
-- [ ] **TICKET-017**: Crear `install/README.md` (documentación de instalación)
+
 - [ ] **TICKET-018**: Testing del sistema de instalación
 
 ---
@@ -41,14 +41,15 @@ Ninguno aún.
 ## Métricas
 
 - **Total de Tickets:** 8
-- **Completados:** 5 (62.5%)
+- **Completados:** 6 (75%)
+- **Suspendidos:** 1 (TICKET-016 - opcional)
 - **En Progreso:** 0
-- **Pendientes:** 3
+- **Pendientes:** 1 (TICKET-018 - testing)
 - **Bloqueados:** 0
 
 **Estimación Total:** 12 horas
-**Tiempo Consumido:** 10 horas
-**Tiempo Restante:** 2 horas
+**Tiempo Consumido:** 11.5 horas
+**Tiempo Restante:** 0.5 horas (solo testing)
 
 ---
 
@@ -147,4 +148,4 @@ _A completar al finalizar la fase._
 
 ---
 
-**Última Actualización:** 2026-02-09 (TICKET-015 completado - 62.5% progreso)
+**Última Actualización:** 2026-02-09 (TICKET-017 completado - 75% - Solo falta testing)
