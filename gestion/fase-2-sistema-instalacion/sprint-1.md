@@ -18,6 +18,7 @@ Desarrollar el sistema de instalación completo que permita desplegar el Claude 
 ### Completados ✅
 
 - [x] **TICKET-011**: Migrar sistema de tracking de `_work/from-simapp/tracking/` a `tracking/`
+- [x] **TICKET-012**: Crear `install/config.yaml` con configuración base
 
 ### En Progreso 🔄
 
@@ -37,14 +38,14 @@ Ninguno aún.
 ## Métricas
 
 - **Total de Tickets:** 8
-- **Completados:** 1 (12.5%)
+- **Completados:** 2 (25%)
 - **En Progreso:** 0
-- **Pendientes:** 7
+- **Pendientes:** 6
 - **Bloqueados:** 0
 
 **Estimación Total:** 12 horas
-**Tiempo Consumido:** 1 hora
-**Tiempo Restante:** 11 horas
+**Tiempo Consumido:** 3 horas
+**Tiempo Restante:** 9 horas
 
 ---
 
@@ -143,4 +144,4 @@ _A completar al finalizar la fase._
 
 ---
 
-**Última Actualización:** 2026-02-09 (TICKET-011 completado)
+**Última Actualización:** 2026-02-09 (TICKET-012 completado - 25% progreso)
