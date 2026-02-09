@@ -2,7 +2,7 @@
 
 **Fase:** 2 - Sistema de Instalación
 **Sprint:** 1
-**Estado:** PENDING
+**Estado:** SUSPENDED (Opcional - Windows PowerShell)
 **Prioridad:** Baja
 **Estimación:** 1 hora
 **Asignado a:** Claude Code
