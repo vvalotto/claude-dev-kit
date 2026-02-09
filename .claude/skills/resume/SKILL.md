@@ -27,9 +27,19 @@ If `session-metadata.json` doesn't exist, inform the user:
 Read all three session files to gather:
 - Last session timestamp and branch
 - Exit reason (normal, error, timeout, etc.)
+- **Commits from the last session** (captured automatically by SessionEnd hook at the end of session-current.md)
 - What was completed
 - Current state and decisions made
 - Next steps and pending tasks
+
+**IMPORTANT:** The SessionEnd hook automatically appends commits to the end of `session-current.md`. Look for a section like:
+```
+## 📝 Sesión Finalizada: YYYY-MM-DD HH:MM
+### Commits en esta sesión:
+- hash commit message
+- hash commit message
+```
+These commits are the PRIMARY indicator of what was accomplished in the last session.
 
 ### 3. Generate comprehensive summary
 
@@ -65,8 +75,24 @@ Display a structured summary:
 
 ### 4. Update session tracking
 
-- Add entry to `session-history.md` documenting this session resume
-- Update `session-current.md` to note that context was restored
+- Add entry to `session-history.md` documenting the completed session (use commits as evidence)
+- **Reset `session-current.md`** - Create a fresh template for the new session:
+  ```markdown
+  # Sesión Actual - Claude Dev Kit
+
+  ## 📝 Sesión Iniciada: <current date/time>
+  **Branch:** <current branch>
+  **Contexto Restaurado:** ✅ /resume ejecutado
+
+  ### 🎯 Objetivo de Esta Sesión
+  <To be determined based on what's next>
+
+  ### ✅ Completado
+  <Will be filled as work progresses>
+
+  ### 🚀 Próximos Pasos
+  <To be determined>
+  ```
 - Remove `session-needs-summary.flag` if it exists
 
 ### 5. Handle edge cases
@@ -98,6 +124,10 @@ You respond with the full context summary as specified above.
 ## Tips
 
 - Be concise but complete - show what matters
+- **Use commits as the primary source of truth** for what was accomplished
+- Analyze commit messages to understand the scope of work (feat, fix, docs, test, etc.)
+- Check CLAUDE.md or project documentation to understand what should come next
 - Highlight any blockers or important decisions
 - If there are pending tasks, list them clearly
 - Always clean up the flag file after processing
+- Reset session-current.md to prepare for the new session
