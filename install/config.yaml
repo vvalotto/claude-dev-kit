@@ -1,0 +1,272 @@
+# Claude Dev Kit - Configuración de Instalación
+# Version: 1.0
+#
+# Este archivo define los perfiles de instalación para diferentes stacks tecnológicos,
+# reglas de copia de archivos, y validaciones post-instalación.
+
+version: "1.0"
+
+# =============================================================================
+# PERFILES POR STACK TECNOLÓGICO
+# =============================================================================
+# Cada perfil personaliza el framework para un stack específico, definiendo:
+# - architecture_pattern: Patrón arquitectónico del proyecto
+# - test_framework: Framework de testing utilizado
+# - component_types: Tipos de componentes típicos del stack
+# - patterns: Patrones de diseño comunes
+
+profiles:
+  # ---------------------------------------------------------------------------
+  # PyQt + MVC: Aplicaciones de escritorio con PyQt6 y arquitectura MVC
+  # ---------------------------------------------------------------------------
+  pyqt-mvc:
+    name: "PyQt + MVC"
+    description: "PyQt6 applications with MVC architecture"
+    architecture_pattern: "mvc"
+    test_framework: "pytest-qt"
+
+    component_types:
+      - "Panel"
+      - "Model"
+      - "Controller"
+      - "Display"
+
+    patterns:
+      - "Factory"
+      - "Coordinator"
+      - "Observer"
+
+    # Variables de placeholder para templates
+    variables:
+      base_class: "ModeloBase"
+      test_base_class: "QWidget"
+      import_test_framework: "from pytestqt.qtbot import QtBot"
+
+  # ---------------------------------------------------------------------------
+  # FastAPI + REST: APIs REST con FastAPI y arquitectura en capas
+  # ---------------------------------------------------------------------------
+  fastapi-rest:
+    name: "FastAPI + REST"
+    description: "FastAPI REST APIs with layered architecture"
+    architecture_pattern: "layered"
+    test_framework: "pytest"
+
+    component_types:
+      - "Router"
+      - "Service"
+      - "Repository"
+      - "Schema"
+
+    patterns:
+      - "Dependency Injection"
+      - "Repository Pattern"
+      - "Service Layer"
+
+    # Variables de placeholder para templates
+    variables:
+      base_class: "BaseModel"
+      test_base_class: "TestClient"
+      import_test_framework: "from fastapi.testclient import TestClient"
+
+  # ---------------------------------------------------------------------------
+  # Django + MVT: Aplicaciones web Django con patrón Model-View-Template
+  # ---------------------------------------------------------------------------
+  django-mvt:
+    name: "Django + MVT"
+    description: "Django applications with Model-View-Template pattern"
+    architecture_pattern: "mvt"
+    test_framework: "pytest-django"
+
+    component_types:
+      - "Model"
+      - "View"
+      - "Template"
+      - "Form"
+
+    patterns:
+      - "MTV Pattern"
+      - "Class-Based Views"
+      - "Django ORM"
+
+    # Variables de placeholder para templates
+    variables:
+      base_class: "models.Model"
+      test_base_class: "TestCase"
+      import_test_framework: "from django.test import TestCase"
+
+  # ---------------------------------------------------------------------------
+  # Generic Python: Proyectos Python genéricos sin framework específico
+  # ---------------------------------------------------------------------------
+  generic-python:
+    name: "Generic Python"
+    description: "Generic Python projects without specific framework"
+    architecture_pattern: "modular"
+    test_framework: "pytest"
+
+    component_types:
+      - "Module"
+      - "Class"
+      - "Function"
+
+    patterns:
+      - "SOLID Principles"
+      - "Design Patterns"
+
+    # Variables de placeholder para templates
+    variables:
+      base_class: "object"
+      test_base_class: "unittest.TestCase"
+      import_test_framework: "import pytest"
+
+# =============================================================================
+# CONFIGURACIÓN DE INSTALACIÓN
+# =============================================================================
+# Define cómo el instalador copia archivos al proyecto destino
+
+installation:
+  # Directorio destino donde se instalará el framework
+  target_dir: ".claude"
+
+  # Generar CLAUDE.md si no existe en el proyecto
+  create_claude_md: true
+
+  # Política de sobrescritura de archivos existentes
+  # Opciones: "ask" (preguntar), "skip" (saltar), "overwrite" (sobrescribir)
+  overwrite_policy: "ask"
+
+  # Reglas de copia de archivos/directorios
+  copy_rules:
+    # Copiar skills al proyecto
+    - source: "skills"
+      target: "{target_dir}/skills"
+      recursive: true
+      description: "Skills (implement-us, etc.)"
+
+    # Copiar templates al proyecto
+    - source: "templates"
+      target: "{target_dir}/templates"
+      recursive: true
+      description: "Templates (BDD, planning, testing, reporting)"
+
+    # Copiar sistema de tracking al proyecto
+    - source: "tracking"
+      target: "{target_dir}/tracking"
+      recursive: true
+      description: "Time tracking system"
+
+  # Archivos a generar durante instalación
+  generated_files:
+    # Archivo de configuración principal
+    - path: "{target_dir}/config.json"
+      type: "json"
+      description: "Main configuration file (merged base + profile)"
+
+    # CLAUDE.md si no existe
+    - path: "CLAUDE.md"
+      type: "markdown"
+      description: "Project guide for Claude Code"
+      only_if_missing: true
+
+# =============================================================================
+# VALIDACIÓN POST-INSTALACIÓN
+# =============================================================================
+# Define qué debe verificar validate-setup.py después de la instalación
+
+validation:
+  # Directorios requeridos (instalación incompleta si faltan)
+  required_dirs:
+    - ".claude"
+    - ".claude/skills"
+    - ".claude/skills/implement-us"
+    - ".claude/templates"
+    - ".claude/templates/bdd"
+    - ".claude/templates/planning"
+    - ".claude/templates/testing"
+    - ".claude/templates/reporting"
+    - ".claude/tracking"
+
+  # Archivos requeridos (instalación incompleta si faltan)
+  required_files:
+    - ".claude/config.json"
+    - ".claude/skills/implement-us/SKILL.md"
+    - ".claude/tracking/time_tracker.py"
+    - ".claude/tracking/commands.py"
+    - ".claude/tracking/__init__.py"
+
+  # Archivos opcionales (advertencia si faltan, pero no error)
+  optional_files:
+    - "CLAUDE.md"
+    - ".claude/hooks/save-session.sh"
+    - ".claude/hooks/check-session-start.sh"
+
+  # Verificaciones de contenido
+  content_checks:
+    # Verificar que config.json es JSON válido
+    - file: ".claude/config.json"
+      type: "json_valid"
+      description: "Config JSON is valid"
+
+    # Verificar que config.json tiene keys requeridos
+    - file: ".claude/config.json"
+      type: "json_has_keys"
+      required_keys: ["profile", "version"]
+      description: "Config has required keys"
+
+  # Verificaciones de imports Python
+  python_imports:
+    # Verificar que tracking module se puede importar
+    - module: "tracking"
+      description: "Tracking module imports correctly"
+
+    - module: "tracking.time_tracker"
+      description: "TimeTracker imports correctly"
+
+    - module: "tracking.commands"
+      description: "Tracking commands import correctly"
+
+# =============================================================================
+# MENSAJES Y TEXTOS
+# =============================================================================
+# Mensajes mostrados durante la instalación
+
+messages:
+  welcome: |
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    🚀 Claude Dev Kit - Installer v1.0
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  profile_selection: |
+    Selecciona el perfil para tu proyecto:
+
+    1. PyQt + MVC (pyqt-mvc)
+       └─ PyQt6 applications with MVC architecture
+
+    2. FastAPI + REST (fastapi-rest)
+       └─ FastAPI REST APIs with layered architecture
+
+    3. Django + MVT (django-mvt)
+       └─ Django applications with Model-View-Template pattern
+
+    4. Generic Python (generic-python)
+       └─ Generic Python projects without specific framework
+
+  success: |
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    ✅ Instalación completada exitosamente!
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Próximos pasos:
+    1. Revisar CLAUDE.md generado
+    2. Configurar tu proyecto en .claude/config.json
+    3. Ejecutar: /implement-us US-001
+
+  validation_running: |
+    🔍 Ejecutando validación de instalación...
+
+  already_exists: |
+    ⚠️  El directorio .claude/ ya existe.
+
+    Opciones:
+    - Usar --force para sobrescribir
+    - Eliminar .claude/ manualmente
+    - Cancelar instalación
