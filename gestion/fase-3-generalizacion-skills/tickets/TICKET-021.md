@@ -2,7 +2,7 @@
 
 **Fase:** 3 - Generalización de Skills
 **Sprint:** 2
-**Estado:** EN PROGRESO (60% completado - 6/10 subtareas)
+**Estado:** EN PROGRESO (70% completado - 7/10 subtareas)
 **Plan de Implementación:** Ver [TICKET-021-implementation-plan.md](./TICKET-021-implementation-plan.md)
 **Prioridad:** Crítica
 **Estimación:** 4 horas
@@ -15,8 +15,8 @@
 - [x] **Subtarea 2:** Reestructurar a arquitectura modular (orquestador + phases/) ✅ (commit efe6bcd)
 - [x] **Subtarea 3:** Generalizar Fase 2 - Plan de Implementación ✅ (commit 2389e39)
 - [x] **Subtarea 4:** Generalizar Fase 3 - Implementación ✅ (commit 94920b6)
-- [x] **Subtarea 5:** Generalizar Fase 4 - Tests Unitarios ✅
-- [ ] **Subtarea 6:** Generalizar Fase 5 - Tests de Integración
+- [x] **Subtarea 5:** Generalizar Fase 4 - Tests Unitarios ✅ (commit e3ca4dd)
+- [x] **Subtarea 6:** Generalizar Fase 5 - Tests de Integración ✅
 - [ ] **Subtarea 7:** Generalizar Fases 6-9 (finales)
 - [ ] **Subtarea 8:** Sincronizar orquestador (skill.md)
 - [ ] **Subtarea 9:** Validación final
