@@ -1,0 +1,347 @@
+{
+  "_comment_profile": "Perfil de customización para proyectos PyQt6 con arquitectura MVC + Factory/Coordinator",
+
+  "profile_metadata": {
+    "name": "pyqt-mvc",
+    "display_name": "PyQt6 MVC + Factory/Coordinator",
+    "description": "Configuración para aplicaciones desktop PyQt6 con patrón MVC, Factory y Coordinator",
+    "extends": "config.json",
+    "version": "1.0.0",
+    "author": "Claude Dev Kit",
+    "created": "2026-02-13",
+    "target_stack": "PyQt6 + Python 3.10+",
+    "architecture": "MVC (Model-View-Controller) + Factory + Coordinator patterns"
+  },
+
+  "_comment_variables": "Override de variables para PyQt/MVC - Reemplazan valores genéricos del config base",
+
+  "variables": {
+    "architecture_pattern": {
+      "default": "mvc",
+      "description": "Patrón MVC con separación estricta Modelo-Vista-Controlador",
+      "available": ["mvc"],
+      "components": {
+        "model": "Modelo (dataclass inmutable)",
+        "view": "Vista (QWidget o subclase)",
+        "controller": "Controlador (lógica de negocio y coordinación)",
+        "factory": "Factory (creación de componentes)",
+        "coordinator": "Coordinator (comunicación entre paneles)"
+      }
+    },
+    "component_type": {
+      "default": "Panel",
+      "description": "Tipo de componente UI a implementar",
+      "available": ["Panel", "Dialog", "Widget", "Window"],
+      "examples": "PanelDisplay, DialogConfiguración, WidgetEstado"
+    },
+    "component_path": {
+      "default": "app/presentacion/paneles/{name}/",
+      "description": "Ruta base para paneles MVC en PyQt",
+      "alternatives": {
+        "panel": "app/presentacion/paneles/{name}/",
+        "dialog": "app/presentacion/dialogos/{name}/",
+        "widget": "app/presentacion/widgets/{name}/"
+      }
+    },
+    "test_framework": {
+      "default": "pytest + pytest-qt",
+      "description": "pytest con soporte específico para PyQt (qtbot, qapp)",
+      "plugins": ["pytest-qt", "pytest-cov", "pytest-bdd"],
+      "version_constraints": {
+        "pytest": ">=7.0.0",
+        "pytest-qt": ">=4.2.0",
+        "pytest-cov": ">=4.0.0",
+        "pytest-bdd": ">=6.0.0"
+      }
+    },
+    "base_class": {
+      "default": "ModeloBase",
+      "description": "Clase base para modelos MVC",
+      "by_component": {
+        "model": "ModeloBase (dataclass inmutable)",
+        "view": "QWidget",
+        "controller": "object",
+        "factory": "object",
+        "coordinator": "QObject (para signals/slots)"
+      }
+    },
+    "domain_context": {
+      "default": "presentacion",
+      "description": "Capa de presentación siguiendo arquitectura en capas",
+      "layers": ["presentacion", "dominio", "infraestructura"],
+      "current_layer": "presentacion"
+    },
+    "project_root": {
+      "default": "app/",
+      "description": "Raíz del proyecto PyQt (directorio app/)",
+      "structure": {
+        "presentation": "app/presentacion/",
+        "domain": "app/dominio/",
+        "infrastructure": "app/infraestructura/"
+      }
+    }
+  },
+
+  "_comment_component_structure": "Estructura específica de componentes MVC para PyQt",
+
+  "component_structure": {
+    "mvc_panel": {
+      "description": "Panel completo con arquitectura MVC",
+      "base_path": "app/presentacion/paneles/{component_name}/",
+      "files": {
+        "model": {
+          "filename": "modelo.py",
+          "class_name": "{ComponentName}Modelo",
+          "base_class": "ModeloBase",
+          "pattern": "dataclass inmutable",
+          "responsibilities": [
+            "Estado del panel (datos)",
+            "Validación de datos",
+            "Inmutabilidad (sin setters)"
+          ]
+        },
+        "view": {
+          "filename": "vista.py",
+          "class_name": "{ComponentName}Vista",
+          "base_class": "QWidget",
+          "responsibilities": [
+            "Construcción de UI (widgets, layouts)",
+            "Emisión de señales de usuario (signals)",
+            "Actualización visual desde modelo"
+          ]
+        },
+        "controller": {
+          "filename": "controlador.py",
+          "class_name": "{ComponentName}Controlador",
+          "base_class": "object",
+          "responsibilities": [
+            "Lógica de negocio del panel",
+            "Coordinación Modelo-Vista",
+            "Interacción con servicios/coordinadores"
+          ]
+        },
+        "init": {
+          "filename": "__init__.py",
+          "exports": ["modelo", "vista", "controlador"]
+        }
+      },
+      "test_files": {
+        "test_model": "tests/test_{component_name}_modelo.py",
+        "test_view": "tests/test_{component_name}_vista.py",
+        "test_controller": "tests/test_{component_name}_controlador.py",
+        "test_integration": "tests/integration/test_{component_name}_integration.py"
+      },
+      "factory_pattern": {
+        "enabled": true,
+        "factory_method": "crear_{component_name}",
+        "location": "app/presentacion/factory.py"
+      }
+    },
+    "coordinator": {
+      "description": "Coordinador para comunicación entre paneles",
+      "base_path": "app/presentacion/coordinadores/",
+      "filename": "{coordinator_name}_coordinator.py",
+      "base_class": "QObject",
+      "pattern": "Signals/Slots para pub-sub entre paneles"
+    }
+  },
+
+  "_comment_test_framework": "Configuración de pytest-qt para testing de PyQt",
+
+  "test_framework_config": {
+    "runner": "pytest",
+    "plugins": ["pytest-qt", "pytest-cov", "pytest-bdd"],
+    "fixtures_path": "tests/conftest.py",
+    "required_fixtures": {
+      "qapp": {
+        "description": "Aplicación QApplication para tests",
+        "scope": "session",
+        "autouse": false
+      },
+      "qtbot": {
+        "description": "Helper para interacción con widgets (clicks, inputs, etc.)",
+        "scope": "function",
+        "autouse": false
+      }
+    },
+    "markers": {
+      "unit": "Tests unitarios de modelo/vista/controlador",
+      "integration": "Tests de integración entre componentes MVC",
+      "ui": "Tests de interfaz gráfica (requieren qtbot)",
+      "bdd": "Tests BDD (pytest-bdd)",
+      "slow": "Tests lentos (>1s, típicamente UI)",
+      "no_display": "Tests que no requieren display gráfico"
+    },
+    "coverage_config": {
+      "source": ["app/presentacion"],
+      "omit": [
+        "tests/*",
+        "app/presentacion/factory.py",
+        "app/presentacion/*/__init__.py"
+      ],
+      "exclude_lines": [
+        "pragma: no cover",
+        "def __repr__",
+        "if TYPE_CHECKING:",
+        "raise NotImplementedError"
+      ]
+    },
+    "pytest_options": [
+      "-v",
+      "--tb=short",
+      "--strict-markers",
+      "--cov=app/presentacion",
+      "--cov-report=term-missing",
+      "--cov-report=html"
+    ]
+  },
+
+  "_comment_quality_gates": "Quality gates ajustados para PyQt (UI tiene complejidad inherente)",
+
+  "quality_gates": {
+    "pylint": {
+      "enabled": true,
+      "min_score": 8.0,
+      "config_file": ".pylintrc",
+      "exclude_patterns": [
+        "tests/*",
+        "app/presentacion/factory.py",
+        "*/__init__.py"
+      ],
+      "disable_checks": [
+        "too-many-instance-attributes",
+        "too-many-public-methods",
+        "too-few-public-methods"
+      ],
+      "notes": "UI classes naturalmente tienen muchos atributos (widgets)"
+    },
+    "cyclomatic_complexity": {
+      "enabled": true,
+      "max_per_function": 12,
+      "notes": "UI event handlers pueden tener lógica condicional legítima",
+      "exclude_patterns": ["tests/*", "**/vista.py"]
+    },
+    "maintainability_index": {
+      "enabled": true,
+      "min_score": 20,
+      "tool": "radon",
+      "exclude_patterns": ["tests/*"]
+    },
+    "coverage": {
+      "enabled": true,
+      "min_percent": 90.0,
+      "notes": "90% para PyQt (UI tiene código difícil de testear 100%)",
+      "tool": "pytest-cov",
+      "exclude_patterns": [
+        "tests/*",
+        "app/presentacion/factory.py",
+        "*/__init__.py"
+      ]
+    }
+  },
+
+  "_comment_bdd": "Configuración BDD específica para PyQt",
+
+  "bdd_config": {
+    "runner": "pytest-bdd",
+    "feature_template": "templates/bdd/pyqt-scenario.feature",
+    "steps_template": "templates/bdd/pyqt-steps.py",
+    "tag_prefix": "@US-",
+    "language": "es",
+    "step_patterns": {
+      "given_ui": "Dado que la aplicación PyQt está iniciada",
+      "when_click": "Cuando el usuario hace click en {widget}",
+      "then_display": "Entonces se muestra {value} en {widget}"
+    }
+  },
+
+  "_comment_dependencies": "Dependencias específicas de PyQt6",
+
+  "dependencies": {
+    "required": [
+      "PyQt6>=6.4.0",
+      "pytest>=7.0.0",
+      "pytest-qt>=4.2.0",
+      "pytest-cov>=4.0.0",
+      "pytest-bdd>=6.0.0"
+    ],
+    "development": [
+      "pylint>=2.15.0",
+      "radon>=5.1.0",
+      "black>=22.0.0",
+      "mypy>=1.0.0"
+    ],
+    "optional": [
+      "pyqt6-tools",
+      "qt-material"
+    ]
+  },
+
+  "_comment_patterns": "Patrones específicos de PyQt/MVC",
+
+  "design_patterns": {
+    "mvc": {
+      "description": "Separación estricta Modelo-Vista-Controlador",
+      "rules": [
+        "Modelo: dataclass inmutable, solo datos y validación",
+        "Vista: QWidget, solo UI y signals",
+        "Controlador: lógica de negocio, coordina M-V"
+      ]
+    },
+    "factory": {
+      "description": "Creación centralizada de paneles MVC",
+      "location": "app/presentacion/factory.py",
+      "method_pattern": "crear_{panel_name}(parent, config) -> tuple[Modelo, Vista, Controlador]"
+    },
+    "coordinator": {
+      "description": "Comunicación pub-sub entre paneles vía signals/slots",
+      "base_class": "QObject",
+      "pattern": "PyQt signals para eventos cross-panel"
+    },
+    "immutability": {
+      "description": "Modelos inmutables con dataclass frozen=True",
+      "pattern": "@dataclass(frozen=True)"
+    }
+  },
+
+  "_comment_documentation": "Paths de documentación para PyQt",
+
+  "documentation_config": {
+    "plan_path": "docs/plans/",
+    "report_path": "docs/reports/",
+    "adr_path": "docs/architecture/decisions/",
+    "ui_mockups_path": "docs/ui/mockups/",
+    "format": "markdown",
+    "include_diagrams": true,
+    "diagram_tools": ["mermaid", "plantuml"]
+  },
+
+  "_comment_examples": "Ejemplos de código generado para PyQt/MVC",
+
+  "code_templates": {
+    "model_example": "app/presentacion/paneles/display/modelo.py",
+    "view_example": "app/presentacion/paneles/display/vista.py",
+    "controller_example": "app/presentacion/paneles/display/controlador.py",
+    "test_example": "tests/test_display_modelo.py"
+  },
+
+  "_comment_project_specific": "Configuración específica del proyecto (si aplica)",
+
+  "project_conventions": {
+    "naming": {
+      "model_suffix": "Modelo",
+      "view_suffix": "Vista",
+      "controller_suffix": "Controlador",
+      "test_prefix": "test_",
+      "panel_prefix": "Panel"
+    },
+    "imports": {
+      "qt_import_style": "from PyQt6.QtWidgets import QWidget, QPushButton",
+      "internal_imports": "from app.presentacion.paneles.{name} import {Name}Modelo"
+    },
+    "signals": {
+      "naming_convention": "{action}_signal",
+      "example": "dato_actualizado_signal = pyqtSignal(int)"
+    }
+  }
+}
