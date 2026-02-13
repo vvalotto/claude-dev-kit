@@ -1,0 +1,277 @@
+{
+  "_comment_profile": "Perfil minimalista para proyectos Python genéricos sin framework específico",
+
+  "profile_metadata": {
+    "name": "generic-python",
+    "display_name": "Generic Python Project",
+    "description": "Configuración minimalista para proyectos Python genéricos sin framework específico. Usa mayoría de defaults del config base.",
+    "extends": "config.json",
+    "version": "1.0.0",
+    "author": "Claude Dev Kit",
+    "created": "2026-02-13",
+    "target_stack": "Python 3.8+",
+    "architecture": "Flexible - Sin patrón arquitectónico forzado"
+  },
+
+  "_comment_usage": "Cuándo usar este perfil",
+
+  "use_cases": [
+    "Proyectos Python sin framework web/UI específico",
+    "Librerías y paquetes Python",
+    "Scripts y herramientas de línea de comandos",
+    "Proyectos de data science / machine learning",
+    "Automatizaciones y bots",
+    "Microservicios sin FastAPI/Flask",
+    "Cualquier proyecto Python que no encaje en PyQt/FastAPI/Django"
+  ],
+
+  "_comment_variables": "Mínimos overrides - Usa mayoría de defaults del config base",
+
+  "variables": {
+    "component_type": {
+      "default": "Module",
+      "description": "Tipo de componente genérico a implementar",
+      "available": ["Module", "Class", "Function", "Package", "Service", "Utility"],
+      "examples": "DataProcessor, ConfigManager, LoggerService, FileUtils"
+    },
+    "domain_context": {
+      "default": "core",
+      "description": "Contexto de dominio genérico",
+      "alternatives": ["core", "domain", "lib", "utils", "services"],
+      "recommended": "Depende del tipo de proyecto"
+    }
+  },
+
+  "_comment_note": "El resto de variables usa defaults del config.json base: architecture_pattern='generic', component_path='src/{name}/', test_framework='pytest', base_class='object', project_root='.'",
+
+  "_comment_component_structure": "Estructura simple de módulos Python",
+
+  "component_structure": {
+    "python_module": {
+      "description": "Módulo Python estándar con implementación y tests",
+      "base_path": "src/{module_name}/",
+      "files": {
+        "main": {
+          "filename": "{module_name}.py",
+          "description": "Archivo principal del módulo con clases/funciones",
+          "patterns": [
+            "Clases con responsabilidad única",
+            "Funciones puras donde sea posible",
+            "Type hints en todos los parámetros y retornos",
+            "Docstrings en formato Google/NumPy"
+          ]
+        },
+        "init": {
+          "filename": "__init__.py",
+          "description": "Exports públicos del módulo",
+          "pattern": "__all__ = ['Class1', 'Class2', 'function1']"
+        }
+      },
+      "test_files": {
+        "test_main": "tests/test_{module_name}.py",
+        "test_integration": "tests/integration/test_{module_name}_integration.py"
+      },
+      "optional_files": [
+        "constants.py (constantes del módulo)",
+        "exceptions.py (excepciones custom)",
+        "types.py (type aliases y protocols)",
+        "utils.py (funciones auxiliares)"
+      ]
+    },
+    "python_package": {
+      "description": "Paquete Python con múltiples módulos",
+      "base_path": "src/{package_name}/",
+      "structure": {
+        "src/{package_name}/": "Código fuente",
+        "tests/": "Tests",
+        "docs/": "Documentación",
+        "examples/": "Ejemplos de uso"
+      },
+      "files": [
+        "__init__.py",
+        "core.py",
+        "utils.py",
+        "exceptions.py"
+      ]
+    }
+  },
+
+  "_comment_test_framework": "pytest básico sin plugins específicos de framework",
+
+  "test_framework_config": {
+    "runner": "pytest",
+    "plugins": ["pytest-cov"],
+    "fixtures_path": "tests/conftest.py",
+    "markers": {
+      "unit": "Tests unitarios",
+      "integration": "Tests de integración",
+      "slow": "Tests lentos (>1s)",
+      "requires_network": "Tests que requieren conexión de red",
+      "requires_file": "Tests que requieren archivos del sistema"
+    },
+    "coverage_config": {
+      "source": ["src"],
+      "omit": [
+        "tests/*",
+        "*/__init__.py",
+        "*/conftest.py"
+      ]
+    },
+    "pytest_options": [
+      "-v",
+      "--tb=short",
+      "--strict-markers",
+      "--cov=src",
+      "--cov-report=term-missing",
+      "--cov-report=html"
+    ]
+  },
+
+  "_comment_quality_gates": "Quality gates estándar del config base (sin modificaciones)",
+
+  "quality_gates_note": "Este perfil usa los quality gates por defecto del config.json base: Pylint ≥8.0, CC ≤10, MI ≥20, Coverage ≥95%",
+
+  "_comment_dependencies": "Dependencias mínimas para Python genérico",
+
+  "dependencies": {
+    "required": [
+      "pytest>=7.0.0",
+      "pytest-cov>=4.0.0"
+    ],
+    "development": [
+      "pylint>=2.15.0",
+      "radon>=5.1.0",
+      "black>=22.0.0",
+      "mypy>=1.0.0",
+      "isort>=5.10.0"
+    ],
+    "optional": [
+      "pytest-bdd>=6.0.0 (si se usa BDD)",
+      "hypothesis>=6.0.0 (property-based testing)",
+      "pytest-mock>=3.10.0 (mocking)",
+      "pytest-timeout>=2.1.0 (timeout para tests lentos)"
+    ]
+  },
+
+  "_comment_patterns": "Patrones recomendados para Python genérico",
+
+  "design_patterns": {
+    "solid_principles": {
+      "description": "Principios SOLID para diseño orientado a objetos",
+      "principles": [
+        "Single Responsibility: Una clase, una responsabilidad",
+        "Open/Closed: Abierto a extensión, cerrado a modificación",
+        "Liskov Substitution: Subtipos sustituibles por tipos base",
+        "Interface Segregation: Interfaces específicas mejor que generales",
+        "Dependency Inversion: Depender de abstracciones, no de concretas"
+      ]
+    },
+    "composition_over_inheritance": {
+      "description": "Preferir composición sobre herencia profunda",
+      "example": "Usar mixins o dependency injection en lugar de herencia múltiple"
+    },
+    "type_hints": {
+      "description": "Usar type hints en todo el código",
+      "pattern": "def function(param: str, count: int = 0) -> List[str]:",
+      "benefits": "Mejor IDE support, mypy validation, documentación implícita"
+    },
+    "docstrings": {
+      "description": "Documentar módulos, clases y funciones",
+      "style": "Google style o NumPy style",
+      "tools": "Sphinx para generar documentación HTML"
+    }
+  },
+
+  "_comment_best_practices": "Best practices para código Python genérico",
+
+  "best_practices": {
+    "code_style": {
+      "formatter": "black (PEP 8 compliant)",
+      "import_sorting": "isort",
+      "line_length": 88,
+      "quote_style": "double quotes"
+    },
+    "type_checking": {
+      "tool": "mypy",
+      "strictness": "mypy --strict (recomendado)",
+      "protocol_usage": "Usar typing.Protocol para duck typing"
+    },
+    "error_handling": {
+      "pattern": "Crear custom exceptions heredando de Exception",
+      "example": "class ValidationError(ValueError): pass",
+      "logging": "Usar logging module, no print()"
+    },
+    "testing": {
+      "style": "AAA pattern (Arrange-Act-Assert)",
+      "naming": "test_<function>_<scenario>_<expected>",
+      "parametrize": "Usar @pytest.mark.parametrize para múltiples casos",
+      "fixtures": "Crear fixtures reutilizables en conftest.py"
+    },
+    "project_structure": {
+      "recommended": "src layout (src/{package}/) en lugar de flat layout",
+      "benefits": "Evita imports ambiguos, mejor para packaging"
+    }
+  },
+
+  "_comment_documentation": "Configuración de documentación",
+
+  "documentation_config": {
+    "plan_path": "docs/plans/",
+    "report_path": "docs/reports/",
+    "adr_path": "docs/decisions/",
+    "api_docs_path": "docs/api/",
+    "format": "markdown",
+    "include_diagrams": false,
+    "readme": {
+      "required_sections": [
+        "Installation",
+        "Usage",
+        "API Reference",
+        "Contributing",
+        "License"
+      ]
+    }
+  },
+
+  "_comment_packaging": "Configuración para empaquetado Python",
+
+  "packaging": {
+    "tool": "pyproject.toml (PEP 517/518)",
+    "build_backend": "hatchling o setuptools",
+    "metadata": {
+      "name": "{package_name}",
+      "version": "0.1.0",
+      "description": "Package description",
+      "python_requires": ">=3.8"
+    },
+    "entry_points": "Para CLI tools: [project.scripts]",
+    "classifiers": "PyPI classifiers para mejor descubrimiento"
+  },
+
+  "_comment_git": "Configuración Git estándar",
+
+  "git_config": {
+    "auto_commit": false,
+    "commit_message_template": "feat: {description}\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>",
+    "branch_naming": "feature/{feature-name}",
+    "auto_push": false
+  },
+
+  "_comment_ci_cd": "Sugerencias para CI/CD",
+
+  "ci_cd_suggestions": {
+    "github_actions": {
+      "tests": "Run pytest on push/PR",
+      "linting": "Run pylint, black, mypy",
+      "coverage": "Upload to codecov.io",
+      "publish": "Publish to PyPI on release"
+    },
+    "pre_commit_hooks": [
+      "black (formatting)",
+      "isort (import sorting)",
+      "pylint (linting)",
+      "mypy (type checking)",
+      "pytest (quick tests)"
+    ]
+  }
+}

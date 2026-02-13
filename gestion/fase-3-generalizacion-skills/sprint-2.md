@@ -29,8 +29,11 @@ Ninguno actualmente.
 - [x] **TICKET-023**: Crear perfil `pyqt-mvc.json` ✅
 - [x] **TICKET-024**: Crear perfil `fastapi-rest.json` ✅
 
+### Desestimados ❌
+
+- [~] **TICKET-025**: Crear perfil `django-mvt.json` ❌ (Desestimado - No requerido)
+
 ### Pendientes 📋
-- [ ] **TICKET-025**: Crear perfil `django-mvt.json`
 - [ ] **TICKET-026**: Crear perfil `generic-python.json`
 - [ ] **TICKET-027**: Testing de perfiles y validación del skill generalizado
 
@@ -40,8 +43,9 @@ Ninguno actualmente.
 
 - **Total de Tickets:** 9
 - **Completados:** 6 (67%)
+- **Desestimados:** 1 (11%)
 - **En Progreso:** 0 (0%)
-- **Pendientes:** 3 (33%)
+- **Pendientes:** 2 (22%)
 - **Bloqueados:** 0
 
 **Estimación Total:** 14 horas
