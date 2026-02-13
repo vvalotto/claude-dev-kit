@@ -1,0 +1,489 @@
+{
+  "_comment_profile": "Perfil de customización para APIs REST con FastAPI y arquitectura en capas",
+
+  "profile_metadata": {
+    "name": "fastapi-rest",
+    "display_name": "FastAPI REST API + Layered Architecture",
+    "description": "Configuración para APIs REST con FastAPI, arquitectura en capas (router-service-repository) y async/await",
+    "extends": "config.json",
+    "version": "1.0.0",
+    "author": "Claude Dev Kit",
+    "created": "2026-02-13",
+    "target_stack": "FastAPI + Python 3.10+ + async/await",
+    "architecture": "Layered Architecture (Presentation → Business → Data)"
+  },
+
+  "_comment_variables": "Override de variables para FastAPI - Arquitectura en capas REST",
+
+  "variables": {
+    "architecture_pattern": {
+      "default": "layered",
+      "description": "Arquitectura en capas: Router (presentación) → Service (lógica) → Repository (datos)",
+      "available": ["layered", "clean-architecture"],
+      "layers": {
+        "presentation": "Routers (FastAPI endpoints)",
+        "business": "Services (lógica de negocio)",
+        "data": "Repositories (acceso a datos)",
+        "models": "Models (Pydantic schemas + SQLAlchemy models)"
+      }
+    },
+    "component_type": {
+      "default": "Endpoint",
+      "description": "Tipo de componente a implementar en la API",
+      "available": ["Endpoint", "Service", "Repository", "Model", "Schema"],
+      "examples": "UserEndpoint, AuthService, ProductRepository, UserSchema"
+    },
+    "component_path": {
+      "default": "app/api/{name}/",
+      "description": "Ruta base para módulos de API - agrupa todos los layers de un feature",
+      "structure": {
+        "feature_based": "app/api/{name}/",
+        "layer_based": "app/{layer}/{name}/"
+      },
+      "recommended": "feature_based (mejor cohesión)"
+    },
+    "test_framework": {
+      "default": "pytest + httpx",
+      "description": "pytest con httpx para testing async de APIs REST",
+      "plugins": ["pytest-asyncio", "httpx", "pytest-cov", "pytest-bdd"],
+      "version_constraints": {
+        "pytest": ">=7.0.0",
+        "pytest-asyncio": ">=0.21.0",
+        "httpx": ">=0.24.0",
+        "pytest-cov": ">=4.0.0",
+        "pytest-bdd": ">=6.0.0"
+      }
+    },
+    "base_class": {
+      "default": "BaseModel",
+      "description": "Clase base para componentes según la capa",
+      "by_component": {
+        "schema": "pydantic.BaseModel (validación de datos)",
+        "model": "sqlalchemy.DeclarativeBase (ORM)",
+        "service": "BaseService (lógica de negocio)",
+        "repository": "BaseRepository (CRUD genérico)",
+        "router": "fastapi.APIRouter"
+      }
+    },
+    "domain_context": {
+      "default": "api",
+      "description": "Contexto de dominio para APIs REST",
+      "contexts": ["api", "domain", "infrastructure"],
+      "current_layer": "api"
+    },
+    "project_root": {
+      "default": "app/",
+      "description": "Raíz del proyecto FastAPI (directorio app/)",
+      "structure": {
+        "api": "app/api/",
+        "core": "app/core/",
+        "models": "app/models/",
+        "db": "app/db/"
+      }
+    }
+  },
+
+  "_comment_component_structure": "Estructura en capas para features de FastAPI",
+
+  "component_structure": {
+    "api_feature": {
+      "description": "Feature completo con arquitectura en capas (router-service-repository-models)",
+      "base_path": "app/api/{feature_name}/",
+      "files": {
+        "router": {
+          "filename": "router.py",
+          "class_name": "{FeatureName}Router",
+          "decorator": "@router (APIRouter)",
+          "responsibilities": [
+            "Definir endpoints HTTP (GET, POST, PUT, DELETE)",
+            "Validación de request/response con Pydantic",
+            "Dependency injection (get_db, get_current_user)",
+            "Delegación a services"
+          ]
+        },
+        "service": {
+          "filename": "service.py",
+          "class_name": "{FeatureName}Service",
+          "base_class": "BaseService",
+          "responsibilities": [
+            "Lógica de negocio del feature",
+            "Orquestación de múltiples repositories",
+            "Transacciones y validaciones complejas",
+            "Transformación de datos (entity → DTO)"
+          ]
+        },
+        "repository": {
+          "filename": "repository.py",
+          "class_name": "{FeatureName}Repository",
+          "base_class": "BaseRepository",
+          "responsibilities": [
+            "Acceso a base de datos (CRUD)",
+            "Queries específicas del feature",
+            "Gestión de sesiones SQLAlchemy",
+            "Sin lógica de negocio"
+          ]
+        },
+        "schemas": {
+          "filename": "schemas.py",
+          "description": "Pydantic models para request/response",
+          "classes": [
+            "{Feature}Create (request body)",
+            "{Feature}Update (request body)",
+            "{Feature}Response (response model)",
+            "{Feature}InDB (incluye campos DB)"
+          ]
+        },
+        "models": {
+          "filename": "models.py",
+          "description": "SQLAlchemy ORM models",
+          "base_class": "Base (DeclarativeBase)",
+          "responsibilities": [
+            "Definir schema de base de datos",
+            "Relaciones entre tablas",
+            "Constraints y validaciones DB"
+          ]
+        },
+        "init": {
+          "filename": "__init__.py",
+          "exports": ["router", "service", "repository", "schemas", "models"]
+        }
+      },
+      "test_files": {
+        "test_router": "tests/api/test_{feature_name}_router.py",
+        "test_service": "tests/services/test_{feature_name}_service.py",
+        "test_repository": "tests/repositories/test_{feature_name}_repository.py",
+        "test_integration": "tests/integration/test_{feature_name}_e2e.py"
+      },
+      "dependency_injection": {
+        "enabled": true,
+        "pattern": "FastAPI Depends()",
+        "example": "async def get_service(db: Session = Depends(get_db)) -> Service"
+      }
+    }
+  },
+
+  "_comment_test_framework": "Configuración de pytest + httpx para testing async de APIs",
+
+  "test_framework_config": {
+    "runner": "pytest",
+    "plugins": ["pytest-asyncio", "httpx", "pytest-cov", "pytest-bdd"],
+    "fixtures_path": "tests/conftest.py",
+    "required_fixtures": {
+      "client": {
+        "description": "TestClient síncrono de FastAPI",
+        "scope": "module",
+        "type": "fastapi.testclient.TestClient",
+        "autouse": false
+      },
+      "async_client": {
+        "description": "AsyncClient de httpx para testing async",
+        "scope": "function",
+        "type": "httpx.AsyncClient",
+        "autouse": false
+      },
+      "db_session": {
+        "description": "Sesión de base de datos para tests (in-memory SQLite)",
+        "scope": "function",
+        "autouse": false
+      },
+      "override_get_db": {
+        "description": "Override de dependency get_db() para tests",
+        "scope": "function",
+        "autouse": false
+      }
+    },
+    "markers": {
+      "unit": "Tests unitarios de service/repository",
+      "integration": "Tests de integración entre capas",
+      "api": "Tests de endpoints HTTP (requieren client)",
+      "async": "Tests asíncronos (requieren pytest-asyncio)",
+      "bdd": "Tests BDD (pytest-bdd)",
+      "slow": "Tests lentos (>1s, típicamente con DB real)",
+      "db": "Tests que requieren base de datos"
+    },
+    "coverage_config": {
+      "source": ["app/api", "app/services", "app/repositories"],
+      "omit": [
+        "tests/*",
+        "app/api/*/__init__.py",
+        "app/core/config.py",
+        "app/db/base.py"
+      ],
+      "exclude_lines": [
+        "pragma: no cover",
+        "def __repr__",
+        "if TYPE_CHECKING:",
+        "raise NotImplementedError",
+        "@abstractmethod"
+      ]
+    },
+    "pytest_options": [
+      "-v",
+      "--tb=short",
+      "--strict-markers",
+      "--asyncio-mode=auto",
+      "--cov=app",
+      "--cov-report=term-missing",
+      "--cov-report=html"
+    ]
+  },
+
+  "_comment_quality_gates": "Quality gates para APIs REST (async code, dependency injection)",
+
+  "quality_gates": {
+    "pylint": {
+      "enabled": true,
+      "min_score": 8.5,
+      "config_file": ".pylintrc",
+      "exclude_patterns": [
+        "tests/*",
+        "app/db/migrations/*",
+        "*/__init__.py"
+      ],
+      "disable_checks": [
+        "too-few-public-methods",
+        "too-many-arguments",
+        "redefined-outer-name"
+      ],
+      "notes": "APIs tienen muchos parámetros (query params, path params, body)"
+    },
+    "cyclomatic_complexity": {
+      "enabled": true,
+      "max_per_function": 10,
+      "tool": "radon",
+      "exclude_patterns": ["tests/*", "app/db/migrations/*"]
+    },
+    "maintainability_index": {
+      "enabled": true,
+      "min_score": 25,
+      "tool": "radon",
+      "exclude_patterns": ["tests/*"],
+      "notes": "APIs bien diseñadas tienen MI alto (servicios pequeños y cohesivos)"
+    },
+    "coverage": {
+      "enabled": true,
+      "min_percent": 95.0,
+      "tool": "pytest-cov",
+      "exclude_patterns": [
+        "tests/*",
+        "app/db/migrations/*",
+        "*/__init__.py"
+      ],
+      "notes": "APIs son fáciles de testear (mockeables, inyección de dependencias)"
+    }
+  },
+
+  "_comment_bdd": "Configuración BDD específica para APIs REST",
+
+  "bdd_config": {
+    "runner": "pytest-bdd",
+    "feature_template": "templates/bdd/api-scenario.feature",
+    "steps_template": "templates/bdd/api-steps.py",
+    "tag_prefix": "@US-",
+    "language": "es",
+    "step_patterns": {
+      "given_api": "Dado que la API está disponible",
+      "when_request": "Cuando se envía una petición {method} a {endpoint}",
+      "then_response": "Entonces la respuesta tiene código de estado {status}",
+      "then_json": "Y el JSON de respuesta contiene {field} con valor {value}"
+    }
+  },
+
+  "_comment_dependencies": "Dependencias específicas de FastAPI",
+
+  "dependencies": {
+    "required": [
+      "fastapi>=0.104.0",
+      "uvicorn[standard]>=0.24.0",
+      "pydantic>=2.4.0",
+      "sqlalchemy>=2.0.0",
+      "alembic>=1.12.0",
+      "pytest>=7.0.0",
+      "pytest-asyncio>=0.21.0",
+      "httpx>=0.24.0",
+      "pytest-cov>=4.0.0",
+      "pytest-bdd>=6.0.0"
+    ],
+    "development": [
+      "pylint>=2.15.0",
+      "radon>=5.1.0",
+      "black>=22.0.0",
+      "mypy>=1.0.0",
+      "ruff>=0.1.0"
+    ],
+    "optional": [
+      "fastapi-users",
+      "python-jose[cryptography]",
+      "passlib[bcrypt]",
+      "python-multipart",
+      "aiofiles"
+    ],
+    "database_drivers": [
+      "asyncpg (PostgreSQL async)",
+      "aiomysql (MySQL async)",
+      "aiosqlite (SQLite async)"
+    ]
+  },
+
+  "_comment_patterns": "Patrones específicos de FastAPI/REST",
+
+  "design_patterns": {
+    "layered_architecture": {
+      "description": "Separación en capas: Router → Service → Repository → DB",
+      "rules": [
+        "Router: solo endpoints HTTP, validación con Pydantic",
+        "Service: lógica de negocio, orquestación de repositories",
+        "Repository: CRUD y queries específicas, sin lógica de negocio"
+      ]
+    },
+    "dependency_injection": {
+      "description": "Inyección de dependencias con FastAPI Depends()",
+      "pattern": "async def endpoint(service: Service = Depends(get_service))",
+      "benefits": "Testeable (mockeable), desacoplado, reutilizable"
+    },
+    "async_await": {
+      "description": "Código asíncrono con async/await para mejor performance",
+      "rules": [
+        "Endpoints async para I/O-bound operations",
+        "Repositories async con SQLAlchemy 2.0+ async engine",
+        "Services async si usan repositories async"
+      ]
+    },
+    "dto_pattern": {
+      "description": "Data Transfer Objects con Pydantic para request/response",
+      "schemas": [
+        "Create: datos para crear entidad",
+        "Update: datos para actualizar (campos opcionales)",
+        "Response: datos de respuesta (con ID, timestamps)",
+        "InDB: representación completa en base de datos"
+      ]
+    },
+    "repository_pattern": {
+      "description": "Abstracción de acceso a datos",
+      "methods": ["get_by_id", "get_multi", "create", "update", "delete"],
+      "base_class": "BaseRepository con CRUD genérico"
+    }
+  },
+
+  "_comment_api_conventions": "Convenciones específicas para APIs REST",
+
+  "api_conventions": {
+    "http_methods": {
+      "GET": "Obtener recursos (idempotente)",
+      "POST": "Crear recursos",
+      "PUT": "Actualizar recursos (reemplazo completo)",
+      "PATCH": "Actualizar recursos (parcial)",
+      "DELETE": "Eliminar recursos (idempotente)"
+    },
+    "status_codes": {
+      "200": "OK - Éxito general",
+      "201": "Created - Recurso creado exitosamente",
+      "204": "No Content - Éxito sin body (DELETE)",
+      "400": "Bad Request - Datos inválidos",
+      "401": "Unauthorized - No autenticado",
+      "403": "Forbidden - No autorizado",
+      "404": "Not Found - Recurso no existe",
+      "422": "Unprocessable Entity - Validación Pydantic falló",
+      "500": "Internal Server Error - Error del servidor"
+    },
+    "endpoint_naming": {
+      "collection": "/api/v1/{resources}",
+      "item": "/api/v1/{resources}/{id}",
+      "action": "/api/v1/{resources}/{id}/{action}",
+      "nested": "/api/v1/{parent}/{parent_id}/{resources}"
+    },
+    "versioning": {
+      "style": "URL path versioning",
+      "pattern": "/api/v1/...",
+      "recommended": "Mantener v1 estable, crear v2 para breaking changes"
+    },
+    "pagination": {
+      "query_params": "skip (offset) y limit (page size)",
+      "default_limit": 100,
+      "max_limit": 1000,
+      "response_format": "{items: [...], total: N, skip: M, limit: L}"
+    },
+    "filtering": {
+      "query_params": "?status=active&created_after=2024-01-01",
+      "operators": "eq, ne, gt, gte, lt, lte, in, like",
+      "example": "?price_gte=10&price_lte=100"
+    },
+    "sorting": {
+      "query_param": "?sort_by=created_at&order=desc",
+      "multiple": "?sort_by=priority,created_at"
+    }
+  },
+
+  "_comment_authentication": "Configuración de autenticación/autorización",
+
+  "authentication": {
+    "strategy": "JWT Bearer Token",
+    "dependency": "Depends(get_current_user)",
+    "token_location": "Authorization: Bearer <token>",
+    "libraries": ["python-jose", "passlib"],
+    "example_endpoint": "@router.get('/me', response_model=UserResponse)\nasync def get_current_user_info(user: User = Depends(get_current_user))"
+  },
+
+  "_comment_documentation": "Configuración de documentación para APIs",
+
+  "documentation_config": {
+    "plan_path": "docs/plans/",
+    "report_path": "docs/reports/",
+    "adr_path": "docs/architecture/decisions/",
+    "api_docs_path": "docs/api/",
+    "format": "markdown",
+    "include_diagrams": true,
+    "diagram_tools": ["mermaid", "openapi"],
+    "openapi": {
+      "enabled": true,
+      "url": "/docs (Swagger UI)",
+      "redoc_url": "/redoc (ReDoc)",
+      "openapi_url": "/openapi.json"
+    }
+  },
+
+  "_comment_project_specific": "Configuración específica del proyecto FastAPI",
+
+  "project_conventions": {
+    "naming": {
+      "router_suffix": "Router",
+      "service_suffix": "Service",
+      "repository_suffix": "Repository",
+      "schema_suffix": "Schema, Create, Update, Response",
+      "model_suffix": "" ,
+      "test_prefix": "test_"
+    },
+    "imports": {
+      "fastapi": "from fastapi import APIRouter, Depends, HTTPException, status",
+      "pydantic": "from pydantic import BaseModel, Field, validator",
+      "sqlalchemy": "from sqlalchemy import Column, Integer, String, DateTime",
+      "internal": "from app.api.{feature} import router, service, schemas"
+    },
+    "error_handling": {
+      "pattern": "HTTPException con status_code y detail",
+      "example": "raise HTTPException(status_code=404, detail='User not found')",
+      "custom_exceptions": "Crear custom exceptions y exception handlers"
+    },
+    "logging": {
+      "library": "logging (standard library)",
+      "format": "JSON structured logging",
+      "levels": "DEBUG, INFO, WARNING, ERROR, CRITICAL"
+    }
+  },
+
+  "_comment_database": "Configuración de base de datos",
+
+  "database_config": {
+    "orm": "SQLAlchemy 2.0+ (async)",
+    "migrations": "Alembic",
+    "engine": "async engine (asyncpg, aiomysql, aiosqlite)",
+    "session": "AsyncSession (async context manager)",
+    "testing": "SQLite in-memory para tests unitarios",
+    "connection_pooling": {
+      "pool_size": 20,
+      "max_overflow": 10,
+      "pool_timeout": 30,
+      "pool_recycle": 3600
+    }
+  }
+}
