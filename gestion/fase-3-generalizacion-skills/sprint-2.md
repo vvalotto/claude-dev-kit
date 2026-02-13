@@ -27,9 +27,9 @@ Generalizar el skill `implement-us` desde su implementación específica de PyQt
 Ninguno actualmente.
 
 - [x] **TICKET-023**: Crear perfil `pyqt-mvc.json` ✅
+- [x] **TICKET-024**: Crear perfil `fastapi-rest.json` ✅
 
 ### Pendientes 📋
-- [ ] **TICKET-024**: Crear perfil `fastapi-rest.json`
 - [ ] **TICKET-025**: Crear perfil `django-mvt.json`
 - [ ] **TICKET-026**: Crear perfil `generic-python.json`
 - [ ] **TICKET-027**: Testing de perfiles y validación del skill generalizado
@@ -39,16 +39,16 @@ Ninguno actualmente.
 ## Métricas
 
 - **Total de Tickets:** 9
-- **Completados:** 5 (56%)
+- **Completados:** 6 (67%)
 - **En Progreso:** 0 (0%)
-- **Pendientes:** 4 (44%)
+- **Pendientes:** 3 (33%)
 - **Bloqueados:** 0
 
 **Estimación Total:** 14 horas
-**Tiempo Consumido:** ~7.1 horas
-**Tiempo Restante:** ~6.9 horas
+**Tiempo Consumido:** ~7.8 horas
+**Tiempo Restante:** ~6.2 horas
 
-**Progreso:** ████████████░░░░ 56%
+**Progreso:** █████████████░░░ 67%
 
 ---
 
@@ -228,4 +228,4 @@ _A completar al finalizar la fase._
 
 ---
 
-**Última Actualización:** 2026-02-13 (TICKET-023 completado - perfil pyqt-mvc.json creado)
+**Última Actualización:** 2026-02-13 (TICKET-024 completado - perfil fastapi-rest.json creado)
