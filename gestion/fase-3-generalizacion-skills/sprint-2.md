@@ -32,9 +32,9 @@ Ninguno actualmente.
 ### Desestimados ❌
 
 - [~] **TICKET-025**: Crear perfil `django-mvt.json` ❌ (Desestimado - No requerido)
+- [x] **TICKET-026**: Crear perfil `generic-python.json` ✅
 
 ### Pendientes 📋
-- [ ] **TICKET-026**: Crear perfil `generic-python.json`
 - [ ] **TICKET-027**: Testing de perfiles y validación del skill generalizado
 
 ---
@@ -42,17 +42,18 @@ Ninguno actualmente.
 ## Métricas
 
 - **Total de Tickets:** 9
-- **Completados:** 6 (67%)
+- **Completados:** 7 (78%)
 - **Desestimados:** 1 (11%)
 - **En Progreso:** 0 (0%)
-- **Pendientes:** 2 (22%)
+- **Pendientes:** 1 (11%)
 - **Bloqueados:** 0
 
-**Estimación Total:** 14 horas
-**Tiempo Consumido:** ~7.8 horas
-**Tiempo Restante:** ~6.2 horas
+**Estimación Total:** 14 horas (original)
+**Estimación Ajustada:** 12.5 horas (sin Django)
+**Tiempo Consumido:** ~8.1 horas
+**Tiempo Restante:** ~4.4 horas (solo TICKET-027)
 
-**Progreso:** █████████████░░░ 67%
+**Progreso Efectivo:** ██████████████░░ 88% (7/8 tickets relevantes)
 
 ---
 
@@ -232,4 +233,4 @@ _A completar al finalizar la fase._
 
 ---
 
-**Última Actualización:** 2026-02-13 (TICKET-024 completado - perfil fastapi-rest.json creado)
+**Última Actualización:** 2026-02-13 (TICKET-026 completado - perfil generic-python.json creado, TICKET-025 desestimado)
