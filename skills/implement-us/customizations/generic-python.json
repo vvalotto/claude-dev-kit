@@ -273,5 +273,11 @@
       "mypy (type checking)",
       "pytest (quick tests)"
     ]
+  },
+
+  "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
+
+  "template_variables": {
+    "BACKGROUND_SETUP": "    Given el sistema está inicializado\n    And las dependencias están cargadas"
   }
 }

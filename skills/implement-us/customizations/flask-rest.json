@@ -907,5 +907,11 @@
         "Development - Cómo contribuir"
       ]
     }
+  },
+
+  "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
+
+  "template_variables": {
+    "BACKGROUND_SETUP": "    Given el servidor Flask está corriendo\n    And la base de datos está inicializada"
   }
 }

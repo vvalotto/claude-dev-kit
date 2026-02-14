@@ -2,7 +2,7 @@
 
 **Fase:** 4 - Generalización de Templates
 **Sprint:** 2
-**Estado:** TODO
+**Estado:** ✅ COMPLETADO
 **Prioridad:** Media
 **Estimación:** 0.5 horas
 **Asignado a:** Claude Code
@@ -180,12 +180,25 @@ Generar un ejemplo por perfil para validar:
 
 ## Resultado
 
-_A completar al finalizar el ticket._
+✅ **COMPLETADO** - 2026-02-14
 
-**Archivos creados/modificados:**
-- `templates/bdd/scenario.feature`
-- `skills/implement-us/customizations/pyqt-mvc.json` (+BACKGROUND_SETUP)
-- `skills/implement-us/customizations/fastapi-rest.json` (+BACKGROUND_SETUP)
-- `skills/implement-us/customizations/flask-rest.json` (+BACKGROUND_SETUP)
-- `skills/implement-us/customizations/flask-webapp.json` (+BACKGROUND_SETUP)
-- `skills/implement-us/customizations/generic-python.json` (+BACKGROUND_SETUP)
+**Template generalizado:**
+- `templates/bdd/scenario.feature` creado con variable `{BACKGROUND_SETUP}`
+- Header actualizado con documentación completa de variables
+- Sintaxis Gherkin validada
+
+**Perfiles actualizados (5):**
+- `pyqt-mvc.json`: "la aplicación está iniciada / la configuración está cargada"
+- `fastapi-rest.json`: "el servidor API está corriendo / las variables de entorno están configuradas"
+- `flask-rest.json`: "el servidor Flask está corriendo / la base de datos está inicializada"
+- `flask-webapp.json`: "la aplicación web está corriendo / el usuario está en la página principal"
+- `generic-python.json`: "el sistema está inicializado / las dependencias están cargadas"
+
+**Nueva sección agregada a perfiles:**
+```json
+"template_variables": {
+  "BACKGROUND_SETUP": "..."
+}
+```
+
+**Validación:** Template 100% framework-agnostic, listo para generar .feature files por perfil.

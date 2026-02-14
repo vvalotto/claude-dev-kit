@@ -343,5 +343,11 @@
       "naming_convention": "{action}_signal",
       "example": "dato_actualizado_signal = pyqtSignal(int)"
     }
+  },
+
+  "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
+
+  "template_variables": {
+    "BACKGROUND_SETUP": "    Given la aplicación está iniciada\n    And la configuración está cargada"
   }
 }

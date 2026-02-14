@@ -485,5 +485,11 @@
       "pool_timeout": 30,
       "pool_recycle": 3600
     }
+  },
+
+  "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
+
+  "template_variables": {
+    "BACKGROUND_SETUP": "    Given el servidor API está corriendo\n    And las variables de entorno están configuradas"
   }
 }
