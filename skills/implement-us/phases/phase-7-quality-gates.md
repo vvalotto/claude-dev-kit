@@ -467,6 +467,182 @@ tracker.end_phase(7, auto_approved=True)
 
 ---
 
+## Umbrales Ajustados por Perfil
+
+Los umbrales de quality gates pueden ajustarse según el perfil del proyecto, basándose en la naturaleza del código y proyectos reales de referencia.
+
+### Tabla Comparativa de Umbrales
+
+| Métrica | PyQt MVC | FastAPI REST | Flask REST | Generic Python |
+|---------|----------|--------------|------------|----------------|
+| **Pylint mín** | 8.0 | 8.5 | 8.0 | 8.0 |
+| **CC máx** | 12 | 10 | 10 | 10 |
+| **MI mín** | 20 | 25 | 25 | 20 |
+| **Coverage mín** | 90% | 95% | 95% | 95% |
+
+### Justificación de Ajustes
+
+#### PyQt MVC (Desktop UI)
+```json
+{
+  "pylint": { "min_score": 8.0 },
+  "cc": { "max_per_function": 12 },
+  "mi": { "min_score": 20 },
+  "coverage": { "min_percent": 90.0 }
+}
+```
+
+**Justificación:**
+- **Coverage 90%**: Código UI es más difícil de testear (requiere mocks complejos de Qt)
+- **CC 12**: Controladores pueden tener lógica de coordinación más compleja
+- **Pylint 8.0**: Estándar general Python
+- **MI 20**: Mínimo para código mantenible
+
+**Proyecto de referencia:** `simapp_termostato` (PyQt6 + MVC)
+
+---
+
+#### FastAPI REST (Async APIs)
+```json
+{
+  "pylint": { "min_score": 8.5 },
+  "cc": { "max_per_function": 10 },
+  "mi": { "min_score": 25 },
+  "coverage": { "min_percent": 95.0 }
+}
+```
+
+**Justificación:**
+- **Pylint 8.5**: Código API debe ser muy limpio (interfaz pública)
+- **Coverage 95%**: APIs críticas requieren alta cobertura
+- **MI 25**: Código backend debe ser altamente mantenible
+- **CC 10**: Endpoints deben ser simples (delegar a services)
+
+**Características:**
+- Async/await patterns
+- Dependency injection
+- Type hints estrictos (Pydantic)
+
+---
+
+#### Flask REST (Sync APIs)
+```json
+{
+  "pylint": { "min_score": 8.0 },
+  "cc": { "max_per_function": 10 },
+  "mi": { "min_score": 25 },
+  "coverage": { "min_percent": 95.0 }
+}
+```
+
+**Justificación:**
+- **Pylint 8.0**: Estándar Python (Flask es más flexible que FastAPI)
+- **Coverage 95%**: APIs requieren alta cobertura de tests
+- **MI 25**: Backend debe ser mantenible a largo plazo
+- **CC 10**: Separación en capas mantiene funciones simples
+
+**Proyecto de referencia:** `app_termostato` (Flask 3.1 + Layered)
+- **Métricas reales:**
+  - Pylint: 8.41/10 ✅
+  - CC promedio: 1.75 ✅
+  - MI: 92.21/100 ✅
+  - Coverage: 100% ✅
+
+**Características:**
+- Sync (no async/await)
+- Repository pattern con ABC
+- Singleton pattern (Configurador)
+- Blueprints pattern
+
+---
+
+#### Generic Python
+```json
+{
+  "pylint": { "min_score": 8.0 },
+  "cc": { "max_per_function": 10 },
+  "mi": { "min_score": 20 },
+  "coverage": { "min_percent": 95.0 }
+}
+```
+
+**Justificación:**
+- **Defaults estándar Python** para máxima flexibilidad
+- Se aplican a librerías, CLI tools, data science, etc.
+
+---
+
+### Cómo Consultar Umbrales del Proyecto
+
+Los umbrales específicos se definen en el archivo de configuración del perfil:
+
+```bash
+# Leer umbrales del perfil activo
+cat .claude/skills/implement-us/config.json | jq '.quality_gates'
+```
+
+**Ejemplo de output (Flask REST):**
+```json
+{
+  "quality_gates": {
+    "pylint": {
+      "enabled": true,
+      "min_score": 8.0
+    },
+    "cyclomatic_complexity": {
+      "enabled": true,
+      "max_per_function": 10
+    },
+    "maintainability_index": {
+      "enabled": true,
+      "min_score": 25
+    },
+    "coverage": {
+      "enabled": true,
+      "min_percent": 95.0
+    }
+  }
+}
+```
+
+**Usar estos umbrales en la validación** en lugar de valores hardcodeados.
+
+---
+
+### Comandos de Validación por Perfil
+
+**PyQt MVC:**
+```bash
+pytest --cov=app/presentacion --cov-fail-under=90
+pylint app/presentacion/ --fail-under=8.0
+radon cc app/presentacion/ --total-average --min C  # CC ≤ 12
+```
+
+**FastAPI REST:**
+```bash
+pytest --cov=app/api --cov-fail-under=95
+pylint app/ --fail-under=8.5
+radon cc app/ --total-average  # CC ≤ 10
+radon mi app/ --min B  # MI ≥ 25
+```
+
+**Flask REST:**
+```bash
+pytest --cov=app --cov-fail-under=95
+pylint app/ --fail-under=8.0
+radon cc app/ --total-average  # CC ≤ 10
+radon mi app/ --min B  # MI ≥ 25
+```
+
+**Generic Python:**
+```bash
+pytest --cov=src --cov-fail-under=95
+pylint src/ --fail-under=8.0
+radon cc src/ --total-average  # CC ≤ 10
+```
+
+---
+
 ## Resumen de la Fase
 
 Al finalizar esta fase:
