@@ -2,7 +2,7 @@
 
 **Fase:** 4 - Generalización de Templates
 **Sprint:** 2
-**Estado:** TODO
+**Estado:** ✅ COMPLETADO
 **Prioridad:** Alta
 **Estimación:** 1 hora
 **Asignado a:** Claude Code
@@ -152,4 +152,33 @@ Orden recomendado de tickets
 
 ## Resultado
 
-_A completar al finalizar el ticket._
+✅ **COMPLETADO** - 2026-02-14
+
+### Documento Generado
+
+**Ubicación:** `docs/analysis/TICKET-030-analysis.md`
+**Tamaño:** ~1,200 líneas / ~8,500 palabras
+
+### Hallazgos Principales
+
+1. **47 referencias específicas** identificadas en 4 templates
+2. **7 variables nuevas** propuestas (total 15 con las existentes)
+3. **7 snippets** diseñados × 5 perfiles = 35 definiciones necesarias
+4. **Estimación refinada:** 8h → 9.5h (+1.5h por complejidad de snippets)
+
+### Decisiones Clave
+
+- **Orden recomendado:** TICKET-035 (test-unit.py) ANTES de TICKET-034 (report)
+- **Mecanismo de snippets:** Sintaxis `{SNIPPET:snippet_id}` en templates
+- **Validación crítica:** TICKET-036 debe ejecutar pytest real, no solo validar sintaxis
+
+### Nivel de Complejidad por Template
+
+- ✅ **bdd-scenario.feature:** Baja (2 variables)
+- 🟡 **implementation-plan.md:** Media (2 vars + 1 snippet)
+- 🔴 **implementation-report.md:** Alta (1 var + 2 snippets grandes)
+- 🔴 **test-unit.py:** Alta (2 vars + 4 snippets con código Python)
+
+### Próximo Paso
+
+Iniciar TICKET-031: Crear estructura `templates/` y migrar archivos base.
