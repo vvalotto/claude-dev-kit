@@ -473,12 +473,12 @@ Los umbrales de quality gates pueden ajustarse según el perfil del proyecto, ba
 
 ### Tabla Comparativa de Umbrales
 
-| Métrica | PyQt MVC | FastAPI REST | Flask REST | Generic Python |
-|---------|----------|--------------|------------|----------------|
-| **Pylint mín** | 8.0 | 8.5 | 8.0 | 8.0 |
-| **CC máx** | 12 | 10 | 10 | 10 |
-| **MI mín** | 20 | 25 | 25 | 20 |
-| **Coverage mín** | 90% | 95% | 95% | 95% |
+| Métrica | PyQt MVC | FastAPI REST | Flask REST | Flask Webapp | Generic Python |
+|---------|----------|--------------|------------|--------------|----------------|
+| **Pylint mín** | 8.0 | 8.5 | 8.0 | 8.0 | 8.0 |
+| **CC máx** | 12 | 10 | 10 | 10 | 10 |
+| **MI mín** | 20 | 25 | 25 | 20 | 20 |
+| **Coverage mín** | 90% | 95% | 95% | **90%** | 95% |
 
 ### Justificación de Ajustes
 
@@ -553,6 +553,38 @@ Los umbrales de quality gates pueden ajustarse según el perfil del proyecto, ba
 - Repository pattern con ABC
 - Singleton pattern (Configurador)
 - Blueprints pattern
+
+---
+
+#### Flask Webapp (Fullstack Webapps)
+```json
+{
+  "pylint": { "min_score": 8.0 },
+  "cc": { "max_per_function": 10 },
+  "mi": { "min_score": 20 },
+  "coverage": { "min_percent": 90.0 }
+}
+```
+
+**Justificación:**
+- **Coverage 90%**: Solo backend Python (routes, api_client, forms). Frontend JavaScript NO incluido en coverage.
+- **Pylint 8.0**: Estándar Python para webapps
+- **MI 20**: Mínimo para código mantenible
+- **CC 10**: Routes pueden renderizar múltiples templates pero ideal mantener simple
+
+**Proyecto de referencia:** `webapp_termostato` (Flask 3.1 + Jinja2 + Vanilla JS)
+
+**Características:**
+- BFF (Backend for Frontend) pattern
+- Server-Side Rendering con Jinja2
+- Vanilla JavaScript (ES6 modules)
+- Flask-WTF forms + Flask-Bootstrap
+- Coverage solo de Python (templates y JS no testeados con pytest)
+
+**Nota importante sobre coverage:**
+- ⚠️ Coverage 90% (no 95%) porque frontend JavaScript no se testea con pytest
+- Scope: Solo Python backend (webapp/routes.py, webapp/api_client.py, webapp/forms.py)
+- Frontend testing (opcional): Usar Jest/Vitest si hay mucha lógica JS
 
 ---
 
