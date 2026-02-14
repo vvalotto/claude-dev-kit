@@ -912,6 +912,13 @@
   "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
 
   "template_variables": {
-    "BACKGROUND_SETUP": "    Given el servidor Flask está corriendo\n    And la base de datos está inicializada"
+    "BACKGROUND_SETUP": "    Given el servidor Flask está corriendo\n    And la base de datos está inicializada",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_service.py` - Lógica de negocio\n- [ ] `tests/test_{component}_routes.py` - Endpoints\n- [ ] `tests/test_{component}_models.py` - Modelos"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Blueprint registrado en aplicación\n- [ ] Rutas configuradas\n- [ ] Validación de requests implementada"
   }
 }

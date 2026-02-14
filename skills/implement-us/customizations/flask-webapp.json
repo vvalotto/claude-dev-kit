@@ -986,6 +986,13 @@
   "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
 
   "template_variables": {
-    "BACKGROUND_SETUP": "    Given la aplicación web está corriendo\n    And el usuario está en la página principal"
+    "BACKGROUND_SETUP": "    Given la aplicación web está corriendo\n    And el usuario está en la página principal",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_views.py` - Vistas\n- [ ] `tests/test_{component}_forms.py` - Formularios\n- [ ] `tests/test_{component}_models.py` - Modelos"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Blueprint registrado con templates\n- [ ] Rutas y formularios configurados\n- [ ] Assets estáticos agregados"
   }
 }

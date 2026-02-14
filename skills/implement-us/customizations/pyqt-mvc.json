@@ -348,6 +348,13 @@
   "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
 
   "template_variables": {
-    "BACKGROUND_SETUP": "    Given la aplicación está iniciada\n    And la configuración está cargada"
+    "BACKGROUND_SETUP": "    Given la aplicación está iniciada\n    And la configuración está cargada",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_modelo.py` - Validación de modelo\n- [ ] `tests/test_{component}_vista.py` - Renderizado de UI\n- [ ] `tests/test_{component}_controlador.py` - Lógica de control"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Componente integrado en Factory\n- [ ] Señales conectadas en Coordinator\n- [ ] Panel agregado a Compositor"
   }
 }

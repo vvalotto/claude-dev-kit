@@ -278,6 +278,13 @@
   "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
 
   "template_variables": {
-    "BACKGROUND_SETUP": "    Given el sistema está inicializado\n    And las dependencias están cargadas"
+    "BACKGROUND_SETUP": "    Given el sistema está inicializado\n    And las dependencias están cargadas",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}.py` - Tests del módulo"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Módulo importado correctamente\n- [ ] API pública documentada\n- [ ] Dependencias instaladas"
   }
 }

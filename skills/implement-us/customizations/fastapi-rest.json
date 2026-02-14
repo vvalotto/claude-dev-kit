@@ -490,6 +490,13 @@
   "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
 
   "template_variables": {
-    "BACKGROUND_SETUP": "    Given el servidor API está corriendo\n    And las variables de entorno están configuradas"
+    "BACKGROUND_SETUP": "    Given el servidor API está corriendo\n    And las variables de entorno están configuradas",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_service.py` - Lógica de negocio\n- [ ] `tests/test_{component}_router.py` - Endpoints\n- [ ] `tests/test_{component}_schema.py` - Validación"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Router registrado en aplicación principal\n- [ ] Dependencias inyectadas\n- [ ] Endpoints validados"
   }
 }

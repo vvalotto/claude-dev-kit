@@ -2,7 +2,7 @@
 
 **Fase:** 4 - Generalización de Templates
 **Sprint:** 2
-**Estado:** TODO
+**Estado:** ✅ COMPLETADO
 **Prioridad:** Alta
 **Estimación:** 1.5 horas
 **Asignado a:** Claude Code
@@ -138,4 +138,27 @@ Generalizar el template `implementation-plan.md` removiendo todas las referencia
 
 ## Resultado
 
-_A completar al finalizar el ticket._
+✅ **COMPLETADO** - 2026-02-14
+
+**Template generalizado:**
+- `templates/planning/implementation-plan.md` creado (100% framework-agnostic)
+- Referencias específicas a Factory/Coordinator/Compositor removidas
+- Header actualizado con documentación completa de variables y snippets
+
+**Variables agregadas (5 perfiles):**
+- `TEST_FILE_PATTERN`: Listas de archivos de tests unitarios por stack
+  - pyqt-mvc: modelo.py, vista.py, controlador.py
+  - fastapi-rest: service.py, router.py, schema.py
+  - flask-rest: service.py, routes.py, models.py
+  - flask-webapp: views.py, forms.py, models.py
+  - generic-python: test_{component}.py
+
+**Snippets agregados (5 perfiles):**
+- `integration_checklist`: Checklist de integración específico por arquitectura
+  - pyqt-mvc: Factory, Coordinator, Compositor
+  - fastapi-rest: Router registration, dependencies
+  - flask-rest: Blueprint, routes, validation
+  - flask-webapp: Blueprint, templates, forms, assets
+  - generic-python: Module import, API, dependencies
+
+**Sistema de snippets:** Primera implementación exitosa de mecanismo {SNIPPET:id}
