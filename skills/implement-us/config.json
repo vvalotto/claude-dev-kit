@@ -1,0 +1,294 @@
+{
+  "_comment_metadata": "Configuración base genérica del skill implement-us - Versión framework-agnostic",
+
+  "metadata": {
+    "version": "2.0.0",
+    "skill_name": "implement-us",
+    "description": "Implementador asistido de Historias de Usuario siguiendo el patrón arquitectónico configurado para el proyecto",
+    "author": "Claude Dev Kit",
+    "created": "2026-02-13",
+    "last_updated": "2026-02-13"
+  },
+
+  "_comment_variables": "Variables globales del skill - Pueden ser sobrescritas por perfiles de customización",
+
+  "variables": {
+    "architecture_pattern": {
+      "default": "generic",
+      "description": "Patrón arquitectónico del proyecto",
+      "available": ["mvc", "mvt", "layered", "clean-architecture", "generic"],
+      "examples": {
+        "pyqt": "mvc",
+        "fastapi": "layered",
+        "django": "mvt",
+        "generic": "generic"
+      }
+    },
+    "component_type": {
+      "default": "Component",
+      "description": "Tipo de componente a implementar según el stack tecnológico",
+      "examples": {
+        "pyqt": "Panel, Dialog, Widget",
+        "fastapi": "Endpoint, Service, Repository",
+        "django": "View, Model, Form",
+        "generic": "Module, Class, Function"
+      }
+    },
+    "component_path": {
+      "default": "src/{name}/",
+      "description": "Ruta base para componentes - {name} será reemplazado por el nombre del componente",
+      "examples": {
+        "pyqt": "app/presentacion/{name}/",
+        "fastapi": "app/{layer}/{name}/",
+        "django": "{app}/{name}/",
+        "generic": "src/{name}/"
+      }
+    },
+    "test_framework": {
+      "default": "pytest",
+      "description": "Framework de testing principal",
+      "available": ["pytest", "unittest", "pytest-bdd"],
+      "examples": {
+        "pyqt": "pytest + pytest-qt",
+        "fastapi": "pytest + httpx",
+        "django": "pytest-django",
+        "generic": "pytest"
+      }
+    },
+    "base_class": {
+      "default": "object",
+      "description": "Clase base para componentes del proyecto",
+      "examples": {
+        "pyqt": "QWidget, ModeloBase",
+        "fastapi": "BaseModel, BaseService",
+        "django": "Model, View",
+        "generic": "object"
+      }
+    },
+    "domain_context": {
+      "default": "application",
+      "description": "Contexto de dominio del proyecto",
+      "examples": {
+        "pyqt": "presentacion, dominio",
+        "fastapi": "api, domain",
+        "django": "apps, models",
+        "generic": "domain"
+      }
+    },
+    "project_root": {
+      "default": ".",
+      "description": "Raíz del proyecto relativa al working directory",
+      "examples": {
+        "pyqt": "app/",
+        "fastapi": "src/",
+        "django": "project/",
+        "generic": "."
+      }
+    },
+    "product": {
+      "default": "main",
+      "description": "Nombre del producto o módulo principal",
+      "examples": "mi_producto, core, api, app"
+    }
+  },
+
+  "_comment_phases": "Definición de las 9 fases del skill - No modificar el orden",
+
+  "phases": {
+    "0": {
+      "name": "Validación de Contexto",
+      "description": "Verificar que el proyecto tiene todo lo necesario para implementar la US",
+      "duration_min": 5,
+      "duration_max": 10,
+      "approval_required": false,
+      "agent_file": "phases/phase-0-validation.md"
+    },
+    "1": {
+      "name": "Generación de Escenarios BDD",
+      "description": "Crear escenarios BDD en formato Gherkin para la US",
+      "duration_min": 15,
+      "duration_max": 30,
+      "approval_required": true,
+      "agent_file": "phases/phase-1-bdd.md",
+      "output_template": "templates/bdd/scenario.feature"
+    },
+    "2": {
+      "name": "Generación de Plan de Implementación",
+      "description": "Crear plan detallado con tareas, estimaciones y dependencias",
+      "duration_min": 20,
+      "duration_max": 40,
+      "approval_required": true,
+      "agent_file": "phases/phase-2-planning.md",
+      "output_template": "templates/planning/implementation-plan.md"
+    },
+    "3": {
+      "name": "Implementación",
+      "description": "Implementar el código según el plan aprobado",
+      "duration_min": 60,
+      "duration_max": 180,
+      "approval_required": false,
+      "agent_file": "phases/phase-3-implementation.md"
+    },
+    "4": {
+      "name": "Tests Unitarios",
+      "description": "Crear tests unitarios para cada componente",
+      "duration_min": 30,
+      "duration_max": 60,
+      "approval_required": false,
+      "agent_file": "phases/phase-4-unit-tests.md",
+      "output_template": "templates/testing/test-unit.py"
+    },
+    "5": {
+      "name": "Tests de Integración",
+      "description": "Crear tests end-to-end validando flujos completos",
+      "duration_min": 30,
+      "duration_max": 60,
+      "approval_required": false,
+      "agent_file": "phases/phase-5-integration-tests.md",
+      "output_template": "templates/testing/test-integration.py"
+    },
+    "6": {
+      "name": "Validación BDD",
+      "description": "Ejecutar escenarios BDD y validar comportamiento esperado",
+      "duration_min": 15,
+      "duration_max": 30,
+      "approval_required": false,
+      "agent_file": "phases/phase-6-bdd-validation.md"
+    },
+    "7": {
+      "name": "Quality Gates",
+      "description": "Validar métricas de calidad (Pylint, CC, MI, Coverage)",
+      "duration_min": 10,
+      "duration_max": 20,
+      "approval_required": false,
+      "agent_file": "phases/phase-7-quality-gates.md"
+    },
+    "8": {
+      "name": "Documentación",
+      "description": "Actualizar documentación técnica y ADRs",
+      "duration_min": 15,
+      "duration_max": 30,
+      "approval_required": false,
+      "agent_file": "phases/phase-8-documentation.md"
+    },
+    "9": {
+      "name": "Reporte Final",
+      "description": "Generar reporte de implementación con métricas y commits",
+      "duration_min": 10,
+      "duration_max": 15,
+      "approval_required": false,
+      "agent_file": "phases/phase-9-final-report.md",
+      "output_template": "templates/reporting/implementation-report.md"
+    }
+  },
+
+  "_comment_tracking": "Configuración del sistema de time tracking",
+
+  "tracking": {
+    "enabled": true,
+    "auto_start": true,
+    "auto_pause_on_approval": true,
+    "storage_path": ".claude/tracking/",
+    "report_format": "json",
+    "variance_threshold_percent": 20,
+    "pause_reasons": [
+      "Esperando aprobación del usuario",
+      "Investigación de error",
+      "Consulta de documentación",
+      "Otra (especificar)"
+    ]
+  },
+
+  "_comment_quality_gates": "Umbrales de calidad requeridos - Fase 7 valida estos valores",
+
+  "quality_gates": {
+    "pylint": {
+      "enabled": true,
+      "min_score": 8.0,
+      "max_score": 10.0,
+      "config_file": ".pylintrc",
+      "exclude_patterns": ["tests/*", "migrations/*", "__pycache__/*"]
+    },
+    "cyclomatic_complexity": {
+      "enabled": true,
+      "max_per_function": 10,
+      "tool": "radon",
+      "exclude_patterns": ["tests/*"]
+    },
+    "maintainability_index": {
+      "enabled": true,
+      "min_score": 20,
+      "max_score": 100,
+      "tool": "radon",
+      "exclude_patterns": ["tests/*"]
+    },
+    "coverage": {
+      "enabled": true,
+      "min_percent": 95.0,
+      "tool": "pytest-cov",
+      "exclude_patterns": ["tests/*", "__init__.py"],
+      "report_formats": ["term", "html", "xml"]
+    }
+  },
+
+  "_comment_test_framework": "Configuración del framework de testing",
+
+  "test_framework_config": {
+    "runner": "pytest",
+    "plugins": [],
+    "fixtures_path": "tests/conftest.py",
+    "features_path": "tests/features/",
+    "steps_path": "tests/features/steps/",
+    "test_path": "tests/",
+    "markers": {
+      "unit": "Tests unitarios",
+      "integration": "Tests de integración",
+      "bdd": "Tests BDD (pytest-bdd)",
+      "slow": "Tests lentos (>1s)"
+    },
+    "coverage_config": {
+      "source": ["src"],
+      "omit": ["tests/*", "*/migrations/*"]
+    }
+  },
+
+  "_comment_component_structure": "Estructura por defecto de componentes - Muy genérica, se especializa en perfiles",
+
+  "component_structure": {
+    "default": {
+      "files": ["__init__.py", "main.py"],
+      "test_files": ["test_{component_name}.py"],
+      "base_path": "src/{component_name}/",
+      "test_path": "tests/test_{component_name}/"
+    }
+  },
+
+  "_comment_bdd": "Configuración para generación de escenarios BDD",
+
+  "bdd_config": {
+    "runner": "pytest-bdd",
+    "feature_template": "templates/bdd/scenario.feature",
+    "steps_template": "templates/bdd/steps.py",
+    "tag_prefix": "@US-",
+    "language": "es"
+  },
+
+  "_comment_documentation": "Configuración de documentación generada",
+
+  "documentation_config": {
+    "plan_path": "docs/plans/",
+    "report_path": "docs/reports/",
+    "adr_path": "docs/architecture/decisions/",
+    "format": "markdown",
+    "include_diagrams": false
+  },
+
+  "_comment_git": "Configuración de integración con Git",
+
+  "git_config": {
+    "auto_commit": false,
+    "commit_message_template": "feat({product}): {us_id} - {us_title}",
+    "branch_naming": "feature/{us_id}-{us_slug}",
+    "auto_push": false
+  }
+}

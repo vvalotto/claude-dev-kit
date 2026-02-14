@@ -1,0 +1,985 @@
+{
+  "_comment_profile": "Perfil de customización para Flask Fullstack Webapps con Jinja2 + Vanilla JavaScript",
+
+  "profile_metadata": {
+    "name": "flask-webapp",
+    "display_name": "Flask Fullstack Webapp + Jinja2 + Vanilla JS",
+    "description": "Configuración para aplicaciones web fullstack con Flask, Server-Side Rendering (Jinja2) y frontend integrado",
+    "extends": "config.json",
+    "version": "1.0.0",
+    "author": "Claude Dev Kit",
+    "created": "2026-02-14",
+    "target_stack": "Flask 2.0+ / 3.0+ + Jinja2 + Vanilla JavaScript",
+    "architecture": "BFF (Backend for Frontend) + SSR (Server-Side Rendering)",
+    "reference_project": "webapp_termostato (Flask 3.1 + Jinja2 + Vanilla JS)"
+  },
+
+  "_comment_variables": "Override de variables para Flask Webapp - BFF + SSR",
+
+  "variables": {
+    "architecture_pattern": {
+      "default": "bff",
+      "description": "BFF (Backend for Frontend) + Server-Side Rendering con Jinja2",
+      "available": ["bff", "monolithic-webapp"],
+      "pattern_details": {
+        "bff": {
+          "description": "Webapp actúa como proxy/adaptador a API backend separada",
+          "layers": {
+            "routes": "HTTP routes que llaman API backend",
+            "templates": "Jinja2 templates (SSR)",
+            "static": "Frontend assets (JS, CSS, images)",
+            "api_client": "Cliente HTTP para comunicación con backend"
+          },
+          "flow": "Browser → Flask Webapp → API Backend → DB"
+        },
+        "ssr": {
+          "description": "Server-Side Rendering con Jinja2",
+          "benefits": [
+            "SEO-friendly (HTML rendered en servidor)",
+            "First paint rápido",
+            "Progressive enhancement",
+            "Funciona sin JavaScript"
+          ]
+        }
+      }
+    },
+    "component_type": {
+      "default": "Page",
+      "description": "Tipo de componente a implementar en la webapp",
+      "available": ["Page", "Route", "Template", "Component", "Form"],
+      "examples": {
+        "page": "HomePage, ProductListPage, UserProfilePage",
+        "route": "index_route, product_list_route",
+        "template": "base.html, product_list.html",
+        "component": "navbar.html, card.html, modal.html (partials)",
+        "form": "LoginForm, ProductForm (Flask-WTF)"
+      }
+    },
+    "component_path": {
+      "default": "webapp/templates/{name}/",
+      "description": "Ruta base para templates organizadas por feature",
+      "structure": {
+        "templates": "webapp/templates/{feature}/",
+        "routes": "webapp/routes.py (centralizado)",
+        "static_js": "webapp/static/js/{feature}.js",
+        "static_css": "webapp/static/css/{feature}.css"
+      },
+      "alternative": {
+        "blueprints": "webapp/{feature}/ con routes+templates por feature",
+        "recommended": "templates_by_feature (más organizado)"
+      }
+    },
+    "test_framework": {
+      "default": "pytest + Flask test client",
+      "description": "pytest con Flask test client para testing de templates y routes",
+      "plugins": ["pytest", "pytest-cov", "pytest-flask", "pytest-mock", "pytest-bdd"],
+      "version_constraints": {
+        "pytest": ">=7.0.0",
+        "pytest-cov": ">=4.0.0",
+        "pytest-flask": ">=1.2.0",
+        "pytest-mock": ">=3.10.0",
+        "pytest-bdd": ">=6.0.0"
+      },
+      "test_client": {
+        "sync": "app.test_client() (built-in Flask testing)",
+        "context": "with app.test_request_context(): ..."
+      },
+      "frontend_testing": {
+        "note": "JavaScript NO se testea con pytest",
+        "recommendation": "Usar Jest o Vitest para tests de JS si hay mucha lógica frontend"
+      }
+    },
+    "base_class": {
+      "default": "Flask",
+      "description": "Clase base según el tipo de componente",
+      "by_component": {
+        "app": "Flask (application factory)",
+        "form": "FlaskForm (Flask-WTF)",
+        "blueprint": "Blueprint (organización modular)",
+        "api_client": "object (sin base class específica)",
+        "config": "object (Flask config objects)"
+      },
+      "imports": {
+        "flask": "from flask import Flask, Blueprint, render_template, request",
+        "wtf": "from flask_wtf import FlaskForm",
+        "bootstrap": "from flask_bootstrap import Bootstrap"
+      }
+    },
+    "domain_context": {
+      "default": "webapp",
+      "description": "Contexto de dominio para Flask webapps",
+      "contexts": {
+        "webapp": "Aplicación web fullstack (no API)",
+        "frontend": "Capa de presentación (templates, static)",
+        "backend_proxy": "BFF - proxy a API backend"
+      },
+      "current_layer": "webapp"
+    },
+    "project_root": {
+      "default": "webapp/",
+      "description": "Raíz del proyecto Flask webapp",
+      "structure": {
+        "webapp": "webapp/ (código Python)",
+        "templates": "webapp/templates/ (Jinja2)",
+        "static": "webapp/static/ (CSS, JS, images)",
+        "config": "webapp/config.py",
+        "main": "webapp/__init__.py (application factory)",
+        "tests": "tests/ (root level)"
+      }
+    },
+    "async_support": {
+      "default": false,
+      "description": "Flask webapp es sync por defecto (usa threading, no async/await)",
+      "note": "Para async usar Flask 2.0+ con async views o considerar FastAPI"
+    }
+  },
+
+  "_comment_component_structure": "Estructura por feature para Flask webapps fullstack",
+
+  "component_structure": {
+    "page_feature": {
+      "description": "Feature completo con route, template y assets frontend",
+      "base_path": "webapp/",
+      "layers": {
+        "routes": {
+          "path": "webapp/routes.py",
+          "description": "HTTP routes y view functions (centralizado o blueprints)",
+          "pattern": "Flask routes + render_template()",
+          "files": {
+            "main_routes": {
+              "filename": "routes.py",
+              "class_name": "Blueprint('main', __name__)",
+              "responsibilities": [
+                "Definir rutas HTTP con @app.route o @bp.route",
+                "Renderizar templates con render_template()",
+                "Llamar API backend via api_client si necesario",
+                "Manejo de forms (Flask-WTF)",
+                "Pasar datos a templates (context)",
+                "Manejo de errores HTTP (@app.errorhandler)"
+              ],
+              "example_imports": [
+                "from flask import Blueprint, render_template, request, redirect, url_for",
+                "from webapp.api_client import APIClient",
+                "from webapp.forms import ProductForm"
+              ],
+              "example_code": [
+                "main_bp = Blueprint('main', __name__)",
+                "",
+                "@main_bp.route('/')",
+                "def index():",
+                "    return render_template('index.html', title='Home')",
+                "",
+                "@main_bp.route('/products')",
+                "def product_list():",
+                "    api = APIClient()",
+                "    products = api.get_products()",
+                "    return render_template('products/list.html',",
+                "                         products=products,",
+                "                         title='Products')"
+              ]
+            }
+          }
+        },
+        "templates": {
+          "path": "webapp/templates/",
+          "description": "Jinja2 templates para Server-Side Rendering",
+          "pattern": "Template inheritance + components",
+          "files": {
+            "base_template": {
+              "filename": "base.html",
+              "description": "Template base con layout común",
+              "pattern": "{% block %} para extensión",
+              "responsibilities": [
+                "HTML structure común (head, nav, footer)",
+                "Inclusión de CSS/JS comunes",
+                "Definir bloques para override (content, scripts, etc.)",
+                "Meta tags, favicon, etc."
+              ],
+              "example_code": [
+                "<!DOCTYPE html>",
+                "<html>",
+                "<head>",
+                "    <title>{% block title %}Default Title{% endblock %}</title>",
+                "    <link rel=\"stylesheet\" href=\"{{ url_for('static', filename='css/style.css') }}\">",
+                "</head>",
+                "<body>",
+                "    {% include 'components/navbar.html' %}",
+                "    ",
+                "    <main class=\"container\">",
+                "        {% block content %}{% endblock %}",
+                "    </main>",
+                "    ",
+                "    {% include 'components/footer.html' %}",
+                "    ",
+                "    <script src=\"{{ url_for('static', filename='js/main.js') }}\"></script>",
+                "    {% block scripts %}{% endblock %}",
+                "</body>",
+                "</html>"
+              ]
+            },
+            "feature_template": {
+              "filename": "{feature}/{feature}.html",
+              "description": "Template específico del feature",
+              "pattern": "{% extends 'base.html' %}",
+              "responsibilities": [
+                "Extender template base",
+                "Override bloques (title, content, scripts)",
+                "Data binding con {{ variable }}",
+                "Lógica de templating ({% for %}, {% if %})",
+                "Inclusión de componentes reutilizables"
+              ],
+              "example_code": [
+                "{% extends 'base.html' %}",
+                "",
+                "{% block title %}{{ title }}{% endblock %}",
+                "",
+                "{% block content %}",
+                "<div class=\"container\">",
+                "    <h1>{{ title }}</h1>",
+                "    ",
+                "    {% if items %}",
+                "    <div class=\"row\">",
+                "        {% for item in items %}",
+                "        <div class=\"col-md-4\">",
+                "            {% include 'components/item_card.html' %}",
+                "        </div>",
+                "        {% endfor %}",
+                "    </div>",
+                "    {% else %}",
+                "    <p>No items available.</p>",
+                "    {% endif %}",
+                "</div>",
+                "{% endblock %}",
+                "",
+                "{% block scripts %}",
+                "<script src=\"{{ url_for('static', filename='js/feature.js') }}\"></script>",
+                "{% endblock %}"
+              ]
+            },
+            "components": {
+              "path": "webapp/templates/components/",
+              "description": "Componentes reutilizables (partials)",
+              "pattern": "{% include %} para inclusión",
+              "examples": [
+                "navbar.html - Barra de navegación",
+                "footer.html - Footer común",
+                "card.html - Tarjeta reutilizable",
+                "modal.html - Modal dialog",
+                "form_field.html - Campo de form reutilizable"
+              ]
+            },
+            "error_pages": {
+              "path": "webapp/templates/errors/",
+              "description": "Templates de error HTTP",
+              "files": ["404.html", "500.html", "403.html"],
+              "example_code": [
+                "{% extends 'base.html' %}",
+                "",
+                "{% block title %}404 - Not Found{% endblock %}",
+                "",
+                "{% block content %}",
+                "<div class=\"error-page\">",
+                "    <h1>404</h1>",
+                "    <p>Page not found</p>",
+                "    <a href=\"{{ url_for('main.index') }}\">Go Home</a>",
+                "</div>",
+                "{% endblock %}"
+              ]
+            }
+          }
+        },
+        "static": {
+          "path": "webapp/static/",
+          "description": "Frontend assets (JavaScript, CSS, images)",
+          "files": {
+            "javascript": {
+              "path": "webapp/static/js/",
+              "description": "Vanilla JavaScript modules (ES6)",
+              "pattern": "ES6 modules con import/export",
+              "files": {
+                "main": {
+                  "filename": "main.js",
+                  "description": "Módulo principal (entry point)",
+                  "responsibilities": [
+                    "Inicialización de app frontend",
+                    "Import de otros módulos",
+                    "Event listeners globales",
+                    "Setup común"
+                  ]
+                },
+                "api": {
+                  "filename": "api.js",
+                  "description": "Cliente API para llamadas fetch",
+                  "responsibilities": [
+                    "Wrapper de fetch() para API calls",
+                    "Manejo de errores HTTP",
+                    "Headers comunes (CSRF token)",
+                    "Base URL configuration"
+                  ]
+                },
+                "ui": {
+                  "filename": "ui.js",
+                  "description": "Helpers de UI y DOM manipulation",
+                  "responsibilities": [
+                    "Funciones de manipulación DOM",
+                    "Mostrar/ocultar elementos",
+                    "Animaciones",
+                    "Toast/notifications"
+                  ]
+                },
+                "feature": {
+                  "filename": "{feature}.js",
+                  "description": "Lógica específica del feature",
+                  "responsibilities": [
+                    "Event handlers del feature",
+                    "Lógica de interacción",
+                    "Updates dinámicos",
+                    "Validaciones frontend"
+                  ]
+                }
+              }
+            },
+            "css": {
+              "path": "webapp/static/css/",
+              "description": "Estilos CSS (modular o Bootstrap overrides)",
+              "files": {
+                "style": {
+                  "filename": "style.css",
+                  "description": "Estilos globales",
+                  "pattern": "CSS estándar o uso de Bootstrap"
+                },
+                "feature": {
+                  "filename": "{feature}.css",
+                  "description": "Estilos específicos del feature"
+                }
+              }
+            },
+            "images": {
+              "path": "webapp/static/images/",
+              "description": "Imágenes, iconos, logos"
+            }
+          }
+        },
+        "backend_client": {
+          "path": "webapp/",
+          "description": "API client para comunicación BFF con backend",
+          "files": {
+            "api_client": {
+              "filename": "api_client.py",
+              "class_name": "APIClient",
+              "pattern": "HTTP client con requests library",
+              "responsibilities": [
+                "Requests HTTP a API backend externa",
+                "Manejo de autenticación (si aplica)",
+                "Manejo de errores de red/timeout",
+                "Transformación de responses",
+                "Configuración de base URL",
+                "Retry logic (opcional)"
+              ],
+              "example_imports": [
+                "import requests",
+                "from typing import List, Optional, Dict",
+                "from webapp.config import Config"
+              ],
+              "example_code": [
+                "class APIClient:",
+                "    \"\"\"Cliente para comunicación con API backend.\"\"\"",
+                "    ",
+                "    def __init__(self):",
+                "        self.base_url = Config.API_BASE_URL",
+                "        self.timeout = Config.API_TIMEOUT",
+                "    ",
+                "    def get_items(self) -> List[Dict]:",
+                "        \"\"\"Obtener lista de items.\"\"\"",
+                "        response = requests.get(",
+                "            f\"{self.base_url}/api/items\",",
+                "            timeout=self.timeout",
+                "        )",
+                "        response.raise_for_status()",
+                "        return response.json()",
+                "    ",
+                "    def get_item(self, id: int) -> Optional[Dict]:",
+                "        \"\"\"Obtener item por ID.\"\"\"",
+                "        try:",
+                "            response = requests.get(",
+                "                f\"{self.base_url}/api/items/{id}\",",
+                "                timeout=self.timeout",
+                "            )",
+                "            response.raise_for_status()",
+                "            return response.json()",
+                "        except requests.exceptions.HTTPError as e:",
+                "            if e.response.status_code == 404:",
+                "                return None",
+                "            raise"
+              ]
+            }
+          }
+        },
+        "forms": {
+          "path": "webapp/",
+          "description": "Flask-WTF forms para validación y CSRF protection",
+          "files": {
+            "forms": {
+              "filename": "forms.py",
+              "description": "Definición de forms con Flask-WTF",
+              "pattern": "class Form(FlaskForm)",
+              "responsibilities": [
+                "Definir fields con validators",
+                "Custom validation methods",
+                "CSRF protection automático",
+                "Rendering helpers para templates"
+              ],
+              "example_imports": [
+                "from flask_wtf import FlaskForm",
+                "from wtforms import StringField, IntegerField, SubmitField",
+                "from wtforms.validators import DataRequired, NumberRange"
+              ],
+              "example_code": [
+                "class ProductForm(FlaskForm):",
+                "    \"\"\"Form para crear/editar producto.\"\"\"",
+                "    nombre = StringField('Nombre', validators=[DataRequired()])",
+                "    precio = IntegerField('Precio',",
+                "                         validators=[DataRequired(),",
+                "                                   NumberRange(min=0)])",
+                "    submit = SubmitField('Guardar')"
+              ],
+              "optional": true
+            }
+          }
+        },
+        "config": {
+          "path": "webapp/",
+          "description": "Configuration objects hierarchy",
+          "files": {
+            "config": {
+              "filename": "config.py",
+              "description": "Flask config object hierarchy",
+              "pattern": "BaseConfig → DevelopmentConfig/ProductionConfig/TestingConfig",
+              "example_code": [
+                "import os",
+                "",
+                "class BaseConfig:",
+                "    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret')",
+                "    API_BASE_URL = os.environ.get('API_BASE_URL', 'http://localhost:5050')",
+                "    API_TIMEOUT = 5",
+                "",
+                "class DevelopmentConfig(BaseConfig):",
+                "    DEBUG = True",
+                "",
+                "class ProductionConfig(BaseConfig):",
+                "    DEBUG = False",
+                "",
+                "class TestingConfig(BaseConfig):",
+                "    TESTING = True",
+                "    WTF_CSRF_ENABLED = False"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "_comment_test_framework": "Configuración de testing para Flask webapps",
+
+  "test_framework_config": {
+    "runner": "pytest",
+    "async_support": false,
+    "plugins": ["pytest-cov", "pytest-flask", "pytest-mock", "pytest-bdd"],
+    "fixtures_path": "tests/conftest.py",
+    "required_fixtures": {
+      "app": {
+        "description": "Flask app instance para tests",
+        "scope": "module",
+        "pattern": "Application factory pattern",
+        "example_code": [
+          "import pytest",
+          "from webapp import create_app",
+          "",
+          "@pytest.fixture(scope='module')",
+          "def app():",
+          "    \"\"\"Create Flask app for testing.\"\"\"",
+          "    app = create_app('testing')",
+          "    return app"
+        ]
+      },
+      "client": {
+        "description": "Flask test client para simular requests HTTP",
+        "scope": "function",
+        "depends_on": "app",
+        "pattern": "app.test_client()",
+        "example_code": [
+          "@pytest.fixture",
+          "def client(app):",
+          "    \"\"\"Create Flask test client.\"\"\"",
+          "    return app.test_client()"
+        ]
+      }
+    },
+    "test_structure": {
+      "unit_tests": {
+        "path": "tests/unit/",
+        "description": "Tests unitarios de helpers, utils, forms",
+        "naming": "test_{component}.py",
+        "markers": ["unit"]
+      },
+      "integration_tests": {
+        "path": "tests/integration/",
+        "description": "Tests de routes + template rendering",
+        "naming": "test_{feature}_routes.py",
+        "markers": ["integration", "template"],
+        "requires": ["client fixture", "mock de api_client"]
+      },
+      "bdd_tests": {
+        "path": "tests/bdd/",
+        "description": "Tests BDD con pytest-bdd",
+        "markers": ["bdd"]
+      }
+    },
+    "markers": {
+      "unit": "Tests unitarios (helpers, forms sin Flask client)",
+      "integration": "Tests de integración (routes + templates)",
+      "template": "Tests de rendering de templates Jinja2",
+      "slow": "Tests lentos (>1s, llamadas a API externa)",
+      "bdd": "Tests BDD con Gherkin scenarios"
+    },
+    "frontend_testing": {
+      "note": "Frontend JavaScript NO se testea con pytest (requiere browser)",
+      "recommendation": "Usar Jest, Vitest o Playwright para tests de JavaScript si hay mucha lógica frontend",
+      "scope_coverage": "Coverage solo cubre Python (routes, api_client, forms). JS no incluido."
+    },
+    "example_test": {
+      "template_rendering": [
+        "@pytest.mark.template",
+        "def test_index_renders(client):",
+        "    \"\"\"Test home page renders correctly.\"\"\"",
+        "    response = client.get('/')",
+        "    assert response.status_code == 200",
+        "    assert b'Home' in response.data",
+        "    assert b'<!DOCTYPE html>' in response.data"
+      ],
+      "route_with_mock": [
+        "@pytest.mark.integration",
+        "def test_product_list(client, mocker):",
+        "    \"\"\"Test product list page.\"\"\"",
+        "    # Mock API client",
+        "    mock_api = mocker.patch('webapp.routes.APIClient')",
+        "    mock_api.return_value.get_products.return_value = [",
+        "        {'id': 1, 'nombre': 'Product 1', 'precio': 100}",
+        "    ]",
+        "    ",
+        "    response = client.get('/products')",
+        "    assert response.status_code == 200",
+        "    assert b'Products' in response.data",
+        "    assert b'Product 1' in response.data"
+      ]
+    }
+  },
+
+  "_comment_flask_webapp_patterns": "Patrones específicos de Flask webapps fullstack",
+
+  "flask_webapp_patterns": {
+    "application_factory": {
+      "description": "Factory pattern para crear app Flask",
+      "pattern": "def create_app(config_name='default'): ...",
+      "file": "webapp/__init__.py",
+      "benefits": [
+        "Testing con diferentes configs",
+        "Múltiples instancias (dev, test, prod)",
+        "Inicialización lazy de extensions",
+        "Mejor separación de concerns"
+      ],
+      "example_code": [
+        "from flask import Flask",
+        "from flask_bootstrap import Bootstrap",
+        "from flask_wtf.csrf import CSRFProtect",
+        "",
+        "bootstrap = Bootstrap()",
+        "csrf = CSRFProtect()",
+        "",
+        "def create_app(config_name='default'):",
+        "    app = Flask(__name__)",
+        "    app.config.from_object(f'webapp.config.{config_name.capitalize()}Config')",
+        "    ",
+        "    # Initialize extensions",
+        "    bootstrap.init_app(app)",
+        "    csrf.init_app(app)",
+        "    ",
+        "    # Register blueprints",
+        "    from webapp.routes import main_bp",
+        "    app.register_blueprint(main_bp)",
+        "    ",
+        "    return app"
+      ]
+    },
+    "template_inheritance": {
+      "description": "Jinja2 template inheritance para layouts reutilizables",
+      "pattern": "{% extends 'base.html' %} + {% block content %}",
+      "benefits": [
+        "DRY - No repetir HTML común",
+        "Layouts consistentes",
+        "Fácil cambio de diseño global",
+        "Bloques override por página"
+      ],
+      "example_code": [
+        "<!-- base.html -->",
+        "<!DOCTYPE html>",
+        "<html>",
+        "<head>",
+        "    {% block head %}",
+        "    <title>{% block title %}Default{% endblock %}</title>",
+        "    {% endblock %}",
+        "</head>",
+        "<body>",
+        "    {% block content %}{% endblock %}",
+        "</body>",
+        "</html>",
+        "",
+        "<!-- child.html -->",
+        "{% extends 'base.html' %}",
+        "{% block title %}My Page{% endblock %}",
+        "{% block content %}<h1>Content</h1>{% endblock %}"
+      ]
+    },
+    "blueprints": {
+      "description": "Organización modular con Flask Blueprints",
+      "pattern": "bp = Blueprint('name', __name__)",
+      "registration": "app.register_blueprint(bp)",
+      "benefits": [
+        "Organización por features",
+        "Prefijos de URL",
+        "Reutilización",
+        "Error handlers específicos"
+      ]
+    },
+    "static_files": {
+      "description": "Servir archivos estáticos (CSS, JS, images)",
+      "pattern": "{{ url_for('static', filename='css/style.css') }}",
+      "organization": {
+        "by_type": "static/css/, static/js/, static/images/",
+        "versioning": "url_for agrega hash para cache busting"
+      },
+      "example_code": [
+        "<!-- En template -->",
+        "<link rel=\"stylesheet\" href=\"{{ url_for('static', filename='css/style.css') }}\">",
+        "<script src=\"{{ url_for('static', filename='js/main.js') }}\"></script>",
+        "<img src=\"{{ url_for('static', filename='images/logo.png') }}\">"
+      ]
+    },
+    "forms": {
+      "description": "Flask-WTF para forms con validación y CSRF",
+      "pattern": "class Form(FlaskForm) + render en template",
+      "benefits": [
+        "CSRF protection automático",
+        "Validators integrados",
+        "Rendering helpers (form.field())",
+        "Error messages automáticos"
+      ],
+      "example_code": [
+        "<!-- En template -->",
+        "<form method=\"POST\">",
+        "    {{ form.csrf_token }}",
+        "    {{ form.nombre.label }} {{ form.nombre(class='form-control') }}",
+        "    {% if form.nombre.errors %}",
+        "        <ul class=\"errors\">",
+        "        {% for error in form.nombre.errors %}<li>{{ error }}</li>{% endfor %}",
+        "        </ul>",
+        "    {% endif %}",
+        "    {{ form.submit() }}",
+        "</form>"
+      ]
+    },
+    "error_handling": {
+      "description": "Custom error pages con templates",
+      "pattern": "@app.errorhandler(code) + render_template('errors/code.html')",
+      "file": "webapp/routes.py",
+      "example_code": [
+        "@app.errorhandler(404)",
+        "def not_found(error):",
+        "    return render_template('errors/404.html'), 404",
+        "",
+        "@app.errorhandler(500)",
+        "def internal_error(error):",
+        "    return render_template('errors/500.html'), 500"
+      ]
+    },
+    "bff_pattern": {
+      "description": "Backend for Frontend - webapp como proxy a API backend",
+      "pattern": "Routes llaman APIClient que hace requests HTTP a backend",
+      "benefits": [
+        "Separación frontend/backend",
+        "Backend API reutilizable (móvil, otros clientes)",
+        "Webapp adapta API a necesidades de UI",
+        "Testing independiente de capas"
+      ],
+      "flow": [
+        "1. Browser → GET /products",
+        "2. Flask route → APIClient.get_products()",
+        "3. APIClient → requests.get('http://api:5050/api/products')",
+        "4. API Backend → responde JSON",
+        "5. Flask route → render_template('products.html', products=data)",
+        "6. Browser ← HTML renderizado"
+      ],
+      "example_code": [
+        "# Route (BFF)",
+        "@app.route('/products')",
+        "def product_list():",
+        "    api = APIClient()",
+        "    products = api.get_products()  # Call to backend API",
+        "    return render_template('products/list.html', products=products)",
+        "",
+        "# APIClient",
+        "class APIClient:",
+        "    BASE_URL = 'http://localhost:5050'",
+        "    ",
+        "    def get_products(self):",
+        "        response = requests.get(f'{self.BASE_URL}/api/products')",
+        "        return response.json()"
+      ]
+    },
+    "ssr": {
+      "description": "Server-Side Rendering con Jinja2",
+      "benefits": [
+        "SEO-friendly (HTML completo en response)",
+        "First paint rápido (no espera JS)",
+        "Progressive enhancement",
+        "Funciona sin JavaScript habilitado"
+      ],
+      "pattern": "Flask route → render_template() → HTML completo"
+    }
+  },
+
+  "_comment_dependencies": "Dependencias requeridas para Flask webapps fullstack",
+
+  "dependencies": {
+    "required": [
+      "Flask>=2.0.0",
+      "Jinja2>=3.0.0",
+      "Flask-WTF>=1.0.0",
+      "WTForms>=3.0.0",
+      "python-dotenv>=1.0.0",
+      "requests>=2.28.0",
+      "pytest>=7.0.0",
+      "pytest-cov>=4.0.0",
+      "pytest-flask>=1.2.0",
+      "pytest-mock>=3.10.0"
+    ],
+    "recommended": [
+      "Flask-Bootstrap>=4.0.0  # Bootstrap integration",
+      "Flask-Moment>=1.0.0  # Datetime formatting en templates",
+      "flask-cors>=4.0.0  # CORS si webapp llama APIs externas desde JS",
+      "httpx>=0.24.0  # Alternativa async a requests",
+      "gunicorn>=20.0.0  # Production WSGI server",
+      "python-json-logger>=2.0.0  # Structured logging"
+    ],
+    "development": [
+      "pylint>=2.15.0",
+      "radon>=5.1.0",
+      "black>=22.0.0",
+      "mypy>=1.0.0"
+    ],
+    "frontend": {
+      "note": "Vanilla JavaScript - sin build tools ni npm",
+      "css": "Bootstrap via CDN o Flask-Bootstrap",
+      "javascript": "ES6 modules (browser nativo)",
+      "optional_testing": "Jest o Vitest para tests de JS (requiere npm)"
+    }
+  },
+
+  "_comment_quality_gates": "Quality gates ajustados para Flask webapps",
+
+  "quality_gates": {
+    "pylint": {
+      "enabled": true,
+      "min_score": 8.0,
+      "config_file": ".pylintrc",
+      "disable_checks": [
+        "too-few-public-methods",
+        "invalid-name",
+        "missing-module-docstring"
+      ],
+      "notes": "Score 8.0+ para código mantenible"
+    },
+    "cyclomatic_complexity": {
+      "enabled": true,
+      "max_per_function": 10,
+      "tool": "radon cc",
+      "command": "radon cc webapp/ -a -nb",
+      "threshold_grades": {
+        "A": "1-5 (simple)",
+        "B": "6-10 (moderado)",
+        "C": "11-20 (complejo - refactorizar)"
+      },
+      "notes": "Routes pueden ser más complejas si renderizan múltiples templates, pero ideal ≤10"
+    },
+    "maintainability_index": {
+      "enabled": true,
+      "min_score": 20,
+      "tool": "radon mi",
+      "command": "radon mi webapp/ -nb",
+      "grades": {
+        "A": "20-100 (altamente mantenible)",
+        "B": "10-19 (moderadamente mantenible)"
+      },
+      "notes": "MI >= 20 mínimo para webapps"
+    },
+    "coverage": {
+      "enabled": true,
+      "min_percent": 90.0,
+      "tool": "pytest-cov",
+      "command": "pytest --cov=webapp --cov-report=term-missing --cov-fail-under=90",
+      "scope": "Solo Python backend (routes, api_client, forms)",
+      "exclusions": [
+        "__init__.py files",
+        "Config classes",
+        "if __name__ == '__main__' blocks",
+        "Frontend JavaScript (no incluido en coverage)"
+      ],
+      "notes": "Coverage 90% (no 95%) porque frontend JS no se testea con pytest. Solo backend Python."
+    },
+    "frontend_quality": {
+      "note": "Frontend JavaScript NO automatizado en este perfil",
+      "recommendation": "Si hay mucha lógica JS, agregar ESLint manualmente",
+      "tools": {
+        "linting": "ESLint (requiere npm)",
+        "testing": "Jest o Vitest (requiere npm)",
+        "coverage": "Jest coverage (requiere npm)"
+      }
+    }
+  },
+
+  "_comment_design_patterns": "Patrones de diseño para Flask webapps fullstack",
+
+  "design_patterns": {
+    "bff": {
+      "name": "Backend for Frontend",
+      "description": "Webapp actúa como adaptador/proxy entre UI y API backend",
+      "benefits": [
+        "Separación frontend/backend",
+        "Backend API reutilizable para otros clientes",
+        "Webapp adapta datos de API a necesidades de UI",
+        "Testing independiente"
+      ],
+      "implementation": [
+        "1. Webapp expone routes HTML (no API JSON)",
+        "2. Routes llaman APIClient para obtener datos",
+        "3. APIClient hace requests HTTP a backend API",
+        "4. Routes renderizan templates con datos"
+      ]
+    },
+    "ssr": {
+      "name": "Server-Side Rendering",
+      "description": "HTML renderizado en servidor con Jinja2 antes de enviar al browser",
+      "benefits": [
+        "SEO-friendly (bots ven HTML completo)",
+        "First paint rápido",
+        "Funciona sin JavaScript",
+        "Progressive enhancement"
+      ],
+      "implementation": "render_template() genera HTML completo en servidor"
+    },
+    "application_factory": {
+      "name": "Application Factory Pattern",
+      "description": "Función que crea y configura instancia de Flask app",
+      "benefits": [
+        "Testing con configs diferentes",
+        "Múltiples instancias",
+        "Inicialización lazy de extensions"
+      ],
+      "implementation": "def create_app(config): ..."
+    },
+    "blueprint_pattern": {
+      "name": "Blueprint Pattern",
+      "description": "Organización modular de routes Flask",
+      "benefits": [
+        "Separación por features",
+        "Prefijos de URL",
+        "Reutilización",
+        "Error handlers específicos"
+      ]
+    },
+    "template_inheritance": {
+      "name": "Template Inheritance (Jinja2)",
+      "description": "Templates hijos extienden template base",
+      "benefits": [
+        "DRY - No repetir layout",
+        "Layouts consistentes",
+        "Fácil cambio global"
+      ],
+      "implementation": "{% extends 'base.html' %} + {% block %}"
+    }
+  },
+
+  "_comment_webapp_conventions": "Convenciones para Flask webapps fullstack",
+
+  "webapp_conventions": {
+    "routing": {
+      "pattern": "@app.route('/path') o @bp.route('/path')",
+      "methods": "GET (default), POST para forms",
+      "naming": "Lowercase con guiones: /user-profile, /product-list",
+      "examples": {
+        "home": "/",
+        "list": "/products",
+        "detail": "/products/<int:id>",
+        "form": "/products/new (GET + POST)"
+      }
+    },
+    "templates": {
+      "organization": "Por feature: templates/{feature}/{page}.html",
+      "inheritance": "Siempre extender base.html",
+      "components": "Reutilizables en templates/components/",
+      "naming": "Lowercase con underscores: product_list.html"
+    },
+    "static_files": {
+      "organization": {
+        "js": "static/js/{feature}.js",
+        "css": "static/css/{feature}.css",
+        "images": "static/images/"
+      },
+      "url_for": "Siempre usar {{ url_for('static', filename='...') }}",
+      "versioning": "url_for agrega hash automático para cache busting"
+    },
+    "forms": {
+      "csrf": "CSRF protection automático con Flask-WTF",
+      "validation": "WTForms validators",
+      "rendering": "Usar helpers: form.field(class='...')",
+      "pattern": "GET muestra form, POST procesa"
+    },
+    "error_handling": {
+      "custom_pages": "templates/errors/404.html, 500.html, etc.",
+      "handlers": "@app.errorhandler(code)",
+      "logging": "Log errors antes de render template"
+    },
+    "api_calls": {
+      "pattern": "APIClient class con métodos por endpoint",
+      "error_handling": "Try/except HTTPError",
+      "timeout": "Siempre configurar timeout",
+      "base_url": "Desde config (no hardcodear)"
+    }
+  },
+
+  "_comment_documentation": "Documentación recomendada para Flask webapps",
+
+  "documentation": {
+    "readme": {
+      "sections": [
+        "Overview - Descripción de la webapp",
+        "Installation - Setup local",
+        "Configuration - Variables de entorno",
+        "Running - Cómo ejecutar dev server",
+        "Testing - Cómo ejecutar tests",
+        "Deployment - Deploy a producción",
+        "API Backend - Cómo configurar URL de backend"
+      ]
+    },
+    "code_documentation": {
+      "docstrings": "Google style para routes y clases",
+      "templates": "Comentarios Jinja2 {# ... #} para lógica compleja",
+      "javascript": "JSDoc comments para funciones públicas"
+    },
+    "architecture": {
+      "diagram": "Diagrama de flujo BFF (Browser → Webapp → Backend API)",
+      "patterns": "Documentar patrones usados (BFF, SSR, etc.)"
+    }
+  }
+}

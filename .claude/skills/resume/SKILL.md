@@ -43,34 +43,36 @@ These commits are the PRIMARY indicator of what was accomplished in the last ses
 
 ### 3. Generate comprehensive summary
 
-Display a structured summary:
+**IMPORTANT: All output MUST be in Spanish.**
+
+Display a structured summary in Spanish:
 
 ```markdown
-# 📋 Session Context Restored
+# 📋 Contexto de Sesión Restaurado
 
-**Last Session:** <timestamp from metadata>
+**Última Sesión:** <timestamp from metadata>
 **Branch:** <git branch from metadata>
-**Exit Reason:** <exit_reason from metadata>
+**Razón de Salida:** <exit_reason from metadata>
 
-## ✅ Previous Session Summary
+## ✅ Resumen de la Sesión Anterior
 
 <Extract completion status from session-current.md>
 
-## 🔍 Key Decisions & Context
+## 🔍 Decisiones Clave y Contexto
 
 <Extract important decisions or context>
 
-## 🎯 Current State
+## 🎯 Estado Actual
 
 <Extract current state description>
 
-## 🚀 Next Activities
+## 🚀 Próximas Actividades
 
 <Extract and list next steps>
 
 ---
 
-**Context restored successfully. Ready to continue work.**
+**Contexto restaurado exitosamente. Listo para continuar el trabajo.**
 ```
 
 ### 4. Update session tracking
@@ -97,9 +99,11 @@ Display a structured summary:
 
 ### 5. Handle edge cases
 
-- **No metadata file:** "No previous session to resume."
-- **Corrupted JSON:** Show error and read what you can from .md files
-- **Empty session files:** "Session files exist but are empty. Starting fresh."
+**All messages MUST be in Spanish:**
+
+- **No metadata file:** "No se encontró sesión anterior. Parece ser un inicio nuevo."
+- **Corrupted JSON:** "Error al leer metadata JSON. Intentando recuperar información de archivos .md"
+- **Empty session files:** "Los archivos de sesión existen pero están vacíos. Comenzando de cero."
 
 ## File Locations
 
@@ -123,6 +127,7 @@ You respond with the full context summary as specified above.
 
 ## Tips
 
+- **ALL OUTPUT MUST BE IN SPANISH** - This is a hard requirement
 - Be concise but complete - show what matters
 - **Use commits as the primary source of truth** for what was accomplished
 - Analyze commit messages to understand the scope of work (feat, fix, docs, test, etc.)
