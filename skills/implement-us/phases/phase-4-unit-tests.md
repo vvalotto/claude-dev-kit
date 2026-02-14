@@ -591,6 +591,229 @@ class TestRepositoryDelete:
 
 ---
 
+**Flask Webapp - Test de Routes (Template Rendering + Mocking):**
+```python
+# tests/integration/test_products_routes.py
+import pytest
+from webapp import create_app
+from unittest.mock import MagicMock
+
+@pytest.fixture
+def app():
+    """Create Flask app for testing."""
+    app = create_app('testing')
+    return app
+
+@pytest.fixture
+def client(app):
+    """Create Flask test client."""
+    return app.test_client()
+
+class TestProductRoutes:
+    """Tests de routes de productos."""
+
+    def test_index_page_renders(self, client):
+        """Test home page renders correctamente."""
+        response = client.get('/')
+
+        assert response.status_code == 200
+        assert b'Home' in response.data
+        assert b'<!DOCTYPE html>' in response.data
+
+    @pytest.mark.template
+    def test_product_list_renders(self, client, mocker):
+        """Test product list page con datos de API."""
+        # Mock APIClient.get_products()
+        mock_api = mocker.patch('webapp.routes.APIClient')
+        mock_api.return_value.get_products.return_value = [
+            {'id': 1, 'nombre': 'Product 1', 'precio': 100.0, 'stock': 10},
+            {'id': 2, 'nombre': 'Product 2', 'precio': 200.0, 'stock': 5}
+        ]
+
+        response = client.get('/products')
+
+        assert response.status_code == 200
+        assert b'Products' in response.data
+        assert b'Product 1' in response.data
+        assert b'Product 2' in response.data
+
+    @pytest.mark.template
+    def test_product_list_empty(self, client, mocker):
+        """Test product list con lista vacía."""
+        mock_api = mocker.patch('webapp.routes.APIClient')
+        mock_api.return_value.get_products.return_value = []
+
+        response = client.get('/products')
+
+        assert response.status_code == 200
+        assert b'No products available' in response.data or b'no products' in response.data.lower()
+
+    @pytest.mark.integration
+    def test_product_detail_found(self, client, mocker):
+        """Test product detail con producto existente."""
+        mock_api = mocker.patch('webapp.routes.APIClient')
+        mock_api.return_value.get_product.return_value = {
+            'id': 1,
+            'nombre': 'Test Product',
+            'precio': 150.0,
+            'stock': 20
+        }
+
+        response = client.get('/products/1')
+
+        assert response.status_code == 200
+        assert b'Test Product' in response.data
+        assert b'150' in response.data
+
+    @pytest.mark.integration
+    def test_product_detail_not_found(self, client, mocker):
+        """Test product detail 404 cuando no existe."""
+        mock_api = mocker.patch('webapp.routes.APIClient')
+        mock_api.return_value.get_product.return_value = None
+
+        response = client.get('/products/999')
+
+        assert response.status_code == 404
+        assert b'404' in response.data or b'Not Found' in response.data
+
+    @pytest.mark.integration
+    def test_product_list_api_error(self, client, mocker):
+        """Test product list cuando API backend falla."""
+        mock_api = mocker.patch('webapp.routes.APIClient')
+        mock_api.return_value.get_products.side_effect = Exception("Backend unavailable")
+
+        response = client.get('/products')
+
+        assert response.status_code == 500
+        assert b'500' in response.data or b'error' in response.data.lower()
+
+class TestProductForms:
+    """Tests de forms de productos."""
+
+    def test_product_new_form_renders(self, client):
+        """Test form de nuevo producto renderiza (GET)."""
+        response = client.get('/products/new')
+
+        assert response.status_code == 200
+        assert b'form' in response.data.lower()
+        assert b'csrf_token' in response.data.lower()
+
+    @pytest.mark.integration
+    def test_product_create_success(self, client, mocker):
+        """Test crear producto via form (POST)."""
+        mock_api = mocker.patch('webapp.routes.APIClient')
+        mock_api.return_value.create_product.return_value = {
+            'id': 1,
+            'nombre': 'New Product',
+            'precio': 99.99
+        }
+
+        data = {
+            'nombre': 'New Product',
+            'precio': 99.99,
+            'stock': 10
+        }
+
+        response = client.post('/products/new', data=data, follow_redirects=True)
+
+        assert response.status_code == 200
+        mock_api.return_value.create_product.assert_called_once()
+
+class TestErrorHandlers:
+    """Tests de error handlers."""
+
+    def test_404_custom_page(self, client):
+        """Test custom 404 error page."""
+        response = client.get('/nonexistent-page')
+
+        assert response.status_code == 404
+        assert b'404' in response.data
+
+    def test_500_custom_page(self, client, mocker):
+        """Test custom 500 error page."""
+        # Forzar error 500 con mock que falla
+        mocker.patch('webapp.routes.APIClient', side_effect=Exception("Forced error"))
+
+        response = client.get('/products')
+
+        assert response.status_code == 500
+```
+
+**Flask Webapp - Test de API Client (BFF Pattern):**
+```python
+# tests/unit/test_api_client.py
+import pytest
+import requests
+from webapp.api_client import APIClient
+
+class TestAPIClientProducts:
+    """Tests de APIClient métodos de productos."""
+
+    def test_get_products_success(self, requests_mock):
+        """Test get_products retorna lista correctamente."""
+        api_url = "http://localhost:5050/api/products"
+        mock_data = [
+            {'id': 1, 'nombre': 'Product 1'},
+            {'id': 2, 'nombre': 'Product 2'}
+        ]
+
+        requests_mock.get(api_url, json=mock_data)
+
+        client = APIClient()
+        products = client.get_products()
+
+        assert len(products) == 2
+        assert products[0]['nombre'] == 'Product 1'
+
+    def test_get_product_success(self, requests_mock):
+        """Test get_product retorna producto por ID."""
+        api_url = "http://localhost:5050/api/products/1"
+        mock_data = {'id': 1, 'nombre': 'Test Product', 'precio': 100.0}
+
+        requests_mock.get(api_url, json=mock_data)
+
+        client = APIClient()
+        product = client.get_product(1)
+
+        assert product is not None
+        assert product['id'] == 1
+        assert product['nombre'] == 'Test Product'
+
+    def test_get_product_not_found(self, requests_mock):
+        """Test get_product retorna None cuando 404."""
+        api_url = "http://localhost:5050/api/products/999"
+        requests_mock.get(api_url, status_code=404)
+
+        client = APIClient()
+        product = client.get_product(999)
+
+        assert product is None
+
+    def test_get_products_timeout(self, requests_mock):
+        """Test get_products maneja timeout correctamente."""
+        api_url = "http://localhost:5050/api/products"
+        requests_mock.get(api_url, exc=requests.exceptions.Timeout)
+
+        client = APIClient()
+
+        with pytest.raises(requests.exceptions.Timeout):
+            client.get_products()
+
+    def test_create_product_success(self, requests_mock):
+        """Test create_product crea producto correctamente."""
+        api_url = "http://localhost:5050/api/products"
+        request_data = {'nombre': 'New Product', 'precio': 50.0}
+        response_data = {'id': 1, 'nombre': 'New Product', 'precio': 50.0}
+
+        requests_mock.post(api_url, json=response_data, status_code=201)
+
+        client = APIClient()
+        product = client.create_product(request_data)
+
+        assert product['id'] == 1
+        assert product['nombre'] == 'New Product'
+```
+
 **Generic Python - Test de Class:**
 ```python
 # tests/test_calculator.py
