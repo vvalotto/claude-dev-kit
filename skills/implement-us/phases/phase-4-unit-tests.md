@@ -53,18 +53,17 @@ pytest-cov>=4.0.0
 - async_client: Cliente asíncrono
 ```
 
-### Django/MVT
+### Flask/Layered
 ```bash
 # Dependencias necesarias
 pytest>=7.0.0
-pytest-django>=4.5.0
+pytest-flask>=1.2.0
 pytest-cov>=4.0.0
 
 # Fixtures disponibles
-- db: Acceso a base de datos de prueba
-- client: Cliente HTTP de testing
-- admin_client: Cliente autenticado como admin
-- django_user_model: Modelo de usuario
+- app: Flask app instance (scope='module')
+- client: Flask test client para requests HTTP
+- context: Test request context para acceder request/session
 ```
 
 ### Generic Python
@@ -135,29 +134,31 @@ La estrategia de testing varía según la arquitectura y tipo de componente:
 
 ---
 
-#### Django/MVT
+#### Flask/Layered
 
-**Models:**
-- Validación de campos
-- Constraints de DB (unique, foreign keys)
-- Métodos del modelo (`__str__`, custom methods)
-- Signals (si aplica)
+**Domain Models (dataclass):**
+- Inicialización con valores default/custom
+- Método to_dict() para serialización
+- Método validar() con reglas de negocio
+- Casos edge (valores None, negativos, strings vacíos)
 
-**Views:**
-- Status codes correctos
-- Templates renderizados correctamente
-- Context data esperado
-- Permisos y autenticación
+**Repositories (ABC + implementación):**
+- CRUD operations (get_all, get_by_id, create, update, delete)
+- Comportamiento según storage (memoria, JSON, DB)
+- Manejo de items no encontrados (return None)
+- Integridad de datos (IDs únicos, etc.)
 
-**Forms:**
-- Validación de datos
-- Clean methods personalizados
-- Casos de error
+**API Endpoints (Flask blueprints):**
+- Tests de integración con Flask test client
+- Request/response correctos (jsonify)
+- Status codes apropiados (200, 201, 404, 400)
+- Validación de request body
+- Error handling (NotFoundError, ValidationError)
 
-**Serializers (DRF):**
-- Serialización/deserialización
-- Validadores personalizados
-- Campos nested
+**Mappers:**
+- Conversión dict → model
+- Conversión model → dict
+- Validación de datos externos
 
 ---
 
@@ -389,45 +390,203 @@ class TestCreateUser:
 
 ---
 
-**Django/MVT - Test de Model:**
+**Flask/Layered - Test de Domain Model (dataclass):**
 ```python
-# tests/test_user_model.py
+# tests/unit/test_product_model.py
 import pytest
-from django.core.exceptions import ValidationError
-from app.models import User
+from app.general.products.product import Product
 
-@pytest.mark.django_db
-class TestUserModel:
-    """Tests del modelo User."""
+class TestProductCreation:
+    """Tests de creación del modelo de dominio."""
 
-    def test_crear_usuario(self):
-        """Usuario se crea correctamente."""
-        user = User.objects.create(
-            email="user@example.com",
-            nombre="Juan Pérez",
-            edad=30
+    def test_crear_con_valores_default(self):
+        """Producto se crea con valores por defecto."""
+        product = Product(id=1, nombre="Test Product")
+        assert product.id == 1
+        assert product.nombre == "Test Product"
+        assert product.precio is None  # Optional field
+
+    def test_crear_con_todos_los_campos(self):
+        """Producto se crea con todos los campos."""
+        product = Product(
+            id=1,
+            nombre="Laptop",
+            precio=1500.50,
+            stock=10
         )
-        assert user.id is not None
-        assert user.email == "user@example.com"
+        assert product.id == 1
+        assert product.nombre == "Laptop"
+        assert product.precio == 1500.50
+        assert product.stock == 10
 
-    def test_str_representation(self):
-        """__str__ retorna representación correcta."""
-        user = User(email="user@example.com", nombre="Juan Pérez")
-        assert str(user) == "Juan Pérez (user@example.com)"
+class TestProductSerialization:
+    """Tests de serialización del modelo."""
 
-    def test_email_unique_constraint(self):
-        """Email debe ser único."""
-        User.objects.create(email="user@example.com", nombre="Juan")
+    def test_to_dict(self):
+        """to_dict() retorna dict con todos los campos."""
+        product = Product(id=1, nombre="Mouse", precio=25.99, stock=50)
+        data = product.to_dict()
 
-        with pytest.raises(Exception):  # IntegrityError
-            User.objects.create(email="user@example.com", nombre="Pedro")
+        assert data == {
+            'id': 1,
+            'nombre': 'Mouse',
+            'precio': 25.99,
+            'stock': 50
+        }
 
-    def test_edad_validacion(self):
-        """Edad debe ser >= 0."""
-        user = User(email="user@example.com", nombre="Juan", edad=-1)
+    def test_to_dict_con_valores_none(self):
+        """to_dict() maneja correctamente valores None."""
+        product = Product(id=1, nombre="Test")
+        data = product.to_dict()
 
-        with pytest.raises(ValidationError):
-            user.full_clean()
+        assert data['id'] == 1
+        assert data['nombre'] == 'Test'
+        assert data['precio'] is None
+
+class TestProductValidation:
+    """Tests de validación del modelo."""
+
+    def test_validar_nombre_vacio_falla(self):
+        """Validación falla si nombre está vacío."""
+        product = Product(id=1, nombre="")
+
+        with pytest.raises(ValueError, match="nombre es requerido"):
+            product.validar()
+
+    def test_validar_precio_negativo_falla(self):
+        """Validación falla si precio es negativo."""
+        product = Product(id=1, nombre="Test", precio=-10.0)
+
+        with pytest.raises(ValueError, match="precio debe ser >= 0"):
+            product.validar()
+
+    def test_validar_stock_negativo_falla(self):
+        """Validación falla si stock es negativo."""
+        product = Product(id=1, nombre="Test", stock=-5)
+
+        with pytest.raises(ValueError, match="stock debe ser >= 0"):
+            product.validar()
+
+    def test_validar_producto_valido(self):
+        """Validación exitosa retorna True."""
+        product = Product(id=1, nombre="Test", precio=100.0, stock=10)
+        assert product.validar() is True
+```
+
+---
+
+**Flask/Layered - Test de Repository (in-memory):**
+```python
+# tests/unit/test_product_repository.py
+import pytest
+from app.datos.products.memoria import ProductRepositoryMemory
+from app.general.products.product import Product
+
+@pytest.fixture
+def repository():
+    """Fixture que retorna repositorio limpio."""
+    return ProductRepositoryMemory()
+
+@pytest.fixture
+def sample_product():
+    """Fixture de producto de ejemplo."""
+    return Product(id=0, nombre="Test Product", precio=100.0, stock=10)
+
+class TestRepositoryCreate:
+    """Tests de creación en repositorio."""
+
+    def test_create_asigna_id_automaticamente(self, repository, sample_product):
+        """create() asigna ID automáticamente."""
+        result = repository.create(sample_product)
+
+        assert result.id == 1  # Primer ID asignado
+        assert result.nombre == sample_product.nombre
+
+    def test_create_incrementa_id(self, repository):
+        """IDs se incrementan automáticamente."""
+        product1 = repository.create(Product(id=0, nombre="Product 1"))
+        product2 = repository.create(Product(id=0, nombre="Product 2"))
+
+        assert product1.id == 1
+        assert product2.id == 2
+
+class TestRepositoryGetAll:
+    """Tests de get_all()."""
+
+    def test_get_all_vacio_inicialmente(self, repository):
+        """get_all() retorna lista vacía si no hay productos."""
+        products = repository.get_all()
+        assert products == []
+
+    def test_get_all_retorna_todos_los_productos(self, repository):
+        """get_all() retorna todos los productos creados."""
+        repository.create(Product(id=0, nombre="Product 1"))
+        repository.create(Product(id=0, nombre="Product 2"))
+
+        products = repository.get_all()
+        assert len(products) == 2
+
+    def test_get_all_retorna_copia(self, repository):
+        """get_all() retorna copia (no referencia directa)."""
+        repository.create(Product(id=0, nombre="Product 1"))
+        products1 = repository.get_all()
+        products2 = repository.get_all()
+
+        assert products1 is not products2  # Diferentes objetos
+
+class TestRepositoryGetById:
+    """Tests de get_by_id()."""
+
+    def test_get_by_id_existente(self, repository):
+        """get_by_id() retorna producto si existe."""
+        created = repository.create(Product(id=0, nombre="Test"))
+        found = repository.get_by_id(created.id)
+
+        assert found is not None
+        assert found.id == created.id
+        assert found.nombre == "Test"
+
+    def test_get_by_id_no_existente(self, repository):
+        """get_by_id() retorna None si no existe."""
+        found = repository.get_by_id(999)
+        assert found is None
+
+class TestRepositoryUpdate:
+    """Tests de update()."""
+
+    def test_update_producto_existente(self, repository):
+        """update() actualiza producto existente."""
+        created = repository.create(Product(id=0, nombre="Original", precio=100.0))
+        updated = Product(id=created.id, nombre="Updated", precio=150.0)
+
+        result = repository.update(updated)
+
+        assert result.nombre == "Updated"
+        assert result.precio == 150.0
+
+    def test_update_producto_no_existente_retorna_none(self, repository):
+        """update() retorna None si producto no existe."""
+        product = Product(id=999, nombre="No Exists")
+        result = repository.update(product)
+
+        assert result is None
+
+class TestRepositoryDelete:
+    """Tests de delete()."""
+
+    def test_delete_producto_existente(self, repository):
+        """delete() elimina producto existente."""
+        created = repository.create(Product(id=0, nombre="To Delete"))
+
+        deleted = repository.delete(created.id)
+
+        assert deleted is True
+        assert repository.get_by_id(created.id) is None
+
+    def test_delete_producto_no_existente(self, repository):
+        """delete() retorna False si producto no existe."""
+        deleted = repository.delete(999)
+        assert deleted is False
 ```
 
 ---
