@@ -292,6 +292,297 @@ class {COMPONENT_NAME}RepositoryMemory({COMPONENT_NAME}Repository):
         return item
 ```
 
+**Flask Webapp - Routes (View Functions + BFF):**
+```python
+# webapp/routes.py
+from flask import Blueprint, render_template, request, redirect, url_for
+from webapp.api_client import APIClient
+from webapp.forms import {COMPONENT_NAME}Form
+
+main_bp = Blueprint('main', __name__)
+
+@main_bp.route('/')
+def index():
+    """Home page."""
+    return render_template('index.html', title='Home')
+
+@main_bp.route('/{feature}')
+def {feature}_list():
+    """Lista de {COMPONENT_NAME}s desde API backend (BFF pattern).
+
+    Returns:
+        HTML: Template renderizado con lista de items
+    """
+    api = APIClient()
+    try:
+        items = api.get_{feature}()  # Call to backend API
+        return render_template('{feature}/list.html',
+                             items=items,
+                             title='{COMPONENT_NAME}s')
+    except Exception as e:
+        return render_template('errors/500.html', error=str(e)), 500
+
+@main_bp.route('/{feature}/<int:id>')
+def {feature}_detail(id):
+    """Detalle de {COMPONENT_NAME} por ID.
+
+    Args:
+        id: ID del item a mostrar
+
+    Returns:
+        HTML: Template renderizado con detalle del item
+        404: Si item no existe
+    """
+    api = APIClient()
+    item = api.get_{feature}(id)
+    if not item:
+        return render_template('errors/404.html'), 404
+    return render_template('{feature}/detail.html',
+                         item=item,
+                         title=f'{COMPONENT_NAME} {id}')
+
+@main_bp.route('/{feature}/new', methods=['GET', 'POST'])
+def {feature}_new():
+    """Crear nuevo {COMPONENT_NAME} con form.
+
+    GET: Muestra formulario vacío
+    POST: Procesa formulario y crea item
+
+    Returns:
+        HTML: Form o redirect después de crear
+    """
+    form = {COMPONENT_NAME}Form()
+    if form.validate_on_submit():
+        api = APIClient()
+        data = {
+            'campo1': form.campo1.data,
+            'campo2': form.campo2.data
+        }
+        item = api.create_{feature}(data)
+        return redirect(url_for('main.{feature}_detail', id=item['id']))
+
+    return render_template('{feature}/new.html', form=form, title='New {COMPONENT_NAME}')
+
+@main_bp.errorhandler(404)
+def not_found(error):
+    """Custom 404 error page."""
+    return render_template('errors/404.html'), 404
+
+@main_bp.errorhandler(500)
+def internal_error(error):
+    """Custom 500 error page."""
+    return render_template('errors/500.html'), 500
+```
+
+**Flask Webapp - Template (Jinja2 SSR):**
+```html
+<!-- webapp/templates/{feature}/list.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>{{ title }}</h1>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ url_for('main.{feature}_new') }}" class="btn btn-primary">
+                New {COMPONENT_NAME}
+            </a>
+        </div>
+    </div>
+
+    {% if items %}
+    <div class="row">
+        {% for item in items %}
+        <div class="col-md-4 mb-3">
+            {% include 'components/{feature}_card.html' %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Paginación (opcional) -->
+    {% if pagination %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if pagination.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.{feature}_list', page=pagination.prev_num) }}">
+                    Previous
+                </a>
+            </li>
+            {% endif %}
+            {% for page_num in pagination.iter_pages() %}
+                {% if page_num %}
+                <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('main.{feature}_list', page=page_num) }}">
+                        {{ page_num }}
+                    </a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            {% if pagination.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.{feature}_list', page=pagination.next_num) }}">
+                    Next
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="alert alert-info">
+        <p>No {COMPONENT_NAME}s available.</p>
+        <a href="{{ url_for('main.{feature}_new') }}" class="btn btn-primary btn-sm">
+            Create first {COMPONENT_NAME}
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/{feature}.js') }}"></script>
+{% endblock %}
+```
+
+**Flask Webapp - JavaScript Module (Vanilla JS):**
+```javascript
+// webapp/static/js/{feature}.js
+import { fetchJSON, handleError } from './api.js';
+import { showToast, confirmDialog } from './ui.js';
+
+/**
+ * {COMPONENT_NAME} Manager - Gestiona interacciones del feature
+ */
+class {COMPONENT_NAME}Manager {
+    constructor() {
+        this.apiBaseUrl = '/api/{feature}';
+        this.init();
+    }
+
+    /**
+     * Inicializa event listeners
+     */
+    init() {
+        this.setupEventListeners();
+    }
+
+    /**
+     * Setup event listeners para botones y forms
+     */
+    setupEventListeners() {
+        // Update buttons
+        document.querySelectorAll('.btn-update-{feature}').forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleUpdate(e));
+        });
+
+        // Delete buttons
+        document.querySelectorAll('.btn-delete-{feature}').forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleDelete(e));
+        });
+
+        // Inline edit fields
+        document.querySelectorAll('.editable-field').forEach(field => {
+            field.addEventListener('blur', (e) => this.handleInlineEdit(e));
+        });
+    }
+
+    /**
+     * Handle update de {COMPONENT_NAME}
+     * @param {Event} event - Click event
+     */
+    async handleUpdate(event) {
+        const id = event.target.dataset.itemId;
+        const newValue = document.getElementById(`field-input-${id}`).value;
+
+        try {
+            const updated = await fetchJSON(`${this.apiBaseUrl}/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify({ campo1: newValue })
+            });
+
+            showToast('Item updated successfully', 'success');
+            this.updateUIElement(id, updated);
+        } catch (error) {
+            handleError(error);
+        }
+    }
+
+    /**
+     * Handle delete de {COMPONENT_NAME}
+     * @param {Event} event - Click event
+     */
+    async handleDelete(event) {
+        const id = event.target.dataset.itemId;
+
+        const confirmed = await confirmDialog(
+            'Are you sure?',
+            'This action cannot be undone.'
+        );
+
+        if (!confirmed) return;
+
+        try {
+            await fetchJSON(`${this.apiBaseUrl}/${id}`, {
+                method: 'DELETE'
+            });
+
+            showToast('Item deleted successfully', 'success');
+            document.getElementById(`item-${id}`).remove();
+        } catch (error) {
+            handleError(error);
+        }
+    }
+
+    /**
+     * Handle inline edit de campo
+     * @param {Event} event - Blur event
+     */
+    async handleInlineEdit(event) {
+        const field = event.target;
+        const id = field.dataset.itemId;
+        const fieldName = field.dataset.fieldName;
+        const newValue = field.textContent.trim();
+
+        try {
+            await fetchJSON(`${this.apiBaseUrl}/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ [fieldName]: newValue })
+            });
+
+            field.classList.add('updated');
+            setTimeout(() => field.classList.remove('updated'), 1000);
+        } catch (error) {
+            handleError(error);
+            field.textContent = field.dataset.originalValue; // Restore
+        }
+    }
+
+    /**
+     * Update UI element con datos nuevos
+     * @param {number} id - Item ID
+     * @param {Object} data - Updated data
+     */
+    updateUIElement(id, data) {
+        const element = document.getElementById(`item-${id}`);
+        if (!element) return;
+
+        element.querySelector('.item-campo1').textContent = data.campo1;
+        element.querySelector('.item-campo2').textContent = data.campo2;
+    }
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    new {COMPONENT_NAME}Manager();
+});
+```
+
 **Generic Python - Class:**
 ```python
 # {COMPONENT_PATH}/{filename}.py
