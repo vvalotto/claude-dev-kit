@@ -343,5 +343,26 @@
       "naming_convention": "{action}_signal",
       "example": "dato_actualizado_signal = pyqtSignal(int)"
     }
+  },
+
+  "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
+
+  "template_variables": {
+    "BACKGROUND_SETUP": "    Given la aplicación está iniciada\n    And la configuración está cargada",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_modelo.py` - Validación de modelo\n- [ ] `tests/test_{component}_vista.py` - Renderizado de UI\n- [ ] `tests/test_{component}_controlador.py` - Lógica de control",
+    "ARCHITECTURE_DESCRIPTION": "Patrón MVC implementado en {COMPONENT_NAME}\n- Factory: ComponenteFactoryUX crea el componente\n- Coordinator: UXCoordinator conecta señales\n- Compositor: UIUXCompositor maneja layout",
+    "TEST_CLASS_ORGANIZATION_COMMENT": "Organización:\n- TestCreacion: Tests de inicialización\n- TestMetodos: Tests de métodos públicos\n- TestSignals: Tests de señales PyQt\n- TestValidacion: Tests de validación de datos"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Componente integrado en Factory\n- [ ] Señales conectadas en Coordinator\n- [ ] Panel agregado a Compositor",
+    "architecture_code_blocks": "### Factory\n\n```python\n# Método agregado a ComponenteFactoryUX\ndef _crear_ctrl_{COMPONENT_NAME}(self) -> {CONTROLLER_CLASS}:\n    modelo = {MODEL_CLASS}()\n    vista = {VIEW_CLASS}()\n    return {CONTROLLER_CLASS}(modelo, vista)\n```\n\n### Coordinator\n\n```python\n# Señales conectadas en UXCoordinator\nself._servidor.estado_recibido.connect(\n    self._ctrl['{COMPONENT_NAME}'].actualizar_desde_estado\n)\n```\n\n### Compositor\n\n```python\n# Panel agregado al layout en UIUXCompositor\nlayout_principal.addWidget(\n    self._controladores['{COMPONENT_NAME}'].vista\n)\n```",
+    "manual_testing_specifics": "### Pruebas de UI\n\n- [x] Componente renderiza correctamente\n- [x] Interacción de usuario funciona\n- [x] Señales se propagan correctamente\n- [x] Actualización de UI es reactiva\n\n### Pruebas con Hardware (si aplica)\n\n- [x] Conectado a dispositivo real\n- [x] Recepción de datos funcionando\n- [x] Envío de comandos funcionando\n- [x] Manejo de desconexión validado",
+    "test_imports": "from dataclasses import replace\nfrom PyQt6.QtCore import QTimer\nfrom unittest.mock import Mock, patch",
+    "test_signals_class": "class TestSignals:\n    \"\"\"Tests de señales PyQt (solo para QObject).\"\"\"\n\n    @pytest.fixture\n    def instancia(self, qapp):\n        \"\"\"Fixture con QApplication para señales.\"\"\"\n        return {CLASS_NAME}()\n\n    def test_emite_signal_cuando_condicion(self, instancia, qtbot):\n        \"\"\"Verifica que la señal se emite en la condición correcta.\"\"\"\n        # Spy en la señal\n        with qtbot.waitSignal(instancia.signal_name, timeout=1000) as blocker:\n            # Acción que debe emitir la señal\n            instancia.accion_que_emite()\n\n        # Validar parámetros de la señal\n        assert blocker.args[0] == valor_esperado\n\n    def test_no_emite_signal_cuando_no_aplica(self, instancia, qtbot):\n        \"\"\"Verifica que NO se emite señal cuando no corresponde.\"\"\"\n        with qtbot.assertNotEmitted(instancia.signal_name):\n            instancia.accion_que_no_debe_emitir()\n\n",
+    "test_integration_class": "class TestIntegracion:\n    \"\"\"Tests de integración con otros componentes.\"\"\"\n\n    @pytest.fixture\n    def setup_completo(self, qapp):\n        \"\"\"Setup con múltiples componentes.\"\"\"\n        componente1 = {CLASS_NAME}()\n        componente2 = OtroComponente()\n        # Conectar señales si aplica\n        return componente1, componente2\n\n    def test_flujo_completo(self, setup_completo):\n        \"\"\"Test de flujo end-to-end.\"\"\"\n        componente1, componente2 = setup_completo\n\n        # Simular flujo completo\n        componente1.accion()\n\n        # Validar resultado en componente2\n        assert componente2.estado == esperado\n\n",
+    "test_fixtures": "@pytest.fixture\ndef mock_dependencia():\n    \"\"\"Mock de dependencia externa.\"\"\"\n    mock = Mock()\n    mock.metodo.return_value = valor_esperado\n    return mock\n\n\n@pytest.fixture\ndef qapp(qapp):\n    \"\"\"QApplication para tests de señales.\"\"\"\n    return qapp"
   }
 }

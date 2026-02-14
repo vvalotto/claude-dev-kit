@@ -8,6 +8,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+#### Fase 4: Generalización de Templates (Sprint 2) - 2026-02-14
+
+- **Sistema de templates generalizado** - 4 templates framework-agnostic:
+  - `templates/bdd/scenario.feature` - Escenarios Gherkin
+  - `templates/planning/implementation-plan.md` - Planes de implementación
+  - `templates/reporting/implementation-report.md` - Reportes finales
+  - `templates/testing/test-unit.py` - Tests unitarios
+
+- **Sistema de variables expandido** - 20+ variables parametrizadas:
+  - Variables simples: `{US_ID}`, `{US_TITLE}`, `{ARCHITECTURE_PATTERN}`, etc.
+  - Variables de template: `{BACKGROUND_SETUP}`, `{TEST_FILE_PATTERN}`, `{ARCHITECTURE_DESCRIPTION}`, `{TEST_CLASS_ORGANIZATION_COMMENT}`
+
+- **Sistema de snippets** - 7 tipos × 5 perfiles = 35 snippets:
+  - `integration_checklist` - Checklist de integración por stack
+  - `architecture_code_blocks` - Código de integración específico (~20-30 líneas/perfil)
+  - `manual_testing_specifics` - Testing manual relevante
+  - `test_imports` - Imports de frameworks de testing
+  - `test_signals_class` - Clase TestSignals (solo PyQt)
+  - `test_integration_class` - Clase TestIntegracion por stack
+  - `test_fixtures` - Fixtures pytest específicas
+
+- **Perfiles actualizados** - 5 perfiles con snippets:
+  - `pyqt-mvc.json` - PyQt6 MVC + Factory/Coordinator
+  - `fastapi-rest.json` - FastAPI async REST APIs
+  - `flask-rest.json` - Flask REST APIs
+  - `flask-webapp.json` - Flask fullstack webapps
+  - `generic-python.json` - Python genérico
+
+- **Documentación completa:**
+  - `templates/README.md` (~487 líneas) - Guía de usuario
+  - `docs/templates/template-system.md` (~600 líneas) - Documentación técnica
+  - `docs/analysis/TICKET-030-analysis.md` (~1,200 líneas) - Análisis exhaustivo
+
+**Tickets:** TICKET-030 a TICKET-037 (8 tickets)
+**Commits:** 8 commits en branch `feature/template-generalization`
+**Líneas agregadas:** ~3,500 líneas (templates + documentación + snippets)
+
+#### Fase Inicial: Configuración del Proyecto
+
 - Configuración inicial del proyecto Claude Dev Kit
 - Estructura de directorios base para el framework
   - `install/` - Sistema de instalación multiplataforma

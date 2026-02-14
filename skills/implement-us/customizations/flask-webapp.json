@@ -981,5 +981,26 @@
       "diagram": "Diagrama de flujo BFF (Browser → Webapp → Backend API)",
       "patterns": "Documentar patrones usados (BFF, SSR, etc.)"
     }
+  },
+
+  "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
+
+  "template_variables": {
+    "BACKGROUND_SETUP": "    Given la aplicación web está corriendo\n    And el usuario está en la página principal",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_views.py` - Vistas\n- [ ] `tests/test_{component}_forms.py` - Formularios\n- [ ] `tests/test_{component}_models.py` - Modelos",
+    "ARCHITECTURE_DESCRIPTION": "Patrón MVT (Model-View-Template) implementado\n- View: Lógica de presentación\n- Template: Renderizado HTML con Jinja2\n- Form: Validación con WTForms\n- Model: Acceso a base de datos (SQLAlchemy)",
+    "TEST_CLASS_ORGANIZATION_COMMENT": "Organización:\n- TestCreacion: Tests de inicialización\n- TestMetodos: Tests de vistas y renderizado\n- TestIntegracion: Tests de vistas end-to-end\n- TestValidacion: Tests de formularios WTForms"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Blueprint registrado con templates\n- [ ] Rutas y formularios configurados\n- [ ] Assets estáticos agregados",
+    "architecture_code_blocks": "### Blueprint Registration\n\n```python\n# En __init__.py o app.py\nfrom .blueprints import {blueprint_name}\n\napp.register_blueprint({blueprint_name}.bp)\n```\n\n### View Function\n\n```python\n# En blueprint\n@bp.route('/{ROUTE_PATH}', methods=['GET', 'POST'])\ndef {view_name}():\n    form = {FORM_CLASS}()\n    if form.validate_on_submit():\n        # Procesar formulario\n        return redirect(url_for('{next_view}'))\n    return render_template('{TEMPLATE_NAME}', form=form)\n```",
+    "manual_testing_specifics": "### Pruebas de Navegación\n\n- [x] Todas las páginas accesibles\n- [x] Formularios validan correctamente\n- [x] Mensajes flash se muestran\n- [x] Redirecciones funcionan\n\n### Pruebas de UI\n\n- [x] CSS y assets cargan correctamente\n- [x] Responsive design validado en móvil\n- [x] JavaScript funciona (si aplica)",
+    "test_imports": "from flask import url_for\nfrom unittest.mock import Mock, patch\nfrom dataclasses import replace",
+    "test_signals_class": "",
+    "test_integration_class": "class TestIntegracion:\n    \"\"\"Tests de integración de vistas.\"\"\"\n\n    @pytest.fixture\n    def client(self):\n        \"\"\"Cliente de test de Flask.\"\"\"\n        app.config['TESTING'] = True\n        with app.test_client() as client:\n            with app.app_context():\n                db.create_all()\n            yield client\n            with app.app_context():\n                db.drop_all()\n\n    def test_vista_completa(self, client):\n        \"\"\"Test de vista end-to-end.\"\"\"\n        response = client.get(url_for('{VIEW_NAME}'))\n\n        assert response.status_code == 200\n        assert b'{EXPECTED_CONTENT}' in response.data\n\n",
+    "test_fixtures": "@pytest.fixture\ndef mock_dependencia():\n    \"\"\"Mock de dependencia externa.\"\"\"\n    mock = Mock()\n    mock.metodo.return_value = valor_esperado\n    return mock\n\n\n@pytest.fixture\ndef app_context():\n    \"\"\"Contexto de aplicación Flask.\"\"\"\n    with app.app_context():\n        yield"
   }
 }

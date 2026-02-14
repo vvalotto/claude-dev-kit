@@ -273,5 +273,26 @@
       "mypy (type checking)",
       "pytest (quick tests)"
     ]
+  },
+
+  "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
+
+  "template_variables": {
+    "BACKGROUND_SETUP": "    Given el sistema está inicializado\n    And las dependencias están cargadas",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}.py` - Tests del módulo",
+    "ARCHITECTURE_DESCRIPTION": "Arquitectura modular implementada\n- Módulo principal expone API pública\n- Helpers internos organizados por responsabilidad",
+    "TEST_CLASS_ORGANIZATION_COMMENT": "Organización:\n- TestCreacion: Tests de inicialización\n- TestMetodos: Tests de métodos públicos\n- TestIntegracion: Tests de integración entre componentes\n- TestValidacion: Tests de validación de datos"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Módulo importado correctamente\n- [ ] API pública documentada\n- [ ] Dependencias instaladas",
+    "architecture_code_blocks": "### Módulo Principal\n\n```python\n# En __init__.py\nfrom .{MODULE_NAME} import {PUBLIC_CLASS}\n\n__all__ = ['{PUBLIC_CLASS}']\n```\n\n### Uso del Módulo\n\n```python\n# Ejemplo de uso\nfrom {PACKAGE_NAME} import {PUBLIC_CLASS}\n\ninstance = {PUBLIC_CLASS}()\nresult = instance.{METHOD_NAME}()\n```",
+    "manual_testing_specifics": "### Pruebas de Importación\n\n- [x] Módulo se importa sin errores\n- [x] API pública accesible\n- [x] Ejemplos de documentación funcionan",
+    "test_imports": "from unittest.mock import Mock, patch\nfrom dataclasses import replace",
+    "test_signals_class": "",
+    "test_integration_class": "class TestIntegracion:\n    \"\"\"Tests de integración entre componentes.\"\"\"\n\n    def test_flujo_completo(self):\n        \"\"\"Test de flujo end-to-end.\"\"\"\n        componente = {CLASS_NAME}()\n\n        # Simular flujo completo\n        resultado = componente.operacion_compleja()\n\n        # Validar resultado final\n        assert resultado == esperado\n\n",
+    "test_fixtures": "@pytest.fixture\ndef mock_dependencia():\n    \"\"\"Mock de dependencia externa.\"\"\"\n    mock = Mock()\n    mock.metodo.return_value = valor_esperado\n    return mock\n\n\n@pytest.fixture\ndef datos_de_prueba():\n    \"\"\"Datos de prueba reutilizables.\"\"\"\n    return {\n        \"caso1\": {\"input\": ..., \"expected\": ...},\n        \"caso2\": {\"input\": ..., \"expected\": ...},\n    }"
   }
 }

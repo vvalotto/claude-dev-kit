@@ -485,5 +485,26 @@
       "pool_timeout": 30,
       "pool_recycle": 3600
     }
+  },
+
+  "_comment_template_variables": "Variables para templates (reemplazo directo en templates)",
+
+  "template_variables": {
+    "BACKGROUND_SETUP": "    Given el servidor API está corriendo\n    And las variables de entorno están configuradas",
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_service.py` - Lógica de negocio\n- [ ] `tests/test_{component}_router.py` - Endpoints\n- [ ] `tests/test_{component}_schema.py` - Validación",
+    "ARCHITECTURE_DESCRIPTION": "Arquitectura en capas implementada\n- Router: Define endpoints REST\n- Service: Lógica de negocio\n- Schema: Validación con Pydantic",
+    "TEST_CLASS_ORGANIZATION_COMMENT": "Organización:\n- TestCreacion: Tests de inicialización de service\n- TestMetodos: Tests de lógica de negocio\n- TestIntegracion: Tests de endpoints REST (async)\n- TestValidacion: Tests de schemas Pydantic"
+  },
+
+  "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
+
+  "snippets": {
+    "integration_checklist": "- [ ] Router registrado en aplicación principal\n- [ ] Dependencias inyectadas\n- [ ] Endpoints validados",
+    "architecture_code_blocks": "### Router Registration\n\n```python\n# En main.py o app.py\nfrom .routers import {router_name}\n\napp.include_router(\n    {router_name}.router,\n    prefix=\"/{ENDPOINT_PREFIX}\",\n    tags=[\"{TAG_NAME}\"]\n)\n```\n\n### Dependency Injection\n\n```python\n# En router\n@router.get(\"/{ENDPOINT_PATH}\")\nasync def {endpoint_name}(\n    service: {SERVICE_CLASS} = Depends(get_{service_name}_service)\n):\n    return await service.{method_name}()\n```",
+    "manual_testing_specifics": "### Pruebas con Cliente HTTP\n\n- [x] Endpoints responden correctamente\n- [x] Validación de schemas funciona\n- [x] Códigos de estado HTTP correctos\n- [x] Manejo de errores validado\n\n### Pruebas de Integración API\n\n- [x] Autenticación funciona (si aplica)\n- [x] Rate limiting validado (si aplica)\n- [x] CORS configurado correctamente",
+    "test_imports": "from httpx import AsyncClient\nfrom unittest.mock import Mock, patch, AsyncMock\nfrom dataclasses import replace",
+    "test_signals_class": "",
+    "test_integration_class": "class TestIntegracion:\n    \"\"\"Tests de integración de endpoints.\"\"\"\n\n    @pytest.mark.asyncio\n    async def test_endpoint_completo(self):\n        \"\"\"Test de endpoint end-to-end.\"\"\"\n        async with AsyncClient(app=app, base_url=\"http://test\") as client:\n            response = await client.get(\"/{ENDPOINT_PATH}\")\n\n            assert response.status_code == 200\n            assert response.json() == expected_data\n\n",
+    "test_fixtures": "@pytest.fixture\ndef mock_dependencia():\n    \"\"\"Mock de dependencia externa.\"\"\"\n    mock = AsyncMock()\n    mock.metodo.return_value = valor_esperado\n    return mock\n\n\n@pytest.fixture\nasync def test_client():\n    \"\"\"Cliente async para tests de endpoints.\"\"\"\n    async with AsyncClient(app=app, base_url=\"http://test\") as client:\n        yield client"
   }
 }
