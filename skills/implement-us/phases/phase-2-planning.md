@@ -47,18 +47,19 @@ Leer del archivo de configuración `.claude/skills/implement-us/config.json` la 
 > - Controlador (mediador entre modelo y vista)
 > - Dependencias: Factory, Coordinator (si aplica)
 >
-> **MVT (Django, Web):**
-> - Model (Django ORM, base de datos)
-> - View (lógica de negocio, class-based views)
-> - Template (HTML con template language)
-> - Dependencias: Managers, Forms, Serializers (si aplica)
->
-> **Layered (FastAPI, Backend API):**
+> **Layered - FastAPI (Backend API async):**
 > - Schema (Pydantic models para validación)
 > - Service (lógica de negocio)
 > - Repository (acceso a datos)
 > - Router (endpoints HTTP)
-> - Dependencias: Dependency Injection
+> - Dependencias: Dependency Injection (FastAPI Depends)
+>
+> **Layered - Flask (Backend API sync):**
+> - API (Flask blueprints, endpoints REST)
+> - Domain (modelos de negocio, dataclasses)
+> - Repository (ABC interfaces + implementaciones)
+> - Mapper (conversión datos opcional)
+> - Dependencias: Singleton pattern (Configurador)
 >
 > **Generic (Python genérico):**
 > - Module (módulo principal)
@@ -175,46 +176,65 @@ Usar estimaciones estándar según tipo de componente y complejidad de la US.
 **Estado:** 0/10 tareas completadas
 ```
 
-### Ejemplo 3: Django - Vista y Modelo
+### Ejemplo 3: Flask REST - API Endpoint
 
 ```markdown
-# Plan de Implementación: US-003 - Formulario de registro
+# Plan de Implementación: US-003 - API de consulta de productos
 
-**Patrón:** MVT
-**Producto:** web_auth
-**Estimación Total:** 2h 00min
+**Patrón:** Layered Architecture (Flask)
+**Producto:** api_catalog
+**Estimación Total:** 1h 50min
 
 ## Componentes a Implementar
 
-### 1. User Registration (MVT)
-- [ ] users/models.py (15 min)
-  - Ampliar modelo User con campos adicionales
-  - Agregar custom manager si es necesario
-- [ ] users/views.py (20 min)
-  - RegistrationView: CreateView para registro
-  - Validación de datos
-- [ ] users/forms.py (15 min)
-  - RegistrationForm: ModelForm con validaciones
-- [ ] users/templates/users/register.html (20 min)
-  - Template con formulario de registro
-  - Manejo de errores y mensajes
+### 1. Product API (Layered - 3 capas)
 
-### 2. Integración
-- [ ] Configurar URLs (5 min)
-  - Agregar ruta en users/urls.py
-- [ ] Configurar signals (10 min)
-  - Signal post-registro para email de bienvenida
+#### Capa de Servicios (API Layer)
+- [ ] app/servicios/products/api.py (20 min)
+  - Flask Blueprint con endpoints REST
+  - GET /api/products (listar productos)
+  - GET /api/products/<id> (obtener producto)
+  - POST /api/products (crear producto)
+  - Validación de request.get_json()
+  - Serialización con jsonify()
 
-### 3. Tests
-- [ ] tests/test_user_model.py (10 min)
-- [ ] tests/test_registration_form.py (15 min)
-- [ ] tests/test_registration_view.py (20 min)
+#### Capa General (Domain Layer)
+- [ ] app/general/products/product.py (15 min)
+  - Dataclass Product (modelo de dominio)
+  - Lógica de negocio (validaciones)
+  - Método to_dict() para serialización
 
-### 4. Validación
+#### Capa de Datos (Data Access Layer)
+- [ ] app/datos/products/repositorio.py (10 min)
+  - ProductRepository (ABC interface)
+  - Métodos abstractos (get_all, get_by_id, create)
+- [ ] app/datos/products/memoria.py (15 min)
+  - ProductRepositoryMemory (implementación in-memory)
+  - Storage en lista Python
+
+### 2. Configuración y Error Handling
+- [ ] app/servicios/products/errors.py (10 min)
+  - Custom exceptions (ProductNotFound, ValidationError)
+  - Error handlers (@app.errorhandler)
+
+### 3. Integración
+- [ ] Registrar blueprint en app/__init__.py (5 min)
+  - app.register_blueprint(products_bp)
+- [ ] Configurar Configurador singleton (5 min)
+  - Inyectar repository en endpoints
+
+### 4. Tests
+- [ ] tests/unit/test_product_model.py (10 min)
+- [ ] tests/unit/test_product_repository.py (15 min)
+- [ ] tests/integration/test_products_api.py (25 min)
+  - Tests con Flask test client
+  - Fixtures: app, client
+
+### 5. Validación
 - [ ] Ejecutar escenarios BDD (5 min)
-- [ ] Quality gates (Pylint, coverage) (5 min)
+- [ ] Quality gates (Pylint ≥8.0, Coverage ≥95%) (5 min)
 
-**Estado:** 0/10 tareas completadas
+**Estado:** 0/11 tareas completadas
 ```
 
 ### Ejemplo 4: Generic Python - Módulo de Procesamiento
