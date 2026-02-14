@@ -237,7 +237,94 @@ Usar estimaciones estándar según tipo de componente y complejidad de la US.
 **Estado:** 0/11 tareas completadas
 ```
 
-### Ejemplo 4: Generic Python - Módulo de Procesamiento
+### Ejemplo 4: Flask Webapp - Página de Productos
+
+```markdown
+# Plan de Implementación: US-004 - Página de listado de productos
+
+**Patrón:** BFF + SSR
+**Producto:** webapp_catalog
+**Estimación Total:** 2h 15min
+
+## Componentes a Implementar
+
+### 1. Backend (Routes + API Client)
+
+#### Routes (View Functions)
+- [ ] webapp/routes.py - Agregar routes de productos (20 min)
+  - GET /products (listar productos)
+  - GET /products/<id> (detalle de producto)
+  - Llamar APIClient.get_products()
+  - render_template() con datos
+
+#### API Client (BFF Pattern)
+- [ ] webapp/api_client.py - Métodos de productos (15 min)
+  - get_products() → requests.get('http://api:5050/api/products')
+  - get_product(id) → requests.get(f'http://api:5050/api/products/{id}')
+  - Manejo de errores HTTP (404, 500)
+
+### 2. Frontend (Templates + JavaScript + CSS)
+
+#### Templates (Jinja2 SSR)
+- [ ] webapp/templates/products/list.html (25 min)
+  - Extends base.html
+  - Loop {% for product in products %}
+  - Inclusión de card component
+  - Manejo de caso vacío
+- [ ] webapp/templates/products/detail.html (20 min)
+  - Detalle de producto individual
+  - Formulario de actualización (opcional)
+  - Botones de acción
+
+#### Components (Partials)
+- [ ] webapp/templates/components/product_card.html (10 min)
+  - Card reutilizable para mostrar producto
+  - Imagen, nombre, precio, stock
+
+#### JavaScript (Vanilla JS)
+- [ ] webapp/static/js/products.js (20 min)
+  - Event handlers para botones
+  - Fetch API para updates dinámicos
+  - DOM manipulation (update sin reload)
+
+#### CSS
+- [ ] webapp/static/css/products.css (10 min)
+  - Estilos específicos de productos
+  - Responsive grid layout
+
+### 3. Forms (Opcional)
+- [ ] webapp/forms.py - ProductFilterForm (10 min)
+  - Flask-WTF form para filtros
+  - Fields: categoria, precio_min, precio_max
+  - CSRF protection automático
+
+### 4. Integración
+- [ ] Registrar routes en app/__init__.py (5 min)
+  - No usar blueprints (routes en archivo único)
+- [ ] Configurar API_BASE_URL en config.py (5 min)
+  - Development: http://localhost:5050
+  - Production: variable de entorno
+
+### 5. Tests
+- [ ] tests/unit/test_api_client_products.py (15 min)
+  - Test métodos get_products, get_product
+  - Mock requests con responses library
+- [ ] tests/integration/test_products_routes.py (25 min)
+  - Test routes con Flask test client
+  - Mock APIClient.get_products()
+  - Assert template rendering
+  - Assert status codes (200, 404)
+
+### 6. Validación
+- [ ] Ejecutar escenarios BDD (5 min)
+- [ ] Quality gates (Pylint ≥8.0, Coverage ≥90%) (5 min)
+  - Coverage solo backend (routes + api_client)
+  - JavaScript NO incluido en coverage
+
+**Estado:** 0/14 tareas completadas
+```
+
+### Ejemplo 5: Generic Python - Módulo de Procesamiento
 
 ```markdown
 # Plan de Implementación: US-004 - Procesador de datos
