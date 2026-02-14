@@ -913,12 +913,15 @@
 
   "template_variables": {
     "BACKGROUND_SETUP": "    Given el servidor Flask está corriendo\n    And la base de datos está inicializada",
-    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_service.py` - Lógica de negocio\n- [ ] `tests/test_{component}_routes.py` - Endpoints\n- [ ] `tests/test_{component}_models.py` - Modelos"
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_service.py` - Lógica de negocio\n- [ ] `tests/test_{component}_routes.py` - Endpoints\n- [ ] `tests/test_{component}_models.py` - Modelos",
+    "ARCHITECTURE_DESCRIPTION": "Arquitectura en capas implementada\n- Blueprint: Define endpoints REST\n- Service: Lógica de negocio\n- Model: Acceso a base de datos (SQLAlchemy)"
   },
 
   "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
 
   "snippets": {
-    "integration_checklist": "- [ ] Blueprint registrado en aplicación\n- [ ] Rutas configuradas\n- [ ] Validación de requests implementada"
+    "integration_checklist": "- [ ] Blueprint registrado en aplicación\n- [ ] Rutas configuradas\n- [ ] Validación de requests implementada",
+    "architecture_code_blocks": "### Blueprint Registration\n\n```python\n# En __init__.py o app.py\nfrom .blueprints import {blueprint_name}\n\napp.register_blueprint(\n    {blueprint_name}.bp,\n    url_prefix='/{URL_PREFIX}'\n)\n```\n\n### Route Definition\n\n```python\n# En blueprint\n@bp.route('/{ROUTE_PATH}', methods=['GET'])\ndef {route_name}():\n    service = {SERVICE_CLASS}()\n    return jsonify(service.{method_name}())\n```",
+    "manual_testing_specifics": "### Pruebas con Cliente HTTP\n\n- [x] Endpoints responden correctamente\n- [x] Validación de schemas funciona\n- [x] Códigos de estado HTTP correctos\n- [x] Manejo de errores validado\n\n### Pruebas de Integración API\n\n- [x] Autenticación funciona (si aplica)\n- [x] CORS configurado correctamente\n- [x] Base de datos persiste correctamente"
   }
 }

@@ -349,12 +349,15 @@
 
   "template_variables": {
     "BACKGROUND_SETUP": "    Given la aplicación está iniciada\n    And la configuración está cargada",
-    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_modelo.py` - Validación de modelo\n- [ ] `tests/test_{component}_vista.py` - Renderizado de UI\n- [ ] `tests/test_{component}_controlador.py` - Lógica de control"
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_modelo.py` - Validación de modelo\n- [ ] `tests/test_{component}_vista.py` - Renderizado de UI\n- [ ] `tests/test_{component}_controlador.py` - Lógica de control",
+    "ARCHITECTURE_DESCRIPTION": "Patrón MVC implementado en {COMPONENT_NAME}\n- Factory: ComponenteFactoryUX crea el componente\n- Coordinator: UXCoordinator conecta señales\n- Compositor: UIUXCompositor maneja layout"
   },
 
   "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
 
   "snippets": {
-    "integration_checklist": "- [ ] Componente integrado en Factory\n- [ ] Señales conectadas en Coordinator\n- [ ] Panel agregado a Compositor"
+    "integration_checklist": "- [ ] Componente integrado en Factory\n- [ ] Señales conectadas en Coordinator\n- [ ] Panel agregado a Compositor",
+    "architecture_code_blocks": "### Factory\n\n```python\n# Método agregado a ComponenteFactoryUX\ndef _crear_ctrl_{COMPONENT_NAME}(self) -> {CONTROLLER_CLASS}:\n    modelo = {MODEL_CLASS}()\n    vista = {VIEW_CLASS}()\n    return {CONTROLLER_CLASS}(modelo, vista)\n```\n\n### Coordinator\n\n```python\n# Señales conectadas en UXCoordinator\nself._servidor.estado_recibido.connect(\n    self._ctrl['{COMPONENT_NAME}'].actualizar_desde_estado\n)\n```\n\n### Compositor\n\n```python\n# Panel agregado al layout en UIUXCompositor\nlayout_principal.addWidget(\n    self._controladores['{COMPONENT_NAME}'].vista\n)\n```",
+    "manual_testing_specifics": "### Pruebas de UI\n\n- [x] Componente renderiza correctamente\n- [x] Interacción de usuario funciona\n- [x] Señales se propagan correctamente\n- [x] Actualización de UI es reactiva\n\n### Pruebas con Hardware (si aplica)\n\n- [x] Conectado a dispositivo real\n- [x] Recepción de datos funcionando\n- [x] Envío de comandos funcionando\n- [x] Manejo de desconexión validado"
   }
 }

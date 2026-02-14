@@ -2,7 +2,7 @@
 
 **Fase:** 4 - Generalización de Templates
 **Sprint:** 2
-**Estado:** TODO
+**Estado:** ✅ COMPLETADO
 **Prioridad:** Alta
 **Estimación:** 1.5 horas
 **Asignado a:** Claude Code
@@ -71,4 +71,33 @@ Ver estructura similar a TICKET-033, adaptada para formato de reporte.
 
 ## Resultado
 
-_A completar al finalizar el ticket._
+✅ **COMPLETADO** - 2026-02-14
+
+**Template generalizado:**
+- `templates/reporting/implementation-report.md` creado (~300 líneas)
+- Referencias específicas a Factory/Coordinator/Compositor removidas
+- Sección "Pruebas con RPi Real" generalizada a snippet condicional
+
+**Variables agregadas (5 perfiles):**
+- `ARCHITECTURE_DESCRIPTION`: Descripción del patrón arquitectónico
+  - pyqt-mvc: MVC + Factory + Coordinator + Compositor
+  - fastapi-rest: Capas (Router, Service, Schema)
+  - flask-rest: Capas (Blueprint, Service, Model)
+  - flask-webapp: MVT (View, Template, Form, Model)
+  - generic-python: Arquitectura modular
+
+**Snippets agregados (5 perfiles):**
+- `architecture_code_blocks`: Código de integración específico (~20-30 líneas c/u)
+  - pyqt-mvc: Factory, Coordinator, Compositor
+  - fastapi-rest: Router registration, dependency injection
+  - flask-rest: Blueprint registration, route definition
+  - flask-webapp: Blueprint + view function
+  - generic-python: Module import, usage example
+
+- `manual_testing_specifics`: Testing manual relevante por stack
+  - pyqt-mvc: UI tests, hardware tests
+  - fastapi/flask-rest: HTTP client tests, API integration
+  - flask-webapp: Navigation tests, UI tests
+  - generic-python: Import tests
+
+**Nivel de generalización:** 100% framework-agnostic, todos los bloques específicos convertidos a snippets

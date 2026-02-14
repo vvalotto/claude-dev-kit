@@ -987,12 +987,15 @@
 
   "template_variables": {
     "BACKGROUND_SETUP": "    Given la aplicación web está corriendo\n    And el usuario está en la página principal",
-    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_views.py` - Vistas\n- [ ] `tests/test_{component}_forms.py` - Formularios\n- [ ] `tests/test_{component}_models.py` - Modelos"
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_views.py` - Vistas\n- [ ] `tests/test_{component}_forms.py` - Formularios\n- [ ] `tests/test_{component}_models.py` - Modelos",
+    "ARCHITECTURE_DESCRIPTION": "Patrón MVT (Model-View-Template) implementado\n- View: Lógica de presentación\n- Template: Renderizado HTML con Jinja2\n- Form: Validación con WTForms\n- Model: Acceso a base de datos (SQLAlchemy)"
   },
 
   "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
 
   "snippets": {
-    "integration_checklist": "- [ ] Blueprint registrado con templates\n- [ ] Rutas y formularios configurados\n- [ ] Assets estáticos agregados"
+    "integration_checklist": "- [ ] Blueprint registrado con templates\n- [ ] Rutas y formularios configurados\n- [ ] Assets estáticos agregados",
+    "architecture_code_blocks": "### Blueprint Registration\n\n```python\n# En __init__.py o app.py\nfrom .blueprints import {blueprint_name}\n\napp.register_blueprint({blueprint_name}.bp)\n```\n\n### View Function\n\n```python\n# En blueprint\n@bp.route('/{ROUTE_PATH}', methods=['GET', 'POST'])\ndef {view_name}():\n    form = {FORM_CLASS}()\n    if form.validate_on_submit():\n        # Procesar formulario\n        return redirect(url_for('{next_view}'))\n    return render_template('{TEMPLATE_NAME}', form=form)\n```",
+    "manual_testing_specifics": "### Pruebas de Navegación\n\n- [x] Todas las páginas accesibles\n- [x] Formularios validan correctamente\n- [x] Mensajes flash se muestran\n- [x] Redirecciones funcionan\n\n### Pruebas de UI\n\n- [x] CSS y assets cargan correctamente\n- [x] Responsive design validado en móvil\n- [x] JavaScript funciona (si aplica)"
   }
 }

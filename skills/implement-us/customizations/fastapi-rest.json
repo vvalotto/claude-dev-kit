@@ -491,12 +491,15 @@
 
   "template_variables": {
     "BACKGROUND_SETUP": "    Given el servidor API está corriendo\n    And las variables de entorno están configuradas",
-    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_service.py` - Lógica de negocio\n- [ ] `tests/test_{component}_router.py` - Endpoints\n- [ ] `tests/test_{component}_schema.py` - Validación"
+    "TEST_FILE_PATTERN": "- [ ] `tests/test_{component}_service.py` - Lógica de negocio\n- [ ] `tests/test_{component}_router.py` - Endpoints\n- [ ] `tests/test_{component}_schema.py` - Validación",
+    "ARCHITECTURE_DESCRIPTION": "Arquitectura en capas implementada\n- Router: Define endpoints REST\n- Service: Lógica de negocio\n- Schema: Validación con Pydantic"
   },
 
   "_comment_snippets": "Snippets de código/texto para inserción condicional en templates",
 
   "snippets": {
-    "integration_checklist": "- [ ] Router registrado en aplicación principal\n- [ ] Dependencias inyectadas\n- [ ] Endpoints validados"
+    "integration_checklist": "- [ ] Router registrado en aplicación principal\n- [ ] Dependencias inyectadas\n- [ ] Endpoints validados",
+    "architecture_code_blocks": "### Router Registration\n\n```python\n# En main.py o app.py\nfrom .routers import {router_name}\n\napp.include_router(\n    {router_name}.router,\n    prefix=\"/{ENDPOINT_PREFIX}\",\n    tags=[\"{TAG_NAME}\"]\n)\n```\n\n### Dependency Injection\n\n```python\n# En router\n@router.get(\"/{ENDPOINT_PATH}\")\nasync def {endpoint_name}(\n    service: {SERVICE_CLASS} = Depends(get_{service_name}_service)\n):\n    return await service.{method_name}()\n```",
+    "manual_testing_specifics": "### Pruebas con Cliente HTTP\n\n- [x] Endpoints responden correctamente\n- [x] Validación de schemas funciona\n- [x] Códigos de estado HTTP correctos\n- [x] Manejo de errores validado\n\n### Pruebas de Integración API\n\n- [x] Autenticación funciona (si aplica)\n- [x] Rate limiting validado (si aplica)\n- [x] CORS configurado correctamente"
   }
 }
