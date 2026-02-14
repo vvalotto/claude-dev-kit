@@ -47,8 +47,8 @@ tracker.start_task(
 **Tipos de tarea según arquitectura:**
 
 - **MVC (PyQt, Desktop):** `modelo`, `vista`, `controlador`, `factory`, `coordinator`
-- **Layered (FastAPI):** `model`, `schema`, `service`, `repository`, `endpoint`
-- **MVT (Django):** `model`, `view`, `template`, `form`, `serializer`
+- **Layered - FastAPI (async):** `model`, `schema`, `service`, `repository`, `endpoint`
+- **Layered - Flask (sync):** `api`, `domain`, `repository`, `mapper`, `error_handler`
 - **Generic:** `class`, `function`, `module`, `config`
 
 ---
@@ -137,33 +137,159 @@ class {COMPONENT_NAME}Response({COMPONENT_NAME}Base):
         from_attributes = True
 ```
 
-**Django/MVT - Model (Django ORM):**
+**Flask/Layered - API Layer (Blueprint con endpoints):**
 ```python
-# {COMPONENT_PATH}/models.py
-from django.db import models
-from django.core.validators import MinValueValidator
+# app/servicios/{feature}/api.py
+from flask import Blueprint, request, jsonify
+from app.general.{feature} import {COMPONENT_NAME}Service
+from app.servicios.errors import NotFoundError, ValidationError
 
-class {COMPONENT_NAME}(models.Model):
-    """Modelo de datos para {COMPONENT_NAME}.
+bp = Blueprint('{feature}', __name__, url_prefix='/api/{feature}')
+
+@bp.route('/', methods=['GET'])
+def get_all():
+    """Obtener todos los {COMPONENT_NAME}s.
+
+    Returns:
+        JSON list de {COMPONENT_NAME}s
+    """
+    service = {COMPONENT_NAME}Service()
+    items = service.get_all()
+    return jsonify([item.to_dict() for item in items]), 200
+
+@bp.route('/<int:item_id>', methods=['GET'])
+def get_by_id(item_id):
+    """Obtener {COMPONENT_NAME} por ID.
+
+    Args:
+        item_id: ID del item
+
+    Returns:
+        JSON del {COMPONENT_NAME}
+
+    Raises:
+        NotFoundError: Si no se encuentra el item
+    """
+    service = {COMPONENT_NAME}Service()
+    item = service.get_by_id(item_id)
+    if not item:
+        raise NotFoundError(f"{COMPONENT_NAME} {item_id} not found")
+    return jsonify(item.to_dict()), 200
+
+@bp.route('/', methods=['POST'])
+def create():
+    """Crear nuevo {COMPONENT_NAME}.
+
+    Request Body:
+        JSON con datos del {COMPONENT_NAME}
+
+    Returns:
+        JSON del {COMPONENT_NAME} creado
+    """
+    data = request.get_json()
+    if not data:
+        raise ValidationError("Request body is required")
+
+    service = {COMPONENT_NAME}Service()
+    item = service.create(data)
+    return jsonify(item.to_dict()), 201
+```
+
+**Flask/Layered - Domain Layer (Modelo de negocio):**
+```python
+# app/general/{feature}/{feature}.py
+from dataclasses import dataclass
+from typing import Optional, Dict, Any
+
+@dataclass
+class {COMPONENT_NAME}:
+    """Modelo de dominio para {COMPONENT_NAME}.
 
     Attributes:
+        id: Identificador único
         campo1: Descripción del campo
         campo2: Descripción del campo
     """
-    campo1 = models.CharField(max_length=200)
-    campo2 = models.IntegerField(
-        null=True,
-        blank=True,
-        validators=[MinValueValidator(0)]
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
+    id: int
+    campo1: str
+    campo2: Optional[int] = None
 
-    class Meta:
-        verbose_name = "{COMPONENT_NAME}"
-        verbose_name_plural = "{COMPONENT_NAME}s"
+    def to_dict(self) -> Dict[str, Any]:
+        """Convertir a diccionario para serialización JSON.
 
-    def __str__(self):
-        return f"{COMPONENT_NAME}: {self.campo1}"
+        Returns:
+            Dict con datos del modelo
+        """
+        return {
+            'id': self.id,
+            'campo1': self.campo1,
+            'campo2': self.campo2
+        }
+
+    def validar(self) -> bool:
+        """Validar reglas de negocio.
+
+        Returns:
+            True si es válido
+
+        Raises:
+            ValueError: Si hay errores de validación
+        """
+        if not self.campo1:
+            raise ValueError("campo1 es requerido")
+        if self.campo2 is not None and self.campo2 < 0:
+            raise ValueError("campo2 debe ser >= 0")
+        return True
+```
+
+**Flask/Layered - Data Layer (Repository ABC + implementación):**
+```python
+# app/datos/{feature}/repositorio.py
+from abc import ABC, abstractmethod
+from typing import List, Optional
+from app.general.{feature} import {COMPONENT_NAME}
+
+class {COMPONENT_NAME}Repository(ABC):
+    """Interface abstracta para repositorio de {COMPONENT_NAME}."""
+
+    @abstractmethod
+    def get_all(self) -> List[{COMPONENT_NAME}]:
+        """Obtener todos los {COMPONENT_NAME}s."""
+        pass
+
+    @abstractmethod
+    def get_by_id(self, id: int) -> Optional[{COMPONENT_NAME}]:
+        """Obtener {COMPONENT_NAME} por ID."""
+        pass
+
+    @abstractmethod
+    def create(self, item: {COMPONENT_NAME}) -> {COMPONENT_NAME}:
+        """Crear nuevo {COMPONENT_NAME}."""
+        pass
+
+
+# app/datos/{feature}/memoria.py
+class {COMPONENT_NAME}RepositoryMemory({COMPONENT_NAME}Repository):
+    """Implementación in-memory del repositorio."""
+
+    def __init__(self):
+        self._items: List[{COMPONENT_NAME}] = []
+        self._next_id: int = 1
+
+    def get_all(self) -> List[{COMPONENT_NAME}]:
+        """Obtener todos los items."""
+        return self._items.copy()
+
+    def get_by_id(self, id: int) -> Optional[{COMPONENT_NAME}]:
+        """Obtener item por ID."""
+        return next((item for item in self._items if item.id == id), None)
+
+    def create(self, item: {COMPONENT_NAME}) -> {COMPONENT_NAME}:
+        """Crear nuevo item."""
+        item.id = self._next_id
+        self._next_id += 1
+        self._items.append(item)
+        return item
 ```
 
 **Generic Python - Class:**
@@ -247,13 +373,20 @@ python -c "from {COMPONENT_PATH}.schemas import {COMPONENT_NAME}Create"
 mypy {COMPONENT_PATH}/schemas.py
 ```
 
-**Django:**
+**Flask:**
 ```bash
-# Verificar modelo
-python manage.py check
+# Verificar imports (API layer)
+python -c "from app.servicios.{feature}.api import bp"
 
-# Crear migraciones si es modelo
-python manage.py makemigrations --dry-run
+# Verificar domain model
+python -c "from app.general.{feature} import {COMPONENT_NAME}"
+
+# Verificar repository
+python -c "from app.datos.{feature}.repositorio import {COMPONENT_NAME}Repository"
+
+# Ejecutar tests si existen
+pytest tests/unit/test_{component}.py -v --tb=short
+pytest tests/integration/test_{feature}_api.py -v --tb=short
 ```
 
 **Generic Python:**
