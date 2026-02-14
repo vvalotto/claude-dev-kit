@@ -1,0 +1,911 @@
+{
+  "_comment_profile": "Perfil de customización para APIs REST con Flask y arquitectura en capas",
+
+  "profile_metadata": {
+    "name": "flask-rest",
+    "display_name": "Flask REST API + Layered Architecture",
+    "description": "Configuración para APIs REST con Flask, arquitectura en capas (servicios-general-datos) y sync/threading",
+    "extends": "config.json",
+    "version": "1.0.0",
+    "author": "Claude Dev Kit",
+    "created": "2026-02-13",
+    "target_stack": "Flask 2.0+ / 3.0+ + Python 3.8+",
+    "architecture": "Layered Architecture (Servicios → General → Datos)",
+    "reference_project": "app_termostato (100% coverage, Pylint 8.41/10)"
+  },
+
+  "_comment_variables": "Override de variables para Flask REST - Arquitectura en capas sync",
+
+  "variables": {
+    "architecture_pattern": {
+      "default": "layered",
+      "description": "Arquitectura en capas: Servicios (API) → General (Domain) → Datos (Data Access)",
+      "available": ["layered", "clean-architecture"],
+      "layers": {
+        "servicios": "API Layer (Flask endpoints, routing, blueprints)",
+        "general": "Domain Layer (Business logic, core models)",
+        "datos": "Data Access Layer (Repositories, persistence, mappers)"
+      },
+      "pattern_details": {
+        "servicios_responsibilities": [
+          "Flask endpoints (@app.route, @bp.route)",
+          "Request validation (request.get_json())",
+          "Response serialization (jsonify())",
+          "HTTP error handling (@app.errorhandler)",
+          "Blueprint registration"
+        ],
+        "general_responsibilities": [
+          "Business logic implementation",
+          "Domain model validation",
+          "Business rules enforcement",
+          "Framework-agnostic (no Flask imports)"
+        ],
+        "datos_responsibilities": [
+          "Data persistence (ABC interfaces)",
+          "Repository pattern implementation",
+          "Data mapping (DTOs ↔ Models)",
+          "Storage abstraction (memory, json, db)"
+        ]
+      }
+    },
+    "component_type": {
+      "default": "Endpoint",
+      "description": "Tipo de componente a implementar en la API Flask",
+      "available": ["Endpoint", "Service", "Repository", "Model", "Mapper"],
+      "examples": {
+        "endpoint": "UserAPI, ProductAPI, AuthAPI",
+        "service": "UserService, OrderService",
+        "repository": "UserRepository, ProductRepository",
+        "model": "User, Product, Order",
+        "mapper": "UserMapper, ProductMapper"
+      }
+    },
+    "component_path": {
+      "default": "app/{layer}/{name}/",
+      "description": "Ruta base para módulos organizados por capa (servicios/general/datos)",
+      "structure": {
+        "servicios": "app/servicios/{name}/",
+        "general": "app/general/{name}/",
+        "datos": "app/datos/{name}/"
+      },
+      "alternative": {
+        "feature_based": "app/features/{name}/{layer}/",
+        "recommended": "layer_based (estándar Flask)"
+      }
+    },
+    "test_framework": {
+      "default": "pytest + Flask test client",
+      "description": "pytest con Flask test client para testing sync de APIs REST",
+      "plugins": ["pytest", "pytest-cov", "pytest-flask", "pytest-bdd"],
+      "version_constraints": {
+        "pytest": ">=7.0.0",
+        "pytest-cov": ">=4.0.0",
+        "pytest-flask": ">=1.2.0",
+        "pytest-bdd": ">=6.0.0"
+      },
+      "test_client": {
+        "sync": "app.test_client() (built-in Flask testing)",
+        "context": "with app.test_request_context(): ..."
+      }
+    },
+    "base_class": {
+      "default": "ABC",
+      "description": "Clase base según el tipo de componente",
+      "by_component": {
+        "repository": "abc.ABC (interfaces abstractas)",
+        "model": "dataclass o class (domain models)",
+        "service": "object (services sin base class)",
+        "mapper": "object (mappers sin base class)",
+        "config": "object (Flask config objects)"
+      },
+      "imports": {
+        "abc": "from abc import ABC, abstractmethod",
+        "dataclass": "from dataclasses import dataclass"
+      }
+    },
+    "domain_context": {
+      "default": "servicios",
+      "description": "Contexto de dominio para APIs REST Flask",
+      "contexts": {
+        "servicios": "API/Presentation layer (Flask blueprints)",
+        "general": "Domain/Business layer",
+        "datos": "Data/Infrastructure layer"
+      },
+      "current_layer": "servicios"
+    },
+    "project_root": {
+      "default": "app/",
+      "description": "Raíz del proyecto Flask (directorio app/)",
+      "structure": {
+        "servicios": "app/servicios/",
+        "general": "app/general/",
+        "datos": "app/datos/",
+        "config": "config.py (root level)",
+        "main": "app/__init__.py (application factory)"
+      }
+    },
+    "async_support": {
+      "default": false,
+      "description": "Flask es sync por defecto (usa threading, no async/await)",
+      "note": "Para async en Flask usar Flask 2.0+ con async views o considerar FastAPI"
+    }
+  },
+
+  "_comment_component_structure": "Estructura en capas para features de Flask REST",
+
+  "component_structure": {
+    "api_feature": {
+      "description": "Feature completo con arquitectura en capas (servicios-general-datos)",
+      "base_path": "app/",
+      "layers": {
+        "servicios": {
+          "path": "app/servicios/{feature}/",
+          "description": "API Layer - Flask endpoints y routing",
+          "files": {
+            "api": {
+              "filename": "api.py",
+              "class_name": "{FeatureName}Blueprint",
+              "pattern": "Flask Blueprint pattern",
+              "responsibilities": [
+                "Definir rutas HTTP con @app.route o @bp.route",
+                "Validación de request body (request.get_json())",
+                "Serialización de response (jsonify())",
+                "Manejo de errores HTTP (try/except + abort())",
+                "Dependency injection manual (get service instance)"
+              ],
+              "example_imports": [
+                "from flask import Blueprint, request, jsonify, abort",
+                "from app.general.{feature} import {FeatureName}Service",
+                "from app.servicios.errors import NotFoundError, ValidationError"
+              ],
+              "example_code": [
+                "bp = Blueprint('{feature}', __name__, url_prefix='/api/{feature}')",
+                "",
+                "@bp.route('/', methods=['GET'])",
+                "def get_all():",
+                "    service = {FeatureName}Service()",
+                "    items = service.get_all()",
+                "    return jsonify([item.to_dict() for item in items]), 200"
+              ]
+            },
+            "errors": {
+              "filename": "errors.py",
+              "description": "Error handlers específicos del feature o globales",
+              "pattern": "Custom exceptions + @app.errorhandler decorators",
+              "responsibilities": [
+                "Definir custom exceptions (NotFoundError, ValidationError)",
+                "Registrar error handlers (@app.errorhandler)",
+                "Formatear error responses (jsonify error details)",
+                "HTTP status codes apropiados (404, 400, 500)"
+              ],
+              "example_code": [
+                "class NotFoundError(Exception):",
+                "    pass",
+                "",
+                "@app.errorhandler(NotFoundError)",
+                "def handle_not_found(error):",
+                "    return jsonify({'error': str(error)}), 404"
+              ],
+              "optional": true
+            }
+          }
+        },
+        "general": {
+          "path": "app/general/{feature}/",
+          "description": "Domain Layer - Business logic y modelos de dominio",
+          "files": {
+            "modelo": {
+              "filename": "{feature}.py",
+              "class_name": "{FeatureName}",
+              "pattern": "Domain model (dataclass o class con lógica)",
+              "responsibilities": [
+                "Lógica de negocio del feature",
+                "Validaciones de dominio (invariantes)",
+                "Reglas de negocio",
+                "Sin dependencias de Flask (framework-agnostic)",
+                "Métodos de transformación (to_dict, from_dict)"
+              ],
+              "example_imports": [
+                "from dataclasses import dataclass",
+                "from typing import Optional"
+              ],
+              "example_code": [
+                "@dataclass",
+                "class {FeatureName}:",
+                "    id: int",
+                "    name: str",
+                "    active: bool = True",
+                "",
+                "    def to_dict(self) -> dict:",
+                "        return {",
+                "            'id': self.id,",
+                "            'name': self.name,",
+                "            'active': self.active",
+                "        }"
+              ]
+            },
+            "service": {
+              "filename": "service.py",
+              "class_name": "{FeatureName}Service",
+              "description": "Service layer opcional para lógica compleja",
+              "pattern": "Service pattern (orchestration entre repositories)",
+              "responsibilities": [
+                "Coordinar operaciones entre múltiples repositories",
+                "Implementar casos de uso complejos",
+                "Transacciones de negocio",
+                "Validaciones cross-entity"
+              ],
+              "optional": true
+            }
+          }
+        },
+        "datos": {
+          "path": "app/datos/{feature}/",
+          "description": "Data Access Layer - Persistencia y repositorios",
+          "files": {
+            "repositorio": {
+              "filename": "repositorio.py",
+              "class_name": "{FeatureName}Repository",
+              "pattern": "Repository pattern con ABC interface",
+              "responsibilities": [
+                "Definir interface abstracta (ABC + @abstractmethod)",
+                "Declarar métodos CRUD (get_all, get_by_id, create, update, delete)",
+                "Sin implementación concreta (solo firma de métodos)",
+                "Type hints completos (List[Model], Optional[Model])"
+              ],
+              "example_imports": [
+                "from abc import ABC, abstractmethod",
+                "from typing import List, Optional",
+                "from app.general.{feature} import {FeatureName}"
+              ],
+              "example_code": [
+                "class {FeatureName}Repository(ABC):",
+                "    @abstractmethod",
+                "    def get_all(self) -> List[{FeatureName}]:",
+                "        pass",
+                "",
+                "    @abstractmethod",
+                "    def get_by_id(self, id: int) -> Optional[{FeatureName}]:",
+                "        pass",
+                "",
+                "    @abstractmethod",
+                "    def create(self, item: {FeatureName}) -> {FeatureName}:",
+                "        pass"
+              ]
+            },
+            "implementacion": {
+              "filename": "{storage_type}.py",
+              "description": "Implementación concreta del repositorio",
+              "examples": {
+                "memoria": "memoria.py - In-memory storage (list, dict)",
+                "persistidor": "persistidor_json.py - JSON file persistence",
+                "db": "db.py - Database (SQLAlchemy, SQLite, Postgres)"
+              },
+              "pattern": "Concrete implementation of Repository ABC",
+              "responsibilities": [
+                "Implementar todos los métodos del ABC",
+                "Gestionar storage específico (memory, file, db)",
+                "Manejo de errores de persistencia",
+                "Conversiones entre storage format y domain model"
+              ],
+              "example_code": [
+                "class {FeatureName}RepositoryMemory({FeatureName}Repository):",
+                "    def __init__(self):",
+                "        self._items: List[{FeatureName}] = []",
+                "",
+                "    def get_all(self) -> List[{FeatureName}]:",
+                "        return self._items.copy()",
+                "",
+                "    def get_by_id(self, id: int) -> Optional[{FeatureName}]:",
+                "        return next((x for x in self._items if x.id == id), None)",
+                "",
+                "    def create(self, item: {FeatureName}) -> {FeatureName}:",
+                "        self._items.append(item)",
+                "        return item"
+              ]
+            },
+            "mapper": {
+              "filename": "mapper.py",
+              "class_name": "{FeatureName}Mapper",
+              "description": "Data mapper para conversiones entre representaciones",
+              "pattern": "Mapper pattern (DTO ↔ Domain Model ↔ Persistence)",
+              "responsibilities": [
+                "Convertir entre dict/JSON y domain model",
+                "Convertir entre database row y domain model",
+                "Validación de datos externos",
+                "Normalización de datos"
+              ],
+              "example_code": [
+                "class {FeatureName}Mapper:",
+                "    @staticmethod",
+                "    def to_model(data: dict) -> {FeatureName}:",
+                "        return {FeatureName}(",
+                "            id=data['id'],",
+                "            name=data['name']",
+                "        )",
+                "",
+                "    @staticmethod",
+                "    def to_dict(model: {FeatureName}) -> dict:",
+                "        return model.to_dict()"
+              ],
+              "optional": true
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "_comment_test_framework": "Configuración de testing con pytest y Flask test client",
+
+  "test_framework_config": {
+    "runner": "pytest",
+    "async_support": false,
+    "plugins": ["pytest-cov", "pytest-flask", "pytest-bdd"],
+    "fixtures_path": "tests/conftest.py",
+    "required_fixtures": {
+      "app": {
+        "description": "Flask app instance para tests",
+        "scope": "module",
+        "pattern": "Application factory pattern",
+        "example_code": [
+          "import pytest",
+          "from app import create_app",
+          "",
+          "@pytest.fixture(scope='module')",
+          "def app():",
+          "    \"\"\"Create Flask app for testing.\"\"\"",
+          "    app = create_app(config='testing')",
+          "    return app"
+        ]
+      },
+      "client": {
+        "description": "Flask test client para simular HTTP requests",
+        "scope": "function",
+        "depends_on": "app",
+        "pattern": "app.test_client()",
+        "example_code": [
+          "@pytest.fixture",
+          "def client(app):",
+          "    \"\"\"Create Flask test client.\"\"\"",
+          "    return app.test_client()"
+        ]
+      },
+      "context": {
+        "description": "Test request context para acceder a request/session",
+        "scope": "function",
+        "optional": true,
+        "pattern": "with app.test_request_context(): ...",
+        "example_code": [
+          "@pytest.fixture",
+          "def context(app):",
+          "    \"\"\"Create test request context.\"\"\"",
+          "    with app.test_request_context() as ctx:",
+          "        yield ctx"
+        ]
+      }
+    },
+    "test_structure": {
+      "unit_tests": {
+        "path": "tests/unit/",
+        "description": "Tests unitarios de domain y repositories",
+        "naming": "test_{component}.py",
+        "markers": ["unit"],
+        "no_flask_client": true
+      },
+      "integration_tests": {
+        "path": "tests/integration/",
+        "description": "Tests de integración de endpoints (requieren client)",
+        "naming": "test_{feature}_api.py",
+        "markers": ["integration", "api"],
+        "requires": ["client fixture"]
+      },
+      "bdd_tests": {
+        "path": "tests/bdd/",
+        "description": "Tests BDD con pytest-bdd",
+        "markers": ["bdd"]
+      }
+    },
+    "markers": {
+      "unit": "Tests unitarios (domain/repository sin Flask client)",
+      "integration": "Tests de integración (endpoints con Flask client)",
+      "api": "Tests de API HTTP (requieren client fixture)",
+      "slow": "Tests lentos (>1s, típicamente con DB real)",
+      "bdd": "Tests BDD con Gherkin scenarios"
+    },
+    "example_test": {
+      "unit_test": [
+        "def test_user_to_dict():",
+        "    \"\"\"Test User.to_dict method.\"\"\"",
+        "    user = User(id=1, name='John')",
+        "    data = user.to_dict()",
+        "    assert data['id'] == 1",
+        "    assert data['name'] == 'John'"
+      ],
+      "integration_test": [
+        "@pytest.mark.integration",
+        "def test_get_users(client):",
+        "    \"\"\"Test GET /api/users endpoint.\"\"\"",
+        "    response = client.get('/api/users/')",
+        "    assert response.status_code == 200",
+        "    assert isinstance(response.json, list)",
+        "",
+        "@pytest.mark.integration",
+        "def test_create_user(client):",
+        "    \"\"\"Test POST /api/users endpoint.\"\"\"",
+        "    data = {'name': 'John', 'email': 'john@example.com'}",
+        "    response = client.post('/api/users/', json=data)",
+        "    assert response.status_code == 201",
+        "    assert response.json['name'] == 'John'"
+      ]
+    }
+  },
+
+  "_comment_flask_patterns": "Patrones específicos de Flask para arquitectura de APIs",
+
+  "flask_patterns": {
+    "blueprints": {
+      "description": "Organización modular con Flask Blueprints",
+      "pattern": "bp = Blueprint('feature', __name__, url_prefix='/api/feature')",
+      "registration": "app.register_blueprint(bp)",
+      "benefits": [
+        "Organización modular de rutas",
+        "Prefijos de URL por feature",
+        "Error handlers específicos por blueprint",
+        "Reusabilidad de componentes"
+      ],
+      "example_code": [
+        "# app/servicios/users/api.py",
+        "from flask import Blueprint",
+        "",
+        "bp = Blueprint('users', __name__, url_prefix='/api/users')",
+        "",
+        "@bp.route('/', methods=['GET'])",
+        "def get_users():",
+        "    # Implementation...",
+        "    pass",
+        "",
+        "# app/__init__.py",
+        "from app.servicios.users.api import bp as users_bp",
+        "app.register_blueprint(users_bp)"
+      ]
+    },
+    "application_factory": {
+      "description": "Factory pattern para crear instancias de Flask app",
+      "pattern": "def create_app(config=None): ...",
+      "file": "app/__init__.py",
+      "benefits": [
+        "Testing con diferentes configuraciones",
+        "Múltiples instancias de app (dev, test, prod)",
+        "Inicialización lazy de extensions",
+        "Mejor separación de concerns"
+      ],
+      "example_code": [
+        "# app/__init__.py",
+        "from flask import Flask",
+        "from flask_cors import CORS",
+        "",
+        "def create_app(config=None):",
+        "    app = Flask(__name__)",
+        "    ",
+        "    # Load config",
+        "    if config:",
+        "        app.config.from_object(f'config.{config.capitalize()}Config')",
+        "    else:",
+        "        app.config.from_object('config.DevelopmentConfig')",
+        "    ",
+        "    # Initialize extensions",
+        "    CORS(app)",
+        "    ",
+        "    # Register blueprints",
+        "    from app.servicios.users.api import bp as users_bp",
+        "    app.register_blueprint(users_bp)",
+        "    ",
+        "    return app"
+      ]
+    },
+    "configuration": {
+      "description": "Flask config object hierarchy",
+      "pattern": "app.config.from_object('config.DevelopmentConfig')",
+      "file": "config.py (root level)",
+      "hierarchy": {
+        "BaseConfig": "Configuración base común",
+        "DevelopmentConfig": "Override para desarrollo (DEBUG=True)",
+        "ProductionConfig": "Override para producción (DEBUG=False)",
+        "TestingConfig": "Override para tests (TESTING=True)"
+      },
+      "example_code": [
+        "# config.py",
+        "import os",
+        "",
+        "class BaseConfig:",
+        "    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')",
+        "    JSON_SORT_KEYS = False",
+        "",
+        "class DevelopmentConfig(BaseConfig):",
+        "    DEBUG = True",
+        "    ENV = 'development'",
+        "",
+        "class TestingConfig(BaseConfig):",
+        "    TESTING = True",
+        "    DEBUG = True",
+        "",
+        "class ProductionConfig(BaseConfig):",
+        "    DEBUG = False",
+        "    ENV = 'production'"
+      ]
+    },
+    "error_handling": {
+      "description": "Centralized error handlers con @app.errorhandler",
+      "file": "app/servicios/errors.py",
+      "pattern": "@app.errorhandler(ErrorClass)",
+      "benefits": [
+        "Manejo consistente de errores",
+        "Custom error responses (JSON)",
+        "HTTP status codes apropiados",
+        "Logging centralizado"
+      ],
+      "example_code": [
+        "# app/servicios/errors.py",
+        "from flask import jsonify",
+        "",
+        "class NotFoundError(Exception):",
+        "    pass",
+        "",
+        "class ValidationError(Exception):",
+        "    pass",
+        "",
+        "def register_error_handlers(app):",
+        "    @app.errorhandler(NotFoundError)",
+        "    def handle_not_found(error):",
+        "        return jsonify({'error': str(error)}), 404",
+        "    ",
+        "    @app.errorhandler(ValidationError)",
+        "    def handle_validation(error):",
+        "        return jsonify({'error': str(error)}), 400",
+        "    ",
+        "    @app.errorhandler(500)",
+        "    def handle_internal_error(error):",
+        "        return jsonify({'error': 'Internal server error'}), 500"
+      ]
+    },
+    "singleton_pattern": {
+      "description": "Singleton para gestionar configuración global",
+      "pattern": "class Configurador (singleton con validación)",
+      "use_case": "Gestionar repositorios, servicios, configuración global",
+      "example_code": [
+        "# app/config/configurador.py",
+        "class Configurador:",
+        "    _instance = None",
+        "    ",
+        "    def __new__(cls):",
+        "        if cls._instance is None:",
+        "            cls._instance = super().__new__(cls)",
+        "            cls._instance._initialized = False",
+        "        return cls._instance",
+        "    ",
+        "    def __init__(self):",
+        "        if not self._initialized:",
+        "            self._repository = None",
+        "            self._initialized = True",
+        "    ",
+        "    def get_repository(self):",
+        "        if self._repository is None:",
+        "            raise ValueError('Repository not configured')",
+        "        return self._repository",
+        "    ",
+        "    def set_repository(self, repository):",
+        "        self._repository = repository"
+      ]
+    }
+  },
+
+  "_comment_dependencies": "Dependencias requeridas para Flask REST APIs",
+
+  "dependencies": {
+    "required": [
+      "Flask>=2.0.0",
+      "flask-cors>=4.0.0",
+      "python-dotenv>=1.0.0",
+      "pytest>=7.0.0",
+      "pytest-cov>=4.0.0"
+    ],
+    "recommended": [
+      "flasgger>=0.9.7  # OpenAPI/Swagger documentation",
+      "flask-restx>=1.0.0  # REST API framework with marshalling",
+      "marshmallow>=3.19.0  # Serialization/deserialization",
+      "gunicorn>=20.1.0  # Production WSGI server",
+      "python-json-logger>=2.0.0  # Structured logging"
+    ],
+    "development": [
+      "pylint>=2.15.0",
+      "radon>=5.1.0",
+      "black>=22.0.0",
+      "mypy>=1.0.0",
+      "pytest-flask>=1.2.0"
+    ],
+    "optional_by_usecase": {
+      "database": [
+        "SQLAlchemy>=2.0.0  # ORM",
+        "alembic>=1.9.0  # Migrations",
+        "psycopg2-binary>=2.9.0  # PostgreSQL driver"
+      ],
+      "authentication": [
+        "Flask-JWT-Extended>=4.4.0  # JWT authentication",
+        "Flask-Login>=0.6.0  # Session management"
+      ],
+      "api_documentation": [
+        "flasgger>=0.9.7  # Swagger UI",
+        "apispec>=6.0.0  # OpenAPI spec generation"
+      ]
+    }
+  },
+
+  "_comment_quality_gates": "Quality gates ajustados para Flask REST APIs",
+
+  "quality_gates": {
+    "pylint": {
+      "enabled": true,
+      "min_score": 8.0,
+      "config_file": ".pylintrc",
+      "disable_checks": [
+        "too-few-public-methods",
+        "invalid-name",
+        "missing-module-docstring"
+      ],
+      "notes": "Score 8.0+ indica código mantenible. Proyecto real (app_termostato): 8.41/10"
+    },
+    "cyclomatic_complexity": {
+      "enabled": true,
+      "max_per_function": 10,
+      "tool": "radon cc",
+      "command": "radon cc app/ -a -nb",
+      "threshold_grades": {
+        "A": "1-5 (simple)",
+        "B": "6-10 (moderado)",
+        "C": "11-20 (complejo - refactorizar)",
+        "D": "21+ (muy complejo - dividir)"
+      },
+      "notes": "CC <= 10 es el estándar. Proyecto real (app_termostato): CC promedio 1.75"
+    },
+    "maintainability_index": {
+      "enabled": true,
+      "min_score": 25,
+      "tool": "radon mi",
+      "command": "radon mi app/ -nb",
+      "grades": {
+        "A": "20-100 (altamente mantenible)",
+        "B": "10-19 (moderadamente mantenible)",
+        "C": "0-9 (difícil de mantener)"
+      },
+      "notes": "MI >= 25 recomendado para APIs. Proyecto real (app_termostato): MI 92.21/100"
+    },
+    "coverage": {
+      "enabled": true,
+      "min_percent": 95.0,
+      "tool": "pytest-cov",
+      "command": "pytest --cov=app --cov-report=term-missing --cov-fail-under=95",
+      "exclusions": [
+        "__init__.py files",
+        "Config classes",
+        "if __name__ == '__main__' blocks"
+      ],
+      "notes": "95%+ coverage para APIs REST. Proyecto real (app_termostato): 100%"
+    },
+    "type_checking": {
+      "enabled": true,
+      "tool": "mypy",
+      "command": "mypy app/ --ignore-missing-imports",
+      "strictness": "moderate",
+      "notes": "Type hints mejoran mantenibilidad (opcional pero recomendado)"
+    }
+  },
+
+  "_comment_design_patterns": "Patrones de diseño recomendados para Flask REST",
+
+  "design_patterns": {
+    "layered_architecture": {
+      "name": "Layered Architecture (3 capas)",
+      "description": "Separación de concerns en capas: API → Domain → Data",
+      "layers": {
+        "servicios": "API/Presentation (Flask endpoints, blueprints)",
+        "general": "Domain/Business (models, business logic)",
+        "datos": "Data/Infrastructure (repositories, persistence)"
+      },
+      "benefits": [
+        "Separación de responsabilidades clara",
+        "Domain logic framework-agnostic",
+        "Testeable por capas",
+        "Intercambiable capa de datos (memoria → JSON → DB)"
+      ],
+      "rules": [
+        "Dependencias van hacia adentro: servicios → general → datos",
+        "Domain layer NO importa Flask",
+        "Data layer NO conoce HTTP/REST",
+        "Comunicación entre capas via interfaces (ABC)"
+      ]
+    },
+    "repository_pattern": {
+      "name": "Repository Pattern",
+      "description": "Abstracción de acceso a datos con interfaces ABC",
+      "implementation": [
+        "1. Definir ABC interface (repositorio.py)",
+        "2. Implementar clases concretas (memoria.py, db.py)",
+        "3. Inyectar repositorio en servicios/endpoints",
+        "4. Intercambiar implementación según config"
+      ],
+      "benefits": [
+        "Testeable (mocks fáciles)",
+        "Múltiples implementaciones (memoria, JSON, DB)",
+        "Separation of concerns",
+        "Fácil cambio de storage sin afectar lógica"
+      ]
+    },
+    "mapper_pattern": {
+      "name": "Mapper Pattern",
+      "description": "Conversión entre representaciones de datos (DTO ↔ Model)",
+      "use_cases": [
+        "dict/JSON → Domain Model",
+        "Database row → Domain Model",
+        "Domain Model → Response DTO"
+      ],
+      "benefits": [
+        "Validación centralizada",
+        "Conversiones type-safe",
+        "Desacoplamiento de capas"
+      ]
+    },
+    "singleton_pattern": {
+      "name": "Singleton Pattern",
+      "description": "Una sola instancia global para configuración/servicios",
+      "use_cases": [
+        "Configurador global (repositorios, servicios)",
+        "Database connections",
+        "Logger instances"
+      ],
+      "implementation": "__new__ method + instance checking"
+    },
+    "blueprint_pattern": {
+      "name": "Blueprint Pattern (Flask-specific)",
+      "description": "Organización modular de rutas Flask",
+      "benefits": [
+        "Separación por features",
+        "Prefijos de URL",
+        "Reutilización de componentes",
+        "Error handlers por feature"
+      ]
+    }
+  },
+
+  "_comment_api_conventions": "Convenciones para diseño de APIs REST con Flask",
+
+  "api_conventions": {
+    "http_methods": {
+      "GET": "Retrieve resource(s) - Idempotent, safe, cacheable",
+      "POST": "Create new resource - Non-idempotent, returns 201 + Location",
+      "PUT": "Update/replace entire resource - Idempotent",
+      "PATCH": "Partial update of resource - May be idempotent",
+      "DELETE": "Remove resource - Idempotent"
+    },
+    "status_codes": {
+      "200": "OK - Successful GET/PUT/PATCH",
+      "201": "Created - Successful POST with new resource",
+      "204": "No Content - Successful DELETE",
+      "400": "Bad Request - Validation error",
+      "404": "Not Found - Resource doesn't exist",
+      "500": "Internal Server Error - Unexpected error"
+    },
+    "url_structure": {
+      "base": "/api/{version}/{resource}",
+      "examples": {
+        "collection": "/api/v1/users (GET all, POST new)",
+        "item": "/api/v1/users/123 (GET, PUT, PATCH, DELETE)",
+        "nested": "/api/v1/users/123/orders (nested resource)"
+      },
+      "conventions": [
+        "Usar plural para recursos (/users no /user)",
+        "Lowercase y guiones (/user-profiles no /userProfiles)",
+        "Versioning en URL (/api/v1/...)",
+        "Evitar verbos en URLs (usar HTTP methods)"
+      ]
+    },
+    "request_format": {
+      "content_type": "application/json",
+      "validation": "Manual o con marshmallow/pydantic",
+      "example": "data = request.get_json(); validate(data)"
+    },
+    "response_format": {
+      "success": {
+        "single": "{ 'id': 1, 'name': 'John' }",
+        "collection": "[{ 'id': 1 }, { 'id': 2 }]",
+        "with_meta": "{ 'data': [...], 'total': 10, 'page': 1 }"
+      },
+      "error": {
+        "format": "{ 'error': 'description', 'details': {...} }",
+        "example": "{ 'error': 'User not found', 'details': { 'user_id': 123 } }"
+      },
+      "serialization": "jsonify() - Flask's JSON response helper"
+    },
+    "pagination": {
+      "query_params": "?page=1&per_page=20",
+      "response": "{ 'data': [...], 'total': 100, 'page': 1, 'per_page': 20 }"
+    },
+    "filtering": {
+      "query_params": "?status=active&role=admin",
+      "implementation": "request.args.get('status')"
+    },
+    "sorting": {
+      "query_params": "?sort=name&order=asc",
+      "implementation": "sorted(items, key=lambda x: x.name)"
+    }
+  },
+
+  "_comment_documentation": "Documentación recomendada para Flask REST APIs",
+
+  "documentation": {
+    "openapi_swagger": {
+      "tool": "flasgger",
+      "description": "Generación automática de docs Swagger UI",
+      "config": {
+        "title": "API Documentation",
+        "version": "1.0.0",
+        "ui_path": "/api/docs",
+        "spec_path": "/api/spec"
+      },
+      "example_docstring": [
+        "@bp.route('/<int:user_id>', methods=['GET'])",
+        "def get_user(user_id):",
+        "    \"\"\"",
+        "    Get user by ID",
+        "    ---",
+        "    parameters:",
+        "      - name: user_id",
+        "        in: path",
+        "        type: integer",
+        "        required: true",
+        "    responses:",
+        "      200:",
+        "        description: User found",
+        "        schema:",
+        "          id: User",
+        "          properties:",
+        "            id:",
+        "              type: integer",
+        "            name:",
+        "              type: string",
+        "      404:",
+        "        description: User not found",
+        "    \"\"\""
+      ]
+    },
+    "code_documentation": {
+      "docstrings": "Google style docstrings",
+      "example": [
+        "def get_by_id(self, user_id: int) -> Optional[User]:",
+        "    \"\"\"",
+        "    Retrieve user by ID.",
+        "    ",
+        "    Args:",
+        "        user_id: The user's unique identifier",
+        "    ",
+        "    Returns:",
+        "        User instance if found, None otherwise",
+        "    ",
+        "    Raises:",
+        "        ValueError: If user_id is invalid",
+        "    \"\"\""
+      ]
+    },
+    "api_readme": {
+      "sections": [
+        "Overview - Descripción general de la API",
+        "Installation - Setup y dependencies",
+        "Configuration - Config environments",
+        "Endpoints - Lista de endpoints disponibles",
+        "Authentication - Cómo autenticar (si aplica)",
+        "Examples - Curl/httpie examples",
+        "Development - Cómo contribuir"
+      ]
+    }
+  }
+}
