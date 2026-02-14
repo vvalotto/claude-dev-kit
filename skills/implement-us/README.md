@@ -9,7 +9,7 @@ Sistema de implementación asistida de Historias de Usuario framework-agnostic.
 El skill `implement-us` guía paso a paso la implementación de una Historia de Usuario en proyectos Python, adaptándose automáticamente al stack tecnológico mediante perfiles de configuración.
 
 **Características:**
-- ✅ Framework-agnostic (PyQt, FastAPI, Python genérico)
+- ✅ Framework-agnostic (PyQt, FastAPI, Flask, Python genérico)
 - ✅ 9 fases de implementación (desde validación hasta reporte final)
 - ✅ Generación automática de BDD, tests, documentación
 - ✅ Quality gates integrados (Pylint, CC, MI, Coverage)
@@ -48,6 +48,7 @@ skills/implement-us/
 ├── customizations/            # Perfiles específicos por stack
 │   ├── pyqt-mvc.json
 │   ├── fastapi-rest.json
+│   ├── flask-rest.json
 │   └── generic-python.json
 └── README.md                  # Este archivo
 ```
@@ -113,7 +114,41 @@ app/api/users/
 
 ---
 
-### 3. Generic Python (`generic-python.json`)
+### 3. Flask REST (`flask-rest.json`)
+
+**Para:** APIs REST con Flask + arquitectura en capas (sync)
+
+**Características:**
+- Arquitectura en capas (servicios → general → datos)
+- Sync/threading (no async)
+- Repository + Mapper patterns con ABC interfaces
+- Testing sync con Flask test client
+- Quality gates basados en proyecto real (Pylint 8.0, MI 25, coverage 95%)
+- OpenAPI/Swagger con Flasgger
+
+**Cuándo usar:**
+- ✅ APIs REST con Flask (sync)
+- ✅ Migración desde Flask existente
+- ✅ No necesitas async/await
+- ✅ Arquitectura en capas tradicional
+
+**Ejemplo de estructura generada:**
+```
+app/
+├── servicios/{feature}/    # API Layer
+│   ├── api.py             # Flask endpoints (blueprints)
+│   └── errors.py          # Error handlers
+├── general/{feature}/      # Domain Layer
+│   └── {feature}.py       # Business logic
+└── datos/{feature}/        # Data Layer
+    ├── repositorio.py     # ABC interface
+    ├── memoria.py         # In-memory implementation
+    └── mapper.py          # Data mapping
+```
+
+---
+
+### 4. Generic Python (`generic-python.json`)
 
 **Para:** Proyectos Python sin framework específico
 
@@ -146,13 +181,18 @@ El instalador del framework copiará esta estructura en `.claude/skills/implemen
 **Interactivo:**
 ```bash
 python installer.py
-# Selecciona perfil: 1) PyQt MVC  2) FastAPI REST  3) Generic Python
+# Selecciona perfil:
+#   1) PyQt MVC
+#   2) FastAPI REST
+#   3) Flask REST
+#   4) Generic Python
 ```
 
 **No interactivo:**
 ```bash
 python installer.py --profile pyqt-mvc --yes
 python installer.py --profile fastapi-rest --yes
+python installer.py --profile flask-rest --yes
 python installer.py --profile generic-python --yes
 ```
 
@@ -160,19 +200,22 @@ python installer.py --profile generic-python --yes
 
 ## 📊 Comparación de Perfiles
 
-| Característica | PyQt MVC | FastAPI REST | Generic Python |
-|----------------|----------|--------------|----------------|
-| **Tamaño** | ~350 líneas | ~460 líneas | ~280 líneas |
-| **Overrides** | 8 variables | 8 variables | 2 variables |
-| **Arquitectura** | MVC | Layered (3 capas) | Flexible |
-| **Files/Feature** | 3 (M+V+C) | 5 (router+service+repo+schemas+models) | 1-2 |
-| **Test Framework** | pytest-qt | pytest + httpx | pytest |
-| **Fixtures** | qapp, qtbot | client, async_client, db | Ninguno |
-| **Async** | No | Sí (async/await) | Opcional |
-| **Coverage Min** | 90% | 95% | 95% |
-| **Pylint Min** | 8.0 | 8.5 | 8.0 |
-| **Complejidad** | Alta | Media | Baja |
-| **Opinionado** | Alto | Medio | Bajo |
+| Característica | PyQt MVC | FastAPI REST | Flask REST | Generic Python |
+|----------------|----------|--------------|------------|----------------|
+| **Tamaño** | ~350 líneas | ~460 líneas | ~1000 líneas | ~280 líneas |
+| **Overrides** | 8 variables | 8 variables | 8 variables + async | 2 variables |
+| **Arquitectura** | MVC | Layered (3) | Layered (3) | Flexible |
+| **Files/Feature** | 3 (M+V+C) | 5 | 3-4 | 1-2 |
+| **Test Framework** | pytest-qt | pytest + httpx | pytest + Flask client | pytest |
+| **Fixtures** | qapp, qtbot | async_client, db | app, client | Ninguno |
+| **Async** | No | Sí (async/await) | No (sync) | Opcional |
+| **Coverage Min** | 90% | 95% | 95% | 95% |
+| **Pylint Min** | 8.0 | 8.5 | 8.0 | 8.0 |
+| **OpenAPI** | - | Nativo | Flasgger | - |
+| **Patterns** | 4 | 5 | 5 | 2 |
+| **Complejidad** | Alta | Media | Media | Baja |
+| **Opinionado** | Alto | Medio | Medio | Bajo |
+| **Proyecto Real** | simapp_termostato | - | app_termostato | - |
 
 ---
 
@@ -180,16 +223,16 @@ python installer.py --profile generic-python --yes
 
 Todas las variables configurables en los perfiles:
 
-| Variable | PyQt MVC | FastAPI REST | Generic Python |
-|----------|----------|--------------|----------------|
-| `{ARCHITECTURE_PATTERN}` | `mvc` | `layered` | `generic` |
-| `{COMPONENT_TYPE}` | `Panel` | `Endpoint` | `Module` |
-| `{COMPONENT_PATH}` | `app/presentacion/paneles/{name}/` | `app/api/{name}/` | `src/{name}/` |
-| `{TEST_FRAMEWORK}` | `pytest + pytest-qt` | `pytest + httpx` | `pytest` |
-| `{BASE_CLASS}` | `ModeloBase`, `QWidget` | `BaseModel`, `BaseService` | `object` |
-| `{DOMAIN_CONTEXT}` | `presentacion` | `api` | `core` |
-| `{PROJECT_ROOT}` | `app/` | `app/` | `.` |
-| `{PRODUCT}` | `main` | `main` | `main` |
+| Variable | PyQt MVC | FastAPI REST | Flask REST | Generic Python |
+|----------|----------|--------------|------------|----------------|
+| `{ARCHITECTURE_PATTERN}` | `mvc` | `layered` | `layered` | `generic` |
+| `{COMPONENT_TYPE}` | `Panel` | `Endpoint` | `Endpoint` | `Module` |
+| `{COMPONENT_PATH}` | `app/presentacion/paneles/{name}/` | `app/api/{name}/` | `app/{layer}/{name}/` | `src/{name}/` |
+| `{TEST_FRAMEWORK}` | `pytest + pytest-qt` | `pytest + httpx` | `pytest + Flask client` | `pytest` |
+| `{BASE_CLASS}` | `ModeloBase`, `QWidget` | `BaseModel`, `BaseService` | `ABC` (repositories) | `object` |
+| `{DOMAIN_CONTEXT}` | `presentacion` | `api` | `servicios` | `core` |
+| `{PROJECT_ROOT}` | `app/` | `app/` | `app/` | `.` |
+| `{PRODUCT}` | `main` | `main` | `main` | `main` |
 
 ---
 
@@ -200,12 +243,13 @@ Todas las variables configurables en los perfiles:
 ✅ config.json válido
 ✅ pyqt-mvc.json válido
 ✅ fastapi-rest.json válido
+✅ flask-rest.json válido
 ✅ generic-python.json válido
 ```
 
 **Estructura verificada:**
 - ✅ 1 config base (config.json)
-- ✅ 3 perfiles (pyqt, fastapi, generic)
+- ✅ 4 perfiles (pyqt, fastapi, flask, generic)
 - ✅ 10 phases (phase-0 a phase-9)
 - ✅ 1 orquestador (skill.md)
 
@@ -217,8 +261,8 @@ Todas las variables configurables en los perfiles:
 - **Perfiles:** `customizations/*.json`
 - **Fases:** `phases/phase-*.md`
 - **Orquestador:** `skill.md`
-- **Documentación:** Ver tickets TICKET-022 a TICKET-026
+- **Documentación:** Ver tickets TICKET-022 a TICKET-028
 
 ---
 
-**Última Actualización:** 2026-02-13 - Sprint 2 completado
+**Última Actualización:** 2026-02-14 - Flask REST profile agregado (TICKET-028)
