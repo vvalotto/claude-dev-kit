@@ -67,48 +67,30 @@ skills/implement-us/
 
 ## Algoritmo de Reemplazo
 
-### Reemplazo de Variables
+### Proceso de Generación
 
-**Input:** Template con placeholders `{VARIABLE_NAME}`
-**Output:** Template con valores reales del perfil
+El sistema utiliza un mecanismo simple de reemplazo de strings que opera en dos fases:
 
-#### Pseudocódigo
+#### Fase 1: Carga y Preparación
 
-```python
-def render_template(template_path: str, profile: str, us_data: dict) -> str:
-    # 1. Cargar template base
-    template_content = read_file(template_path)
+1. **Cargar template base** desde `templates/{categoria}/{nombre}.ext`
+2. **Leer configuración de perfil** desde `skills/implement-us/customizations/{profile}.json`
+3. **Fusionar variables** del perfil con datos de la historia de usuario
 
-    # 2. Cargar configuración de perfil
-    profile_config = load_json(f"customizations/{profile}.json")
+#### Fase 2: Reemplazo
 
-    # 3. Fusionar datos
-    variables = {
-        **profile_config["template_variables"],
-        **us_data  # Datos específicos de la historia de usuario
-    }
+4. **Reemplazar variables simples** - Busca placeholders `{VARIABLE_NAME}` y los sustituye con valores del perfil
+5. **Insertar snippets** - Busca `{SNIPPET:id}` y los reemplaza con contenido específico del stack
+6. **Preservar indentación** - Mantiene el formato del contexto donde se insertan snippets
 
-    # 4. Reemplazar variables simples
-    for var_name, var_value in variables.items():
-        placeholder = f"{{{var_name}}}"
-        template_content = template_content.replace(placeholder, var_value)
+### Características Clave
 
-    # 5. Reemplazar snippets
-    snippets = profile_config["snippets"]
-    for snippet_id, snippet_content in snippets.items():
-        placeholder = f"{{SNIPPET:{snippet_id}}}"
-        template_content = template_content.replace(placeholder, snippet_content)
+- **Reemplazo simple:** String replacement directo, sin motor de templates complejo
+- **Orden secuencial:** Variables primero, luego snippets
+- **Snippets vacíos:** Soportados (string vacío `""` para perfiles donde no aplica)
+- **Sin validación automática:** No verifica que todas las variables fueron reemplazadas
 
-    return template_content
-```
-
-### Características del Algoritmo
-
-1. **Reemplazo Simple:** String replacement sin templating engine complejo
-2. **Orden de Ejecución:** Variables primero, luego snippets
-3. **Preservación de Indentación:** Snippets mantienen indentación del contexto
-4. **Snippets Vacíos:** Soportado (ej. `test_signals_class` para non-PyQt)
-5. **Validación:** No valida que todas las variables fueron reemplazadas
+> **Nota de implementación:** El algoritmo será implementado en el módulo `skills/implement-us/` cuando se integre con el skill. Por ahora, los templates y perfiles están listos para uso manual.
 
 ---
 
@@ -376,43 +358,37 @@ class TestValidacion:
 
 ## Implementación de Referencia
 
-### Estructura de Perfil Completo
+### Estructura de Perfil
 
+Cada perfil tecnológico se define en un archivo JSON con cuatro secciones principales:
+
+1. **`profile_metadata`** - Nombre, versión, descripción del perfil
+2. **`variables`** - Variables de configuración del skill (patrones arquitectónicos, rutas, etc.)
+3. **`template_variables`** - Variables específicas para templates (ej: `BACKGROUND_SETUP`, `ARCHITECTURE_DESCRIPTION`)
+4. **`snippets`** - Bloques de código/texto condicionales (ej: `test_imports`, `integration_checklist`)
+
+**Ejemplo mínimo:**
 ```json
 {
-  "_comment_profile": "Descripción del perfil",
-
   "profile_metadata": {
-    "name": "perfil-nombre",
-    "display_name": "Nombre Legible",
-    "description": "Descripción detallada",
-    "version": "1.0.0",
-    "target_stack": "Framework + versión"
+    "name": "mi-stack",
+    "version": "1.0.0"
   },
-
-  "variables": {
-    "architecture_pattern": {
-      "default": "pattern-name",
-      "description": "Descripción del patrón"
-    }
-  },
-
   "template_variables": {
-    "BACKGROUND_SETUP": "Given ...\nAnd ...",
-    "TEST_FILE_PATTERN": "- [ ] ...\n- [ ] ...",
-    "ARCHITECTURE_DESCRIPTION": "Descripción..."
+    "BACKGROUND_SETUP": "Given el sistema está listo"
   },
-
   "snippets": {
-    "integration_checklist": "- [ ] Item 1\n- [ ] Item 2",
-    "architecture_code_blocks": "### Sección\n\n```python\n...\n```",
-    "test_imports": "from ...\nimport ...",
-    "test_signals_class": "class TestSignals:\n    ...",
-    "test_integration_class": "class TestIntegracion:\n    ...",
-    "test_fixtures": "@pytest.fixture\ndef ...\n    ..."
+    "test_imports": "import pytest"
   }
 }
 ```
+
+**Ver perfiles completos en:**
+- `skills/implement-us/customizations/pyqt-mvc.json` (~400 líneas)
+- `skills/implement-us/customizations/fastapi-rest.json`
+- `skills/implement-us/customizations/flask-rest.json`
+- `skills/implement-us/customizations/flask-webapp.json`
+- `skills/implement-us/customizations/generic-python.json`
 
 ---
 
