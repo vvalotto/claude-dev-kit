@@ -2,7 +2,7 @@
 
 **Fase:** 4 - Generalización de Templates
 **Sprint:** 2
-**Estado:** TODO
+**Estado:** ✅ COMPLETADO
 **Prioridad:** Alta
 **Estimación:** 1 hora
 **Asignado a:** Claude Code
@@ -165,4 +165,41 @@ from flask.testing import FlaskClient
 
 ## Resultado
 
-_A completar al finalizar el ticket._
+✅ **COMPLETADO** - 2026-02-14
+
+**Template generalizado:**
+- `templates/testing/test-unit.py` creado (~90 líneas)
+- Imports específicos de PyQt6 removidos
+- Clase TestSignals convertida a snippet condicional
+- Fixtures generalizadas por framework
+
+**Variables agregadas (5 perfiles):**
+- `TEST_CLASS_ORGANIZATION_COMMENT`: Descripción de organización de tests
+
+**Snippets agregados (5 perfiles × 4 snippets = 20 snippets):**
+
+1. `test_imports`: Imports específicos del framework
+   - pyqt-mvc: PyQt6.QtCore, dataclasses, Mock
+   - fastapi-rest: httpx.AsyncClient, AsyncMock
+   - flask-rest: flask.json, Mock
+   - flask-webapp: flask.url_for, Mock
+   - generic-python: Mock, dataclasses
+
+2. `test_signals_class`: Clase TestSignals (solo PyQt)
+   - pyqt-mvc: Clase completa (~20 líneas)
+   - otros perfiles: "" (vacío)
+
+3. `test_integration_class`: Clase TestIntegracion
+   - pyqt-mvc: Tests con qapp
+   - fastapi-rest: Tests async con AsyncClient
+   - flask-rest: Tests con Flask test_client
+   - flask-webapp: Tests con Flask + DB setup
+   - generic-python: Tests de flujo simple
+
+4. `test_fixtures`: Fixtures pytest
+   - pyqt-mvc: mock_dependencia + qapp
+   - fastapi-rest: AsyncMock + async test_client
+   - flask-rest/flask-webapp: Mock + app_context
+   - generic-python: Mock + datos_de_prueba
+
+**Nivel de generalización:** 100% framework-agnostic, código Python ejecutable por stack
