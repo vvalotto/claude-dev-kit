@@ -45,20 +45,28 @@ Proceso estructurado de 9 fases para implementar historias de usuario:
 - Historial y métricas (`/track-report`, `/track-history`)
 - Análisis de varianza (estimado vs. real)
 
-### 📄 Templates Reutilizables
+### 📄 Sistema de Templates Generalizado
 
-- **BDD**: Escenarios Gherkin, steps pytest-bdd
-- **Planning**: Planes de implementación, ADRs
-- **Testing**: Tests unitarios e integración con fixtures
-- **Reporting**: Reportes de implementación y retrospectivas
+4 templates framework-agnostic que se adaptan automáticamente al perfil del proyecto:
+
+- **BDD Scenarios** (`bdd/scenario.feature`) - Escenarios Gherkin con Background específico por stack
+- **Implementation Plans** (`planning/implementation-plan.md`) - Planes con checklist de integración por framework
+- **Implementation Reports** (`reporting/implementation-report.md`) - Reportes con código de integración específico
+- **Unit Tests** (`testing/test-unit.py`) - Tests con imports, fixtures y clases específicas por framework
+
+**Sistema de Variables:** 20+ variables parametrizadas (`{US_ID}`, `{ARCHITECTURE_PATTERN}`, etc.)
+**Sistema de Snippets:** Bloques de código condicionales por perfil
+
+Ver [templates/README.md](templates/README.md) para documentación completa.
 
 ### 🎨 Sistema de Perfiles por Stack Tecnológico
 
-Personalización para diferentes tecnologías:
+5 perfiles con customizaciones específicas:
 
-- **pyqt-mvc**: PyQt6 + arquitectura MVC + patrones Factory/Coordinator
-- **fastapi-rest**: FastAPI + APIs REST + arquitectura en capas
-- **django-mvt**: Django + patrón MVT + convenciones Django
+- **pyqt-mvc**: PyQt6 + MVC + Factory/Coordinator patterns
+- **fastapi-rest**: FastAPI + REST APIs async + dependency injection
+- **flask-rest**: Flask + REST APIs + Blueprint pattern
+- **flask-webapp**: Flask + fullstack webapp + Jinja2 templates
 - **generic-python**: Proyectos Python genéricos sin framework específico
 
 ---
