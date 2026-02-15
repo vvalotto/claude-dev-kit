@@ -29,36 +29,67 @@ jobs:
         run: |
           git clone https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
 
-      - name: Sync User Documentation
+      - name: Sync Documentation with Flattened Structure
         run: |
-          # Crear directorio user/ en wiki si no existe
-          mkdir -p wiki/user
-          mkdir -p wiki/user/skills
-          mkdir -p wiki/user/tracking
+          # Función para convertir kebab-case a PascalCase
+          to_pascal_case() {
+            echo "$1" | sed -E 's/(^|-)([a-z])/\U\2/g'
+          }
 
-          # Copiar documentación de usuario
-          cp docs/user/*.md wiki/user/ 2>/dev/null || true
-          cp docs/user/skills/*.md wiki/user/skills/ 2>/dev/null || true
-          cp docs/user/tracking/*.md wiki/user/tracking/ 2>/dev/null || true
-
-      - name: Sync Developer Documentation
-        run: |
-          # Crear directorios developer/ en wiki si no existen
-          mkdir -p wiki/developer
-          mkdir -p wiki/developer/architecture
-          mkdir -p wiki/developer/contributing
-
-          # Copiar documentación técnica
-          cp docs/developer/architecture/*.md wiki/developer/architecture/ 2>/dev/null || true
-          cp docs/developer/contributing/*.md wiki/developer/contributing/ 2>/dev/null || true
-
-      - name: Sync README and Home
-        run: |
-          # Copiar README principal como Home de la wiki
+          # Casos especiales
           cp docs/README.md wiki/Home.md
-
-          # Copiar index como punto de entrada alternativo
           cp docs/user/index.md wiki/Documentation-Index.md
+
+          # Sincronizar user/ - archivos directos
+          for file in docs/user/*.md; do
+            [ -f "$file" ] || continue
+            [ "$(basename "$file")" = "index.md" ] && continue
+
+            filename=$(basename "$file" .md)
+            pascal_name=$(to_pascal_case "$filename")
+            cp "$file" "wiki/user-${pascal_name}.md"
+          done
+
+          # Sincronizar user/skills/
+          for file in docs/user/skills/*.md; do
+            [ -f "$file" ] || continue
+
+            filename=$(basename "$file" .md)
+            pascal_name=$(to_pascal_case "$filename")
+            cp "$file" "wiki/user-skills-${pascal_name}.md"
+          done
+
+          # Sincronizar user/tracking/
+          for file in docs/user/tracking/*.md; do
+            [ -f "$file" ] || continue
+
+            filename=$(basename "$file" .md)
+            pascal_name=$(to_pascal_case "$filename")
+            cp "$file" "wiki/user-tracking-${pascal_name}.md"
+          done
+
+          # Sincronizar developer/architecture/
+          for file in docs/developer/architecture/*.md; do
+            [ -f "$file" ] || continue
+
+            filename=$(basename "$file" .md)
+            pascal_name=$(to_pascal_case "$filename")
+            cp "$file" "wiki/developer-architecture-${pascal_name}.md"
+          done
+
+          # Sincronizar developer/contributing/
+          for file in docs/developer/contributing/*.md; do
+            [ -f "$file" ] || continue
+
+            filename=$(basename "$file" .md)
+            pascal_name=$(to_pascal_case "$filename")
+            cp "$file" "wiki/developer-contributing-${pascal_name}.md"
+          done
+
+          echo "✅ Documentación sincronizada con estructura aplanada"
+          echo "📝 Archivos en wiki/:"
+          ls -la wiki/*.md | wc -l
+          echo "archivos .md copiados"
 
       - name: Commit and Push to Wiki
         env:
@@ -79,9 +110,12 @@ jobs:
           Synced from commit: ${{ github.sha }}
           Triggered by: ${{ github.event_name }}
 
-          Updated documentation:
-          - User docs: docs/user/
-          - Developer docs: docs/developer/
+          Structure: Flattened (all files in root with hyphenated names)
+          - docs/user/getting-started.md → user-Getting-Started.md
+          - docs/user/skills/implement-us.md → user-skills-Implement-Us.md
+          - docs/developer/architecture/tracking.md → developer-architecture-Tracking.md
+
+          Files synced: $(ls *.md 2>/dev/null | wc -l) pages
           "
 
           git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git master

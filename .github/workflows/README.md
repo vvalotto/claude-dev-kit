@@ -17,40 +17,43 @@ Este directorio contiene los workflows de CI/CD del proyecto.
 **¿Qué sincroniza?**
 
 ```
-docs/user/          → wiki/user/          # Documentación de usuario
-docs/developer/     → wiki/developer/     # Documentación técnica
-docs/README.md      → wiki/Home.md        # Página principal de la Wiki
-docs/user/index.md  → wiki/Documentation-Index.md  # Índice alternativo
+# Estructura APLANADA - Todos los archivos en raíz del Wiki
+# Los subdirectorios se convierten en prefijos con guiones
+
+docs/user/getting-started.md           → wiki/user-Getting-Started.md
+docs/user/installation.md              → wiki/user-Installation.md
+docs/user/skills/implement-us.md       → wiki/user-skills-Implement-Us.md
+docs/user/tracking/user-guide.md       → wiki/user-tracking-User-Guide.md
+docs/developer/architecture/tracking.md → wiki/developer-architecture-Tracking.md
+
+# Casos especiales
+docs/README.md      → wiki/Home.md                  # Página principal
+docs/user/index.md  → wiki/Documentation-Index.md  # Índice
 ```
 
-**Estructura en Wiki:**
+**Estructura en Wiki (aplanada):**
 
 ```
 Wiki/
-├── Home.md                          # Página principal (desde docs/README.md)
-├── Documentation-Index.md           # Índice de documentación
+├── Home.md                                    # Página principal
+├── Documentation-Index.md                     # Índice
 │
-├── user/                            # Documentación de usuario
-│   ├── index.md
-│   ├── getting-started.md
-│   ├── installation.md
-│   ├── customization.md
-│   ├── configuration.md
-│   ├── skills/
-│   │   └── implement-us.md
-│   └── tracking/
-│       ├── user-guide.md
-│       └── examples.md
+├── user-Getting-Started.md                    # docs/user/getting-started.md
+├── user-Installation.md                       # docs/user/installation.md
+├── user-Customization.md                      # docs/user/customization.md
+├── user-Configuration.md                      # docs/user/configuration.md
+├── user-skills-Implement-Us.md                # docs/user/skills/implement-us.md
+├── user-tracking-User-Guide.md                # docs/user/tracking/user-guide.md
+├── user-tracking-Examples.md                  # docs/user/tracking/examples.md
 │
-└── developer/                       # Documentación técnica
-    ├── architecture/
-    │   ├── tracking.md
-    │   ├── template-system.md
-    │   └── session-memory.md
-    └── contributing/
-        ├── creating-skills.md
-        └── template.md
+├── developer-architecture-Tracking.md         # docs/developer/architecture/tracking.md
+├── developer-architecture-Template-System.md  # docs/developer/architecture/template-system.md
+├── developer-architecture-Session-Memory.md   # docs/developer/architecture/session-memory.md
+├── developer-contributing-Creating-Skills.md  # docs/developer/contributing/creating-skills.md
+└── developer-contributing-Template.md         # docs/developer/contributing/template.md
 ```
+
+**Nota:** GitHub Wiki no soporta subdirectorios reales. Usamos estructura aplanada con guiones para simular jerarquía.
 
 ---
 
@@ -97,15 +100,21 @@ Configura git con usuario `github-actions[bot]`.
 ### Paso 3: Clonar Wiki
 Clona el repositorio Wiki (`.wiki.git`).
 
-### Paso 4: Sincronizar User Docs
-Copia `docs/user/` → `wiki/user/` manteniendo estructura.
+### Paso 4: Sincronizar Documentación con Estructura Aplanada
+Copia todos los archivos de `docs/` a la raíz de `wiki/`:
+- Convierte subdirectorios a prefijos con guiones
+- Convierte nombres a PascalCase (getting-started → Getting-Started)
+- Ejemplos:
+  - `docs/user/getting-started.md` → `wiki/user-Getting-Started.md`
+  - `docs/user/skills/implement-us.md` → `wiki/user-skills-Implement-Us.md`
+  - `docs/developer/architecture/tracking.md` → `wiki/developer-architecture-Tracking.md`
 
-### Paso 5: Sincronizar Developer Docs
-Copia `docs/developer/` → `wiki/developer/` manteniendo estructura.
-
-### Paso 6: Sincronizar README e Índice
+### Paso 5: Sincronizar Casos Especiales
 - `docs/README.md` → `wiki/Home.md` (página principal)
 - `docs/user/index.md` → `wiki/Documentation-Index.md`
+
+### Paso 6: Commit y Push
+Si hay cambios, hace commit y push al Wiki.
 
 ### Paso 7: Commit y Push
 Si hay cambios, hace commit y push al Wiki.
