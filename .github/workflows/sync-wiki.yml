@@ -1,0 +1,89 @@
+name: Sync Documentation to Wiki
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Clone Wiki repository
+        run: |
+          git clone https://github.com/${{ github.repository }}.wiki.git wiki
+
+      - name: Sync User Documentation
+        run: |
+          # Crear directorio user/ en wiki si no existe
+          mkdir -p wiki/user
+          mkdir -p wiki/user/skills
+          mkdir -p wiki/user/tracking
+
+          # Copiar documentación de usuario
+          cp docs/user/*.md wiki/user/ 2>/dev/null || true
+          cp docs/user/skills/*.md wiki/user/skills/ 2>/dev/null || true
+          cp docs/user/tracking/*.md wiki/user/tracking/ 2>/dev/null || true
+
+      - name: Sync Developer Documentation
+        run: |
+          # Crear directorios developer/ en wiki si no existen
+          mkdir -p wiki/developer
+          mkdir -p wiki/developer/architecture
+          mkdir -p wiki/developer/contributing
+
+          # Copiar documentación técnica
+          cp docs/developer/architecture/*.md wiki/developer/architecture/ 2>/dev/null || true
+          cp docs/developer/contributing/*.md wiki/developer/contributing/ 2>/dev/null || true
+
+      - name: Sync README and Home
+        run: |
+          # Copiar README principal como Home de la wiki
+          cp docs/README.md wiki/Home.md
+
+          # Copiar index como punto de entrada alternativo
+          cp docs/user/index.md wiki/Documentation-Index.md
+
+      - name: Commit and Push to Wiki
+        run: |
+          cd wiki
+          git add .
+
+          # Verificar si hay cambios
+          if git diff --staged --quiet; then
+            echo "No changes to sync"
+            exit 0
+          fi
+
+          # Commit y push
+          git commit -m "docs: sync documentation from main repo
+
+          Synced from commit: ${{ github.sha }}
+          Triggered by: ${{ github.event_name }}
+
+          Updated documentation:
+          - User docs: docs/user/
+          - Developer docs: docs/developer/
+          "
+
+          git push origin master
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "✅ Documentation successfully synced to Wiki"
+          echo "📚 Wiki URL: https://github.com/${{ github.repository }}/wiki"
