@@ -277,7 +277,7 @@ Este proyecto está bajo licencia MIT. Ver [LICENSE](LICENSE) para más detalles
 
 - [Documentación](docs/index.md)
 - [Plan del Proyecto](PROJECT_PLAN_claude-dev-kit.md)
-- [Changelog](CHANGELOG.md) (pendiente)
+- [Gestión y Progreso](gestion/)
 - [GitHub Issues](https://github.com/vvalotto/claude-dev-kit/issues)
 
 ---
