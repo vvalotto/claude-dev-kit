@@ -24,8 +24,10 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Clone Wiki repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git clone https://github.com/${{ github.repository }}.wiki.git wiki
+          git clone https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
 
       - name: Sync User Documentation
         run: |
@@ -59,6 +61,8 @@ jobs:
           cp docs/user/index.md wiki/Documentation-Index.md
 
       - name: Commit and Push to Wiki
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd wiki
           git add .
@@ -80,7 +84,7 @@ jobs:
           - Developer docs: docs/developer/
           "
 
-          git push origin master
+          git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git master
 
       - name: Summary
         if: success()
