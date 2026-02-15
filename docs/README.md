@@ -8,36 +8,38 @@ Este directorio contiene toda la documentación del framework Claude Dev Kit, or
 
 ```
 docs/
-├── index.md                    # 📘 Índice principal (punto de entrada)
-├── TEMPLATE.md                 # Plantilla estándar para nuevos documentos
+├── TEMPLATE.md                      # Plantilla estándar para nuevos documentos
+├── README.md                        # Este archivo
 │
-├── getting-started.md          # 🚀 Guía de inicio rápido
-├── installation.md             # 📦 Instalación detallada
-├── customization.md            # 🎨 Personalización del framework
-├── configuration.md            # ⚙️ Referencia de configuración
+├── user/                            # 📘 Documentación de usuario
+│   ├── index.md                     # Índice principal (punto de entrada)
+│   ├── getting-started.md           # 🚀 Guía de inicio rápido
+│   ├── installation.md              # 📦 Instalación detallada
+│   ├── customization.md             # 🎨 Personalización del framework
+│   ├── configuration.md             # ⚙️ Referencia de configuración
+│   │
+│   ├── skills/                      # 🛠️ Skills del framework
+│   │   └── implement-us.md          # Skill principal para implementar US
+│   │
+│   └── tracking/                    # ⏱️ Sistema de tracking
+│       ├── user-guide.md            # Guía de usuario del tracking
+│       └── examples.md              # Ejemplos de uso
 │
-├── skills/                     # 🛠️ Documentación de skills
-│   ├── implement-us.md         # Skill principal para implementar US
-│   └── creating-skills.md      # Guía para crear skills custom
+├── developer/                       # 🏗️ Documentación técnica
+│   ├── architecture/                # Arquitectura del sistema
+│   │   ├── template-system.md       # Sistema de templates
+│   │   ├── tracking.md              # Arquitectura del tracking
+│   │   └── session-memory.md        # Sistema de sesiones
+│   │
+│   └── contributing/                # Guías de contribución
+│       └── creating-skills.md       # Crear skills custom
 │
-├── templates/                  # 📝 Sistema de templates
-│   └── template-system.md      # Arquitectura y uso de templates
-│
-├── tracking/                   # ⏱️ Sistema de tracking de tiempo
-│   ├── user-guide.md           # Guía de usuario del tracking
-│   ├── architecture.md         # Arquitectura técnica del sistema
-│   └── examples.md             # Ejemplos de uso
-│
-├── examples/                   # 📚 Tutoriales por stack
-│   ├── pyqt-project.md
-│   ├── fastapi-project.md
-│   ├── flask-rest-project.md
-│   ├── flask-webapp-project.md
-│   └── generic-python.md
-│
-└── internal/                   # 🔒 Documentación interna
-    ├── analysis/               # Análisis técnicos
-    └── session-memory.md       # Sistema de sesiones
+└── examples/                        # 📚 Tutoriales por stack
+    ├── pyqt-project.md
+    ├── fastapi-project.md
+    ├── flask-rest-project.md
+    ├── flask-webapp-project.md
+    └── generic-python.md
 ```
 
 ---
@@ -47,28 +49,27 @@ docs/
 ### Para Usuarios del Framework
 
 Si eres **nuevo**, comienza aquí:
-1. [Índice principal](./index.md) - Visión general
-2. [Getting Started](./getting-started.md) - Primera experiencia en <15 minutos
-3. [Instalación](./installation.md) - Setup detallado
+1. [Índice principal](./user/index.md) - Visión general
+2. [Getting Started](./user/getting-started.md) - Primera experiencia en <15 minutos
+3. [Instalación](./user/installation.md) - Setup detallado
 
 Si ya tienes el framework instalado:
-- [Skill implement-us](./skills/implement-us.md) - Implementar historias de usuario
-- [Sistema de tracking](./tracking/user-guide.md) - Tracking de tiempo automático
-- [Personalización](./customization.md) - Adaptar a tu stack tecnológico
-- [Configuración](./configuration.md) - Referencia completa de opciones
+- [Skill implement-us](./user/skills/implement-us.md) - Implementar historias de usuario
+- [Sistema de tracking](./user/tracking/user-guide.md) - Tracking de tiempo automático
+- [Personalización](./user/customization.md) - Adaptar a tu stack tecnológico
+- [Configuración](./user/configuration.md) - Referencia completa de opciones
 
 ### Para Desarrolladores del Framework
 
 Si quieres **contribuir** o **crear skills custom**:
-- [Creando Skills](./skills/creating-skills.md) - Guía completa para crear skills
-- [Sistema de Templates](./templates/template-system.md) - Variables y snippets
-- [Tracking - Arquitectura](./tracking/architecture.md) - Diseño del sistema
+- [Creando Skills](./developer/contributing/creating-skills.md) - Guía completa para crear skills
+- [Sistema de Templates](./developer/architecture/template-system.md) - Variables y snippets
+- [Tracking - Arquitectura](./developer/architecture/tracking.md) - Diseño del sistema
 
 ### Para Mantenedores del Proyecto
 
 Documentación interna y análisis:
-- [internal/](./internal/) - Documentación interna del proyecto
-- [internal/analysis/](./internal/analysis/) - Análisis de tickets
+- [developer/architecture/](./developer/architecture/) - Documentación técnica del proyecto
 
 ---
 
@@ -80,14 +81,14 @@ Documentación interna y análisis:
 **Propósito:** Guías de uso, tutoriales, referencias
 
 **Documentos:**
-- [index.md](./index.md) - Índice principal con navegación
-- [getting-started.md](./getting-started.md) - Guía de inicio rápido (<15 min)
-- [installation.md](./installation.md) - Instalación detallada
-- [customization.md](./customization.md) - Personalización del framework
-- [configuration.md](./configuration.md) - Referencia de configuración
-- [skills/implement-us.md](./skills/implement-us.md) - Uso del skill principal
-- [tracking/user-guide.md](./tracking/user-guide.md) - Guía de tracking de tiempo
-- [tracking/examples.md](./tracking/examples.md) - Ejemplos de tracking
+- [user/index.md](./user/index.md) - Índice principal con navegación
+- [user/getting-started.md](./user/getting-started.md) - Guía de inicio rápido (<15 min)
+- [user/installation.md](./user/installation.md) - Instalación detallada
+- [user/customization.md](./user/customization.md) - Personalización del framework
+- [user/configuration.md](./user/configuration.md) - Referencia de configuración
+- [user/skills/implement-us.md](./user/skills/implement-us.md) - Uso del skill principal
+- [user/tracking/user-guide.md](./user/tracking/user-guide.md) - Guía de tracking de tiempo
+- [user/tracking/examples.md](./user/tracking/examples.md) - Ejemplos de tracking
 
 ### 2. Documentación Técnica 🛠️
 
@@ -95,9 +96,10 @@ Documentación interna y análisis:
 **Propósito:** Arquitectura, especificaciones, extensibilidad
 
 **Documentos:**
-- [skills/creating-skills.md](./skills/creating-skills.md) - Crear skills personalizados
-- [templates/template-system.md](./templates/template-system.md) - Sistema de templates
-- [tracking/architecture.md](./tracking/architecture.md) - Arquitectura del tracking
+- [developer/contributing/creating-skills.md](./developer/contributing/creating-skills.md) - Crear skills personalizados
+- [developer/architecture/template-system.md](./developer/architecture/template-system.md) - Sistema de templates
+- [developer/architecture/tracking.md](./developer/architecture/tracking.md) - Arquitectura del tracking
+- [developer/architecture/session-memory.md](./developer/architecture/session-memory.md) - Sistema de sesiones
 
 ### 3. Tutoriales por Stack 📚
 
@@ -110,15 +112,6 @@ Documentación interna y análisis:
 - [examples/flask-rest-project.md](./examples/flask-rest-project.md) - API REST con Flask
 - [examples/flask-webapp-project.md](./examples/flask-webapp-project.md) - WebApp con Flask
 - [examples/generic-python.md](./examples/generic-python.md) - Proyecto Python genérico
-
-### 4. Documentación Interna 🔒
-
-**Audiencia:** Mantenedores del proyecto
-**Propósito:** Análisis, decisiones de desarrollo
-
-**Documentos:**
-- [internal/analysis/TICKET-043-doc-structure.md](./internal/analysis/TICKET-043-doc-structure.md) - Análisis de estructura docs/
-- [internal/session-memory.md](./internal/session-memory.md) - Sistema de sesiones
 
 ---
 
@@ -133,7 +126,6 @@ Si vas a crear un nuevo documento:
 
 2. **Sigue las convenciones:**
    - Ver [TEMPLATE.md](./TEMPLATE.md) para estructura
-   - Ver [internal/analysis/TICKET-043-doc-structure.md](./internal/analysis/TICKET-043-doc-structure.md) para convenciones
 
 3. **Incluye siempre:**
    - Tabla de contenidos
@@ -143,7 +135,7 @@ Si vas a crear un nuevo documento:
    - Navegación (anterior/siguiente/índice)
 
 4. **Actualiza el índice:**
-   - Agregar enlace en [index.md](./index.md)
+   - Agregar enlace en [user/index.md](./user/index.md)
    - Agregar entrada en este README
 
 ---
@@ -151,13 +143,13 @@ Si vas a crear un nuevo documento:
 ## 🔗 Enlaces Rápidos
 
 ### Documentos Principales
-- [📘 Índice Principal](./index.md)
-- [🚀 Getting Started](./getting-started.md)
-- [🛠️ Skill implement-us](./skills/implement-us.md)
+- [📘 Índice Principal](./user/index.md)
+- [🚀 Getting Started](./user/getting-started.md)
+- [🛠️ Skill implement-us](./user/skills/implement-us.md)
 
 ### Recursos Técnicos
-- [📝 Sistema de Templates](./templates/template-system.md)
-- [⏱️ Tracking - Arquitectura](./tracking/architecture.md)
+- [📝 Sistema de Templates](./developer/architecture/template-system.md)
+- [⏱️ Tracking - Arquitectura](./developer/architecture/tracking.md)
 
 ### Proyecto
 - [README Principal](../README.md)

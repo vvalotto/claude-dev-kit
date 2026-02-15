@@ -68,9 +68,9 @@ Si quieres contribuir o crear extensiones:
 
 | Documento | Descripción | Estado |
 |-----------|-------------|--------|
-| **[Creando Skills](./skills/creating-skills.md)** | Guía para crear skills custom | 📋 Fase 6 |
-| **[Sistema de Templates](./templates/template-system.md)** | Variables, snippets y personalización | ✅ Completo |
-| **[Tracking - Arquitectura](./tracking/architecture.md)** | Diseño técnico del sistema | ✅ Completo |
+| **[Creando Skills](../developer/contributing/creating-skills.md)** | Guía para crear skills custom | 📋 Fase 6 |
+| **[Sistema de Templates](../developer/architecture/template-system.md)** | Variables, snippets y personalización | ✅ Completo |
+| **[Tracking - Arquitectura](../developer/architecture/tracking.md)** | Diseño técnico del sistema | ✅ Completo |
 
 ### Tutoriales por Stack Tecnológico
 
@@ -110,7 +110,7 @@ Elige tu camino según tu objetivo:
 
 1. [Personalización](./customization.md) - Sistema de perfiles
 2. [Configuración](./configuration.md) - Opciones avanzadas
-3. [Sistema de Templates](./templates/template-system.md) - Variables y snippets
+3. [Sistema de Templates](../developer/architecture/template-system.md) - Variables y snippets
 4. [Tutorial específico](./examples/) - Según tu stack
 
 **Tiempo total:** ~2 horas
@@ -122,10 +122,10 @@ Elige tu camino según tu objetivo:
 
 **Objetivo:** Crear skills custom o contribuir al framework
 
-1. [Creando Skills](./skills/creating-skills.md) - Anatomía de un skill
-2. [Sistema de Templates](./templates/template-system.md) - Sistema de variables
-3. [Tracking - Arquitectura](./tracking/architecture.md) - Integración con tracking
-4. [Documentación Interna](./internal/) - Decisiones arquitectónicas
+1. [Creando Skills](../developer/contributing/creating-skills.md) - Anatomía de un skill
+2. [Sistema de Templates](../developer/architecture/template-system.md) - Sistema de variables
+3. [Tracking - Arquitectura](../developer/architecture/tracking.md) - Integración con tracking
+4. [Documentación Interna](../developer/architecture/) - Decisiones arquitectónicas
 
 **Tiempo total:** ~3 horas
 **Resultado:** Skill custom funcional o contribución al framework
@@ -154,7 +154,7 @@ Rutas específicas según tu tecnología:
 #### Django Projects
 1. [Instalación](./installation.md) - Seleccionar perfil `generic-python`
 2. [Personalización](./customization.md) - Crear perfil Django custom
-3. [Creando Skills](./skills/creating-skills.md) - Adaptar para Django MVT
+3. [Creando Skills](../developer/contributing/creating-skills.md) - Adaptar para Django MVT
 
 ---
 
@@ -215,7 +215,7 @@ Templates parametrizados con variables y snippets:
 - **Snippets:** Bloques de código multi-línea por perfil
 - **Templates:** BDD scenarios, implementation plans, test units, reports
 
-**Ver:** [Sistema de Templates](./templates/template-system.md)
+**Ver:** [Sistema de Templates](../developer/architecture/template-system.md)
 
 ---
 

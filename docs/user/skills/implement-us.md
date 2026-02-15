@@ -301,5 +301,5 @@ EOF
 ---
 
 **Anterior:** [Configuración](../configuration.md)
-**Siguiente:** [Creando Skills](./creating-skills.md)
+**Siguiente:** [Creando Skills](../../developer/contributing/creating-skills.md)
 **Índice:** [Volver al índice](../index.md)

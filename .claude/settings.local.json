@@ -15,7 +15,8 @@
       "Bash(git mv:*)",
       "Bash(ls:*)",
       "Bash(cat:*)",
-      "Bash(git rm docs/session-memory-improvements.md)"
+      "Bash(git rm docs/session-memory-improvements.md)",
+      "Bash(done)"
     ]
   }
 }

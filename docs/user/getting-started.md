@@ -669,7 +669,7 @@ Elige tu próximo paso según tu objetivo:
 → [Guía de Personalización](./customization.md)
 
 **Si quieres aprender con un proyecto real:**
-→ [Tutoriales por Stack](./examples/)
+→ [Tutoriales por Stack](../examples/)
 
 **Si tienes dudas o problemas:**
 → [GitHub Issues](https://github.com/vvalotto/claude-dev-kit/issues)
