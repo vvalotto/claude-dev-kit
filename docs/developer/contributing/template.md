@@ -120,12 +120,12 @@ result = instance.method()
 
 Enlaces a documentación relacionada o recursos externos:
 
-- [Documento relacionado 1](./documento-relacionado.md) - Breve descripción
-- [Documento relacionado 2](./otro-documento.md) - Breve descripción
+- [Documento relacionado 1](Documento-Relacionado) - Breve descripción
+- [Documento relacionado 2](Otro-Documento) - Breve descripción
 - [Documentación externa](https://ejemplo.com) - Recurso oficial
 
 ---
 
-**Anterior:** [Nombre del documento anterior](./anterior.md)
-**Siguiente:** [Nombre del documento siguiente](./siguiente.md)
-**Índice:** [Volver al índice](./index.md)
+**Anterior:** [Nombre del documento anterior](Anterior)
+**Siguiente:** [Nombre del documento siguiente](Siguiente)
+**Índice:** [Volver al índice](Index)

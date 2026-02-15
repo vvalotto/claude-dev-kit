@@ -592,13 +592,13 @@ python ~/.claude-dev-kit/install/installer.py --upgrade
 
 ## Recursos Adicionales
 
-- [Getting Started](./getting-started.md) - Guía de inicio rápido
-- [Personalización](./customization.md) - Modificar perfiles y configuración
-- [Configuración](./configuration.md) - Referencia completa de opciones
-- [Skill implement-us](./skills/implement-us.md) - Uso del skill principal
+- [Getting Started](Getting-Started) - Guía de inicio rápido
+- [Personalización](Customization) - Modificar perfiles y configuración
+- [Configuración](Configuration) - Referencia completa de opciones
+- [Skill implement-us](skills/Implement-Us) - Uso del skill principal
 
 ---
 
-**Anterior:** [Getting Started](./getting-started.md)
-**Siguiente:** [Personalización](./customization.md)
-**Índice:** [Volver al índice](./index.md)
+**Anterior:** [Getting Started](Getting-Started)
+**Siguiente:** [Personalización](Customization)
+**Índice:** [Volver al índice](Index)

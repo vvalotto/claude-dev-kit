@@ -358,12 +358,12 @@ $US_ID
 
 ## Recursos Adicionales
 
-- [Configuración](./configuration.md) - Referencia completa de opciones
-- [Sistema de Templates](../developer/architecture/template-system.md) - Variables y snippets
-- [Creando Skills](../developer/contributing/creating-skills.md) - Skills custom
+- [Configuración](Configuration) - Referencia completa de opciones
+- [Sistema de Templates](developer/architecture/Template-System) - Variables y snippets
+- [Creando Skills](developer/contributing/Creating-Skills) - Skills custom
 
 ---
 
-**Anterior:** [Instalación](./installation.md)
-**Siguiente:** [Configuración](./configuration.md)
-**Índice:** [Volver al índice](./index.md)
+**Anterior:** [Instalación](Installation)
+**Siguiente:** [Configuración](Configuration)
+**Índice:** [Volver al índice](Index)

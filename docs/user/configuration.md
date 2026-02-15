@@ -369,12 +369,12 @@ export CLAUDE_DEVKIT_CONFIG=/custom/path/config.json
 
 ## Recursos Adicionales
 
-- [Personalización](./customization.md) - Crear perfiles custom
-- [Tracking](./tracking/user-guide.md) - Sistema de tracking
-- [Templates](../developer/architecture/template-system.md) - Sistema de templates
+- [Personalización](Customization) - Crear perfiles custom
+- [Tracking](tracking/User-Guide) - Sistema de tracking
+- [Templates](developer/architecture/Template-System) - Sistema de templates
 
 ---
 
-**Anterior:** [Personalización](./customization.md)
-**Siguiente:** [Skill implement-us](./skills/implement-us.md)
-**Índice:** [Volver al índice](./index.md)
+**Anterior:** [Personalización](Customization)
+**Siguiente:** [Skill implement-us](skills/Implement-Us)
+**Índice:** [Volver al índice](Index)

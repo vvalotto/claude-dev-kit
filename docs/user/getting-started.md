@@ -411,7 +411,7 @@ Pausas:
 ⏸️ Lunch break: 30min (12:30 - 13:00)
 ```
 
-> **Ver más:** [Tracking - Guía de Usuario](./tracking/user-guide.md)
+> **Ver más:** [Tracking - Guía de Usuario](tracking/User-Guide)
 
 ---
 
@@ -481,7 +481,7 @@ nano .claude/skills/implement-us/config.json
 }
 ```
 
-> **Ver más:** [Guía de Personalización](./customization.md)
+> **Ver más:** [Guía de Personalización](Customization)
 
 ---
 
@@ -506,11 +506,11 @@ Esto actualizará `.claude/skills/implement-us/config.json` con la configuració
 
 Profundiza en cada componente:
 
-1. **[Instalación Detallada](./installation.md)** - Opciones avanzadas, modos de instalación
-2. **[Skill implement-us](./skills/implement-us.md)** - Entender las 10 fases en detalle
-3. **[Sistema de Tracking](./tracking/user-guide.md)** - Comandos avanzados, reportes históricos
-4. **[Personalización Completa](./customization.md)** - Crear perfiles custom, modificar templates
-5. **[Referencia de Configuración](./configuration.md)** - Todas las opciones disponibles
+1. **[Instalación Detallada](Installation)** - Opciones avanzadas, modos de instalación
+2. **[Skill implement-us](skills/Implement-Us)** - Entender las 10 fases en detalle
+3. **[Sistema de Tracking](tracking/User-Guide)** - Comandos avanzados, reportes históricos
+4. **[Personalización Completa](Customization)** - Crear perfiles custom, modificar templates
+5. **[Referencia de Configuración](Configuration)** - Todas las opciones disponibles
 
 ---
 
@@ -518,11 +518,11 @@ Profundiza en cada componente:
 
 Aprende con proyectos reales completos:
 
-- **[Proyecto PyQt-MVC](./examples/pyqt-project.md)** - Aplicación de escritorio con interfaz gráfica
-- **[Proyecto FastAPI-REST](./examples/fastapi-project.md)** - API REST asíncrona completa
-- **[Proyecto Flask-REST](./examples/flask-rest-project.md)** - API REST con Flask
-- **[Proyecto Flask-WebApp](./examples/flask-webapp-project.md)** - Aplicación web con templates
-- **[Proyecto Python Genérico](./examples/generic-python.md)** - CLI app o librería Python
+- **[Proyecto PyQt-MVC](examples/Pyqt-Project)** - Aplicación de escritorio con interfaz gráfica
+- **[Proyecto FastAPI-REST](examples/Fastapi-Project)** - API REST asíncrona completa
+- **[Proyecto Flask-REST](examples/Flask-Rest-Project)** - API REST con Flask
+- **[Proyecto Flask-WebApp](examples/Flask-Webapp-Project)** - Aplicación web con templates
+- **[Proyecto Python Genérico](examples/Generic-Python)** - CLI app o librería Python
 
 ---
 
@@ -652,9 +652,9 @@ FAILED tests/test_calculator.py::test_suma - AssertionError
 - [x] Primera historia de usuario
 - [x] Comandos básicos de tracking
 - [x] Personalización de configuración
-- [ ] **Próximo:** [Instalación Detallada](./installation.md)
-- [ ] **Próximo:** [Skill implement-us - Guía Completa](./skills/implement-us.md)
-- [ ] **Próximo:** [Tutorial de tu stack](./examples/)
+- [ ] **Próximo:** [Instalación Detallada](Installation)
+- [ ] **Próximo:** [Skill implement-us - Guía Completa](skills/Implement-Us)
+- [ ] **Próximo:** [Tutorial de tu stack](examples)
 
 ---
 
@@ -663,19 +663,19 @@ FAILED tests/test_calculator.py::test_suma - AssertionError
 Elige tu próximo paso según tu objetivo:
 
 **Si quieres profundizar en el framework:**
-→ [Skill implement-us - Documentación Completa](./skills/implement-us.md)
+→ [Skill implement-us - Documentación Completa](skills/Implement-Us)
 
 **Si quieres personalizarlo a tu stack:**
-→ [Guía de Personalización](./customization.md)
+→ [Guía de Personalización](Customization)
 
 **Si quieres aprender con un proyecto real:**
-→ [Tutoriales por Stack](../examples/)
+→ [Tutoriales por Stack](examples)
 
 **Si tienes dudas o problemas:**
 → [GitHub Issues](https://github.com/vvalotto/claude-dev-kit/issues)
 
 ---
 
-**Anterior:** [Índice](./index.md)
-**Siguiente:** [Instalación Detallada](./installation.md)
-**Índice:** [Volver al índice](./index.md)
+**Anterior:** [Índice](Index)
+**Siguiente:** [Instalación Detallada](Installation)
+**Índice:** [Volver al índice](Index)

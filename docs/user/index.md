@@ -28,13 +28,13 @@ Claude Dev Kit es un framework instalable y reutilizable para proyectos Python q
 
 ¿Primera vez? Comienza aquí:
 
-1. **[Guía de Inicio Rápido](./getting-started.md)** - Tu primera experiencia en <15 minutos
+1. **[Guía de Inicio Rápido](user/Getting-Started)** - Tu primera experiencia en <15 minutos
    Aprende a instalar el framework e implementar tu primera historia de usuario.
 
-2. **[Instalación Detallada](./installation.md)** - Setup completo paso a paso
+2. **[Instalación Detallada](user/Installation)** - Setup completo paso a paso
    Instalación interactiva y no interactiva, selección de perfil, validación.
 
-3. **[Skill implement-us](./skills/implement-us.md)** - El skill principal
+3. **[Skill implement-us](user/skills/Implement-Us)** - El skill principal
    Guía completa del skill que automatiza la implementación de historias de usuario.
 
 ---
@@ -47,10 +47,10 @@ Si eres desarrollador usando el framework en tu proyecto:
 
 | Documento | Descripción | Estado |
 |-----------|-------------|--------|
-| **[Getting Started](./getting-started.md)** | Guía de inicio rápido (<15 min) | 📋 Fase 6 |
-| **[Instalación](./installation.md)** | Instalación detallada con validación | 📋 Fase 6 |
-| **[Personalización](./customization.md)** | Adapta el framework a tu stack | 📋 Fase 6 |
-| **[Configuración](./configuration.md)** | Referencia completa de opciones | 📋 Fase 6 |
+| **[Getting Started](user/Getting-Started)** | Guía de inicio rápido (<15 min) | 📋 Fase 6 |
+| **[Instalación](user/Installation)** | Instalación detallada con validación | 📋 Fase 6 |
+| **[Personalización](user/Customization)** | Adapta el framework a tu stack | 📋 Fase 6 |
+| **[Configuración](user/Configuration)** | Referencia completa de opciones | 📋 Fase 6 |
 
 ### Skills y Herramientas
 
@@ -58,9 +58,9 @@ Documentación de los skills disponibles:
 
 | Documento | Descripción | Estado |
 |-----------|-------------|--------|
-| **[Skill implement-us](./skills/implement-us.md)** | Implementación automatizada de US | 📋 Fase 6 |
-| **[Tracking - Guía de Usuario](./tracking/user-guide.md)** | Sistema de tracking de tiempo | ✅ Completo |
-| **[Tracking - Ejemplos](./tracking/examples.md)** | Ejemplos de uso del tracking | ✅ Completo |
+| **[Skill implement-us](user/skills/Implement-Us)** | Implementación automatizada de US | 📋 Fase 6 |
+| **[Tracking - Guía de Usuario](user/tracking/User-Guide)** | Sistema de tracking de tiempo | ✅ Completo |
+| **[Tracking - Ejemplos](user/tracking/Examples)** | Ejemplos de uso del tracking | ✅ Completo |
 
 ### Para Desarrolladores del Framework
 
@@ -68,9 +68,9 @@ Si quieres contribuir o crear extensiones:
 
 | Documento | Descripción | Estado |
 |-----------|-------------|--------|
-| **[Creando Skills](../developer/contributing/creating-skills.md)** | Guía para crear skills custom | 📋 Fase 6 |
-| **[Sistema de Templates](../developer/architecture/template-system.md)** | Variables, snippets y personalización | ✅ Completo |
-| **[Tracking - Arquitectura](../developer/architecture/tracking.md)** | Diseño técnico del sistema | ✅ Completo |
+| **[Creando Skills](developer/contributing/Creating-Skills)** | Guía para crear skills custom | 📋 Fase 6 |
+| **[Sistema de Templates](developer/architecture/Template-System)** | Variables, snippets y personalización | ✅ Completo |
+| **[Tracking - Arquitectura](developer/architecture/Tracking)** | Diseño técnico del sistema | ✅ Completo |
 
 ### Tutoriales por Stack Tecnológico
 
@@ -78,11 +78,11 @@ Proyectos ejemplo completos end-to-end:
 
 | Tutorial | Stack | Estado |
 |----------|-------|--------|
-| **[Proyecto PyQt-MVC](./examples/pyqt-project.md)** | PyQt6 + MVC | ⏳ Fase 7 |
-| **[Proyecto FastAPI-REST](./examples/fastapi-project.md)** | FastAPI + REST API | ⏳ Fase 7 |
-| **[Proyecto Flask-REST](./examples/flask-rest-project.md)** | Flask + REST API | ⏳ Fase 7 |
-| **[Proyecto Flask-WebApp](./examples/flask-webapp-project.md)** | Flask + Templates | ⏳ Fase 7 |
-| **[Proyecto Python Genérico](./examples/generic-python.md)** | Python sin framework | ⏳ Fase 7 |
+| **[Proyecto PyQt-MVC](examples/Pyqt-Project)** | PyQt6 + MVC | ⏳ Fase 7 |
+| **[Proyecto FastAPI-REST](examples/Fastapi-Project)** | FastAPI + REST API | ⏳ Fase 7 |
+| **[Proyecto Flask-REST](examples/Flask-Rest-Project)** | Flask + REST API | ⏳ Fase 7 |
+| **[Proyecto Flask-WebApp](examples/Flask-Webapp-Project)** | Flask + Templates | ⏳ Fase 7 |
+| **[Proyecto Python Genérico](examples/Generic-Python)** | Python sin framework | ⏳ Fase 7 |
 
 ---
 
@@ -94,10 +94,10 @@ Elige tu camino según tu objetivo:
 
 **Objetivo:** Instalar el framework y ejecutar tu primera historia de usuario
 
-1. [Guía de Inicio Rápido](./getting-started.md) - 15 minutos
-2. [Instalación Detallada](./installation.md) - 10 minutos
-3. [Skill implement-us](./skills/implement-us.md) - 20 minutos
-4. [Tracking - Guía de Usuario](./tracking/user-guide.md) - 10 minutos
+1. [Guía de Inicio Rápido](user/Getting-Started) - 15 minutos
+2. [Instalación Detallada](user/Installation) - 10 minutos
+3. [Skill implement-us](user/skills/Implement-Us) - 20 minutos
+4. [Tracking - Guía de Usuario](user/tracking/User-Guide) - 10 minutos
 
 **Tiempo total:** ~1 hora
 **Resultado:** Framework instalado + Primera US implementada
@@ -108,10 +108,10 @@ Elige tu camino según tu objetivo:
 
 **Objetivo:** Adaptar el framework a tu stack específico
 
-1. [Personalización](./customization.md) - Sistema de perfiles
-2. [Configuración](./configuration.md) - Opciones avanzadas
-3. [Sistema de Templates](../developer/architecture/template-system.md) - Variables y snippets
-4. [Tutorial específico](./examples/) - Según tu stack
+1. [Personalización](user/Customization) - Sistema de perfiles
+2. [Configuración](user/Configuration) - Opciones avanzadas
+3. [Sistema de Templates](developer/architecture/Template-System) - Variables y snippets
+4. [Tutorial específico](examples) - Según tu stack
 
 **Tiempo total:** ~2 horas
 **Resultado:** Framework personalizado para tu proyecto
@@ -122,10 +122,10 @@ Elige tu camino según tu objetivo:
 
 **Objetivo:** Crear skills custom o contribuir al framework
 
-1. [Creando Skills](../developer/contributing/creating-skills.md) - Anatomía de un skill
-2. [Sistema de Templates](../developer/architecture/template-system.md) - Sistema de variables
-3. [Tracking - Arquitectura](../developer/architecture/tracking.md) - Integración con tracking
-4. [Documentación Interna](../developer/architecture/) - Decisiones arquitectónicas
+1. [Creando Skills](developer/contributing/Creating-Skills) - Anatomía de un skill
+2. [Sistema de Templates](developer/architecture/Template-System) - Sistema de variables
+3. [Tracking - Arquitectura](developer/architecture/Tracking) - Integración con tracking
+4. [Documentación Interna](developer/architecture) - Decisiones arquitectónicas
 
 **Tiempo total:** ~3 horas
 **Resultado:** Skill custom funcional o contribución al framework
@@ -137,24 +137,24 @@ Elige tu camino según tu objetivo:
 Rutas específicas según tu tecnología:
 
 #### PyQt Desktop Apps
-1. [Instalación](./installation.md) - Seleccionar perfil `pyqt-mvc`
-2. [Tutorial PyQt-MVC](./examples/pyqt-project.md) - Proyecto completo
-3. [Personalización](./customization.md) - Ajustes específicos PyQt
+1. [Instalación](user/Installation) - Seleccionar perfil `pyqt-mvc`
+2. [Tutorial PyQt-MVC](examples/Pyqt-Project) - Proyecto completo
+3. [Personalización](user/Customization) - Ajustes específicos PyQt
 
 #### FastAPI REST APIs
-1. [Instalación](./installation.md) - Seleccionar perfil `fastapi-rest`
-2. [Tutorial FastAPI](./examples/fastapi-project.md) - API completa
-3. [Configuración](./configuration.md) - Quality gates para APIs
+1. [Instalación](user/Installation) - Seleccionar perfil `fastapi-rest`
+2. [Tutorial FastAPI](examples/Fastapi-Project) - API completa
+3. [Configuración](user/Configuration) - Quality gates para APIs
 
 #### Flask Applications
-1. [Instalación](./installation.md) - Seleccionar `flask-rest` o `flask-webapp`
-2. [Tutorial Flask REST](./examples/flask-rest-project.md) o [Flask WebApp](./examples/flask-webapp-project.md)
-3. [Personalización](./customization.md) - Blueprints y templates Flask
+1. [Instalación](user/Installation) - Seleccionar `flask-rest` o `flask-webapp`
+2. [Tutorial Flask REST](examples/Flask-Rest-Project) o [Flask WebApp](examples/Flask-Webapp-Project)
+3. [Personalización](user/Customization) - Blueprints y templates Flask
 
 #### Django Projects
-1. [Instalación](./installation.md) - Seleccionar perfil `generic-python`
-2. [Personalización](./customization.md) - Crear perfil Django custom
-3. [Creando Skills](../developer/contributing/creating-skills.md) - Adaptar para Django MVT
+1. [Instalación](user/Installation) - Seleccionar perfil `generic-python`
+2. [Personalización](user/Customization) - Crear perfil Django custom
+3. [Creando Skills](developer/contributing/Creating-Skills) - Adaptar para Django MVT
 
 ---
 
@@ -175,7 +175,7 @@ El skill principal del framework que guía paso a paso la implementación de his
 8. **Documentación** - Docstrings y comentarios
 9. **Reporte Final** - Métricas y resumen
 
-**Ver:** [Documentación completa del skill](./skills/implement-us.md)
+**Ver:** [Documentación completa del skill](user/skills/Implement-Us)
 
 ### Sistema de Perfiles
 
@@ -193,7 +193,7 @@ Cada perfil personaliza:
 - Estructura de componentes
 - Quality gates y umbrales
 
-**Ver:** [Guía de Personalización](./customization.md)
+**Ver:** [Guía de Personalización](user/Customization)
 
 ### Sistema de Tracking
 
@@ -205,7 +205,7 @@ Tracking automático de tiempo por fase y tarea durante la implementación:
 - 📊 **Reportes** - `/track-status`, `/track-report`, `/track-history`
 - 📈 **Varianza** - Tiempo estimado vs. real por tarea
 
-**Ver:** [Tracking - Guía de Usuario](./tracking/user-guide.md)
+**Ver:** [Tracking - Guía de Usuario](user/tracking/User-Guide)
 
 ### Sistema de Templates
 
@@ -215,7 +215,7 @@ Templates parametrizados con variables y snippets:
 - **Snippets:** Bloques de código multi-línea por perfil
 - **Templates:** BDD scenarios, implementation plans, test units, reports
 
-**Ver:** [Sistema de Templates](../developer/architecture/template-system.md)
+**Ver:** [Sistema de Templates](developer/architecture/Template-System)
 
 ---
 
@@ -230,15 +230,15 @@ Templates parametrizados con variables y snippets:
 
 ### Documentación del Proyecto
 
-- [README Principal](../README.md) - Visión general del proyecto
-- [Plan del Proyecto](../PROJECT_PLAN_claude-dev-kit.md) - Roadmap completo
-- [Gestión de Tareas](../gestion/) - Progreso y planificación
+- [README Principal](https://github.com/vvalotto/claude-dev-kit) - Visión general del proyecto
+- [Plan del Proyecto](https://github.com/vvalotto/claude-dev-kit/blob/main/PROJECT_PLAN_claude-dev-kit.md) - Roadmap completo
+- [Gestión de Tareas](https://github.com/vvalotto/claude-dev-kit/tree/main/gestion) - Progreso y planificación
 
 ### Soporte y Comunidad
 
-- [Changelog](../CHANGELOG.md) - Historial de versiones (pendiente)
-- [Contributing](../CONTRIBUTING.md) - Guía de contribución (pendiente)
-- [License](../LICENSE) - Licencia MIT (pendiente)
+- Changelog - Historial de versiones (pendiente)
+- Contributing - Guía de contribución (pendiente)
+- [License](https://github.com/vvalotto/claude-dev-kit/blob/main/LICENSE) - Licencia MIT (pendiente)
 
 ---
 
@@ -255,7 +255,7 @@ Templates parametrizados con variables y snippets:
 
 El framework soporta 5 perfiles predefinidos (PyQt, FastAPI, Flask REST, Flask WebApp, Python genérico) y permite crear perfiles custom para cualquier stack.
 
-**Ver:** [Personalización - Crear Perfil Custom](./customization.md#crear-perfil-custom)
+**Ver:** [Personalización - Crear Perfil Custom](user/Customization#crear-perfil-custom)
 
 ### ¿Puedo usar solo parte del framework?
 
@@ -273,13 +273,13 @@ git pull origin main
 python install/installer.py --upgrade
 ```
 
-**Ver:** [Instalación - Actualización](./installation.md#actualización)
+**Ver:** [Instalación - Actualización](user/Installation#actualización)
 
 ### ¿Dónde reporto bugs o sugiero features?
 
 Usa GitHub Issues:
-- **Bug:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/new?template=bug_report.md)
-- **Feature:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/new?template=feature_request.md)
+- **Bug:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/New?template=bug_report)
+- **Feature:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/New?template=feature_request)
 
 ---
 
@@ -298,4 +298,4 @@ Usa GitHub Issues:
 
 ---
 
-**¿Listo para comenzar?** → [Guía de Inicio Rápido](./getting-started.md)
+**¿Listo para comenzar?** → [Guía de Inicio Rápido](user/Getting-Started)
