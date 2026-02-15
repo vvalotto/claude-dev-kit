@@ -1,470 +1,285 @@
 # Claude Dev Kit
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+> Framework agnóstico de dominio para implementación automatizada de historias de usuario con Claude Code
 
-Framework agnóstico de dominio para desarrollo asistido con [Claude Code](https://claude.ai/code). Automatiza el ciclo completo de implementación de historias de usuario en proyectos Python.
+[![Version](https://img.shields.io/badge/version-1.0.0--alpha-blue.svg)](https://github.com/vvalotto/claude-dev-kit)
+[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-alpha-yellow.svg)](https://github.com/vvalotto/claude-dev-kit)
 
 ---
 
 ## 🎯 ¿Qué es Claude Dev Kit?
 
-**Claude Dev Kit** es un framework instalable que proporciona skills, templates y herramientas de tracking para asistir el desarrollo de software con Claude Code. Está diseñado para ser **agnóstico de dominio**, permitiendo su uso en diferentes stacks tecnológicos mediante un sistema de perfiles.
+Claude Dev Kit es un framework instalable que **automatiza el ciclo completo de implementación** de historias de usuario a través de 10 fases estructuradas, con tracking automático de tiempo y validación de calidad.
 
-En lugar de escribir código desde cero, el framework guía paso a paso la implementación de historias de usuario a través de 9 fases estructuradas, desde la validación inicial hasta el reporte final, incluyendo:
-
-- Generación automática de escenarios BDD
-- Planes de implementación detallados
-- Tests unitarios y de integración
-- Validación de quality gates (pylint, complejidad, cobertura)
-- Tracking automático de tiempo por fase y tarea
-
----
-
-## ✨ Características Principales
-
-### 🤖 Skill `implement-us` - Implementación Guiada de User Stories
-
-Proceso estructurado de 9 fases para implementar historias de usuario:
-
-1. **Validación de Contexto** - Verifica arquitectura y estándares
-2. **Generación BDD** - Crea escenarios Gherkin automáticamente
-3. **Plan de Implementación** - Genera checklist detallado con estimaciones
-4. **Implementación** - Desarrollo guiado del código
-5. **Tests Unitarios** - Generación de tests con fixtures
-6. **Tests de Integración** - Tests end-to-end
-7. **Validación BDD** - Ejecuta escenarios contra implementación
-8. **Quality Gates** - Valida métricas de calidad (pylint, CC, MI, coverage)
-9. **Reporte Final** - Documenta tiempo, varianzas y resultados
-
-### ⏱️ Sistema de Tracking de Tiempo Automático
-
-Tracking preciso de tiempo durante la implementación de Historias de Usuario:
-
-**Características:**
-- **Tracking automático** durante todas las fases de `/implement-us`
-- **Pausas manuales** con razón (`/track-pause [razón]`, `/track-resume`)
-- **Estado en tiempo real** con métricas actualizadas (`/track-status`)
-- **Reportes detallados** por US (`/track-report [us_id]`)
-- **Historial completo** de tracking (`/track-history [--last N]`)
-- **Análisis de varianza** (tiempo estimado vs. real)
-- **Persistencia automática** en JSON (`.claude/tracking/`)
-
-**Comandos disponibles:**
-```bash
-/track-pause "Reunión del equipo"  # Pausar con razón
-/track-resume                       # Reanudar tracking
-/track-status                       # Ver estado actual
-/track-report US-001                # Reporte detallado
-/track-history --last 10            # Últimas 10 USs
-```
-
-**Métricas generadas:**
-- Tiempo total, efectivo y pausado por fase
-- Varianza por tarea y fase (estimado vs. real)
-- Promedio de tiempo por punto
-- Insights automáticos sobre sobrecostos
-
-Ver [docs/tracking/user-guide.md](docs/tracking/user-guide.md) para guía completa.
-
-### 📄 Sistema de Templates Generalizado
-
-4 templates framework-agnostic que se adaptan automáticamente al perfil del proyecto:
-
-- **BDD Scenarios** (`bdd/scenario.feature`) - Escenarios Gherkin con Background específico por stack
-- **Implementation Plans** (`planning/implementation-plan.md`) - Planes con checklist de integración por framework
-- **Implementation Reports** (`reporting/implementation-report.md`) - Reportes con código de integración específico
-- **Unit Tests** (`testing/test-unit.py`) - Tests con imports, fixtures y clases específicas por framework
-
-**Sistema de Variables:** 20+ variables parametrizadas (`{US_ID}`, `{ARCHITECTURE_PATTERN}`, etc.)
-**Sistema de Snippets:** Bloques de código condicionales por perfil
-
-Ver [templates/README.md](templates/README.md) para documentación completa.
-
-### 🎨 Sistema de Perfiles por Stack Tecnológico
-
-5 perfiles con customizaciones específicas:
-
-- **pyqt-mvc**: PyQt6 + MVC + Factory/Coordinator patterns
-- **fastapi-rest**: FastAPI + REST APIs async + dependency injection
-- **flask-rest**: Flask + REST APIs + Blueprint pattern
-- **flask-webapp**: Flask + fullstack webapp + Jinja2 templates
-- **generic-python**: Proyectos Python genéricos sin framework específico
+**¿Por qué usarlo?**
+- ✅ **Automatiza** el flujo de trabajo: Desde BDD hasta reporte final
+- ✅ **Personalizable** por stack: PyQt, FastAPI, Flask, Django, Python genérico
+- ✅ **Trackea tiempo** automáticamente por fase y tarea
+- ✅ **Genera** BDD, planes, tests, documentación y reportes
+- ✅ **Valida calidad** con quality gates (Pylint, coverage, complejidad)
 
 ---
 
-## 🚀 Instalación
+## 🚀 Quick Start
 
-### Prerrequisitos
-
-- Python 3.10 o superior
-- [Claude Code](https://claude.ai/code) instalado y configurado
-- Git
-
-### Instalación Global (Recomendada)
+### Instalación (5 minutos)
 
 ```bash
-# 1. Clonar el kit en ubicación global
+# 1. Clonar el framework
 git clone https://github.com/vvalotto/claude-dev-kit.git ~/.claude-dev-kit
 
-# 2. Navegar al proyecto donde lo quieres usar
+# 2. Navegar a tu proyecto
 cd ~/mi-proyecto-python
 
-# 3. Ejecutar instalador (interactivo)
+# 3. Ejecutar instalador
 python ~/.claude-dev-kit/install/installer.py
 
-# 4. Seleccionar perfil según tu stack
-# Opciones: pyqt-mvc | fastapi-rest | django-mvt | generic-python
-
-# 5. Validar instalación
-python ~/.claude-dev-kit/scripts/validate-setup.py
+# 4. Seleccionar perfil (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python)
+# El instalador te guiará interactivamente
 ```
 
-### Instalación No Interactiva
+### Primera Historia de Usuario (5 minutos)
 
 ```bash
-# Especificar perfil directamente
-python ~/.claude-dev-kit/install/installer.py --profile pyqt-mvc --yes
+# Crear historia de usuario
+cat > docs/user-stories/US-001.md << 'EOF'
+# US-001: Calculadora Simple
 
-# Dry-run (simular sin ejecutar)
-python ~/.claude-dev-kit/install/installer.py --profile fastapi-rest --dry-run
+## Descripción
+Como usuario, quiero una calculadora que sume dos números.
+
+## Criterios de Aceptación
+- Acepta dos números como parámetros
+- Retorna la suma correcta
+- Maneja casos edge (negativos, ceros)
+EOF
+
+# Ejecutar skill
+/implement-us US-001
+
+# El skill automatiza las 10 fases:
+# 0. Validación ✅
+# 1. Escenarios BDD ✅
+# 2. Plan de implementación ✅
+# 3. Código base ✅
+# 4. Tests unitarios ✅
+# 5. Tests de integración ✅
+# 6. Validación BDD ✅
+# 7. Quality gates ✅
+# 8. Documentación ✅
+# 9. Reporte final ✅
 ```
 
-### Estructura Post-Instalación
-
-Después de la instalación, tu proyecto tendrá:
-
-```
-mi-proyecto/
-├── .claude/                    # Instalado por el kit
-│   ├── skills/                # Skill implement-us
-│   ├── templates/             # Templates personalizados
-│   ├── tracking/              # Sistema de tracking
-│   └── config.json            # Configuración del kit
-├── CLAUDE.md                  # Generado si no existe
-└── [tu código existente]
-```
+**Ver:** [Guía de Inicio Rápido](docs/getting-started.md) para tutorial completo.
 
 ---
 
-## 💡 Uso Rápido
+## 📚 Features Principales
 
-### Implementar una Historia de Usuario
+### 🛠️ Skill implement-us: 10 Fases Automatizadas
+
+| Fase | Qué Hace | Output |
+|------|----------|--------|
+| **0. Validación** | Verifica prerequisitos | - |
+| **1. BDD** | Genera escenarios Gherkin | `tests/features/US-001.feature` |
+| **2. Planning** | Crea plan detallado con tareas | `docs/planning/US-001-plan.md` |
+| **3. Implementación** | Genera código base | `src/*.py` |
+| **4. Tests Unitarios** | Crea tests por componente | `tests/test_*.py` |
+| **5. Tests Integración** | Tests end-to-end | `tests/integration/` |
+| **6. Validación BDD** | Ejecuta escenarios | pytest-bdd output |
+| **7. Quality Gates** | Valida métricas | Pylint, coverage, CC |
+| **8. Documentación** | Docstrings y comentarios | Código documentado |
+| **9. Reporte Final** | Resumen y métricas | `docs/reports/US-001-report.md` |
+
+**Ver:** [Documentación completa del skill](docs/skills/implement-us.md)
+
+---
+
+### 🎨 Sistema de Perfiles
+
+Personaliza el framework para tu stack tecnológico:
+
+| Perfil | Stack | Arquitectura | Tests | Coverage |
+|--------|-------|--------------|-------|----------|
+| **pyqt-mvc** | PyQt6 Desktop | MVC | pytest-qt | 95% |
+| **fastapi-rest** | FastAPI API | Layered | pytest-asyncio | 95% |
+| **flask-rest** | Flask API | Blueprints | pytest-flask | 90% |
+| **flask-webapp** | Flask Web | MVT | pytest-flask | 85% |
+| **generic-python** | Python | Flexible | pytest | 90% |
+
+**Ver:** [Guía de Personalización](docs/customization.md)
+
+---
+
+### ⏱️ Sistema de Tracking
+
+Tracking automático de tiempo por fase y tarea:
 
 ```bash
-# Abrir Claude Code en tu proyecto
-cd ~/mi-proyecto-python
-
-# Ejecutar el skill
-/implement-us US-001
-
-# Con especificación de producto
-/implement-us US-001 --producto mi_aplicacion
-
-# Saltar generación BDD (opcional)
-/implement-us US-001 --skip-bdd
-```
-
-### Comandos de Tracking
-
-```bash
-# Pausar tracking (ej: reunión, almuerzo)
-/track-pause "Reunión de equipo"
-
-# Reanudar tracking
-/track-resume
-
 # Ver estado actual
 /track-status
 
-# Generar reporte de una US
+# Pausar trabajo
+/track-pause "Lunch break"
+
+# Reanudar
+/track-resume
+
+# Ver reporte de US
 /track-report US-001
 
-# Ver historial de las últimas 5 USs
-/track-history --last 5
+# Output:
+# ⏱️ US-001: 1h 45min (est: 2h, -15min)
+# Fase 0: 2min | Fase 1: 5min | Fase 2: 8min ...
+# Varianza: -7.5% (mejor que estimado)
 ```
 
-### Ejemplo de Flujo Completo
-
-```bash
-# 1. Implementar US
-/implement-us US-001
-
-# Claude Code guiará paso a paso:
-# ✓ Fase 0: Validación de contexto
-# ✓ Fase 1: Generación de escenarios BDD
-#   → Genera: tests/features/US-001-nombre.feature
-# ✓ Fase 2: Plan de implementación
-#   → Genera: docs/plans/US-001-plan.md
-# ✓ Fase 3-5: Implementación y tests
-#   → Crea código + tests
-# ✓ Fase 6-7: Validación BDD y quality gates
-#   → Ejecuta pytest, pylint, coverage
-# ✓ Fase 8-9: Documentación y reporte
-#   → Genera: docs/reports/US-001-report.md
-
-# 2. Ver reporte final
-cat docs/reports/US-001-report.md
-
-# 3. Ver métricas de tiempo
-/track-report US-001
-```
+**Ver:** [Tracking - Guía de Usuario](docs/tracking/user-guide.md)
 
 ---
 
-## 🎨 Perfiles Disponibles
+### 📝 Sistema de Templates
 
-### PyQt + MVC (`pyqt-mvc`)
+Templates parametrizados con variables y snippets:
 
-Para aplicaciones de escritorio con PyQt6:
-- Arquitectura: MVC (Modelo-Vista-Controlador)
-- Patrones: Factory, Coordinator
-- Testing: pytest-qt, fixtures especializados
-- Componentes: Paneles, Displays, Controles
+- **BDD:** Escenarios Gherkin por stack
+- **Planning:** Planes de implementación
+- **Testing:** Tests unitarios e integración
+- **Reporting:** Reportes finales
 
-### FastAPI + REST (`fastapi-rest`)
+**Variables:** `{US_ID}`, `{COMPONENT_TYPE}`, `{ARCHITECTURE_PATTERN}`, etc.
+**Snippets:** Bloques de código multi-línea por perfil
 
-Para APIs REST con FastAPI:
-- Arquitectura: Capas (routes, services, repositories)
-- Patrones: Dependency Injection, Repository
-- Testing: TestClient, fixtures de DB
-- Componentes: Endpoints, Services, Models
-
-### Django + MVT (`django-mvt`)
-
-Para aplicaciones web con Django:
-- Arquitectura: MVT (Model-View-Template)
-- Patrones: Django conventions
-- Testing: Django TestCase, fixtures
-- Componentes: Models, Views, Templates
-
-### Generic Python (`generic-python`)
-
-Para proyectos Python sin framework específico:
-- Arquitectura: Flexible
-- Patrones: Configurables
-- Testing: pytest estándar
-- Componentes: Módulos, clases, funciones
+**Ver:** [Sistema de Templates](docs/templates/template-system.md)
 
 ---
 
-## 📚 Documentación
+## 📖 Documentación
 
-La documentación completa está en el directorio `docs/`:
+### Para Usuarios
 
-- **[Guía de Inicio Rápido](docs/getting-started.md)** - Primeros pasos
-- **[Instalación Detallada](docs/installation.md)** - Opciones de instalación
-- **[Personalización](docs/customization.md)** - Cómo personalizar perfiles y templates
-- **[Configuración](docs/configuration.md)** - Referencia completa de configuración
-- **[Skill implement-us](docs/skills/implement-us.md)** - Documentación del skill principal
-- **[Sistema de Tracking](docs/tracking/tracking-guide.md)** - Guía del tracking de tiempo
-- **[Ejemplos por Stack](docs/examples/)** - Tutoriales para cada tecnología
+| Documento | Descripción |
+|-----------|-------------|
+| [📘 Índice Principal](docs/index.md) | Hub de toda la documentación |
+| [🚀 Getting Started](docs/getting-started.md) | Primera experiencia en <15 min |
+| [📦 Instalación](docs/installation.md) | Setup completo y troubleshooting |
+| [🎨 Personalización](docs/customization.md) | Adaptar a tu stack |
+| [⚙️ Configuración](docs/configuration.md) | Referencia de opciones |
+| [🛠️ Skill implement-us](docs/skills/implement-us.md) | Las 10 fases explicadas |
+| [⏱️ Sistema de Tracking](docs/tracking/user-guide.md) | Comandos y reportes |
 
-### Archivos Importantes
+### Para Desarrolladores
 
-- **[CLAUDE.md](CLAUDE.md)** - Guía para Claude Code al trabajar en este repositorio
-- **[PROJECT_PLAN_claude-dev-kit.md](PROJECT_PLAN_claude-dev-kit.md)** - Plan completo del proyecto
-- **[CHANGELOG.md](CHANGELOG.md)** - Historial de versiones (próximamente)
+| Documento | Descripción |
+|-----------|-------------|
+| [🏗️ Creando Skills](docs/skills/creating-skills.md) | Guía para crear skills custom |
+| [📝 Templates](docs/templates/template-system.md) | Variables y snippets |
+| [⏱️ Tracking - Arquitectura](docs/tracking/architecture.md) | Diseño técnico |
 
----
+### Tutoriales por Stack (Fase 7)
 
-## 🏗️ Arquitectura del Framework
-
-```
-claude-dev-kit/
-├── install/              # Sistema de instalación multiplataforma
-│   ├── installer.py      # Instalador Python
-│   ├── config.yaml       # Configuración de perfiles
-│   └── validate-setup.py # Validador post-instalación
-├── skills/               # Definiciones de skills
-│   └── implement-us/     # Skill principal
-│       ├── skill.md      # Definición completa (leída por Claude)
-│       ├── config.json   # Configuración base
-│       ├── phases/       # Documentación de fases (0-9)
-│       └── customizations/ # Perfiles por stack
-├── templates/            # Templates reutilizables
-│   ├── bdd/             # Gherkin, pytest-bdd steps
-│   ├── planning/        # Planes, ADRs
-│   ├── testing/         # Tests, fixtures
-│   └── reporting/       # Reportes, retrospectivas
-├── tracking/             # Sistema de tracking
-│   ├── time_tracker.py  # Core del tracking
-│   ├── commands.py      # Comandos /track-*
-│   └── models.py        # Modelos de datos
-├── docs/                 # Documentación
-├── examples/             # Proyectos de ejemplo completos
-└── scripts/              # Scripts de utilidad
-```
-
----
-
-## 🧪 Ejemplos
-
-El directorio `examples/` contiene proyectos de ejemplo completos para cada stack:
-
-- **[examples/pyqt-mvc/](examples/pyqt-mvc/)** - Aplicación PyQt con MVC
-- **[examples/fastapi-rest/](examples/fastapi-rest/)** - API REST con FastAPI
-- **[examples/django-mvt/](examples/django-mvt/)** - Aplicación web Django
-- **[examples/generic-python/](examples/generic-python/)** - Proyecto Python genérico
-
-Cada ejemplo incluye:
-- Código de aplicación funcional
-- Historias de usuario de ejemplo
-- Tests completos (unitarios, integración, BDD)
-- Configuración del kit instalada
-
----
-
-## 🛠️ Desarrollo
-
-### Contribuir al Framework
-
-```bash
-# 1. Fork y clonar
-git clone https://github.com/tu-usuario/claude-dev-kit.git
-cd claude-dev-kit
-
-# 2. Crear rama para tu feature
-git checkout -b feature/mi-feature
-
-# 3. Hacer cambios y tests
-pytest tests/
-
-# 4. Commit siguiendo convención
-git commit -m "feat(scope): descripción"
-
-# 5. Push y crear Pull Request
-git push origin feature/mi-feature
-```
-
-### Convención de Commits
-
-```
-<type>(<scope>): <subject>
-
-Types:
-- feat: Nueva funcionalidad
-- fix: Corrección de bug
-- docs: Solo documentación
-- refactor: Refactorización
-- test: Agregar tests
-- chore: Mantenimiento
-
-Ejemplos:
-feat(installer): agregar soporte para perfil Django
-docs(tracking): documentar comando /track-history
-fix(templates): corregir variables en test-unit.py
-```
-
----
-
-## 📊 Estado del Proyecto
-
-**Versión Actual:** Pre-release (v0.1.0-dev)
-
-**Sprint Actual:** Sprint 1 - Setup + Instalación
-
-**Progreso:**
-- ✅ Fase 1: Setup Inicial (50% completado)
-- ⬜ Fase 2: Sistema de Instalación
-- ⬜ Fase 3: Generalización de Skills
-- ⬜ Fase 4: Templates
-- ⬜ Fase 5: Sistema de Tracking
-
-Ver [gestion/](gestion/) para detalles del progreso y tickets.
+- [PyQt-MVC](docs/examples/pyqt-project.md) - Aplicación desktop
+- [FastAPI-REST](docs/examples/fastapi-project.md) - API asíncrona
+- [Flask-REST](docs/examples/flask-rest-project.md) - API REST
+- [Flask-WebApp](docs/examples/flask-webapp-project.md) - Web app
+- [Python Genérico](docs/examples/generic-python.md) - CLI/librería
 
 ---
 
 ## 🗺️ Roadmap
 
-### Versión 1.0 (En Desarrollo)
+### Completado ✅
 
-- [x] Estructura base del proyecto
-- [x] Sistema de gestión por fases
-- [ ] Instalador multiplataforma funcional
-- [ ] Skill implement-us generalizado
-- [ ] Templates completos para BDD, planning, testing, reporting
-- [ ] Sistema de tracking de tiempo
-- [ ] Documentación completa
-- [ ] Al menos 2 ejemplos funcionales (PyQt, FastAPI)
+- ✅ **Fase 1-2:** Setup y sistema de instalación (100%)
+- ✅ **Fase 3:** Generalización de skills - 5 perfiles (100%)
+- ✅ **Fase 4:** Generalización de templates (100%)
+- ✅ **Fase 5:** Sistema de tracking completo (100%)
+- ✅ **Fase 6:** Documentación general (100%)
 
-### Versión 1.1 (Futuro)
+### En Progreso 🔄
 
-- [ ] Skill adicional: `/code-review`
-- [ ] Dashboard web de métricas
-- [ ] Soporte para TypeScript/JavaScript
-- [ ] Más perfiles (Flask, React, Vue)
+- 🔄 **Fase 7:** Ejemplos por stack tecnológico
 
-### Versión 1.2 (Futuro)
+### Pendiente ⏳
 
-- [ ] Integración con Jira (actualizar estado de issues)
-- [ ] Integración con GitHub Issues
-- [ ] Notificaciones (Slack, email)
+- ⏳ **Fase 8:** Testing del framework
+- ⏳ **Fase 9:** Release 1.0
 
-### Versión 2.0 (Futuro)
-
-- [ ] Marketplace de skills comunitarios
-- [ ] API pública para crear skills
-- [ ] Soporte para múltiples lenguajes (Go, Rust, Java)
+**Ver progreso detallado:** [Gestión de Tareas](gestion/)
 
 ---
 
 ## 🤝 Contribuir
 
-¡Las contribuciones son bienvenidas! Por favor:
+¡Las contribuciones son bienvenidas!
 
-1. Lee la [guía de contribución](CONTRIBUTING.md) (próximamente)
-2. Revisa los [issues abiertos](https://github.com/vvalotto/claude-dev-kit/issues)
-3. Sigue la convención de commits
-4. Agrega tests para nuevas funcionalidades
-5. Actualiza la documentación según corresponda
+```bash
+# 1. Fork del proyecto
+git clone https://github.com/TU-USUARIO/claude-dev-kit.git
+
+# 2. Crear branch
+git checkout -b feature/mi-feature
+
+# 3. Commit cambios
+git commit -m "feat: agregar feature X"
+
+# 4. Push y crear PR
+git push origin feature/mi-feature
+```
+
+**Ver:** [Guía de Contribución](CONTRIBUTING.md) (pendiente)
 
 ---
 
-## 📝 Licencia
+## 📋 Prerequisitos
 
-Este proyecto está licenciado bajo la licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
-
-```
-MIT License
-
-Copyright (c) 2026 Victor Valotto
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
-```
+- Python 3.9 o superior
+- Git 2.0+
+- Claude Code CLI
+- Proyecto Python (opcional para pruebas)
 
 ---
 
-## 👥 Autor
+## 🐛 Reportar Issues
 
-**Victor Valotto**
+¿Encontraste un bug o tienes una sugerencia?
+
+- **Bug:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/new?template=bug_report.md)
+- **Feature Request:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/new?template=feature_request.md)
+
+---
+
+## 📄 Licencia
+
+Este proyecto está bajo licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
+
+---
+
+## 👨‍💻 Autor
+
+**Víctor Valotto**
 - GitHub: [@vvalotto](https://github.com/vvalotto)
-- Email: vvalotto@gmail.com
+- Email: victor@valotto.com
 
 ---
 
 ## 🙏 Agradecimientos
 
-- Proyecto inspirado en el trabajo con [Claude Code](https://claude.ai/code) de Anthropic
-- Metodología BDD basada en [pytest-bdd](https://pytest-bdd.readthedocs.io/)
-- Patrones arquitectónicos del proyecto ISSE_Simuladores
+- **Anthropic** - Por Claude Code y la API de Claude
+- **Comunidad Python** - Por las herramientas y frameworks
+- **Contributors** - Por mejorar este proyecto
 
 ---
 
-## 📞 Soporte
+## 🔗 Enlaces
 
-- **Issues**: [GitHub Issues](https://github.com/vvalotto/claude-dev-kit/issues)
-- **Discusiones**: [GitHub Discussions](https://github.com/vvalotto/claude-dev-kit/discussions)
-- **Documentación**: [docs/](docs/)
+- [Documentación](docs/index.md)
+- [Plan del Proyecto](PROJECT_PLAN_claude-dev-kit.md)
+- [Changelog](CHANGELOG.md) (pendiente)
+- [GitHub Issues](https://github.com/vvalotto/claude-dev-kit/issues)
 
 ---
 
-**¿Listo para automatizar tu desarrollo con Claude Code?** 🚀
-
-```bash
-git clone https://github.com/vvalotto/claude-dev-kit.git ~/.claude-dev-kit
-cd ~/tu-proyecto
-python ~/.claude-dev-kit/install/installer.py
-```
+**¿Listo para empezar?** → [Guía de Inicio Rápido](docs/getting-started.md)
