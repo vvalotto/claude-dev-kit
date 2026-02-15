@@ -8,7 +8,6 @@ Este directorio contiene toda la documentación del framework Claude Dev Kit, or
 
 ```
 docs/
-├── TEMPLATE.md                      # Plantilla estándar para nuevos documentos
 ├── README.md                        # Este archivo
 │
 ├── user/                            # 📘 Documentación de usuario
@@ -32,7 +31,8 @@ docs/
 │   │   └── session-memory.md        # Sistema de sesiones
 │   │
 │   └── contributing/                # Guías de contribución
-│       └── creating-skills.md       # Crear skills custom
+│       ├── creating-skills.md       # Crear skills custom
+│       └── template.md              # Plantilla estándar para nuevos documentos
 │
 └── examples/                        # 📚 Tutoriales por stack
     ├── pyqt-project.md
@@ -121,11 +121,11 @@ Si vas a crear un nuevo documento:
 
 1. **Usa la plantilla estándar:**
    ```bash
-   cp docs/TEMPLATE.md docs/mi-nuevo-doc.md
+   cp docs/developer/contributing/template.md docs/mi-nuevo-doc.md
    ```
 
 2. **Sigue las convenciones:**
-   - Ver [TEMPLATE.md](./TEMPLATE.md) para estructura
+   - Ver [template.md](./developer/contributing/template.md) para estructura
 
 3. **Incluye siempre:**
    - Tabla de contenidos
