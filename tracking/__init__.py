@@ -1,50 +1,42 @@
 """
-Sistema de tracking de tiempo para implementación de Historias de Usuario.
+Sistema de Tracking de Tiempo para Claude Dev Kit.
 
-Este módulo provee tracking automático de tiempo durante la ejecución del
-skill /implement-us, permitiendo medir la duración real de implementación
-de cada Historia de Usuario.
+Este módulo proporciona tracking automático de tiempo durante la implementación
+de Historias de Usuario con el skill /implement-us.
 
-Módulos:
-    time_tracker: Clase principal TimeTracker y dataclasses relacionadas
-    commands: Comandos manuales para control del tracking
+Componentes:
+    - TimeTracker: Gestor central de tracking
+    - Task: Modelo de tarea individual
+    - Phase: Modelo de fase del skill (0-9)
+    - Pause: Modelo de pausa manual
 
 Uso básico:
-    >>> from .time_tracker import TimeTracker
-    >>> tracker = TimeTracker("US-001", "Ver temperatura", 3, "ux_termostato")
+    >>> from tracking import TimeTracker
+    >>> tracker = TimeTracker("US-001", "Implementar feature", 3, "mi_producto")
     >>> tracker.start_tracking()
-    >>> tracker.start_phase(0, "Validación")
+    >>> tracker.start_phase(0, "Validación de Contexto")
     >>> # ... trabajo ...
     >>> tracker.end_phase(0)
     >>> tracker.end_tracking()
 
-Comandos disponibles:
-    >>> from .commands import track_pause, track_resume, track_status
-    >>> from .commands import track_report, track_history
-    >>> result = track_status()
-    >>> print(result["message"])
+Skills de tracking disponibles:
+    - /track-pause [razón]: Pausar tracking con razón opcional
+    - /track-resume: Reanudar tracking después de pausa
+    - /track-status: Ver estado actual del tracking
+    - /track-report [us_id]: Generar reporte detallado
+    - /track-history [--last N]: Ver historial de tracking
+
+Persistencia:
+    Los datos se guardan automáticamente en `.claude/tracking/{us_id}-tracking.json`
 """
 
 __version__ = "1.0.0"
-__author__ = "Victor Valotto"
 
 from .time_tracker import TimeTracker, Task, Phase, Pause
-from .commands import (
-    track_pause,
-    track_resume,
-    track_status,
-    track_report,
-    track_history
-)
 
 __all__ = [
     "TimeTracker",
     "Task",
     "Phase",
-    "Pause",
-    "track_pause",
-    "track_resume",
-    "track_status",
-    "track_report",
-    "track_history"
+    "Pause"
 ]

@@ -39,11 +39,33 @@ Proceso estructurado de 9 fases para implementar historias de usuario:
 
 ### ⏱️ Sistema de Tracking de Tiempo Automático
 
-- Tracking automático por fase y tarea
-- Pausas manuales con razón (`/track-pause`, `/track-resume`)
-- Reportes en tiempo real (`/track-status`)
-- Historial y métricas (`/track-report`, `/track-history`)
-- Análisis de varianza (estimado vs. real)
+Tracking preciso de tiempo durante la implementación de Historias de Usuario:
+
+**Características:**
+- **Tracking automático** durante todas las fases de `/implement-us`
+- **Pausas manuales** con razón (`/track-pause [razón]`, `/track-resume`)
+- **Estado en tiempo real** con métricas actualizadas (`/track-status`)
+- **Reportes detallados** por US (`/track-report [us_id]`)
+- **Historial completo** de tracking (`/track-history [--last N]`)
+- **Análisis de varianza** (tiempo estimado vs. real)
+- **Persistencia automática** en JSON (`.claude/tracking/`)
+
+**Comandos disponibles:**
+```bash
+/track-pause "Reunión del equipo"  # Pausar con razón
+/track-resume                       # Reanudar tracking
+/track-status                       # Ver estado actual
+/track-report US-001                # Reporte detallado
+/track-history --last 10            # Últimas 10 USs
+```
+
+**Métricas generadas:**
+- Tiempo total, efectivo y pausado por fase
+- Varianza por tarea y fase (estimado vs. real)
+- Promedio de tiempo por punto
+- Insights automáticos sobre sobrecostos
+
+Ver [docs/tracking/user-guide.md](docs/tracking/user-guide.md) para guía completa.
 
 ### 📄 Sistema de Templates Generalizado
 

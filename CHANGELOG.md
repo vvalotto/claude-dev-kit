@@ -9,6 +9,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Fase 5: Sistema de Tracking (Sprint 2) - 2026-02-15
+
+- **Módulo core de tracking** (`tracking/`) - Sistema de tracking automático:
+  - `time_tracker.py` (520 líneas) - Dataclasses y TimeTracker
+    - Task: Modelo de tarea individual con varianza
+    - Phase: Modelo de fase (0-9) con lista de tareas
+    - Pause: Modelo de pausa manual con razón
+    - TimeTracker: Gestor central con persistencia JSON automática
+  - `reports.py` (250 líneas) - Funciones de generación de reportes markdown
+  - `__init__.py` - Exports del módulo
+  - `README.md` - Documentación completa del módulo
+
+- **Skills de tracking** (5 skills implementados):
+  - `/track-pause [razón]` - Pausar tracking con razón opcional
+  - `/track-resume` - Reanudar tracking después de pausa
+  - `/track-status` - Ver estado actual con métricas en tiempo real
+  - `/track-report [us_id]` - Generar reporte detallado de una US
+  - `/track-history [--last N]` - Ver historial completo de tracking
+
+- **Sistema de persistencia JSON:**
+  - Archivos guardados en `.claude/tracking/{us_id}-tracking.json`
+  - Formato estructurado con metadata, timeline, phases, pauses, summary
+  - Auto-save después de cada operación (start/end phase/task, pause, resume)
+
+- **Documentación completa:**
+  - `docs/tracking/user-guide.md` (~500 líneas) - Guía de usuario
+  - `docs/tracking/architecture.md` (~200 líneas) - Arquitectura técnica
+  - `docs/tracking/examples.md` (~200 líneas) - Ejemplos de uso
+  - `docs/analysis/TICKET-038-tracking-analysis.md` (~900 líneas) - Análisis exhaustivo
+
+**Métricas generadas:**
+- Tiempo total, efectivo y pausado por fase
+- Varianza por tarea (estimado vs. real)
+- Promedio de tiempo por punto
+- Insights automáticos sobre sobrecostos
+
+**Tickets:** TICKET-038 a TICKET-042 (5 tickets)
+**Commits:** 5 commits en branch `feature/tracking-system`
+**Líneas agregadas:** ~2,400 líneas (código + documentación)
+
 #### Fase 4: Generalización de Templates (Sprint 2) - 2026-02-14
 
 - **Sistema de templates generalizado** - 4 templates framework-agnostic:
