@@ -411,7 +411,7 @@ Pausas:
 ⏸️ Lunch break: 30min (12:30 - 13:00)
 ```
 
-> **Ver más:** [Tracking - Guía de Usuario](tracking/User-Guide)
+> **Ver más:** [Tracking - Guía de Usuario](user-tracking-User-Guide)
 
 ---
 
@@ -507,8 +507,8 @@ Esto actualizará `.claude/skills/implement-us/config.json` con la configuració
 Profundiza en cada componente:
 
 1. **[Instalación Detallada](Installation)** - Opciones avanzadas, modos de instalación
-2. **[Skill implement-us](skills/Implement-Us)** - Entender las 10 fases en detalle
-3. **[Sistema de Tracking](tracking/User-Guide)** - Comandos avanzados, reportes históricos
+2. **[Skill implement-us](user-skills-Implement-Us)** - Entender las 10 fases en detalle
+3. **[Sistema de Tracking](user-tracking-User-Guide)** - Comandos avanzados, reportes históricos
 4. **[Personalización Completa](Customization)** - Crear perfiles custom, modificar templates
 5. **[Referencia de Configuración](Configuration)** - Todas las opciones disponibles
 
@@ -653,7 +653,7 @@ FAILED tests/test_calculator.py::test_suma - AssertionError
 - [x] Comandos básicos de tracking
 - [x] Personalización de configuración
 - [ ] **Próximo:** [Instalación Detallada](Installation)
-- [ ] **Próximo:** [Skill implement-us - Guía Completa](skills/Implement-Us)
+- [ ] **Próximo:** [Skill implement-us - Guía Completa](user-skills-Implement-Us)
 - [ ] **Próximo:** [Tutorial de tu stack](examples)
 
 ---
@@ -663,7 +663,7 @@ FAILED tests/test_calculator.py::test_suma - AssertionError
 Elige tu próximo paso según tu objetivo:
 
 **Si quieres profundizar en el framework:**
-→ [Skill implement-us - Documentación Completa](skills/Implement-Us)
+→ [Skill implement-us - Documentación Completa](user-skills-Implement-Us)
 
 **Si quieres personalizarlo a tu stack:**
 → [Guía de Personalización](Customization)

@@ -255,7 +255,7 @@ Templates parametrizados con variables y snippets:
 
 El framework soporta 5 perfiles predefinidos (PyQt, FastAPI, Flask REST, Flask WebApp, Python genérico) y permite crear perfiles custom para cualquier stack.
 
-**Ver:** [Personalización - Crear Perfil Custom](user/Customization#crear-perfil-custom)
+**Ver:** [Personalización - Crear Perfil Custom](user-Customization#crear-perfil-custom)
 
 ### ¿Puedo usar solo parte del framework?
 
@@ -273,7 +273,7 @@ git pull origin main
 python install/installer.py --upgrade
 ```
 
-**Ver:** [Instalación - Actualización](user/Installation#actualización)
+**Ver:** [Instalación - Actualización](user-Installation#actualización)
 
 ### ¿Dónde reporto bugs o sugiero features?
 
