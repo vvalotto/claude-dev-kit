@@ -8,14 +8,14 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar
 
 **Claude Dev Kit** es un framework de desarrollo agnóstico de dominio diseñado para asistir la construcción de software con Claude Code. Proporciona skills reutilizables, templates y herramientas de tracking que automatizan el ciclo de implementación de historias de usuario.
 
-**Estado Actual:** Sprint 3 - Fase 6 (Documentación General). El framework está en desarrollo activo con las fases core completadas.
+**Estado Actual:** Sprint 3 completado. El framework está en desarrollo activo con documentación completa.
 
 **Progreso:**
 - ✅ **Fase 1-2:** Setup inicial y sistema de instalación (100%)
 - ✅ **Fase 3:** Generalización de skills (100%)
 - ✅ **Fase 4:** Generalización de templates (100%)
 - ✅ **Fase 5:** Sistema de tracking (100%)
-- 🔄 **Fase 6:** Documentación general (en planificación)
+- ✅ **Fase 6:** Documentación general (100%)
 - ⬜ **Fase 7-9:** Ejemplos, testing, release (pendientes)
 
 > **Seguimiento detallado:** Ver `gestion/` para tickets y progreso actualizado
@@ -84,22 +84,16 @@ claude-dev-kit/
 
 ## Flujo de Trabajo de Desarrollo
 
-### Fase Actual: Sprint 3 - Documentación General
+### Fase Actual: Próximos Pasos
 
-**Objetivo:** Crear documentación completa del framework para usuarios y desarrolladores.
-
-**En progreso:**
-- Branch: `feature/framework-documentation`
-- 9 tickets planificados (TICKET-043 a TICKET-051)
-- Estimación: 11.5 horas
+**Fase 6 completada:** Documentación general del framework (9 documentos, ~4,700 líneas)
 
 **Próximos pasos:**
-1. Ejecutar TICKET-043: Análisis y estructura de docs/
-2. Crear guías de usuario (getting-started, installation, customization)
-3. Documentar skill implement-us completo
-4. Actualizar README principal
+1. **Fase 7:** Ejemplos por stack tecnológico (PyQt, FastAPI, Flask)
+2. **Fase 8:** Testing del framework
+3. **Fase 9:** Release 1.0
 
-> **Ver:** `gestion/fase-6-documentacion/` para planificación detallada
+> **Ver progreso detallado:** `gestion/` para tickets y estado actualizado
 
 ### Al Crear Nuevos Archivos
 
