@@ -3,7 +3,15 @@
 **Versión:** 1.0
 **Fecha:** 2026-02-07
 **Autor:** Victor Valotto
-**Estado:** Draft - Pendiente de Aprobación
+**Estado:** En Ejecución
+
+> ⚠️ **Nota sobre Progreso:** Este documento describe la arquitectura y plan original del proyecto.
+> Para el **progreso actualizado** y estado de tickets, ver `gestion/README.md`
+>
+> **Estado actual:** Sprint 3 - Fase 6 (Documentación)
+> - ✅ Fases 1-5 completadas (100%)
+> - 🔄 Fase 6 en planificación
+> - ⬜ Fases 7-9 pendientes
 
 ---
 

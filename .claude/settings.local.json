@@ -12,7 +12,8 @@
       "Bash(tests/manual/test_time_tracker_basic.py:*)",
       "Bash(python tests/manual/test_time_tracker_basic.py:*)",
       "Bash(PYTHONPATH=/Users/victor/PycharmProjects/claude-dev-kitc python:*)",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "Bash(ls:*)"
     ]
   }
 }

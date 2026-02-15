@@ -8,7 +8,17 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar
 
 **Claude Dev Kit** es un framework de desarrollo agnóstico de dominio diseñado para asistir la construcción de software con Claude Code. Proporciona skills reutilizables, templates y herramientas de tracking que automatizan el ciclo de implementación de historias de usuario.
 
-**Estado Actual:** Fase de configuración inicial. El proyecto contiene documentos de planificación y archivos migrados del proyecto fuente (ISSE_Simuladores) en el directorio `_work/`. Aún no se ha creado la estructura de código de producción.
+**Estado Actual:** Sprint 3 - Fase 6 (Documentación General). El framework está en desarrollo activo con las fases core completadas.
+
+**Progreso:**
+- ✅ **Fase 1-2:** Setup inicial y sistema de instalación (100%)
+- ✅ **Fase 3:** Generalización de skills (100%)
+- ✅ **Fase 4:** Generalización de templates (100%)
+- ✅ **Fase 5:** Sistema de tracking (100%)
+- 🔄 **Fase 6:** Documentación general (en planificación)
+- ⬜ **Fase 7-9:** Ejemplos, testing, release (pendientes)
+
+> **Seguimiento detallado:** Ver `gestion/` para tickets y progreso actualizado
 
 **Objetivo Principal:** Crear un framework instalable y reutilizable para proyectos Python que pueda personalizarse para diferentes stacks tecnológicos (PyQt, FastAPI, Django, etc.).
 
@@ -74,38 +84,22 @@ claude-dev-kit/
 
 ## Flujo de Trabajo de Desarrollo
 
-### Fase Actual: Sprint 1 - Configuración Inicial
+### Fase Actual: Sprint 3 - Documentación General
 
-Seguir el plan de implementación en `PROJECT_PLAN_claude-dev-kit.md` Sección 5.
+**Objetivo:** Crear documentación completa del framework para usuarios y desarrolladores.
 
-**Próximos Pasos Inmediatos:**
+**En progreso:**
+- Branch: `feature/framework-documentation`
+- 9 tickets planificados (TICKET-043 a TICKET-051)
+- Estimación: 11.5 horas
 
-1. **Crear Estructura de Directorios Base**
-   ```bash
-   mkdir -p install skills/implement-us/{phases,customizations} templates/{bdd,planning,testing,reporting} tracking docs examples scripts tests
-   ```
+**Próximos pasos:**
+1. Ejecutar TICKET-043: Análisis y estructura de docs/
+2. Crear guías de usuario (getting-started, installation, customization)
+3. Documentar skill implement-us completo
+4. Actualizar README principal
 
-2. **Migrar Componentes Listos para Usar**
-   - Copiar sistema de tracking de `_work/from-simapp/tracking/` → `tracking/`
-   - Estos archivos son 100% genéricos y no necesitan modificaciones
-
-3. **Generalizar Skills**
-   - Adaptar `_work/from-simapp/skills/implement-us.md`
-   - Remover referencias específicas a MVC/PyQt
-   - Reemplazar con variables: `{ARCHITECTURE_PATTERN}`, `{COMPONENT_TYPE}`
-   - Crear `config.json` base con valores por defecto genéricos
-   - Crear perfiles específicos por stack en `customizations/`
-
-4. **Generalizar Templates**
-   - Adaptar templates de `_work/from-simapp/templates/`
-   - Reemplazar referencias específicas con variables genéricas
-   - `bdd-scenario.feature` ya es mayormente genérico
-   - Generalizar `implementation-plan.md`, `implementation-report.md`, `test-unit.py`
-
-5. **Crear Sistema de Instalación**
-   - Desarrollar `install/installer.py` con selección interactiva de perfil
-   - Crear `install/config.yaml` con perfiles y reglas de validación
-   - Desarrollar `scripts/validate-setup.py` para validación post-instalación
+> **Ver:** `gestion/fase-6-documentacion/` para planificación detallada
 
 ### Al Crear Nuevos Archivos
 
@@ -423,15 +417,23 @@ Toda la documentación va en `docs/`:
 
 ---
 
-## Sprint Actual: Sprint 1 - Setup + Instalación (Semana 1)
+## Sprint Actual: Sprint 3 - Documentación + Ejemplos (Semana 3)
 
-**Objetivos:**
-- ✅ Crear estructura de directorios base
-- ✅ Copiar sistema de tracking (ya genérico)
-- ⬜ Desarrollar sistema de instalación (installer.py, config.yaml, validate-setup.py)
-- ⬜ Crear estructura de documentación inicial
+**Sprint 1 (Completado):**
+- ✅ Setup inicial
+- ✅ Sistema de instalación completo
+- ✅ Validación de setup
 
-**Entregable:** Instalador funcional que pueda desplegar el kit en un proyecto
+**Sprint 2 (Completado):**
+- ✅ Generalización de skills (5 perfiles)
+- ✅ Generalización de templates (4 templates)
+- ✅ Sistema de tracking completo
+
+**Sprint 3 (En curso):**
+- 🔄 Fase 6: Documentación general (planificado)
+- ⬜ Fase 7: Ejemplos por stack (pendiente)
+
+**Entregable:** Documentación completa + ejemplos funcionales
 
 ---
 
