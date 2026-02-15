@@ -1,6 +1,8 @@
-# Skill: implement-us
+# Skill: implement-us - Documentación Técnica
 
-Sistema de implementación asistida de Historias de Usuario framework-agnostic.
+Documentación técnica de la arquitectura y estructura interna del skill.
+
+> **Para usuarios:** Ver [docs/skills/implement-us.md](../../docs/skills/implement-us.md)
 
 ---
 

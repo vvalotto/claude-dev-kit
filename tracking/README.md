@@ -1,4 +1,8 @@
-# Sistema de Tracking de Tiempo
+# Sistema de Tracking - Documentación Técnica
+
+Documentación técnica de la arquitectura interna del sistema de tracking.
+
+> **Para usuarios:** Ver [docs/tracking/user-guide.md](../docs/tracking/user-guide.md)
 
 Módulo core del sistema de tracking automático para el skill `/implement-us`.
 
