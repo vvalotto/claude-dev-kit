@@ -453,12 +453,12 @@ $VARIABLE       # ❌ Incorrecto
 
 ## Recursos Adicionales
 
-- [Skill implement-us](user/skills/Implement-Us) - Skill de referencia
-- [Sistema de Templates](developer/architecture/Template-System) - Variables
-- [Tracking](developer/architecture/Tracking) - Integración tracking
+- [Skill implement-us](user-skills-Implement-Us) - Skill de referencia
+- [Sistema de Templates](developer-architecture-Template-System) - Variables
+- [Tracking](developer-architecture-Tracking) - Integración tracking
 
 ---
 
-**Anterior:** [Skill implement-us](user/skills/Implement-Us)
+**Anterior:** [Skill implement-us](user-skills-Implement-Us)
 **Siguiente:** [README Principal](../../../README.md)
 **Índice:** [Volver al índice](Documentation-Index)

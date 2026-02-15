@@ -359,8 +359,8 @@ $US_ID
 ## Recursos Adicionales
 
 - [Configuración](Configuration) - Referencia completa de opciones
-- [Sistema de Templates](developer/architecture/Template-System) - Variables y snippets
-- [Creando Skills](developer/contributing/Creating-Skills) - Skills custom
+- [Sistema de Templates](developer-architecture-Template-System) - Variables y snippets
+- [Creando Skills](developer-contributing-Creating-Skills) - Skills custom
 
 ---
 

@@ -371,7 +371,7 @@ export CLAUDE_DEVKIT_CONFIG=/custom/path/config.json
 
 - [Personalización](Customization) - Crear perfiles custom
 - [Tracking](tracking/User-Guide) - Sistema de tracking
-- [Templates](developer/architecture/Template-System) - Sistema de templates
+- [Templates](developer-architecture-Template-System) - Sistema de templates
 
 ---
 

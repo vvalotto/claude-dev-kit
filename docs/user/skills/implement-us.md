@@ -294,12 +294,12 @@ EOF
 
 ## Recursos Adicionales
 
-- [Getting Started](user/Getting-Started) - Tutorial inicial
-- [Personalización](user/Customization) - Modificar comportamiento
-- [Tracking](user/tracking/User-Guide) - Sistema de tracking
+- [Getting Started](user-Getting-Started) - Tutorial inicial
+- [Personalización](user-Customization) - Modificar comportamiento
+- [Tracking](user-tracking-User-Guide) - Sistema de tracking
 
 ---
 
-**Anterior:** [Configuración](user/Configuration)
-**Siguiente:** [Creando Skills](developer/contributing/Creating-Skills)
+**Anterior:** [Configuración](user-Configuration)
+**Siguiente:** [Creando Skills](developer-contributing-Creating-Skills)
 **Índice:** [Volver al índice](Documentation-Index)

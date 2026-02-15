@@ -518,11 +518,11 @@ Profundiza en cada componente:
 
 Aprende con proyectos reales completos:
 
-- **[Proyecto PyQt-MVC](examples/Pyqt-Project)** - Aplicación de escritorio con interfaz gráfica
-- **[Proyecto FastAPI-REST](examples/Fastapi-Project)** - API REST asíncrona completa
-- **[Proyecto Flask-REST](examples/Flask-Rest-Project)** - API REST con Flask
-- **[Proyecto Flask-WebApp](examples/Flask-Webapp-Project)** - Aplicación web con templates
-- **[Proyecto Python Genérico](examples/Generic-Python)** - CLI app o librería Python
+- **[Proyecto PyQt-MVC](examples-Pyqt-Project)** - Aplicación de escritorio con interfaz gráfica
+- **[Proyecto FastAPI-REST](examples-Fastapi-Project)** - API REST asíncrona completa
+- **[Proyecto Flask-REST](examples-Flask-Rest-Project)** - API REST con Flask
+- **[Proyecto Flask-WebApp](examples-Flask-Webapp-Project)** - Aplicación web con templates
+- **[Proyecto Python Genérico](examples-Generic-Python)** - CLI app o librería Python
 
 ---
 
