@@ -283,30 +283,6 @@ Usa GitHub Issues:
 
 ---
 
-## 🚧 Estado del Proyecto
-
-**Versión Actual:** 1.0.0-alpha (En desarrollo)
-**Fase Actual:** Sprint 3 - Fase 6 (Documentación General)
-
-### Fases Completadas ✅
-
-- ✅ **Fase 1:** Setup inicial del proyecto
-- ✅ **Fase 2:** Sistema de instalación multiplataforma
-- ✅ **Fase 3:** Generalización de skills (5 perfiles)
-- ✅ **Fase 4:** Generalización de templates (4 templates)
-- ✅ **Fase 5:** Sistema de tracking completo
-
-### Fases En Progreso 🔄
-
-- 🔄 **Fase 6:** Documentación general (1/9 tickets completados)
-
-### Fases Pendientes ⏳
-
-- ⏳ **Fase 7:** Ejemplos por stack tecnológico
-- ⏳ **Fase 8:** Testing del framework
-- ⏳ **Fase 9:** Release 1.0
-
-**Ver progreso detallado:** [Gestión de Tareas](../gestion/)
 
 ---
 

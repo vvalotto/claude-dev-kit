@@ -28,7 +28,7 @@ docs/
 │   ├── architecture.md         # Arquitectura técnica del sistema
 │   └── examples.md             # Ejemplos de uso
 │
-├── examples/                   # 📚 Tutoriales por stack (Fase 7)
+├── examples/                   # 📚 Tutoriales por stack
 │   ├── pyqt-project.md
 │   ├── fastapi-project.md
 │   ├── flask-rest-project.md
@@ -36,9 +36,8 @@ docs/
 │   └── generic-python.md
 │
 └── internal/                   # 🔒 Documentación interna
-    ├── analysis/               # Análisis de tickets
-    │   └── TICKET-043-doc-structure.md
-    └── session-memory.md       # Sistema de sesiones (interno)
+    ├── analysis/               # Análisis técnicos
+    └── session-memory.md       # Sistema de sesiones
 ```
 
 ---
@@ -76,56 +75,56 @@ Documentación interna y análisis:
 ## 📋 Categorías de Documentación
 
 ### 1. Documentación de Usuario 🚀
+
 **Audiencia:** Desarrolladores que usan el framework
 **Propósito:** Guías de uso, tutoriales, referencias
 
-| Documento | Descripción | Estado |
-|-----------|-------------|--------|
-| **index.md** | Índice principal con navegación | 📋 Fase 6 |
-| **getting-started.md** | Guía de inicio rápido (<15 min) | 📋 Fase 6 |
-| **installation.md** | Instalación detallada | 📋 Fase 6 |
-| **customization.md** | Personalización del framework | 📋 Fase 6 |
-| **configuration.md** | Referencia de configuración | 📋 Fase 6 |
-| **skills/implement-us.md** | Uso del skill principal | 📋 Fase 6 |
-| **tracking/user-guide.md** | Guía de tracking de tiempo | ✅ Completo |
-| **tracking/examples.md** | Ejemplos de tracking | ✅ Completo |
+**Documentos:**
+- [index.md](./index.md) - Índice principal con navegación
+- [getting-started.md](./getting-started.md) - Guía de inicio rápido (<15 min)
+- [installation.md](./installation.md) - Instalación detallada
+- [customization.md](./customization.md) - Personalización del framework
+- [configuration.md](./configuration.md) - Referencia de configuración
+- [skills/implement-us.md](./skills/implement-us.md) - Uso del skill principal
+- [tracking/user-guide.md](./tracking/user-guide.md) - Guía de tracking de tiempo
+- [tracking/examples.md](./tracking/examples.md) - Ejemplos de tracking
 
 ### 2. Documentación Técnica 🛠️
+
 **Audiencia:** Desarrolladores del framework, contributors
 **Propósito:** Arquitectura, especificaciones, extensibilidad
 
-| Documento | Descripción | Estado |
-|-----------|-------------|--------|
-| **skills/creating-skills.md** | Crear skills personalizados | 📋 Fase 6 |
-| **templates/template-system.md** | Sistema de templates | ✅ Completo |
-| **tracking/architecture.md** | Arquitectura del tracking | ✅ Completo |
+**Documentos:**
+- [skills/creating-skills.md](./skills/creating-skills.md) - Crear skills personalizados
+- [templates/template-system.md](./templates/template-system.md) - Sistema de templates
+- [tracking/architecture.md](./tracking/architecture.md) - Arquitectura del tracking
 
 ### 3. Tutoriales por Stack 📚
+
 **Audiencia:** Usuarios aprendiendo con proyectos reales
 **Propósito:** Ejemplos completos end-to-end
 
-| Documento | Descripción | Estado |
-|-----------|-------------|--------|
-| **examples/pyqt-project.md** | Proyecto PyQt-MVC completo | ⏳ Fase 7 |
-| **examples/fastapi-project.md** | API REST con FastAPI | ⏳ Fase 7 |
-| **examples/flask-rest-project.md** | API REST con Flask | ⏳ Fase 7 |
-| **examples/flask-webapp-project.md** | WebApp con Flask | ⏳ Fase 7 |
-| **examples/generic-python.md** | Proyecto Python genérico | ⏳ Fase 7 |
+**Documentos:**
+- [examples/pyqt-project.md](./examples/pyqt-project.md) - Proyecto PyQt-MVC completo
+- [examples/fastapi-project.md](./examples/fastapi-project.md) - API REST con FastAPI
+- [examples/flask-rest-project.md](./examples/flask-rest-project.md) - API REST con Flask
+- [examples/flask-webapp-project.md](./examples/flask-webapp-project.md) - WebApp con Flask
+- [examples/generic-python.md](./examples/generic-python.md) - Proyecto Python genérico
 
 ### 4. Documentación Interna 🔒
+
 **Audiencia:** Mantenedores del proyecto
 **Propósito:** Análisis, decisiones de desarrollo
 
-| Documento | Descripción | Estado |
-|-----------|-------------|--------|
-| **internal/analysis/TICKET-043-doc-structure.md** | Análisis de estructura docs/ | ✅ Completo |
-| **internal/session-memory.md** | Sistema de sesiones | ✅ Completo |
+**Documentos:**
+- [internal/analysis/TICKET-043-doc-structure.md](./internal/analysis/TICKET-043-doc-structure.md) - Análisis de estructura docs/
+- [internal/session-memory.md](./internal/session-memory.md) - Sistema de sesiones
 
 ---
 
 ## 📝 Creando Nueva Documentación
 
-Si vas a crear un nuevo documento de usuario:
+Si vas a crear un nuevo documento:
 
 1. **Usa la plantilla estándar:**
    ```bash
@@ -164,26 +163,3 @@ Si vas a crear un nuevo documento de usuario:
 - [README Principal](../README.md)
 - [Plan del Proyecto](../PROJECT_PLAN_claude-dev-kit.md)
 - [Gestión de Tareas](../gestion/)
-
----
-
-## 🔄 Evolución
-
-**Última Actualización:** 2026-02-15
-
-**Cambios Recientes:**
-- **2026-02-15 (TICKET-043):** Reestructuración completa
-  - Nueva organización por tipo de audiencia
-  - Creados directorios: skills/, examples/, internal/
-  - Movida documentación interna a internal/
-  - Creada plantilla estándar (TEMPLATE.md)
-  - Definidas convenciones de formato
-
-**Próximos Pasos:**
-- **Fase 6:** Crear toda la documentación de usuario (TICKET-044 a TICKET-051)
-- **Fase 7:** Crear tutoriales por stack en examples/
-
----
-
-**Estado Actual:** Sprint 3 - Fase 6 (Documentación General)
-**Progreso:** 1/9 tickets completados (TICKET-043 ✅)
