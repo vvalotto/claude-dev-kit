@@ -1,22 +1,21 @@
 # TICKET-047: Guía de Personalización
 
-**Sprint:** Sprint 3 - Fase 6: Documentación General
-**Estimación:** 1.5h
+**Fase:** 6 - Documentación General
+**Sprint:** 3
+**Estado:** 📋 Pendiente
 **Prioridad:** Media
-**Estado:** Pendiente
-**Asignado:** Claude
-**Branch:** feature/framework-documentation
-**Dependencias:** TICKET-043
+**Estimación:** 1.5 horas
+**Asignado a:** Claude Code
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 Crear `docs/customization.md` explicando cómo personalizar el framework para diferentes necesidades: modificar perfiles existentes, crear perfiles custom, personalizar templates y ajustar skills.
 
 ---
 
-## 🎯 Objetivos
+## Objetivos
 
 1. Explicar sistema de perfiles
 2. Personalización de skills existentes
@@ -27,7 +26,7 @@ Crear `docs/customization.md` explicando cómo personalizar el framework para di
 
 ---
 
-## 📝 Contenido del Archivo
+## Contenido del Archivo
 
 ### Secciones Principales
 
@@ -69,7 +68,7 @@ Crear `docs/customization.md` explicando cómo personalizar el framework para di
 
 ---
 
-## ✅ Subtareas
+## Checklist de Implementación
 
 1. [ ] Sección: Sistema de perfiles (introducción)
 2. [ ] Sección: Personalizar skills (config.json, fases, templates)
@@ -82,7 +81,7 @@ Crear `docs/customization.md` explicando cómo personalizar el framework para di
 
 ---
 
-## 📊 Criterios de Aceptación
+## Criterios de Aceptación
 
 - [ ] Guía completa de personalización creada
 - [ ] Sistema de perfiles explicado con ejemplos
@@ -94,14 +93,14 @@ Crear `docs/customization.md` explicando cómo personalizar el framework para di
 
 ---
 
-## 📁 Archivos a Crear
+## Archivos
 
 **Crear:**
 - docs/customization.md (~500 líneas)
 
 ---
 
-## 🔗 Referencias
+## Notas Técnicas
 
 - **Config base:** skills/implement-us/config.json
 - **Perfiles:** skills/implement-us/customizations/*.json
@@ -111,7 +110,17 @@ Crear `docs/customization.md` explicando cómo personalizar el framework para di
 
 ---
 
-## 📝 Notas
+## Dependencias
+
+**Depende de:**
+- TICKET-043
+
+**Bloquea a:**
+- TICKET-051
+
+---
+
+## Notas de Implementación
 
 - Incluir tabla completa de variables con descripción
 - Incluir tabla completa de snippets por tipo
@@ -120,10 +129,6 @@ Crear `docs/customization.md` explicando cómo personalizar el framework para di
 
 ---
 
-**Tiempo Estimado:** 1.5 horas
-**Prioridad:** Media
-**Dependencias:** TICKET-043
+## Resultado
 
----
-
-**Última Actualización:** 2026-02-15
+_Se completará al finalizar el ticket con descripción de resultados, commits y archivos creados._

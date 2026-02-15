@@ -1,22 +1,21 @@
 # TICKET-048: Referencia de Configuración
 
-**Sprint:** Sprint 3 - Fase 6: Documentación General
-**Estimación:** 1.5h
+**Fase:** 6 - Documentación General
+**Sprint:** 3
+**Estado:** 📋 Pendiente
 **Prioridad:** Media
-**Estado:** Pendiente
-**Asignado:** Claude
-**Branch:** feature/framework-documentation
-**Dependencias:** TICKET-043
+**Estimación:** 1.5 horas
+**Asignado a:** Claude Code
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 Crear `docs/configuration.md` como referencia completa de todas las opciones de configuración del framework: config.json, skills, templates, tracking, variables de entorno, hooks y automatización.
 
 ---
 
-## 🎯 Objetivos
+## Objetivos
 
 1. Documentar archivo config.json completo
 2. Configuración de skills
@@ -28,7 +27,7 @@ Crear `docs/configuration.md` como referencia completa de todas las opciones de 
 
 ---
 
-## 📝 Contenido del Archivo
+## Contenido del Archivo
 
 ### Secciones Principales
 
@@ -76,7 +75,7 @@ Crear `docs/configuration.md` como referencia completa de todas las opciones de 
 
 ---
 
-## ✅ Subtareas
+## Checklist de Implementación
 
 1. [ ] Sección: Archivo config.json (estructura completa)
 2. [ ] Sección: Configuración de skills
@@ -89,7 +88,7 @@ Crear `docs/configuration.md` como referencia completa de todas las opciones de 
 
 ---
 
-## 📊 Criterios de Aceptación
+## Criterios de Aceptación
 
 - [ ] Referencia completa de configuración creada
 - [ ] Todas las opciones de config.json documentadas
@@ -102,14 +101,14 @@ Crear `docs/configuration.md` como referencia completa de todas las opciones de 
 
 ---
 
-## 📁 Archivos a Crear
+## Archivos
 
 **Crear:**
 - docs/configuration.md (~600 líneas)
 
 ---
 
-## 🔗 Referencias
+## Notas Técnicas
 
 - **Config base:** skills/implement-us/config.json
 - **Perfiles:** skills/implement-us/customizations/*.json
@@ -118,7 +117,17 @@ Crear `docs/configuration.md` como referencia completa de todas las opciones de 
 
 ---
 
-## 📝 Notas
+## Dependencias
+
+**Depende de:**
+- TICKET-043
+
+**Bloquea a:**
+- TICKET-051
+
+---
+
+## Notas de Implementación
 
 - Esta es una REFERENCIA - debe ser exhaustiva
 - Incluir valores por defecto para TODO
@@ -127,10 +136,6 @@ Crear `docs/configuration.md` como referencia completa de todas las opciones de 
 
 ---
 
-**Tiempo Estimado:** 1.5 horas
-**Prioridad:** Media
-**Dependencias:** TICKET-043
+## Resultado
 
----
-
-**Última Actualización:** 2026-02-15
+_Se completará al finalizar el ticket con descripción de resultados, commits y archivos creados._

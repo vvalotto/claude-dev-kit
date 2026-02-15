@@ -1,22 +1,21 @@
 # TICKET-050: Guía de Creación de Skills
 
-**Sprint:** Sprint 3 - Fase 6: Documentación General
-**Estimación:** 1h
+**Fase:** 6 - Documentación General
+**Sprint:** 3
+**Estado:** 📋 Pendiente
 **Prioridad:** Baja
-**Estado:** Pendiente
-**Asignado:** Claude
-**Branch:** feature/framework-documentation
-**Dependencias:** TICKET-043, TICKET-049
+**Estimación:** 1 hora
+**Asignado a:** Claude Code
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 Crear `docs/skills/creating-skills.md` para desarrolladores que quieran extender el framework creando skills custom. Esta guía debe cubrir desde la anatomía básica hasta integración con tracking.
 
 ---
 
-## 🎯 Objetivos
+## Objetivos
 
 1. Explicar anatomía de un skill
 2. Estructura de archivos requerida
@@ -28,7 +27,7 @@ Crear `docs/skills/creating-skills.md` para desarrolladores que quieran extender
 
 ---
 
-## 📝 Contenido del Archivo
+## Contenido del Archivo
 
 ### Secciones Principales
 
@@ -80,7 +79,7 @@ Crear `docs/skills/creating-skills.md` para desarrolladores que quieran extender
 
 ---
 
-## ✅ Subtareas
+## Checklist de Implementación
 
 1. [ ] Sección: Anatomía de un skill
 2. [ ] Sección: Estructura de archivos
@@ -93,7 +92,7 @@ Crear `docs/skills/creating-skills.md` para desarrolladores que quieran extender
 
 ---
 
-## 📊 Criterios de Aceptación
+## Criterios de Aceptación
 
 - [ ] Guía completa de creación de skills
 - [ ] Anatomía explicada con diagramas
@@ -106,14 +105,14 @@ Crear `docs/skills/creating-skills.md` para desarrolladores que quieran extender
 
 ---
 
-## 📁 Archivos a Crear
+## Archivos
 
 **Crear:**
 - docs/skills/creating-skills.md (~400 líneas)
 
 ---
 
-## 🔗 Referencias
+## Notas Técnicas
 
 - **Skill implement-us:** skills/implement-us/skill.md (ejemplo de referencia)
 - **Tracking:** tracking/time_tracker.py
@@ -121,7 +120,17 @@ Crear `docs/skills/creating-skills.md` para desarrolladores que quieran extender
 
 ---
 
-## 📝 Notas
+## Dependencias
+
+**Depende de:**
+- TICKET-043
+
+**Bloquea a:**
+- TICKET-051
+
+---
+
+## Notas de Implementación
 
 - Audiencia: Desarrolladores avanzados
 - Incluir código Python ejecutable
@@ -130,10 +139,6 @@ Crear `docs/skills/creating-skills.md` para desarrolladores que quieran extender
 
 ---
 
-**Tiempo Estimado:** 1 hora
-**Prioridad:** Baja
-**Dependencias:** TICKET-043, TICKET-049
+## Resultado
 
----
-
-**Última Actualización:** 2026-02-15
+_Se completará al finalizar el ticket con descripción de resultados, commits y archivos creados._

@@ -1,22 +1,21 @@
 # TICKET-046: Guía de Instalación Detallada
 
-**Sprint:** Sprint 3 - Fase 6: Documentación General
-**Estimación:** 1h
+**Fase:** 6 - Documentación General
+**Sprint:** 3
+**Estado:** 📋 Pendiente
 **Prioridad:** Alta
-**Estado:** Pendiente
-**Asignado:** Claude
-**Branch:** feature/framework-documentation
-**Dependencias:** TICKET-043
+**Estimación:** 1 hora
+**Asignado a:** Claude Code
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 Crear `docs/installation.md` con instrucciones completas de instalación del framework, cubriendo todos los modos (interactivo, no interactivo), perfiles, validación y troubleshooting.
 
 ---
 
-## 🎯 Objetivos
+## Objetivos
 
 1. Documentar prerequisitos del sistema
 2. Guía paso a paso para instalación interactiva
@@ -28,7 +27,7 @@ Crear `docs/installation.md` con instrucciones completas de instalación del fra
 
 ---
 
-## 📝 Contenido del Archivo
+## Contenido del Archivo
 
 ### Secciones Principales
 
@@ -74,7 +73,7 @@ Crear `docs/installation.md` con instrucciones completas de instalación del fra
 
 ---
 
-## ✅ Subtareas
+## Checklist de Implementación
 
 1. [ ] Sección: Prerequisitos del sistema
 2. [ ] Sección: Instalación interactiva paso a paso
@@ -87,7 +86,7 @@ Crear `docs/installation.md` con instrucciones completas de instalación del fra
 
 ---
 
-## 📊 Criterios de Aceptación
+## Criterios de Aceptación
 
 - [ ] Guía completa de instalación creada
 - [ ] Instrucciones para instalación interactiva y no interactiva
@@ -99,14 +98,14 @@ Crear `docs/installation.md` con instrucciones completas de instalación del fra
 
 ---
 
-## 📁 Archivos a Crear
+## Archivos
 
 **Crear:**
 - docs/installation.md (~400 líneas)
 
 ---
 
-## 🔗 Referencias
+## Notas Técnicas
 
 - **Instalador:** install/installer.py
 - **Perfiles:** skills/implement-us/customizations/*.json
@@ -114,7 +113,17 @@ Crear `docs/installation.md` con instrucciones completas de instalación del fra
 
 ---
 
-## 📝 Notas
+## Dependencias
+
+**Depende de:**
+- TICKET-043
+
+**Bloquea a:**
+- TICKET-051
+
+---
+
+## Notas de Implementación
 
 - Incluir ejemplos para cada perfil
 - Comandos deben ser copy-paste ready
@@ -123,10 +132,6 @@ Crear `docs/installation.md` con instrucciones completas de instalación del fra
 
 ---
 
-**Tiempo Estimado:** 1 hora
-**Prioridad:** Alta
-**Dependencias:** TICKET-043
+## Resultado
 
----
-
-**Última Actualización:** 2026-02-15
+_Se completará al finalizar el ticket con descripción de resultados, commits y archivos creados._

@@ -1,22 +1,21 @@
 # TICKET-049: Documentación del Skill implement-us
 
-**Sprint:** Sprint 3 - Fase 6: Documentación General
-**Estimación:** 2h
+**Fase:** 6 - Documentación General
+**Sprint:** 3
+**Estado:** 📋 Pendiente
 **Prioridad:** Alta
-**Estado:** Pendiente
-**Asignado:** Claude
-**Branch:** feature/framework-documentation
-**Dependencias:** TICKET-043
+**Estimación:** 2 horas
+**Asignado a:** Claude Code
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 Crear `docs/skills/implement-us.md` con documentación completa del skill principal del framework. Este skill implementa historias de usuario siguiendo un proceso de 10 fases con tracking automático.
 
 ---
 
-## 🎯 Objetivos
+## Objetivos
 
 1. Explicar propósito y filosofía del skill
 2. Documentar uso básico y opciones
@@ -28,7 +27,7 @@ Crear `docs/skills/implement-us.md` con documentación completa del skill princi
 
 ---
 
-## 📝 Contenido del Archivo
+## Contenido del Archivo
 
 ### Secciones Principales
 
@@ -88,7 +87,7 @@ Crear `docs/skills/implement-us.md` con documentación completa del skill princi
 
 ---
 
-## ✅ Subtareas
+## Checklist de Implementación
 
 1. [ ] Crear directorio docs/skills/
 2. [ ] Sección: Introducción y propósito
@@ -111,7 +110,7 @@ Crear `docs/skills/implement-us.md` con documentación completa del skill princi
 
 ---
 
-## 📊 Criterios de Aceptación
+## Criterios de Aceptación
 
 - [ ] Documentación completa del skill creada
 - [ ] Las 10 fases explicadas en detalle
@@ -124,7 +123,7 @@ Crear `docs/skills/implement-us.md` con documentación completa del skill princi
 
 ---
 
-## 📁 Archivos a Crear
+## Archivos
 
 **Crear:**
 - docs/skills/ (directorio)
@@ -132,7 +131,7 @@ Crear `docs/skills/implement-us.md` con documentación completa del skill princi
 
 ---
 
-## 🔗 Referencias
+## Notas Técnicas
 
 - **Skill source:** skills/implement-us/skill.md
 - **Phases:** skills/implement-us/phases/*.md
@@ -141,7 +140,17 @@ Crear `docs/skills/implement-us.md` con documentación completa del skill princi
 
 ---
 
-## 📝 Notas
+## Dependencias
+
+**Depende de:**
+- TICKET-043
+
+**Bloquea a:**
+- TICKET-051
+
+---
+
+## Notas de Implementación
 
 - Esta es la documentación del skill MÁS IMPORTANTE
 - Debe ser exhaustiva pero clara
@@ -150,10 +159,6 @@ Crear `docs/skills/implement-us.md` con documentación completa del skill princi
 
 ---
 
-**Tiempo Estimado:** 2 horas
-**Prioridad:** Alta
-**Dependencias:** TICKET-043
+## Resultado
 
----
-
-**Última Actualización:** 2026-02-15
+_Se completará al finalizar el ticket con descripción de resultados, commits y archivos creados._

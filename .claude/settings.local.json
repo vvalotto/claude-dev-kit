@@ -3,7 +3,16 @@
     "allow": [
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(wc:*)",
+      "Bash(grep:*)",
+      "Bash(tracking/__init__.py:*)",
+      "Bash(python -m py_compile:*)",
+      "Bash(python -c:*)",
+      "Bash(tests/manual/test_time_tracker_basic.py:*)",
+      "Bash(python tests/manual/test_time_tracker_basic.py:*)",
+      "Bash(PYTHONPATH=/Users/victor/PycharmProjects/claude-dev-kitc python:*)",
+      "Bash(git mv:*)"
     ]
   }
 }

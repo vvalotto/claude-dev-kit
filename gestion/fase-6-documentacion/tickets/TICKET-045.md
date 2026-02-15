@@ -1,22 +1,21 @@
 # TICKET-045: Guía de Inicio Rápido
 
-**Sprint:** Sprint 3 - Fase 6: Documentación General
-**Estimación:** 1.5h
+**Fase:** 6 - Documentación General
+**Sprint:** 3
+**Estado:** 📋 Pendiente
 **Prioridad:** Alta
-**Estado:** Pendiente
-**Asignado:** Claude
-**Branch:** feature/framework-documentation
-**Dependencias:** TICKET-043
+**Estimación:** 1.5 horas
+**Asignado a:** Claude Code
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 Crear `docs/getting-started.md` con tutorial paso a paso para nuevos usuarios. Esta guía debe permitir a un usuario completar el setup completo y ejecutar su primera historia de usuario en menos de 15 minutos.
 
 ---
 
-## 🎯 Objetivos
+## Objetivos
 
 1. Proporcionar instalación rápida (5 minutos)
 2. Guiar primera historia de usuario con /implement-us
@@ -26,7 +25,7 @@ Crear `docs/getting-started.md` con tutorial paso a paso para nuevos usuarios. E
 
 ---
 
-## 📝 Contenido del Archivo
+## Contenido del Archivo
 
 ### Estructura Propuesta
 
@@ -225,7 +224,7 @@ code .claude/skills/implement-us/config.json
 
 ---
 
-## ✅ Subtareas
+## Checklist de Implementación
 
 1. [ ] Sección: Introducción y prerequisitos
 2. [ ] Sección: Instalación en 5 minutos
@@ -238,7 +237,7 @@ code .claude/skills/implement-us/config.json
 
 ---
 
-## 📊 Criterios de Aceptación
+## Criterios de Aceptación
 
 - [ ] Guía completa de inicio rápido creada
 - [ ] Tutorial permite setup en <15 minutos
@@ -250,14 +249,14 @@ code .claude/skills/implement-us/config.json
 
 ---
 
-## 📁 Archivos a Crear
+## Archivos
 
 **Crear:**
 - docs/getting-started.md (~500 líneas)
 
 ---
 
-## 🔗 Referencias
+## Notas Técnicas
 
 - **TICKET-043:** Convenciones de documentación
 - **Skill implement-us:** .claude/skills/implement-us/skill.md
@@ -265,7 +264,17 @@ code .claude/skills/implement-us/config.json
 
 ---
 
-## 📝 Notas
+## Dependencias
+
+**Depende de:**
+- TICKET-043
+
+**Bloquea a:**
+- TICKET-051
+
+---
+
+## Notas de Implementación
 
 - **Crucial:** Esta es la primera experiencia del usuario - debe ser fluida
 - Incluir ejemplo completo y ejecutable
@@ -275,10 +284,6 @@ code .claude/skills/implement-us/config.json
 
 ---
 
-**Tiempo Estimado:** 1.5 horas
-**Prioridad:** Alta
-**Dependencias:** TICKET-043
+## Resultado
 
----
-
-**Última Actualización:** 2026-02-15
+_Se completará al finalizar el ticket con descripción de resultados, commits y archivos creados._
