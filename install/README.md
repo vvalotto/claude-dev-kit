@@ -1,6 +1,8 @@
-# Claude Dev Kit - Guía de Instalación
+# Sistema de Instalación - Documentación Técnica
 
-Documentación completa para instalar el Claude Dev Kit en tu proyecto Python.
+Documentación técnica del sistema de instalación del Claude Dev Kit.
+
+> **Para usuarios:** Ver [docs/installation.md](../docs/installation.md)
 
 ---
 

@@ -217,6 +217,6 @@ Usa los reportes para:
 ## Soporte
 
 Para problemas o preguntas:
-- Ver documentación técnica: `docs/tracking/architecture.md`
-- Ver ejemplos: `docs/tracking/examples.md`
+- Ver documentación técnica: `docs/developer/architecture/tracking.md`
+- Ver ejemplos: `docs/user/tracking/examples.md`
 - Reportar issues en el repositorio del proyecto

@@ -1,6 +1,10 @@
-# Templates - Claude Dev Kit
+# Templates - Documentación Técnica
 
-Este directorio contiene los templates reutilizables que el skill `/implement-us` utiliza para generar automáticamente archivos durante la implementación de historias de usuario.
+Documentación técnica del sistema de templates del framework.
+
+> **Para usuarios:** Ver [docs/templates/template-system.md](../docs/templates/template-system.md)
+
+Este directorio contiene los templates reutilizables que el skill `/implement-us` utiliza internamente.
 
 ---
 
