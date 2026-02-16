@@ -1,5 +1,6 @@
 """BDD step definitions for task scenarios."""
 
+import os
 import pytest
 from pytest_bdd import scenarios, given, when, then, parsers
 from fastapi.testclient import TestClient
@@ -7,8 +8,9 @@ from main import app
 from app.database import get_db, TaskDatabase
 
 
-# Load scenarios
-scenarios('../tasks.feature')
+# Load scenarios from features directory
+feature_path = os.path.join(os.path.dirname(__file__), '..', 'tasks.feature')
+scenarios(feature_path)
 
 
 # Fixtures
