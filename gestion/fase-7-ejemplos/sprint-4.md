@@ -22,30 +22,137 @@ Crear **tutoriales end-to-end completos** para cada perfil soportado del framewo
 
 ### Ejemplos a Crear
 
-1. **pyqt-project.md** - Aplicación Desktop PyQt6 + MVC
-   - Historia de usuario: Calculadora básica
-   - Stack: PyQt6, pytest-qt, MVC pattern
-   - Componentes: Window, Controller, Model
+#### 1. PyQt-MVC: Calculadora Simple
 
-2. **fastapi-project.md** - API REST con FastAPI
-   - Historia de usuario: API de tareas (TODO)
-   - Stack: FastAPI, pytest, async/await
-   - Endpoints: GET, POST, PUT, DELETE
+**Archivo:** `docs/examples/pyqt-project.md`
 
-3. **flask-rest-project.md** - API REST con Flask
-   - Historia de usuario: API de contactos
-   - Stack: Flask, pytest, blueprints
-   - Endpoints: CRUD completo
+**Historia de Usuario:**
+```gherkin
+Como usuario de escritorio
+Quiero una calculadora simple para hacer operaciones básicas
+Para realizar cálculos rápidos sin abrir otra aplicación
+```
 
-4. **flask-webapp-project.md** - WebApp con Flask
-   - Historia de usuario: Blog simple
-   - Stack: Flask, Jinja2, pytest
-   - Features: Templates, forms, navegación
+**Stack:** PyQt6, pytest-qt, MVC pattern
 
-5. **generic-python.md** - CLI App / Librería
-   - Historia de usuario: Utilidad de archivos
-   - Stack: Python stdlib, argparse, pytest
-   - Features: CLI interface, file operations
+**Alcance:**
+- UI con botones numéricos y operaciones (+, -, *, /)
+- Display de resultados
+- Lógica en Modelo, UI en Vista, coordinación en Controller
+- Tests con pytest-qt
+
+**Componentes:**
+- `MainWindow` (Vista)
+- `CalculatorController` (Controlador)
+- `CalculatorModel` (Modelo)
+
+---
+
+#### 2. FastAPI-REST: API de Tareas (TODO)
+
+**Archivo:** `docs/examples/fastapi-project.md`
+
+**Historia de Usuario:**
+```gherkin
+Como developer
+Quiero una API REST de tareas para gestionar mi trabajo
+Para integrar con aplicaciones frontend o CLI
+```
+
+**Stack:** FastAPI, pytest-asyncio, async/await
+
+**Alcance:**
+- Endpoints: GET /tasks, POST /tasks, PUT /tasks/{id}, DELETE /tasks/{id}
+- Validación con Pydantic models
+- Documentación automática con Swagger/ReDoc
+- Tests con pytest-asyncio
+
+**Componentes:**
+- `TaskModel` (Pydantic)
+- `TaskService` (Lógica de negocio)
+- `task_router.py` (Endpoints)
+- In-memory storage (simplificado)
+
+---
+
+#### 3. Flask-REST: API de Contactos
+
+**Archivo:** `docs/examples/flask-rest-project.md`
+
+**Historia de Usuario:**
+```gherkin
+Como developer
+Quiero una API de contactos para mi aplicación
+Para gestionar información de contactos (nombre, email, teléfono)
+```
+
+**Stack:** Flask, pytest, blueprints
+
+**Alcance:**
+- Endpoints CRUD: /contacts
+- Blueprints para organización
+- JSON responses con error handling
+- Tests con pytest + Flask test client
+
+**Componentes:**
+- `Contact` (Dataclass/Model)
+- `ContactService` (Lógica)
+- `contacts_blueprint` (Rutas)
+- In-memory storage
+
+---
+
+#### 4. Flask-WebApp: Blog Simple
+
+**Archivo:** `docs/examples/flask-webapp-project.md`
+
+**Historia de Usuario:**
+```gherkin
+Como blogger
+Quiero un blog simple para publicar artículos
+Para compartir contenido con lectores
+```
+
+**Stack:** Flask, Jinja2, pytest
+
+**Alcance:**
+- Páginas: Home (lista de posts), New Post, View Post
+- Templates Jinja2 con layout base
+- Formularios para crear posts
+- Navegación entre páginas
+
+**Componentes:**
+- `Post` (Modelo)
+- `blog_blueprint` (Rutas)
+- Templates: `base.html`, `home.html`, `new_post.html`, `view_post.html`
+- In-memory storage
+
+---
+
+#### 5. Generic-Python: CLI Tool para CSV
+
+**Archivo:** `docs/examples/generic-python.md`
+
+**Historia de Usuario:**
+```gherkin
+Como developer
+Quiero una utilidad CLI para manipular archivos CSV
+Para automatizar tareas comunes con datos tabulares
+```
+
+**Stack:** Python stdlib, argparse, pytest
+
+**Alcance:**
+- Comandos: `convert`, `filter`, `merge`
+- Argparse para CLI
+- File I/O con csv module
+- Tabla de output en terminal
+
+**Componentes:**
+- `cli.py` (Entry point)
+- `csv_processor.py` (Lógica)
+- `formatters.py` (Output)
+- Tests con fixtures de archivos
 
 ---
 
@@ -94,7 +201,7 @@ Crear **tutoriales end-to-end completos** para cada perfil soportado del framewo
 
 | Ticket | Título | Estado | Estimado | Real |
 |--------|--------|--------|----------|------|
-| TICKET-052 | Análisis y planificación | ⏳ Pendiente | 1h | - |
+| TICKET-052 | Análisis y planificación | ✅ Completado | 1h | 1h |
 | TICKET-053 | PyQt-MVC Tutorial | ⏳ Pendiente | 3h | - |
 | TICKET-054 | FastAPI-REST Tutorial | ⏳ Pendiente | 2.5h | - |
 | TICKET-055 | Flask-REST Tutorial | ⏳ Pendiente | 2.5h | - |
@@ -102,31 +209,41 @@ Crear **tutoriales end-to-end completos** para cada perfil soportado del framewo
 | TICKET-057 | Python Generic Tutorial | ⏳ Pendiente | 2h | - |
 | TICKET-058 | Validación | ⏳ Pendiente | 1.5h | - |
 
-**Total:** 0/7 completados (0%)
+**Total:** 1/7 completados (14%)
 
 ---
 
 ## 🎯 Entregable
 
-**Carpeta `docs/examples/`** con 5 tutoriales completos:
-- pyqt-project.md
-- fastapi-project.md
-- flask-rest-project.md
-- flask-webapp-project.md
-- generic-python.md
+**Carpeta `docs/examples/`** con:
+- ✅ **TEMPLATE.md** - Plantilla base para todos los tutoriales
+- ⬜ pyqt-project.md
+- ⬜ fastapi-project.md
+- ⬜ flask-rest-project.md
+- ⬜ flask-webapp-project.md
+- ⬜ generic-python.md
 
-**Carpeta `examples/code/`** (opcional) con código de ejemplo ejecutable.
+**Carpeta `examples/code/`** con código ejecutable:
+- ⬜ pyqt-mvc-calculator/
+- ⬜ fastapi-todo-api/
+- ⬜ flask-rest-contacts/
+- ⬜ flask-webapp-blog/
+- ⬜ generic-python-csv-tool/
 
-**Estructura de cada tutorial:**
+**Documentación de gestión:**
+- ✅ **decisiones-implementacion.md** - Decisiones arquitectónicas y de diseño
+
+**Estructura de cada tutorial (siguiendo TEMPLATE.md):**
 1. Introducción y requisitos
-2. Setup del proyecto
-3. Instalación del framework
-4. Historia de usuario
-5. Walkthrough completo de las 10 fases
-6. Validación y testing
-7. Output final
+2. Requisitos previos
+3. Historia de usuario
+4. Setup del proyecto
+5. Instalación del framework
+6. Walkthrough completo de las 10 fases
+7. Validación final
 8. Troubleshooting
 9. Próximos pasos
+10. Recursos
 
 ---
 
@@ -138,6 +255,12 @@ Crear **tutoriales end-to-end completos** para cada perfil soportado del framewo
 - **Tiempo objetivo por usuario:** 30-60 minutos para completar cada tutorial
 - Los ejemplos serán referenciados desde `docs/user/index.md`
 
+### Documentos de Referencia (TICKET-052)
+
+- **TEMPLATE.md:** Plantilla base con estructura completa y placeholders
+- **decisiones-implementacion.md:** Decisiones de diseño, código híbrido, screenshots, historias de usuario detalladas
+- **Checklist de validación:** Definido en decisiones-implementacion.md
+
 ---
 
-**Última actualización:** 2026-02-15
+**Última actualización:** 2026-02-16
