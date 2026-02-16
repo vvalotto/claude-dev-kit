@@ -202,14 +202,15 @@ Para automatizar tareas comunes con datos tabulares
 | Ticket | Título | Estado | Estimado | Real |
 |--------|--------|--------|----------|------|
 | TICKET-052 | Análisis y planificación | ✅ Completado | 1h | 1h |
-| TICKET-053 | PyQt-MVC Tutorial | ⏳ Pendiente | 3h | - |
+| TICKET-053 | PyQt-MVC Tutorial | ✅ Completado | 3h | 1.5h |
 | TICKET-054 | FastAPI-REST Tutorial | ⏳ Pendiente | 2.5h | - |
 | TICKET-055 | Flask-REST Tutorial | ⏳ Pendiente | 2.5h | - |
 | TICKET-056 | Flask-WebApp Tutorial | ⏳ Pendiente | 2.5h | - |
 | TICKET-057 | Python Generic Tutorial | ⏳ Pendiente | 2h | - |
 | TICKET-058 | Validación | ⏳ Pendiente | 1.5h | - |
 
-**Total:** 1/7 completados (14%)
+**Total:** 2/7 completados (29%)
+**Tiempo acumulado:** 2.5h de 15h estimadas (17%)
 
 ---
 
@@ -217,7 +218,7 @@ Para automatizar tareas comunes con datos tabulares
 
 **Carpeta `docs/examples/`** con:
 - ✅ **TEMPLATE.md** - Plantilla base para todos los tutoriales
-- ⬜ pyqt-project.md
+- ✅ **pyqt-project.md** - Tutorial completo PyQt6 MVC (~1,000 líneas)
 - ⬜ fastapi-project.md
 - ⬜ flask-rest-project.md
 - ⬜ flask-webapp-project.md
