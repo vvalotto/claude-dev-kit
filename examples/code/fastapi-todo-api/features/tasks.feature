@@ -1,71 +1,70 @@
-# language: es
 @US-002
-Característica: Gestión de Tareas (TODO API)
-  Como developer
-  Quiero una API REST para gestionar tareas
-  Para integrar con mi aplicación frontend
+Feature: Task Management (TODO API)
+  As a developer
+  I want a REST API to manage tasks
+  So I can integrate it with my frontend application
 
-  Antecedentes:
-    Dado que la API está disponible
-    Y la base de datos está vacía
+  Background:
+    Given the API is available
+    And the database is empty
 
-  Escenario: Crear una nueva tarea
-    Cuando se envía una petición POST a "/tasks/" con:
-      | campo       | valor                  |
-      | title       | Comprar leche          |
-      | description | Ir al supermercado     |
-    Entonces la respuesta tiene código de estado 201
-    Y el JSON de respuesta contiene:
-      | campo       | valor                  |
-      | title       | Comprar leche          |
-      | description | Ir al supermercado     |
-      | completed   | False                  |
-    Y el campo "id" es un número mayor que 0
+  Scenario: Create a new task
+    When a POST request is sent to "/tasks/" with:
+      | field       | value                |
+      | title       | Buy milk             |
+      | description | Go to supermarket    |
+    Then the response status code is 201
+    And the response JSON contains:
+      | field       | value                |
+      | title       | Buy milk             |
+      | description | Go to supermarket    |
+      | completed   | False                |
+    And the field "id" is a number greater than 0
 
-  Escenario: Listar todas las tareas
-    Dado que existen las siguientes tareas:
-      | title          | description    |
-      | Comprar leche  | Supermercado   |
-      | Estudiar       | FastAPI docs   |
-    Cuando se envía una petición GET a "/tasks/"
-    Entonces la respuesta tiene código de estado 200
-    Y el JSON de respuesta es una lista con 2 elementos
+  Scenario: List all tasks
+    Given the following tasks exist:
+      | title          | description       |
+      | Buy milk       | Supermarket       |
+      | Study          | FastAPI docs      |
+    When a GET request is sent to "/tasks/"
+    Then the response status code is 200
+    And the response is a list with 2 items
 
-  Escenario: Obtener una tarea específica
-    Dado que existe una tarea con:
-      | campo       | valor                  |
-      | title       | Comprar leche          |
-      | description | Ir al supermercado     |
-    Cuando se envía una petición GET a "/tasks/{task_id}"
-    Entonces la respuesta tiene código de estado 200
-    Y el JSON de respuesta contiene:
-      | campo       | valor                  |
-      | title       | Comprar leche          |
+  Scenario: Get a specific task
+    Given a task exists with:
+      | field       | value                |
+      | title       | Buy milk             |
+      | description | Go to supermarket    |
+    When a GET request is sent to "/tasks/{task_id}"
+    Then the response status code is 200
+    And the response JSON contains:
+      | field       | value                |
+      | title       | Buy milk             |
 
-  Escenario: Actualizar una tarea
-    Dado que existe una tarea con:
-      | campo       | valor                  |
-      | title       | Comprar leche          |
-      | completed   | False                  |
-    Cuando se envía una petición PUT a "/tasks/{task_id}" con:
-      | campo       | valor                  |
-      | title       | Comprar leche y pan    |
-      | completed   | True                   |
-    Entonces la respuesta tiene código de estado 200
-    Y el JSON de respuesta contiene:
-      | campo       | valor                  |
-      | title       | Comprar leche y pan    |
-      | completed   | True                   |
+  Scenario: Update a task
+    Given a task exists with:
+      | field       | value                |
+      | title       | Buy milk             |
+      | completed   | False                |
+    When a PUT request is sent to "/tasks/{task_id}" with:
+      | field       | value                |
+      | title       | Buy milk and bread   |
+      | completed   | True                 |
+    Then the response status code is 200
+    And the response JSON contains:
+      | field       | value                |
+      | title       | Buy milk and bread   |
+      | completed   | True                 |
 
-  Escenario: Eliminar una tarea
-    Dado que existe una tarea con:
-      | campo       | valor                  |
-      | title       | Tarea temporal         |
-    Cuando se envía una petición DELETE a "/tasks/{task_id}"
-    Entonces la respuesta tiene código de estado 204
-    Y la tarea ya no existe en la base de datos
+  Scenario: Delete a task
+    Given a task exists with:
+      | field       | value                |
+      | title       | Temporary task       |
+    When a DELETE request is sent to "/tasks/{task_id}"
+    Then the response status code is 204
+    And the task no longer exists in the database
 
-  Escenario: Error al obtener tarea inexistente
-    Cuando se envía una petición GET a "/tasks/999"
-    Entonces la respuesta tiene código de estado 404
-    Y el JSON de respuesta contiene el mensaje "not found"
+  Scenario: Error when getting non-existent task
+    When a GET request is sent to "/tasks/999"
+    Then the response status code is 404
+    And the response JSON contains the message "not found"
