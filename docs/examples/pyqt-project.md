@@ -95,9 +95,9 @@ Para realizar operaciones matemáticas básicas (+, -, *, ÷)
 ### Alcance
 
 **Componentes a Implementar:**
-- **MainWindow (Vista):** Interfaz gráfica con QMainWindow
-- **CalculatorController (Controlador):** Lógica de coordinación
-- **CalculatorModel (Modelo):** Lógica de operaciones matemáticas
+- **CalculatorVista (Vista):** Interfaz gráfica con QWidget y pyqtSignal
+- **CalculatorControlador (Controlador):** Lógica de coordinación entre modelo y vista
+- **CalculatorModelo (Modelo):** Datos inmutables (@dataclass frozen=True) con lógica matemática
 
 **Casos de Uso:**
 1. Usuario ingresa "5 + 3 =", display muestra "8"
@@ -162,16 +162,17 @@ python -c "from PyQt6.QtWidgets import QApplication; print('PyQt6 OK')"
 
 ```bash
 # Crear directorios
-mkdir -p app/{presentacion,controladores,modelos}
-mkdir -p tests/{unit,integration,bdd/steps}
+mkdir -p app/presentacion/paneles/calculator
+mkdir -p tests/unit
+mkdir -p tests/bdd
 mkdir -p historias-usuario
 mkdir -p docs/{planning,reporting}
 
 # Crear __init__.py
 touch app/__init__.py
 touch app/presentacion/__init__.py
-touch app/controladores/__init__.py
-touch app/modelos/__init__.py
+touch app/presentacion/paneles/__init__.py
+touch app/presentacion/paneles/calculator/__init__.py
 ```
 
 **Estructura del proyecto:**
@@ -180,20 +181,21 @@ touch app/modelos/__init__.py
 calculator-pyqt/
 ├── app/
 │   ├── __init__.py
-│   ├── presentacion/
-│   │   ├── __init__.py
-│   │   └── main_window.py          # Vista (a crear)
-│   ├── controladores/
-│   │   ├── __init__.py
-│   │   └── calculator_controller.py # Controlador (a crear)
-│   └── modelos/
+│   └── presentacion/
 │       ├── __init__.py
-│       └── calculator_model.py      # Modelo (a crear)
+│       └── paneles/
+│           ├── __init__.py
+│           └── calculator/
+│               ├── __init__.py
+│               ├── modelo.py        # Modelo (a crear)
+│               ├── vista.py         # Vista (a crear)
+│               └── controlador.py   # Controlador (a crear)
 ├── tests/
 │   ├── unit/
-│   ├── integration/
+│   │   ├── test_calculator_modelo.py
+│   │   └── test_calculator_controlador.py
 │   └── bdd/
-│       └── steps/
+│       └── US-001.feature
 ├── historias-usuario/
 ├── docs/
 ├── requirements.txt
@@ -458,104 +460,116 @@ Claude te mostrará los escenarios generados y preguntará:
 
 ### Patrón MVC
 
-**Modelo (CalculatorModel):**
-- Responsabilidad: Lógica matemática pura
-- Métodos: add(), subtract(), multiply(), divide()
-- Estado: current_value, pending_value, pending_operation
+**Modelo (CalculatorModelo):**
+- Responsabilidad: Datos inmutables con lógica matemática
+- Tipo: @dataclass(frozen=True) - inmutabilidad garantizada
+- Atributos: current_value, pending_value, pending_operation
+- Métodos: add(), subtract(), multiply(), divide(), execute_pending_operation()
 - Validación: División por cero
 
-**Vista (MainWindow):**
-- Responsabilidad: Interfaz gráfica
+**Vista (CalculatorVista):**
+- Responsabilidad: Interfaz gráfica (QWidget)
 - Componentes: QLineEdit (display), QPushButton (botones)
-- Layout: QGridLayout (4x5)
-- Eventos: clicked signals conectados a Controller
+- Layout: QGridLayout (5x4)
+- Señales: pyqtSignal para comunicación (button_clicked, equals_clicked, clear_clicked)
+- Sin lógica de negocio - solo UI
 
-**Controlador (CalculatorController):**
+**Controlador (CalculatorControlador):**
 - Responsabilidad: Coordinación Vista ↔ Modelo
-- Métodos: on_number_clicked(), on_operation_clicked(), on_equals_clicked()
-- Lógica: Actualizar Vista según cambios en Modelo
+- Patrón: Conecta señales de Vista con lógica de Modelo
+- Métodos: _on_button_clicked(), _on_equals_clicked(), _on_clear_clicked()
+- Lógica: Crear nuevas instancias de Modelo (inmutabilidad)
 
 ## 📝 Tareas
 
-### 1. Modelo (CalculatorModel) - 30 min
+### 1. Modelo (CalculatorModelo) - 30 min
 
-**Archivo:** `app/modelos/calculator_model.py`
+**Archivo:** `app/presentacion/paneles/calculator/modelo.py`
 
-- [ ] Clase CalculatorModel con __init__
-- [ ] Atributos: current_value, pending_value, pending_operation
-- [ ] Método add(a, b) → float
-- [ ] Método subtract(a, b) → float
-- [ ] Método multiply(a, b) → float
-- [ ] Método divide(a, b) → float (con validación)
-- [ ] Método reset() para limpiar estado
-- [ ] Docstrings y type hints
+- [ ] @dataclass(frozen=True) CalculatorModelo
+- [ ] Atributos inmutables: current_value, pending_value, pending_operation
+- [ ] Método add(a, b) → float (función estática)
+- [ ] Método subtract(a, b) → float (función estática)
+- [ ] Método multiply(a, b) → float (función estática)
+- [ ] Método divide(a, b) → float (con validación ZeroDivisionError)
+- [ ] Método execute_pending_operation(self, new_value) → CalculatorModelo (retorna nueva instancia)
+- [ ] Docstrings y type hints completos
 
 **Complejidad:** Baja
-**Dependencias:** Ninguna
+**Dependencias:** dataclasses, typing
 
-### 2. Controlador (CalculatorController) - 45 min
+### 2. Controlador (CalculatorControlador) - 45 min
 
-**Archivo:** `app/controladores/calculator_controller.py`
+**Archivo:** `app/presentacion/paneles/calculator/controlador.py`
 
-- [ ] Clase CalculatorController con __init__(model)
-- [ ] Método handle_number_input(digit: str)
-- [ ] Método handle_operation(op: str)
-- [ ] Método handle_equals() → str
-- [ ] Método handle_clear()
-- [ ] Lógica de acumulación de dígitos
-- [ ] Lógica de ejecución de operación pendiente
-- [ ] Manejo de errores (división por cero)
+- [ ] Clase CalculatorControlador con __init__(modelo, vista)
+- [ ] Método _connect_signals() - conectar señales de vista
+- [ ] Método _on_button_clicked(button: str) - manejar clicks de botones
+- [ ] Método _on_equals_clicked() - calcular resultado
+- [ ] Método _on_clear_clicked() - resetear calculadora
+- [ ] Lógica de acumulación de dígitos (current_input)
+- [ ] Crear nuevas instancias de CalculatorModelo (inmutabilidad)
+- [ ] Actualizar vista.update_display()
+- [ ] Manejo de errores con vista.show_error()
 
 **Complejidad:** Media
-**Dependencias:** CalculatorModel
+**Dependencias:** CalculatorModelo, CalculatorVista
 
-### 3. Vista (MainWindow) - 1 hora
+### 3. Vista (CalculatorVista) - 1 hora
 
-**Archivo:** `app/presentacion/main_window.py`
+**Archivo:** `app/presentacion/paneles/calculator/vista.py`
 
-- [ ] Clase MainWindow(QMainWindow) con __init__
+- [ ] Clase CalculatorVista(QWidget) con __init__
+- [ ] Definir señales: button_clicked = pyqtSignal(str)
+- [ ] Definir señales: equals_clicked = pyqtSignal()
+- [ ] Definir señales: clear_clicked = pyqtSignal()
 - [ ] QLineEdit para display (read-only)
 - [ ] QPushButton para cada dígito (0-9)
 - [ ] QPushButton para operaciones (+, -, *, /)
 - [ ] QPushButton para equals (=) y clear (C)
-- [ ] QGridLayout para organizar botones
-- [ ] Conectar signals a Controller
-- [ ] Método update_display(value: str)
-- [ ] Método show_error(message: str)
-- [ ] Estilo básico (opcional)
+- [ ] QGridLayout (5x4) para organizar botones
+- [ ] Método update_display(value: str) - actualizar display
+- [ ] Método show_error(message: str) - QMessageBox de error
+- [ ] Sin lógica de negocio - solo UI y señales
 
 **Complejidad:** Media
-**Dependencias:** CalculatorController
+**Dependencias:** PyQt6.QtWidgets, PyQt6.QtCore
 
 ### 4. Entry Point (main.py) - 15 min
 
 **Archivo:** `main.py`
 
-- [ ] Imports necesarios
+- [ ] Imports necesarios (QApplication, QMainWindow)
+- [ ] Importar CalculatorModelo, CalculatorVista, CalculatorControlador
 - [ ] Crear QApplication
-- [ ] Instanciar Model, Controller, View
-- [ ] Conectar Controller con View
+- [ ] Instanciar modelo = CalculatorModelo()
+- [ ] Instanciar vista = CalculatorVista()
+- [ ] Instanciar controlador = CalculatorControlador(modelo, vista)
+- [ ] Crear QMainWindow y setCentralWidget(vista)
 - [ ] Mostrar ventana
 - [ ] sys.exit(app.exec())
 
 **Complejidad:** Baja
-**Dependencias:** Todos los componentes
+**Dependencias:** Todos los componentes MVC
 
 ## 🧪 Plan de Testing
 
 ### Tests Unitarios (8 tests)
 
-**test_calculator_model.py:**
+**test_calculator_modelo.py:**
 - test_add()
 - test_subtract()
 - test_multiply()
 - test_divide()
 - test_divide_by_zero()
-- test_reset()
+- test_modelo_is_immutable()
+- test_execute_pending_operation()
 
-**test_calculator_controller.py:**
-- test_handle_number_input()
-- test_handle_operation()
+**test_calculator_controlador.py:**
+- test_button_click_updates_display()
+- test_operation_creates_new_modelo()
+- test_equals_calculates_result()
+- test_clear_resets_state()
 
 ### Tests de Integración (4 tests)
 
@@ -635,38 +649,37 @@ Claude te mostrará el plan y preguntará:
 - 📁 Crea archivos en la estructura correcta
 - ✅ Valida cada paso antes de continuar
 
-#### Componente 1: CalculatorModel (Modelo)
+#### Componente 1: CalculatorModelo (Modelo)
 
-**Archivo:** `app/modelos/calculator_model.py`
+**Archivo:** `app/presentacion/paneles/calculator/modelo.py`
 
 Claude genera:
 
 ```python
 """
-Modelo de la calculadora - Lógica matemática pura.
+Modelo de la calculadora - Datos inmutables con lógica matemática.
 
-Este módulo contiene la lógica de negocio para operaciones matemáticas básicas.
-Sigue el patrón MVC, donde el Modelo es independiente de la Vista y el Controlador.
+Este módulo define el modelo inmutable usando dataclass frozen.
+Sigue el patrón MVC con inmutabilidad garantizada.
 """
 
+from dataclasses import dataclass
 from typing import Optional
 
 
-class CalculatorModel:
+@dataclass(frozen=True)
+class CalculatorModelo:
     """
-    Modelo para operaciones matemáticas básicas.
+    Modelo inmutable para la calculadora.
 
     Attributes:
         current_value (float): Valor actual en el display
         pending_value (float): Valor almacenado para operación pendiente
         pending_operation (Optional[str]): Operación pendiente (+, -, *, /)
     """
-
-    def __init__(self):
-        """Inicializa el modelo con valores por defecto."""
-        self.current_value: float = 0.0
-        self.pending_value: float = 0.0
-        self.pending_operation: Optional[str] = None
+    current_value: float = 0.0
+    pending_value: float = 0.0
+    pending_operation: Optional[str] = None
 
     def add(self, a: float, b: float) -> float:
         """
@@ -725,27 +738,21 @@ class CalculatorModel:
             raise ZeroDivisionError("Cannot divide by zero")
         return a / b
 
-    def reset(self) -> None:
-        """Reinicia todos los valores a su estado inicial."""
-        self.current_value = 0.0
-        self.pending_value = 0.0
-        self.pending_operation = None
-
-    def execute_pending_operation(self, new_value: float) -> float:
+    def execute_pending_operation(self, new_value: float) -> 'CalculatorModelo':
         """
-        Ejecuta la operación pendiente con el nuevo valor.
+        Ejecuta la operación pendiente y retorna nuevo modelo.
 
         Args:
             new_value: Valor actual para operar
 
         Returns:
-            Resultado de la operación
+            Nueva instancia de CalculatorModelo con resultado
 
         Raises:
             ZeroDivisionError: Si hay división por cero
         """
         if self.pending_operation is None:
-            return new_value
+            return CalculatorModelo(current_value=new_value)
 
         operations = {
             '+': self.add,
@@ -757,62 +764,66 @@ class CalculatorModel:
         operation_func = operations.get(self.pending_operation)
         if operation_func:
             result = operation_func(self.pending_value, new_value)
-            self.current_value = result
-            return result
+            return CalculatorModelo(current_value=result)
 
-        return new_value
+        return CalculatorModelo(current_value=new_value)
 ```
 
 **Output:**
 
 ```
-✅ CalculatorModel creado (app/modelos/calculator_model.py)
-   - 5 operaciones matemáticas
+✅ CalculatorModelo creado (app/presentacion/paneles/calculator/modelo.py)
+   - @dataclass(frozen=True) - inmutabilidad garantizada
+   - 5 operaciones matemáticas (funciones estáticas)
+   - Método execute_pending_operation() retorna nueva instancia
    - Validación de división por cero
-   - Docstrings completas
-   - Type hints en todas las firmas
+   - Docstrings completas y type hints
 
 ⏱️  Tiempo: 25 min (estimado: 30 min)
 ```
 
 ---
 
-#### Componente 2: CalculatorController (Controlador)
+#### Componente 2: CalculatorControlador (Controlador)
 
-**Archivo:** `app/controladores/calculator_controller.py`
+**Archivo:** `app/presentacion/paneles/calculator/controlador.py`
 
 ```python
 """
-Controlador de la calculadora - Lógica de coordinación.
+Controlador de la calculadora - Coordinación entre Modelo y Vista.
 
-Este módulo actúa como intermediario entre la Vista (MainWindow) y el Modelo
-(CalculatorModel). Maneja eventos de la UI y actualiza el modelo.
+Este módulo conecta las señales de la Vista con la lógica del Modelo.
+Mantiene el estado actual y crea nuevas instancias del Modelo (inmutabilidad).
 """
 
-from typing import Optional
-from app.modelos.calculator_model import CalculatorModel
+from PyQt6.QtCore import QObject
+from .modelo import CalculatorModelo
+from .vista import CalculatorVista
 
 
-class CalculatorController:
+class CalculatorControlador(QObject):
     """
     Controlador que coordina la Vista y el Modelo.
 
     Attributes:
-        model (CalculatorModel): Instancia del modelo
+        modelo (CalculatorModelo): Instancia actual del modelo (inmutable)
+        vista (CalculatorVista): Instancia de la vista
         current_input (str): Dígitos acumulados del input actual
-        waiting_for_operand (bool): Flag para nuevo operando
     """
 
-    def __init__(self, model: CalculatorModel):
+    def __init__(self, modelo: CalculatorModelo, vista: CalculatorVista):
         """
-        Inicializa el controlador.
+        Inicializa el controlador y conecta señales.
 
         Args:
-            model: Instancia del modelo de calculadora
+            modelo: Instancia inicial del modelo
+            vista: Instancia de la vista
         """
-        self.model = model
+        super().__init__()
+        self.modelo = modelo
+        self.vista = vista
         self.current_input: str = "0"
-        self.waiting_for_operand: bool = False
+        self._connect_signals()
 
     def handle_number_input(self, digit: str) -> str:
         """
@@ -911,73 +922,117 @@ class CalculatorController:
         return self.current_input
 ```
 
+    def _connect_signals(self):
+        """Conecta las señales de la vista con los handlers."""
+        self.vista.button_clicked.connect(self._on_button_clicked)
+        self.vista.equals_clicked.connect(self._on_equals_clicked)
+        self.vista.clear_clicked.connect(self._on_clear_clicked)
+
+    def _on_button_clicked(self, button: str):
+        """Maneja clicks en botones numéricos y operaciones."""
+        if button in '0123456789.':
+            # Número o punto decimal
+            if self.current_input == "0":
+                self.current_input = button
+            else:
+                self.current_input += button
+            self.vista.update_display(self.current_input)
+        else:
+            # Operación (+, -, *, /)
+            try:
+                current_value = float(self.current_input)
+                # Crear nuevo modelo con operación pendiente
+                self.modelo = CalculatorModelo(
+                    current_value=current_value,
+                    pending_value=current_value,
+                    pending_operation=button
+                )
+                self.current_input = "0"
+            except ZeroDivisionError:
+                self.vista.show_error("Cannot divide by zero")
+                self._on_clear_clicked()
+
+    def _on_equals_clicked(self):
+        """Calcula el resultado de la operación pendiente."""
+        try:
+            current_value = float(self.current_input)
+            self.modelo = self.modelo.execute_pending_operation(current_value)
+            self.current_input = str(self.modelo.current_value)
+            self.vista.update_display(self.current_input)
+        except ZeroDivisionError:
+            self.vista.show_error("Cannot divide by zero")
+            self._on_clear_clicked()
+
+    def _on_clear_clicked(self):
+        """Resetea la calculadora."""
+        self.modelo = CalculatorModelo()
+        self.current_input = "0"
+        self.vista.update_display(self.current_input)
+```
+
 **Output:**
 
 ```
-✅ CalculatorController creado (app/controladores/calculator_controller.py)
-   - 5 métodos de manejo de eventos
+✅ CalculatorControlador creado (app/presentacion/paneles/calculator/controlador.py)
+   - Conexión de señales de Vista
    - Lógica de acumulación de dígitos
-   - Manejo de operaciones encadenadas
-   - Propagación correcta de excepciones
+   - Creación de nuevas instancias de Modelo (inmutabilidad)
+   - Actualización de Vista
+   - Manejo de errores con QMessageBox
 
 ⏱️  Tiempo: 40 min (estimado: 45 min)
 ```
 
 ---
 
-#### Componente 3: MainWindow (Vista)
+#### Componente 3: CalculatorVista (Vista)
 
-**Archivo:** `app/presentacion/main_window.py`
+**Archivo:** `app/presentacion/paneles/calculator/vista.py`
 
 ```python
 """
-Vista principal de la calculadora - Interfaz gráfica.
+Vista de la calculadora - Interfaz gráfica.
 
-Este módulo define la ventana principal con todos los botones y el display.
-Sigue el patrón MVC, donde la Vista solo se encarga de la UI.
+Este módulo define el widget de la calculadora con señales PyQt.
+Sigue el patrón MVC, donde la Vista solo maneja UI y emite señales.
 """
 
 from PyQt6.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QGridLayout,
+    QWidget, QVBoxLayout, QGridLayout,
     QLineEdit, QPushButton, QMessageBox
 )
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont
-from app.controladores.calculator_controller import CalculatorController
 
 
-class MainWindow(QMainWindow):
+class CalculatorVista(QWidget):
     """
-    Ventana principal de la calculadora.
+    Vista de la calculadora (QWidget).
+
+    Signals:
+        button_clicked: Emitido cuando se presiona un botón (número u operación)
+        equals_clicked: Emitido cuando se presiona =
+        clear_clicked: Emitido cuando se presiona C
 
     Attributes:
-        controller (CalculatorController): Controlador de la aplicación
         display (QLineEdit): Display para mostrar números y resultados
     """
 
-    def __init__(self, controller: CalculatorController):
-        """
-        Inicializa la ventana principal.
+    # Definir señales
+    button_clicked = pyqtSignal(str)
+    equals_clicked = pyqtSignal()
+    clear_clicked = pyqtSignal()
 
-        Args:
-            controller: Instancia del controlador
-        """
+    def __init__(self):
+        """Inicializa la vista."""
         super().__init__()
-        self.controller = controller
         self.init_ui()
 
     def init_ui(self):
         """Inicializa la interfaz de usuario."""
-        self.setWindowTitle("Calculadora Simple")
-        self.setFixedSize(300, 400)
-
-        # Widget central
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-
         # Layout principal
         main_layout = QVBoxLayout()
-        central_widget.setLayout(main_layout)
+        self.setLayout(main_layout)
 
         # Display
         self.display = QLineEdit()
@@ -1015,53 +1070,15 @@ class MainWindow(QMainWindow):
 
             # Conectar señal según tipo de botón
             if label.isdigit() or label == '.':
-                button.clicked.connect(lambda checked, l=label: self.on_number_clicked(l))
+                button.clicked.connect(lambda checked, l=label: self.button_clicked.emit(l))
             elif label in ['+', '-', '*', '/']:
-                button.clicked.connect(lambda checked, l=label: self.on_operation_clicked(l))
+                button.clicked.connect(lambda checked, l=label: self.button_clicked.emit(l))
             elif label == '=':
-                button.clicked.connect(self.on_equals_clicked)
+                button.clicked.connect(self.equals_clicked.emit)
             elif label == 'C':
-                button.clicked.connect(self.on_clear_clicked)
+                button.clicked.connect(self.clear_clicked.emit)
 
             buttons_layout.addWidget(button, row, col, rowspan, colspan)
-
-    def on_number_clicked(self, digit: str):
-        """
-        Maneja click en botón numérico.
-
-        Args:
-            digit: Dígito presionado
-        """
-        result = self.controller.handle_number_input(digit)
-        self.update_display(result)
-
-    def on_operation_clicked(self, operation: str):
-        """
-        Maneja click en botón de operación.
-
-        Args:
-            operation: Operación presionada (+, -, *, /)
-        """
-        try:
-            result = self.controller.handle_operation(operation)
-            self.update_display(result)
-        except ZeroDivisionError:
-            self.show_error("Cannot divide by zero")
-            self.on_clear_clicked()
-
-    def on_equals_clicked(self):
-        """Maneja click en botón equals (=)."""
-        try:
-            result = self.controller.handle_equals()
-            self.update_display(result)
-        except ZeroDivisionError:
-            self.show_error("Cannot divide by zero")
-            self.on_clear_clicked()
-
-    def on_clear_clicked(self):
-        """Maneja click en botón clear (C)."""
-        result = self.controller.handle_clear()
-        self.update_display(result)
 
     def update_display(self, value: str):
         """
@@ -1085,12 +1102,13 @@ class MainWindow(QMainWindow):
 **Output:**
 
 ```
-✅ MainWindow creado (app/presentacion/main_window.py)
+✅ CalculatorVista creada (app/presentacion/paneles/calculator/vista.py)
+   - QWidget con señales pyqtSignal
    - Display con QLineEdit (read-only)
    - 17 botones (0-9, +, -, *, /, =, ., C)
    - QGridLayout (5 filas × 4 columnas)
-   - Todas las señales conectadas
-   - Manejo de errores con QMessageBox
+   - Sin lógica de negocio - solo UI y señales
+   - Método update_display() y show_error()
 
 ⏱️  Tiempo: 55 min (estimado: 1 hora)
 ```
@@ -1105,14 +1123,14 @@ class MainWindow(QMainWindow):
 """
 Entry point de la aplicación de calculadora.
 
-Este módulo inicializa la aplicación PyQt6 y conecta todos los componentes.
+Este módulo inicializa la aplicación PyQt6 y conecta todos los componentes MVC.
 """
 
 import sys
-from PyQt6.QtWidgets import QApplication
-from app.modelos.calculator_model import CalculatorModel
-from app.controladores.calculator_controller import CalculatorController
-from app.presentacion.main_window import MainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow
+from app.presentacion.paneles.calculator.modelo import CalculatorModelo
+from app.presentacion.paneles.calculator.vista import CalculatorVista
+from app.presentacion.paneles.calculator.controlador import CalculatorControlador
 
 
 def main():
@@ -1121,9 +1139,15 @@ def main():
     app = QApplication(sys.argv)
 
     # Crear componentes MVC
-    model = CalculatorModel()
-    controller = CalculatorController(model)
-    window = MainWindow(controller)
+    modelo = CalculatorModelo()
+    vista = CalculatorVista()
+    controlador = CalculatorControlador(modelo, vista)
+
+    # Crear ventana principal y establecer vista como central widget
+    window = QMainWindow()
+    window.setWindowTitle("Calculadora Simple")
+    window.setCentralWidget(vista)
+    window.setFixedSize(300, 400)
 
     # Mostrar ventana
     window.show()
@@ -1192,20 +1216,20 @@ python main.py
 
 ```python
 """
-Tests unitarios del CalculatorModel.
+Tests unitarios del CalculatorModelo.
 """
 
 import pytest
-from app.modelos.calculator_model import CalculatorModel
+from app.presentacion.paneles.calculator.modelo import CalculatorModelo
 
 
-class TestCalculatorModel:
-    """Suite de tests para CalculatorModel."""
+class TestCalculatorModelo:
+    """Suite de tests para CalculatorModelo."""
 
     @pytest.fixture
-    def model(self):
+    def modelo(self):
         """Fixture que retorna una instancia del modelo."""
-        return CalculatorModel()
+        return CalculatorModelo()
 
     def test_add(self, model):
         """Test de suma."""
