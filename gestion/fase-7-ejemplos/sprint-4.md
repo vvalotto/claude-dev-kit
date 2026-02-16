@@ -203,14 +203,14 @@ Para automatizar tareas comunes con datos tabulares
 |--------|--------|--------|----------|------|
 | TICKET-052 | Análisis y planificación | ✅ Completado | 1h | 1h |
 | TICKET-053 | PyQt-MVC Tutorial | ✅ Completado | 3h | 1.5h |
-| TICKET-054 | FastAPI-REST Tutorial | ⏳ Pendiente | 2.5h | - |
+| TICKET-054 | FastAPI-REST Tutorial | ✅ Completado | 2.5h | 5m |
 | TICKET-055 | Flask-REST Tutorial | ⏳ Pendiente | 2.5h | - |
 | TICKET-056 | Flask-WebApp Tutorial | ⏳ Pendiente | 2.5h | - |
 | TICKET-057 | Python Generic Tutorial | ⏳ Pendiente | 2h | - |
 | TICKET-058 | Validación | ⏳ Pendiente | 1.5h | - |
 
-**Total:** 2/7 completados (29%)
-**Tiempo acumulado:** 2.5h de 15h estimadas (17%)
+**Total:** 3/7 completados (43%)
+**Tiempo acumulado:** 2.6h de 15h estimadas (17%)
 
 ---
 
@@ -219,14 +219,14 @@ Para automatizar tareas comunes con datos tabulares
 **Carpeta `docs/examples/`** con:
 - ✅ **TEMPLATE.md** - Plantilla base para todos los tutoriales
 - ✅ **pyqt-project.md** - Tutorial completo PyQt6 MVC (~1,000 líneas)
-- ⬜ fastapi-project.md
+- ✅ **fastapi-todo-api/** - Código ejecutable API REST (~900 líneas)
 - ⬜ flask-rest-project.md
 - ⬜ flask-webapp-project.md
 - ⬜ generic-python.md
 
 **Carpeta `examples/code/`** con código ejecutable:
-- ✅ **pyqt-mvc-calculator/** - Código completo ejecutable (~640 líneas)
-- ⬜ fastapi-todo-api/
+- ✅ **pyqt-mvc-calculator/** - Código completo ejecutable (~805 líneas)
+- ✅ **fastapi-todo-api/** - API REST completa (~898 líneas, 23 tests)
 - ⬜ flask-rest-contacts/
 - ⬜ flask-webapp-blog/
 - ⬜ generic-python-csv-tool/
@@ -264,4 +264,4 @@ Para automatizar tareas comunes con datos tabulares
 
 ---
 
-**Última actualización:** 2026-02-16
+**Última actualización:** 2026-02-16 14:40 UTC
