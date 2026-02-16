@@ -225,7 +225,7 @@ Para automatizar tareas comunes con datos tabulares
 - ⬜ generic-python.md
 
 **Carpeta `examples/code/`** con código ejecutable:
-- ⬜ pyqt-mvc-calculator/
+- ✅ **pyqt-mvc-calculator/** - Código completo ejecutable (~640 líneas)
 - ⬜ fastapi-todo-api/
 - ⬜ flask-rest-contacts/
 - ⬜ flask-webapp-blog/
