@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - Blog Application{% endblock %}
+
+{% block content %}
+<article class="post-detail">
+    <div class="post-header">
+        <h1>{{ post.title }}</h1>
+        <div class="post-meta">
+            <span class="author">Por {{ post.author }}</span>
+            <span class="date">{{ post.created_at.strftime('%d/%m/%Y %H:%M') }}</span>
+        </div>
+    </div>
+
+    <div class="post-content">
+        {{ post.content|nl2br }}
+    </div>
+
+    <div class="post-actions">
+        <a href="{{ url_for('blog.post_edit', post_id=post.id) }}" class="btn btn-primary">Editar</a>
+        <a href="{{ url_for('blog.post_delete', post_id=post.id) }}" class="btn btn-danger">Eliminar</a>
+        <a href="{{ url_for('blog.index') }}" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+</article>
+{% endblock %}

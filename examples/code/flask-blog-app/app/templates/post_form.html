@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if mode == 'create' %}
+        Crear Post - Blog Application
+    {% else %}
+        Editar Post - Blog Application
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1>
+            {% if mode == 'create' %}
+                Crear Nuevo Post
+            {% else %}
+                Editar Post: {{ post.title }}
+            {% endif %}
+        </h1>
+    </div>
+
+    <form method="POST" class="post-form">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(class="form-control") }}
+            {% if form.title.errors %}
+                <div class="form-errors">
+                    {% for error in form.title.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.content.label }}
+            {{ form.content(class="form-control") }}
+            {% if form.content.errors %}
+                <div class="form-errors">
+                    {% for error in form.content.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.author.label }}
+            {{ form.author(class="form-control") }}
+            {% if form.author.errors %}
+                <div class="form-errors">
+                    {% for error in form.author.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('blog.index') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
