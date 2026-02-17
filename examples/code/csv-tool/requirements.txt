@@ -1,0 +1,12 @@
+# Testing
+pytest>=8.0.0
+pytest-bdd>=7.0.0
+pytest-cov>=4.1.0
+
+# Code Quality
+pylint>=3.0.0
+radon>=6.0.0
+
+# Development
+black>=24.0.0
+isort>=5.13.0
