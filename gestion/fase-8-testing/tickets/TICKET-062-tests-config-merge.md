@@ -204,10 +204,19 @@ def test_claude_md_does_not_overwrite(self, installer, tmp_path):
 
 _Se completará cuando el ticket esté DONE_
 
-**Estado:** ⏳ Pendiente
+**Estado:** ✅ Completado
+
+## ✅ Resultado
+
+- **31 tests implementados** (6 extras cubriendo flask-rest, flask-webapp — django-mvt eliminado)
+- **31/31 passed** — `pytest tests/test_config_merge.py` ✅
+- **Sin side effects** — todos usan `tmp_path` ✅
+- **Tiempo:** 0.50s ✅
+- **Nota:** El ticket referenciaba django-mvt (eliminado en esta sesión). Tests actualizados con los 5 perfiles reales.
 
 ---
 
 **Creado:** 2026-02-17
+**Completado:** 2026-02-17
 **Depende de:** TICKET-059
 **Bloquea a:** TICKET-063

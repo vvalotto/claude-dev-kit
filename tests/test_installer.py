@@ -68,9 +68,9 @@ class TestValidateProfile:
         """Un perfil desconocido retorna False."""
         assert installer.validate_profile("nonexistent-profile") is False
 
-    def test_validate_profile_all_four(self, installer):
-        """Los 4 perfiles del config.yaml retornan True."""
-        profiles = ["pyqt-mvc", "fastapi-rest", "django-mvt", "generic-python"]
+    def test_validate_profile_all_five(self, installer):
+        """Los 5 perfiles del config.yaml retornan True."""
+        profiles = ["pyqt-mvc", "fastapi-rest", "flask-rest", "flask-webapp", "generic-python"]
         for profile in profiles:
             assert installer.validate_profile(profile) is True, (
                 f"Perfil '{profile}' debería ser válido"
