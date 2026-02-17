@@ -29,66 +29,79 @@ jobs:
         run: |
           git clone https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
 
-      - name: Sync Documentation with Flattened Structure
+      - name: Sync Documentation with PascalCase names
         run: |
-          # Función para convertir kebab-case a PascalCase
-          to_pascal_case() {
-            echo "$1" | sed -E 's/(^|-)([a-z])/\U\2/g'
+          # Convierte un path docs/*.md a nombre de página wiki PascalCase
+          # Ejemplo: docs/user/getting-started.md → UserGettingStarted
+          build_wiki_name() {
+            local filepath="$1"
+            # Quitar prefijo docs/
+            local rel="${filepath#docs/}"
+            # Quitar extensión .md
+            rel="${rel%.md}"
+            # Reemplazar / y - con espacios, luego capitalizar cada palabra y concatenar
+            echo "$rel" | tr '/-' ' ' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2); print}' | tr -d ' '
           }
 
-          # Casos especiales
+          # Caso especial: docs/README.md → Home.md
           cp docs/README.md wiki/Home.md
-          cp docs/user/index.md wiki/Documentation-Index.md
 
-          # Sincronizar user/ - archivos directos
+          # Sincronizar docs/user/ — archivos directos (excluyendo index.md)
           for file in docs/user/*.md; do
             [ -f "$file" ] || continue
             [ "$(basename "$file")" = "index.md" ] && continue
 
-            filename=$(basename "$file" .md)
-            pascal_name=$(to_pascal_case "$filename")
-            cp "$file" "wiki/user-${pascal_name}.md"
+            wiki_name=$(build_wiki_name "$file")
+            cp "$file" "wiki/${wiki_name}.md"
           done
 
-          # Sincronizar user/skills/
+          # Caso especial: docs/user/index.md → UserIndex.md
+          cp docs/user/index.md wiki/UserIndex.md
+
+          # Sincronizar docs/user/skills/
           for file in docs/user/skills/*.md; do
             [ -f "$file" ] || continue
 
-            filename=$(basename "$file" .md)
-            pascal_name=$(to_pascal_case "$filename")
-            cp "$file" "wiki/user-skills-${pascal_name}.md"
+            wiki_name=$(build_wiki_name "$file")
+            cp "$file" "wiki/${wiki_name}.md"
           done
 
-          # Sincronizar user/tracking/
+          # Sincronizar docs/user/tracking/
           for file in docs/user/tracking/*.md; do
             [ -f "$file" ] || continue
 
-            filename=$(basename "$file" .md)
-            pascal_name=$(to_pascal_case "$filename")
-            cp "$file" "wiki/user-tracking-${pascal_name}.md"
+            wiki_name=$(build_wiki_name "$file")
+            cp "$file" "wiki/${wiki_name}.md"
           done
 
-          # Sincronizar developer/architecture/
+          # Sincronizar docs/developer/architecture/
           for file in docs/developer/architecture/*.md; do
             [ -f "$file" ] || continue
 
-            filename=$(basename "$file" .md)
-            pascal_name=$(to_pascal_case "$filename")
-            cp "$file" "wiki/developer-architecture-${pascal_name}.md"
+            wiki_name=$(build_wiki_name "$file")
+            cp "$file" "wiki/${wiki_name}.md"
           done
 
-          # Sincronizar developer/contributing/
+          # Sincronizar docs/developer/contributing/ (excluir template.md — doc interno)
           for file in docs/developer/contributing/*.md; do
             [ -f "$file" ] || continue
+            [ "$(basename "$file")" = "template.md" ] && continue
 
-            filename=$(basename "$file" .md)
-            pascal_name=$(to_pascal_case "$filename")
-            cp "$file" "wiki/developer-contributing-${pascal_name}.md"
+            wiki_name=$(build_wiki_name "$file")
+            cp "$file" "wiki/${wiki_name}.md"
           done
 
-          echo "✅ Documentación sincronizada con estructura aplanada"
+          # Sincronizar docs/examples/
+          for file in docs/examples/*.md; do
+            [ -f "$file" ] || continue
+
+            wiki_name=$(build_wiki_name "$file")
+            cp "$file" "wiki/${wiki_name}.md"
+          done
+
+          echo "✅ Documentación sincronizada con nombres PascalCase"
           echo "📝 Archivos en wiki/:"
-          ls -la wiki/*.md | wc -l
+          ls wiki/*.md | wc -l
           echo "archivos .md copiados"
 
       - name: Commit and Push to Wiki
@@ -110,10 +123,12 @@ jobs:
           Synced from commit: ${{ github.sha }}
           Triggered by: ${{ github.event_name }}
 
-          Structure: Flattened (all files in root with hyphenated names)
-          - docs/user/getting-started.md → user-Getting-Started.md
-          - docs/user/skills/implement-us.md → user-skills-Implement-Us.md
-          - docs/developer/architecture/tracking.md → developer-architecture-Tracking.md
+          Structure: Flattened PascalCase (all files in root)
+          - docs/README.md → Home.md
+          - docs/user/getting-started.md → UserGettingStarted.md
+          - docs/user/skills/implement-us.md → UserSkillsImplementUs.md
+          - docs/developer/architecture/tracking.md → DeveloperArchitectureTracking.md
+          - docs/examples/pyqt-project.md → ExamplesPyqtProject.md
 
           Files synced: $(ls *.md 2>/dev/null | wc -l) pages
           "
