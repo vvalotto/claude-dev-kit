@@ -270,10 +270,13 @@ messages:
     2. FastAPI + REST (fastapi-rest)
        └─ FastAPI REST APIs with layered architecture
 
-    3. Django + MVT (django-mvt)
-       └─ Django applications with Model-View-Template pattern
+    3. Flask REST API (flask-rest)
+       └─ Flask REST APIs with layered architecture (sync)
 
-    4. Generic Python (generic-python)
+    4. Flask WebApp (flask-webapp)
+       └─ Flask fullstack webapps with Jinja2 templates and SSR
+
+    5. Generic Python (generic-python)
        └─ Generic Python projects without specific framework
 
   success: |

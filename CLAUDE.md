@@ -8,7 +8,7 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar
 
 **Claude Dev Kit** es un framework de desarrollo agnóstico de dominio diseñado para asistir la construcción de software con Claude Code. Proporciona skills reutilizables, templates y herramientas de tracking que automatizan el ciclo de implementación de historias de usuario.
 
-**Estado Actual:** Sprint 3 completado. El framework está en desarrollo activo con documentación completa.
+**Estado Actual:** v1.0.0 Released. El framework está completo y estable.
 
 **Progreso:**
 - ✅ **Fase 1-2:** Setup inicial y sistema de instalación (100%)
@@ -17,8 +17,8 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar
 - ✅ **Fase 5:** Sistema de tracking (100%)
 - ✅ **Fase 6:** Documentación general (100%)
 - ✅ **Fase 7:** Ejemplos por stack (100%)
-- ⬜ **Fase 8:** Testing del framework (pendiente)
-- ⬜ **Fase 9:** Release 1.0 (pendiente)
+- ✅ **Fase 8:** Testing del framework (100%)
+- ✅ **Fase 9:** Release v1.0 (100%)
 
 > **Seguimiento detallado:** Ver `gestion/` para tickets y progreso actualizado
 
@@ -433,11 +433,14 @@ Toda la documentación va en `docs/`:
 - ✅ Fase 6: Documentación general (100%)
 - ✅ Fase 7: Ejemplos por stack (100%)
 
-**Sprint 5 (En curso):**
-- 🔄 Fase 8: Testing del framework (planificado)
+**Sprint 5 (Completado):**
+- ✅ Fase 8: Testing del framework (107 tests, 99% cobertura)
 
-**Entregable:** Documentación completa + ejemplos funcionales
+**Sprint 6 (Completado):**
+- ✅ Fase 9: Release v1.0 — CHANGELOG, Wiki, archivos clave, tag v1.0.0
+
+**Entregable:** Framework completo y publicado como v1.0.0
 
 ---
 
-**Última Actualización:** 2026-02-07
+**Última Actualización:** 2026-02-17
