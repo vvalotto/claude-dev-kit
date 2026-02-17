@@ -168,32 +168,57 @@ mi-api-fastapi/
 
 ---
 
-### 3. Django + MVT (`django-mvt`)
+### 3. Flask REST API (`flask-rest`)
 
-**Descripción:** Django applications with Model-View-Template pattern
+**Descripción:** Flask REST APIs with layered architecture
 
 **Cuándo usar:**
-- Aplicaciones web Django
-- Patrón MVT (Model-View-Template)
-- Class-Based Views, Django ORM
+- APIs REST con Flask
+- Arquitectura en capas (Blueprint, Service, Repository)
+- Proyectos que necesitan sync/threading (sin async)
 
 **Ejemplo de proyecto:**
 ```
-mi-app-django/
-├── myapp/
-│   ├── models.py        # Models
-│   ├── views.py         # Views
-│   ├── templates/       # Templates
-│   └── forms.py         # Forms
+mi-api-flask/
+├── app/
+│   ├── blueprints/      # API endpoints (Flask Blueprints)
+│   ├── services/        # Business logic
+│   ├── repositories/    # Data access
+│   └── models/          # Domain models
 ├── tests/
 └── .claude/             # Instalado por el kit
 ```
 
-**Testing Framework:** `pytest-django`
+**Testing Framework:** `pytest`
 
 ---
 
-### 4. Generic Python (`generic-python`)
+### 4. Flask WebApp (`flask-webapp`)
+
+**Descripción:** Flask fullstack webapps with Jinja2 templates and SSR
+
+**Cuándo usar:**
+- Aplicaciones web fullstack con Flask
+- Server-Side Rendering con Jinja2
+- Patrón BFF (Backend for Frontend)
+
+**Ejemplo de proyecto:**
+```
+mi-webapp-flask/
+├── app/
+│   ├── blueprints/      # Routes (Flask Blueprints)
+│   ├── templates/       # Jinja2 templates
+│   ├── static/          # CSS, JS, images
+│   └── models/          # Domain models
+├── tests/
+└── .claude/             # Instalado por el kit
+```
+
+**Testing Framework:** `pytest`
+
+---
+
+### 5. Generic Python (`generic-python`)
 
 **Descripción:** Generic Python projects without specific framework
 
@@ -255,7 +280,7 @@ python installer.py [OPTIONS]
 
 **Dry-run (ver qué haría sin ejecutar):**
 ```bash
-./install.sh --profile django-mvt --dry-run
+./install.sh --profile flask-rest --dry-run
 ```
 
 **Reinstalación (sobrescribir existente):**

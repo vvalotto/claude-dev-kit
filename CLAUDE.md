@@ -16,7 +16,9 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar
 - ✅ **Fase 4:** Generalización de templates (100%)
 - ✅ **Fase 5:** Sistema de tracking (100%)
 - ✅ **Fase 6:** Documentación general (100%)
-- ⬜ **Fase 7-9:** Ejemplos, testing, release (pendientes)
+- ✅ **Fase 7:** Ejemplos por stack (100%)
+- ⬜ **Fase 8:** Testing del framework (pendiente)
+- ⬜ **Fase 9:** Release 1.0 (pendiente)
 
 > **Seguimiento detallado:** Ver `gestion/` para tickets y progreso actualizado
 
@@ -64,7 +66,8 @@ claude-dev-kit/
 │       └── customizations/ # Perfiles específicos por stack
 │           ├── pyqt-mvc.json
 │           ├── fastapi-rest.json
-│           ├── django-mvt.json
+│           ├── flask-rest.json
+│           ├── flask-webapp.json
 │           └── generic-python.json
 ├── templates/            # Templates reutilizables
 │   ├── bdd/             # Escenarios Gherkin, steps pytest-bdd
@@ -86,12 +89,14 @@ claude-dev-kit/
 
 ### Fase Actual: Próximos Pasos
 
-**Fase 6 completada:** Documentación general del framework (9 documentos, ~4,700 líneas)
+**Fases 1-7 completadas:** Setup, instalación, skills, templates, tracking, documentación, ejemplos.
+
+**En curso:**
+- **Fase 8:** Testing del framework (Sprint 5 activo — TICKET-059 y TICKET-060 completados)
 
 **Próximos pasos:**
-1. **Fase 7:** Ejemplos por stack tecnológico (PyQt, FastAPI, Flask)
-2. **Fase 8:** Testing del framework
-3. **Fase 9:** Release 1.0
+1. **Fase 8:** Completar tests (TICKET-061, 062, 063)
+2. **Fase 9:** Release 1.0
 
 > **Ver progreso detallado:** `gestion/` para tickets y estado actualizado
 
@@ -121,7 +126,7 @@ proyecto-usuario/
 ```
 
 **Modos de Instalación:**
-- Interactivo: Pregunta al usuario para seleccionar perfil (PyQt, FastAPI, Django, Genérico)
+- Interactivo: Pregunta al usuario para seleccionar perfil (PyQt, FastAPI, Flask REST, Flask WebApp, Genérico)
 - No interactivo: `python installer.py --profile pyqt-mvc --yes`
 - Validación: Valida automáticamente la instalación después de completarla
 
@@ -131,7 +136,8 @@ Los perfiles personalizan el framework para stacks tecnológicos específicos:
 
 - **pyqt-mvc**: PyQt6 + arquitectura MVC + patrones Factory/Coordinator
 - **fastapi-rest**: FastAPI + APIs REST + arquitectura en capas
-- **django-mvt**: Django + patrón MVT + convenciones Django
+- **flask-rest**: Flask + APIs REST + arquitectura en capas (sync/threading)
+- **flask-webapp**: Flask + WebApp fullstack + Jinja2 SSR + patrón BFF
 - **generic-python**: Proyectos Python genéricos sin framework específico
 
 Cada perfil proporciona:
@@ -423,9 +429,12 @@ Toda la documentación va en `docs/`:
 - ✅ Generalización de templates (4 templates)
 - ✅ Sistema de tracking completo
 
-**Sprint 3 (En curso):**
-- 🔄 Fase 6: Documentación general (planificado)
-- ⬜ Fase 7: Ejemplos por stack (pendiente)
+**Sprint 3 (Completado):**
+- ✅ Fase 6: Documentación general (100%)
+- ✅ Fase 7: Ejemplos por stack (100%)
+
+**Sprint 5 (En curso):**
+- 🔄 Fase 8: Testing del framework (planificado)
 
 **Entregable:** Documentación completa + ejemplos funcionales
 
