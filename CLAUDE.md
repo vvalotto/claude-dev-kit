@@ -16,7 +16,9 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar
 - ✅ **Fase 4:** Generalización de templates (100%)
 - ✅ **Fase 5:** Sistema de tracking (100%)
 - ✅ **Fase 6:** Documentación general (100%)
-- ⬜ **Fase 7-9:** Ejemplos, testing, release (pendientes)
+- ✅ **Fase 7:** Ejemplos por stack (100%)
+- ⬜ **Fase 8:** Testing del framework (pendiente)
+- ⬜ **Fase 9:** Release 1.0 (pendiente)
 
 > **Seguimiento detallado:** Ver `gestion/` para tickets y progreso actualizado
 
@@ -423,9 +425,12 @@ Toda la documentación va en `docs/`:
 - ✅ Generalización de templates (4 templates)
 - ✅ Sistema de tracking completo
 
-**Sprint 3 (En curso):**
-- 🔄 Fase 6: Documentación general (planificado)
-- ⬜ Fase 7: Ejemplos por stack (pendiente)
+**Sprint 3 (Completado):**
+- ✅ Fase 6: Documentación general (100%)
+- ✅ Fase 7: Ejemplos por stack (100%)
+
+**Sprint 5 (En curso):**
+- 🔄 Fase 8: Testing del framework (planificado)
 
 **Entregable:** Documentación completa + ejemplos funcionales
 
