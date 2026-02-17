@@ -69,30 +69,56 @@ profiles:
       import_test_framework: "from fastapi.testclient import TestClient"
 
   # ---------------------------------------------------------------------------
-  # Django + MVT: Aplicaciones web Django con patrón Model-View-Template
+  # Flask + REST: APIs REST con Flask y arquitectura en capas
   # ---------------------------------------------------------------------------
-  django-mvt:
-    name: "Django + MVT"
-    description: "Django applications with Model-View-Template pattern"
-    architecture_pattern: "mvt"
-    test_framework: "pytest-django"
+  flask-rest:
+    name: "Flask REST API"
+    description: "Flask REST APIs with layered architecture (Services → Domain → Data)"
+    architecture_pattern: "layered"
+    test_framework: "pytest"
 
     component_types:
+      - "Blueprint"
+      - "Service"
+      - "Repository"
       - "Model"
-      - "View"
-      - "Template"
-      - "Form"
 
     patterns:
-      - "MTV Pattern"
-      - "Class-Based Views"
-      - "Django ORM"
+      - "Layered Architecture"
+      - "Repository Pattern"
+      - "Service Layer"
 
     # Variables de placeholder para templates
     variables:
-      base_class: "models.Model"
-      test_base_class: "TestCase"
-      import_test_framework: "from django.test import TestCase"
+      base_class: "object"
+      test_base_class: "unittest.TestCase"
+      import_test_framework: "import pytest"
+
+  # ---------------------------------------------------------------------------
+  # Flask + WebApp: Aplicaciones web fullstack con Flask y Jinja2
+  # ---------------------------------------------------------------------------
+  flask-webapp:
+    name: "Flask WebApp"
+    description: "Flask fullstack webapps with Jinja2 templates and SSR"
+    architecture_pattern: "bff"
+    test_framework: "pytest"
+
+    component_types:
+      - "Blueprint"
+      - "Template"
+      - "Form"
+      - "Static"
+
+    patterns:
+      - "BFF (Backend for Frontend)"
+      - "Server-Side Rendering"
+      - "MVC"
+
+    # Variables de placeholder para templates
+    variables:
+      base_class: "object"
+      test_base_class: "unittest.TestCase"
+      import_test_framework: "import pytest"
 
   # ---------------------------------------------------------------------------
   # Generic Python: Proyectos Python genéricos sin framework específico

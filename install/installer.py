@@ -493,7 +493,8 @@ Ejemplos:
 Perfiles disponibles:
   - pyqt-mvc: PyQt6 + MVC architecture
   - fastapi-rest: FastAPI + REST APIs
-  - django-mvt: Django + MVT pattern
+  - flask-rest: Flask + REST APIs (layered architecture)
+  - flask-webapp: Flask + Fullstack Webapp (Jinja2 + SSR)
   - generic-python: Generic Python projects
         """
     )
@@ -501,7 +502,7 @@ Perfiles disponibles:
     parser.add_argument(
         '--profile',
         type=str,
-        help='Perfil a instalar (pyqt-mvc, fastapi-rest, django-mvt, generic-python)'
+        help='Perfil a instalar (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python)'
     )
 
     parser.add_argument(
