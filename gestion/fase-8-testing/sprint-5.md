@@ -115,12 +115,12 @@ Los tests cubren los **3 componentes core** del kit:
 | Ticket | Título | Estado | Estimado | Real |
 |--------|--------|--------|----------|------|
 | TICKET-059 | Análisis y setup | ✅ Completado | 0.5h | 0.25h |
-| TICKET-060 | Tests instalador | ⏳ Pendiente | 2h | - |
+| TICKET-060 | Tests instalador | ✅ Completado | 2h | 0.75h |
 | TICKET-061 | Tests tracking | ⏳ Pendiente | 2.5h | - |
 | TICKET-062 | Tests config merge | ⏳ Pendiente | 1.5h | - |
 | TICKET-063 | Validación y QG | ⏳ Pendiente | 1h | - |
 
-**Total:** 1/5 completados (20%)
+**Total:** 2/5 completados (40%)
 
 ---
 

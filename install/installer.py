@@ -464,7 +464,7 @@ Este proyecto tiene instalado el Claude Dev Kit en `.claude/`.
 # FUNCIÓN PRINCIPAL
 # =============================================================================
 
-def main():
+def main():  # pragma: no cover
     """Punto de entrada principal del instalador"""
 
     # Determinar directorio raíz del kit
