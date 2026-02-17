@@ -1,6 +1,6 @@
 # Skill implement-us - Guía Completa
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Final
 **Nivel:** Básico - Intermedio
 

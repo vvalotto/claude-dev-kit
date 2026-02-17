@@ -1,6 +1,6 @@
 # Guía para Crear Skills Personalizados
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Desarrollador / Contributor
 **Nivel:** Avanzado
 

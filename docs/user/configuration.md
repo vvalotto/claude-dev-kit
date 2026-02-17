@@ -1,6 +1,6 @@
 # Referencia de Configuración
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Avanzado / Desarrollador
 **Nivel:** Avanzado
 

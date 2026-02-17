@@ -1,6 +1,6 @@
 # Guía de Inicio Rápido
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Final
 **Nivel:** Básico
 **Tiempo estimado:** 15 minutos

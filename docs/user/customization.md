@@ -1,6 +1,6 @@
 # Guía de Personalización
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Avanzado
 **Nivel:** Intermedio
 
@@ -49,10 +49,10 @@ cp .claude/skills/implement-us/customizations/generic-python.json \
 nano .claude/skills/implement-us/customizations/mi-perfil.json
 ```
 
-**Ejemplo - Perfil Django:**
+**Ejemplo - Perfil Django Custom:**
 ```json
 {
-  "profile_name": "django-mvt",
+  "profile_name": "django-custom",
   "architecture_pattern": "mvt",
   "component_types": ["Model", "View", "Template", "Form"],
   "test_framework": "pytest-django",

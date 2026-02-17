@@ -1,6 +1,6 @@
 # Guía de Instalación Detallada
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Final
 **Nivel:** Básico - Intermedio
 **Tiempo estimado:** 10-20 minutos
