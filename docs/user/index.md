@@ -78,11 +78,11 @@ Proyectos ejemplo completos end-to-end:
 
 | Tutorial | Stack | Estado |
 |----------|-------|--------|
-| **[Proyecto PyQt-MVC](examples-Pyqt-Project)** | PyQt6 + MVC | ⏳ Fase 7 |
-| **[Proyecto FastAPI-REST](examples-Fastapi-Project)** | FastAPI + REST API | ⏳ Fase 7 |
-| **[Proyecto Flask-REST](examples-Flask-Rest-Project)** | Flask + REST API | ⏳ Fase 7 |
-| **[Proyecto Flask-WebApp](examples-Flask-Webapp-Project)** | Flask + Templates | ⏳ Fase 7 |
-| **[Proyecto Python Genérico](examples-Generic-Python)** | Python sin framework | ⏳ Fase 7 |
+| **[Proyecto PyQt-MVC](../examples/pyqt-project.md)** | PyQt6 + MVC | ✅ Completado |
+| **[Proyecto FastAPI-REST](../examples/fastapi-project.md)** | FastAPI + REST API | ✅ Completado |
+| **[Proyecto Flask-REST](../examples/flask-rest-api-project.md)** | Flask + REST API | ✅ Completado |
+| **[Proyecto Flask-WebApp](../examples/flask-webapp-project.md)** | Flask + Templates | ✅ Completado |
+| **[Proyecto Python Genérico](../examples/generic-python.md)** | Python sin framework | ✅ Completado |
 
 ---
 
@@ -138,17 +138,17 @@ Rutas específicas según tu tecnología:
 
 #### PyQt Desktop Apps
 1. [Instalación](user-Installation) - Seleccionar perfil `pyqt-mvc`
-2. [Tutorial PyQt-MVC](examples-Pyqt-Project) - Proyecto completo
+2. [Tutorial PyQt-MVC](../examples/pyqt-project.md) - Proyecto completo
 3. [Personalización](user-Customization) - Ajustes específicos PyQt
 
 #### FastAPI REST APIs
 1. [Instalación](user-Installation) - Seleccionar perfil `fastapi-rest`
-2. [Tutorial FastAPI](examples-Fastapi-Project) - API completa
+2. [Tutorial FastAPI](../examples/fastapi-project.md) - API completa
 3. [Configuración](user-Configuration) - Quality gates para APIs
 
 #### Flask Applications
 1. [Instalación](user-Installation) - Seleccionar `flask-rest` o `flask-webapp`
-2. [Tutorial Flask REST](examples-Flask-Rest-Project) o [Flask WebApp](examples-Flask-Webapp-Project)
+2. [Tutorial Flask REST](../examples/flask-rest-api-project.md) o [Flask WebApp](../examples/flask-webapp-project.md)
 3. [Personalización](user-Customization) - Blueprints y templates Flask
 
 #### Django Projects

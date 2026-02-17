@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Blog Application{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Blog Posts</h1>
+    <p class="text-muted">Total de posts: {{ total_posts }}</p>
+</div>
+
+{% if posts %}
+    <div class="posts-list">
+        {% for post in posts %}
+            <article class="post-card">
+                <h2><a href="{{ url_for('blog.post_detail', post_id=post.id) }}">{{ post.title }}</a></h2>
+                <div class="post-meta">
+                    <span class="author">Por {{ post.author }}</span>
+                    <span class="date">{{ post.created_at.strftime('%d/%m/%Y %H:%M') }}</span>
+                </div>
+                <p class="post-excerpt">
+                    {{ post.content[:150] }}{% if post.content|length > 150 %}...{% endif %}
+                </p>
+                <a href="{{ url_for('blog.post_detail', post_id=post.id) }}" class="btn btn-secondary">Leer más</a>
+            </article>
+        {% endfor %}
+    </div>
+
+    {% if total_pages > 1 %}
+        <div class="pagination">
+            {% if page > 1 %}
+                <a href="{{ url_for('blog.index', page=page-1) }}" class="btn btn-secondary">← Anterior</a>
+            {% endif %}
+
+            <span class="page-info">Página {{ page }} de {{ total_pages }}</span>
+
+            {% if page < total_pages %}
+                <a href="{{ url_for('blog.index', page=page+1) }}" class="btn btn-secondary">Siguiente →</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <div class="empty-state">
+        <p>No hay posts disponibles</p>
+        <a href="{{ url_for('blog.post_create') }}" class="btn btn-primary">Crear Primer Post</a>
+    </div>
+{% endif %}
+{% endblock %}

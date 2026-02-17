@@ -1,0 +1,6 @@
+name,age,city,score,active
+Juan Pérez,28,Madrid,85.5,true
+María García,34,Barcelona,92.0,true
+Pedro López,22,Madrid,78.3,false
+Ana Martínez,45,Valencia,88.7,true
+Carlos Ruiz,31,Madrid,67.2,false
