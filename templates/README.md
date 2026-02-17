@@ -35,7 +35,7 @@ Los templates son **archivos modelo parametrizados** que permiten generar autom�
 
 ### Cómo se Usan
 
-El skill `/implement-us` genera archivos automáticamente durante las 9 fases de implementación:
+El skill `/implement-us` genera archivos automáticamente durante las 10 fases de implementación:
 
 | Fase | Template Usado | Output Generado |
 |------|----------------|-----------------|
@@ -427,7 +427,7 @@ Si tu proyecto usa un stack no incluido (ej. Django, NestJS, etc.):
 1. **Crear perfil nuevo:** Duplicar perfil similar en `skills/implement-us/customizations/`
    ```bash
    cp skills/implement-us/customizations/generic-python.json \
-      skills/implement-us/customizations/django-mvt.json
+      skills/implement-us/customizations/my-stack.json
    ```
 
 2. **Personalizar variables:** Editar valores de variables en el nuevo perfil
@@ -468,9 +468,11 @@ Al crear o modificar templates, validar:
 
 ### Ejemplos de Uso Real
 
-- **Proyecto de ejemplo PyQt:** `examples/pyqt-mvc/` (cuando esté implementado)
-- **Proyecto de ejemplo FastAPI:** `examples/fastapi-rest/` (cuando esté implementado)
-- **Proyecto de ejemplo Flask:** `examples/flask-webapp/` (cuando esté implementado)
+- **Proyecto de ejemplo PyQt:** `examples/code/pyqt-calculator/` — Calculadora MVC ([tutorial](../docs/examples/pyqt-project.md))
+- **Proyecto de ejemplo FastAPI:** `examples/code/fastapi-todo-api/` — TODO API ([tutorial](../docs/examples/fastapi-project.md))
+- **Proyecto de ejemplo Flask REST:** `examples/code/flask-contacts-api/` — Contacts API ([tutorial](../docs/examples/flask-rest-api-project.md))
+- **Proyecto de ejemplo Flask WebApp:** `examples/code/flask-blog-app/` — Blog App ([tutorial](../docs/examples/flask-webapp-project.md))
+- **Proyecto de ejemplo CLI:** `examples/code/csv-tool/` — CSV Tool ([tutorial](../docs/examples/generic-python.md))
 
 ---
 
@@ -487,5 +489,5 @@ Para contribuir con nuevos templates o mejoras:
 ---
 
 **Versión:** 1.0
-**Última actualización:** 2026-02-14
+**Última actualización:** 2026-02-17
 **Mantenido por:** Claude Dev Kit Team

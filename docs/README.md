@@ -49,27 +49,27 @@ docs/
 ### Para Usuarios del Framework
 
 Si eres **nuevo**, comienza aquí:
-1. [Índice principal](Documentation-Index) - Visión general
-2. [Getting Started](user-Getting-Started) - Primera experiencia en <15 minutos
-3. [Instalación](user-Installation) - Setup detallado
+1. [Índice principal](UserIndex) - Visión general
+2. [Getting Started](UserGettingStarted) - Primera experiencia en <15 minutos
+3. [Instalación](UserInstallation) - Setup detallado
 
 Si ya tienes el framework instalado:
-- [Skill implement-us](user-skills-Implement-Us) - Implementar historias de usuario
-- [Sistema de tracking](user-tracking-User-Guide) - Tracking de tiempo automático
-- [Personalización](user-Customization) - Adaptar a tu stack tecnológico
-- [Configuración](user-Configuration) - Referencia completa de opciones
+- [Skill implement-us](UserSkillsImplementUs) - Implementar historias de usuario
+- [Sistema de tracking](UserTrackingUserGuide) - Tracking de tiempo automático
+- [Personalización](UserCustomization) - Adaptar a tu stack tecnológico
+- [Configuración](UserConfiguration) - Referencia completa de opciones
 
 ### Para Desarrolladores del Framework
 
 Si quieres **contribuir** o **crear skills custom**:
-- [Creando Skills](developer-contributing-Creating-Skills) - Guía completa para crear skills
-- [Sistema de Templates](developer-architecture-Template-System) - Variables y snippets
-- [Tracking - Arquitectura](developer-architecture-Tracking) - Diseño del sistema
+- [Creando Skills](DeveloperContributingCreatingSkills) - Guía completa para crear skills
+- [Sistema de Templates](DeveloperArchitectureTemplateSystem) - Variables y snippets
+- [Tracking - Arquitectura](DeveloperArchitectureTracking) - Diseño del sistema
 
 ### Para Mantenedores del Proyecto
 
 Documentación interna y análisis:
-- [developer/architecture/](developer-architecture) - Documentación técnica del proyecto
+- [developer/architecture/](DeveloperArchitectureTemplateSystem) - Documentación técnica del proyecto
 
 ---
 
@@ -81,14 +81,14 @@ Documentación interna y análisis:
 **Propósito:** Guías de uso, tutoriales, referencias
 
 **Documentos:**
-- [user/index.md](Documentation-Index) - Índice principal con navegación
-- [user/getting-started.md](user-Getting-Started) - Guía de inicio rápido (<15 min)
-- [user/installation.md](user-Installation) - Instalación detallada
-- [user/customization.md](user-Customization) - Personalización del framework
-- [user/configuration.md](user-Configuration) - Referencia de configuración
-- [user/skills/implement-us.md](user-skills-Implement-Us) - Uso del skill principal
-- [user/tracking/user-guide.md](user-tracking-User-Guide) - Guía de tracking de tiempo
-- [user/tracking/examples.md](user-tracking-Examples) - Ejemplos de tracking
+- [user/index.md](UserIndex) - Índice principal con navegación
+- [user/getting-started.md](UserGettingStarted) - Guía de inicio rápido (<15 min)
+- [user/installation.md](UserInstallation) - Instalación detallada
+- [user/customization.md](UserCustomization) - Personalización del framework
+- [user/configuration.md](UserConfiguration) - Referencia de configuración
+- [user/skills/implement-us.md](UserSkillsImplementUs) - Uso del skill principal
+- [user/tracking/user-guide.md](UserTrackingUserGuide) - Guía de tracking de tiempo
+- [user/tracking/examples.md](UserTrackingExamples) - Ejemplos de tracking
 
 ### 2. Documentación Técnica 🛠️
 
@@ -96,10 +96,10 @@ Documentación interna y análisis:
 **Propósito:** Arquitectura, especificaciones, extensibilidad
 
 **Documentos:**
-- [developer/contributing/creating-skills.md](developer-contributing-Creating-Skills) - Crear skills personalizados
-- [developer/architecture/template-system.md](developer-architecture-Template-System) - Sistema de templates
-- [developer/architecture/tracking.md](developer-architecture-Tracking) - Arquitectura del tracking
-- [developer/architecture/session-memory.md](developer-architecture-Session-Memory) - Sistema de sesiones
+- [developer/contributing/creating-skills.md](DeveloperContributingCreatingSkills) - Crear skills personalizados
+- [developer/architecture/template-system.md](DeveloperArchitectureTemplateSystem) - Sistema de templates
+- [developer/architecture/tracking.md](DeveloperArchitectureTracking) - Arquitectura del tracking
+- [developer/architecture/session-memory.md](DeveloperArchitectureSessionMemory) - Sistema de sesiones
 
 ### 3. Tutoriales por Stack 📚
 
@@ -107,11 +107,11 @@ Documentación interna y análisis:
 **Propósito:** Ejemplos completos end-to-end
 
 **Documentos:**
-- [examples/pyqt-project.md](examples-Pyqt-Project) - Proyecto PyQt-MVC completo
-- [examples/fastapi-project.md](examples-Fastapi-Project) - API REST con FastAPI
-- [examples/flask-rest-project.md](examples-Flask-Rest-Project) - API REST con Flask
-- [examples/flask-webapp-project.md](examples-Flask-Webapp-Project) - WebApp con Flask
-- [examples/generic-python.md](examples-Generic-Python) - Proyecto Python genérico
+- [examples/pyqt-project.md](ExamplesPyqtProject) - Proyecto PyQt-MVC completo
+- [examples/fastapi-project.md](ExamplesFastapiProject) - API REST con FastAPI
+- [examples/flask-rest-api-project.md](ExamplesFlaskRestApiProject) - API REST con Flask
+- [examples/flask-webapp-project.md](ExamplesFlaskWebappProject) - WebApp con Flask
+- [examples/generic-python.md](ExamplesGenericPython) - Proyecto Python genérico
 
 ---
 
@@ -125,7 +125,7 @@ Si vas a crear un nuevo documento:
    ```
 
 2. **Sigue las convenciones:**
-   - Ver [template.md](developer-contributing-Template) para estructura
+   - Ver [template.md](DeveloperContributingTemplate) para estructura
 
 3. **Incluye siempre:**
    - Tabla de contenidos
@@ -135,7 +135,7 @@ Si vas a crear un nuevo documento:
    - Navegación (anterior/siguiente/índice)
 
 4. **Actualiza el índice:**
-   - Agregar enlace en [user/index.md](Documentation-Index)
+   - Agregar enlace en [user/index.md](UserIndex)
    - Agregar entrada en este README
 
 ---
@@ -143,13 +143,13 @@ Si vas a crear un nuevo documento:
 ## 🔗 Enlaces Rápidos
 
 ### Documentos Principales
-- [📘 Índice Principal](Documentation-Index)
-- [🚀 Getting Started](user-Getting-Started)
-- [🛠️ Skill implement-us](user-skills-Implement-Us)
+- [📘 Índice Principal](UserIndex)
+- [🚀 Getting Started](UserGettingStarted)
+- [🛠️ Skill implement-us](UserSkillsImplementUs)
 
 ### Recursos Técnicos
-- [📝 Sistema de Templates](developer-architecture-Template-System)
-- [⏱️ Tracking - Arquitectura](developer-architecture-Tracking)
+- [📝 Sistema de Templates](DeveloperArchitectureTemplateSystem)
+- [⏱️ Tracking - Arquitectura](DeveloperArchitectureTracking)
 
 ### Proyecto
 - [README Principal](../README.md)

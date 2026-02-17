@@ -2,10 +2,12 @@
 
 > Framework agnóstico de dominio para implementación automatizada de historias de usuario con Claude Code
 
-[![Version](https://img.shields.io/badge/version-1.0.0--alpha-blue.svg)](https://github.com/vvalotto/claude-dev-kit)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.0.0)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-alpha-yellow.svg)](https://github.com/vvalotto/claude-dev-kit)
+[![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
+[![Tests](https://img.shields.io/badge/tests-107%20passed-brightgreen.svg)](tests/)
+[![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen.svg)](tests/)
 
 ---
 
@@ -72,7 +74,7 @@ EOF
 # 9. Reporte final ✅
 ```
 
-**Ver:** [Guía de Inicio Rápido](docs/getting-started.md) para tutorial completo.
+**Ver:** [Guía de Inicio Rápido](docs/user/getting-started.md) para tutorial completo.
 
 ---
 
@@ -93,7 +95,7 @@ EOF
 | **8. Documentación** | Docstrings y comentarios | Código documentado |
 | **9. Reporte Final** | Resumen y métricas | `docs/reports/US-001-report.md` |
 
-**Ver:** [Documentación completa del skill](docs/skills/implement-us.md)
+**Ver:** [Documentación completa del skill](docs/user/skills/implement-us.md)
 
 ---
 
@@ -109,7 +111,7 @@ Personaliza el framework para tu stack tecnológico:
 | **flask-webapp** | Flask Web | MVT | pytest-flask | 85% |
 | **generic-python** | Python | Flexible | pytest | 90% |
 
-**Ver:** [Guía de Personalización](docs/customization.md)
+**Ver:** [Guía de Personalización](docs/user/customization.md)
 
 ---
 
@@ -136,7 +138,7 @@ Tracking automático de tiempo por fase y tarea:
 # Varianza: -7.5% (mejor que estimado)
 ```
 
-**Ver:** [Tracking - Guía de Usuario](docs/tracking/user-guide.md)
+**Ver:** [Tracking - Guía de Usuario](docs/user/tracking/user-guide.md)
 
 ---
 
@@ -152,7 +154,7 @@ Templates parametrizados con variables y snippets:
 **Variables:** `{US_ID}`, `{COMPONENT_TYPE}`, `{ARCHITECTURE_PATTERN}`, etc.
 **Snippets:** Bloques de código multi-línea por perfil
 
-**Ver:** [Sistema de Templates](docs/templates/template-system.md)
+**Ver:** [Sistema de Templates](docs/developer/architecture/template-system.md)
 
 ---
 
@@ -162,52 +164,55 @@ Templates parametrizados con variables y snippets:
 
 | Documento | Descripción |
 |-----------|-------------|
-| [📘 Índice Principal](docs/index.md) | Hub de toda la documentación |
-| [🚀 Getting Started](docs/getting-started.md) | Primera experiencia en <15 min |
-| [📦 Instalación](docs/installation.md) | Setup completo y troubleshooting |
-| [🎨 Personalización](docs/customization.md) | Adaptar a tu stack |
-| [⚙️ Configuración](docs/configuration.md) | Referencia de opciones |
-| [🛠️ Skill implement-us](docs/skills/implement-us.md) | Las 10 fases explicadas |
-| [⏱️ Sistema de Tracking](docs/tracking/user-guide.md) | Comandos y reportes |
+| [📘 Índice Principal](docs/user/index.md) | Hub de toda la documentación |
+| [🚀 Getting Started](docs/user/getting-started.md) | Primera experiencia en <15 min |
+| [📦 Instalación](docs/user/installation.md) | Setup completo y troubleshooting |
+| [🎨 Personalización](docs/user/customization.md) | Adaptar a tu stack |
+| [⚙️ Configuración](docs/user/configuration.md) | Referencia de opciones |
+| [🛠️ Skill implement-us](docs/user/skills/implement-us.md) | Las 10 fases explicadas |
+| [⏱️ Sistema de Tracking](docs/user/tracking/user-guide.md) | Comandos y reportes |
 
 ### Para Desarrolladores
 
 | Documento | Descripción |
 |-----------|-------------|
-| [🏗️ Creando Skills](docs/skills/creating-skills.md) | Guía para crear skills custom |
-| [📝 Templates](docs/templates/template-system.md) | Variables y snippets |
-| [⏱️ Tracking - Arquitectura](docs/tracking/architecture.md) | Diseño técnico |
+| [🏗️ Creando Skills](docs/developer/contributing/creating-skills.md) | Guía para crear skills custom |
+| [📝 Templates](docs/developer/architecture/template-system.md) | Variables y snippets |
+| [⏱️ Tracking - Arquitectura](docs/developer/architecture/tracking.md) | Diseño técnico |
 
-### Tutoriales por Stack (Fase 7)
+### Tutoriales por Stack
 
-- [PyQt-MVC](docs/examples/pyqt-project.md) - Aplicación desktop
-- [FastAPI-REST](docs/examples/fastapi-project.md) - API asíncrona
-- [Flask-REST](docs/examples/flask-rest-project.md) - API REST
-- [Flask-WebApp](docs/examples/flask-webapp-project.md) - Web app
-- [Python Genérico](docs/examples/generic-python.md) - CLI/librería
+| Tutorial | Descripción | Tests |
+|----------|-------------|-------|
+| [PyQt-MVC](docs/examples/pyqt-project.md) | Calculadora desktop | 14 tests, 86% cov |
+| [FastAPI-REST](docs/examples/fastapi-project.md) | TODO API asíncrona | 29 tests, 98% cov |
+| [Flask-REST](docs/examples/flask-rest-api-project.md) | Contacts API | 38 tests, 94% cov |
+| [Flask-WebApp](docs/examples/flask-webapp-project.md) | Blog fullstack | 43 tests, 99% cov |
+| [Python Genérico](docs/examples/generic-python.md) | CSV Tool CLI | 90 tests, 98% cov |
+
+> 📖 **[Wiki](https://github.com/vvalotto/claude-dev-kit/wiki)** — Documentación completa en GitHub Wiki
 
 ---
 
 ## 🗺️ Roadmap
 
-### Completado ✅
+### v1.0.0 ✅ (Completado)
 
-- ✅ **Fase 1-2:** Setup y sistema de instalación (100%)
-- ✅ **Fase 3:** Generalización de skills - 5 perfiles (100%)
-- ✅ **Fase 4:** Generalización de templates (100%)
-- ✅ **Fase 5:** Sistema de tracking completo (100%)
-- ✅ **Fase 6:** Documentación general (100%)
+- ✅ Sistema de instalación multiplataforma (Linux, macOS, Windows)
+- ✅ Skill `implement-us` con 10 fases y 5 perfiles (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python)
+- ✅ Sistema de templates parametrizados (35 snippets)
+- ✅ Sistema de tracking de tiempo automático (5 skills)
+- ✅ Documentación completa (13 documentos)
+- ✅ 5 ejemplos funcionales completos con tests
+- ✅ Suite de tests del framework (107 tests, 99% cobertura)
+- ✅ GitHub Wiki sincronizada
 
-### En Progreso 🔄
+### Futuro (post v1.0)
 
-- 🔄 **Fase 7:** Ejemplos por stack tecnológico
-
-### Pendiente ⏳
-
-- ⏳ **Fase 8:** Testing del framework
-- ⏳ **Fase 9:** Release 1.0
-
-**Ver progreso detallado:** [Gestión de Tareas](gestion/)
+- Soporte para proyectos TypeScript/Node.js
+- Integración con GitHub Actions para quality gates automáticos
+- Perfil para Django MVT
+- Dashboard web para tracking de tiempo
 
 ---
 
@@ -275,10 +280,11 @@ Este proyecto está bajo licencia MIT. Ver [LICENSE](LICENSE) para más detalles
 
 ## 🔗 Enlaces
 
-- [Documentación](docs/index.md)
-- [Plan del Proyecto](PROJECT_PLAN_claude-dev-kit.md)
-- [Gestión y Progreso](gestion/)
+- [Documentación](docs/user/index.md)
+- [Wiki](https://github.com/vvalotto/claude-dev-kit/wiki)
+- [CHANGELOG](CHANGELOG.md)
 - [GitHub Issues](https://github.com/vvalotto/claude-dev-kit/issues)
+- [GitHub Releases](https://github.com/vvalotto/claude-dev-kit/releases)
 
 ---
 

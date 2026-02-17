@@ -1,6 +1,6 @@
 # Guía de Instalación Detallada
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Final
 **Nivel:** Básico - Intermedio
 **Tiempo estimado:** 10-20 minutos
@@ -595,7 +595,7 @@ python ~/.claude-dev-kit/install/installer.py --upgrade
 - [Getting Started](Getting-Started) - Guía de inicio rápido
 - [Personalización](Customization) - Modificar perfiles y configuración
 - [Configuración](Configuration) - Referencia completa de opciones
-- [Skill implement-us](user-skills-Implement-Us) - Uso del skill principal
+- [Skill implement-us](UserSkillsImplementUs) - Uso del skill principal
 
 ---
 

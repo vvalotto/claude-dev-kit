@@ -1,6 +1,6 @@
 # Guía de Inicio Rápido
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Final
 **Nivel:** Básico
 **Tiempo estimado:** 15 minutos
@@ -411,7 +411,7 @@ Pausas:
 ⏸️ Lunch break: 30min (12:30 - 13:00)
 ```
 
-> **Ver más:** [Tracking - Guía de Usuario](user-tracking-User-Guide)
+> **Ver más:** [Tracking - Guía de Usuario](UserTrackingUserGuide)
 
 ---
 
@@ -507,8 +507,8 @@ Esto actualizará `.claude/skills/implement-us/config.json` con la configuració
 Profundiza en cada componente:
 
 1. **[Instalación Detallada](Installation)** - Opciones avanzadas, modos de instalación
-2. **[Skill implement-us](user-skills-Implement-Us)** - Entender las 10 fases en detalle
-3. **[Sistema de Tracking](user-tracking-User-Guide)** - Comandos avanzados, reportes históricos
+2. **[Skill implement-us](UserSkillsImplementUs)** - Entender las 10 fases en detalle
+3. **[Sistema de Tracking](UserTrackingUserGuide)** - Comandos avanzados, reportes históricos
 4. **[Personalización Completa](Customization)** - Crear perfiles custom, modificar templates
 5. **[Referencia de Configuración](Configuration)** - Todas las opciones disponibles
 
@@ -518,11 +518,11 @@ Profundiza en cada componente:
 
 Aprende con proyectos reales completos:
 
-- **[Proyecto PyQt-MVC](examples-Pyqt-Project)** - Aplicación de escritorio con interfaz gráfica
-- **[Proyecto FastAPI-REST](examples-Fastapi-Project)** - API REST asíncrona completa
-- **[Proyecto Flask-REST](examples-Flask-Rest-Project)** - API REST con Flask
-- **[Proyecto Flask-WebApp](examples-Flask-Webapp-Project)** - Aplicación web con templates
-- **[Proyecto Python Genérico](examples-Generic-Python)** - CLI app o librería Python
+- **[Proyecto PyQt-MVC](ExamplesPyqtProject)** - Aplicación de escritorio con interfaz gráfica
+- **[Proyecto FastAPI-REST](ExamplesFastapiProject)** - API REST asíncrona completa
+- **[Proyecto Flask-REST](ExamplesFlaskRestApiProject)** - API REST con Flask
+- **[Proyecto Flask-WebApp](ExamplesFlaskWebappProject)** - Aplicación web con templates
+- **[Proyecto Python Genérico](ExamplesGenericPython)** - CLI app o librería Python
 
 ---
 
@@ -653,7 +653,7 @@ FAILED tests/test_calculator.py::test_suma - AssertionError
 - [x] Comandos básicos de tracking
 - [x] Personalización de configuración
 - [ ] **Próximo:** [Instalación Detallada](Installation)
-- [ ] **Próximo:** [Skill implement-us - Guía Completa](user-skills-Implement-Us)
+- [ ] **Próximo:** [Skill implement-us - Guía Completa](UserSkillsImplementUs)
 - [ ] **Próximo:** [Tutorial de tu stack](examples)
 
 ---
@@ -663,7 +663,7 @@ FAILED tests/test_calculator.py::test_suma - AssertionError
 Elige tu próximo paso según tu objetivo:
 
 **Si quieres profundizar en el framework:**
-→ [Skill implement-us - Documentación Completa](user-skills-Implement-Us)
+→ [Skill implement-us - Documentación Completa](UserSkillsImplementUs)
 
 **Si quieres personalizarlo a tu stack:**
 → [Guía de Personalización](Customization)

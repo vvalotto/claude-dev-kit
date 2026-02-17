@@ -1,6 +1,6 @@
 # Skill implement-us - Guía Completa
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Final
 **Nivel:** Básico - Intermedio
 
@@ -294,12 +294,12 @@ EOF
 
 ## Recursos Adicionales
 
-- [Getting Started](user-Getting-Started) - Tutorial inicial
-- [Personalización](user-Customization) - Modificar comportamiento
-- [Tracking](user-tracking-User-Guide) - Sistema de tracking
+- [Getting Started](UserGettingStarted) - Tutorial inicial
+- [Personalización](UserCustomization) - Modificar comportamiento
+- [Tracking](UserTrackingUserGuide) - Sistema de tracking
 
 ---
 
-**Anterior:** [Configuración](user-Configuration)
-**Siguiente:** [Creando Skills](developer-contributing-Creating-Skills)
-**Índice:** [Volver al índice](Documentation-Index)
+**Anterior:** [Configuración](UserConfiguration)
+**Siguiente:** [Creando Skills](DeveloperContributingCreatingSkills)
+**Índice:** [Volver al índice](UserIndex)

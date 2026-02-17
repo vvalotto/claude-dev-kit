@@ -114,7 +114,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 ---
 
 ### 📋 Fase 2: Generación del Plan de Implementación
-**Agente:** `phases/phase-2-planning.md` _(pendiente)_
+**Agente:** [`phases/phase-2-planning.md`](./phases/phase-2-planning.md)
 
 **Objetivo:** Crear plan detallado basado en arquitectura configurada.
 
@@ -129,7 +129,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 ---
 
 ### 🔨 Fase 3: Implementación Guiada por Tareas
-**Agente:** `phases/phase-3-implementation.md` _(pendiente)_
+**Agente:** [`phases/phase-3-implementation.md`](./phases/phase-3-implementation.md)
 
 **Objetivo:** Implementar la funcionalidad siguiendo el plan.
 
@@ -143,7 +143,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 ---
 
 ### 🧪 Fase 4: Tests Unitarios
-**Agente:** `phases/phase-4-unit-tests.md` _(pendiente)_
+**Agente:** [`phases/phase-4-unit-tests.md`](./phases/phase-4-unit-tests.md)
 
 **Objetivo:** Crear tests unitarios para cada componente.
 
@@ -157,7 +157,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 ---
 
 ### 🔗 Fase 5: Tests de Integración
-**Agente:** `phases/phase-5-integration-tests.md` _(pendiente)_
+**Agente:** [`phases/phase-5-integration-tests.md`](./phases/phase-5-integration-tests.md)
 
 **Objetivo:** Crear tests de integración entre componentes.
 
@@ -171,7 +171,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 ---
 
 ### ✅ Fase 6: Validación BDD
-**Agente:** `phases/phase-6-bdd-validation.md` _(pendiente)_
+**Agente:** [`phases/phase-6-bdd-validation.md`](./phases/phase-6-bdd-validation.md)
 
 **Objetivo:** Implementar y ejecutar steps de los escenarios BDD.
 
@@ -185,7 +185,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 ---
 
 ### 📊 Fase 7: Quality Gates
-**Agente:** `phases/phase-7-quality-gates.md` _(pendiente)_
+**Agente:** [`phases/phase-7-quality-gates.md`](./phases/phase-7-quality-gates.md)
 
 **Objetivo:** Validar que el código cumple con estándares de calidad.
 
@@ -200,7 +200,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 ---
 
 ### 📚 Fase 8: Documentación
-**Agente:** `phases/phase-8-documentation.md` _(pendiente)_
+**Agente:** [`phases/phase-8-documentation.md`](./phases/phase-8-documentation.md)
 
 **Objetivo:** Generar documentación de la implementación.
 
@@ -214,7 +214,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 ---
 
 ### 📄 Fase 9: Reporte Final
-**Agente:** `phases/phase-9-report.md` _(pendiente)_
+**Agente:** [`phases/phase-9-final-report.md`](./phases/phase-9-final-report.md)
 
 **Objetivo:** Generar reporte completo de la implementación.
 

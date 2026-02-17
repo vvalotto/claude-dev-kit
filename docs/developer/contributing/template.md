@@ -1,6 +1,6 @@
 # [Título del Documento]
 
-**Última Actualización:** YYYY-MM-DD
+**Última Actualización:** 2026-02-17
 **Audiencia:** [Usuario Final / Desarrollador / Administrador]
 **Nivel:** [Básico / Intermedio / Avanzado]
 

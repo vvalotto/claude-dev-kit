@@ -287,7 +287,7 @@ class TestValidacion:
 
 1. **Duplicar perfil similar:**
    ```bash
-   cp customizations/generic-python.json customizations/django-mvt.json
+   cp customizations/generic-python.json customizations/my-stack.json
    ```
 
 2. **Personalizar:**
@@ -304,7 +304,7 @@ class TestValidacion:
 4. **Actualizar config base:**
    ```json
    {
-     "available_profiles": ["pyqt-mvc", "fastapi-rest", ..., "django-mvt"]
+     "available_profiles": ["pyqt-mvc", "fastapi-rest", "flask-rest", "flask-webapp", "generic-python"]
    }
    ```
 
@@ -428,7 +428,7 @@ Cada perfil tecnológico se define en un archivo JSON con cuatro secciones princ
 - ⬜ Validar con proyectos reales
 
 ### Medio Plazo
-- ⬜ Agregar perfil Django MVT
+- ✅ Agregar perfiles Flask REST y Flask WebApp (implementados en v1.0)
 - ⬜ Agregar templates adicionales (ADR, Runbook)
 - ⬜ Mecanismo de validación automática
 - ⬜ Editor visual de templates (CLI)
@@ -443,4 +443,4 @@ Cada perfil tecnológico se define en un archivo JSON con cuatro secciones princ
 
 **Documento generado por:** Claude Code
 **Versión:** 1.0
-**Última actualización:** 2026-02-14
+**Última actualización:** 2026-02-17

@@ -1,6 +1,6 @@
 # Guía para Crear Skills Personalizados
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Desarrollador / Contributor
 **Nivel:** Avanzado
 
@@ -453,12 +453,12 @@ $VARIABLE       # ❌ Incorrecto
 
 ## Recursos Adicionales
 
-- [Skill implement-us](user-skills-Implement-Us) - Skill de referencia
-- [Sistema de Templates](developer-architecture-Template-System) - Variables
-- [Tracking](developer-architecture-Tracking) - Integración tracking
+- [Skill implement-us](UserSkillsImplementUs) - Skill de referencia
+- [Sistema de Templates](DeveloperArchitectureTemplateSystem) - Variables
+- [Tracking](DeveloperArchitectureTracking) - Integración tracking
 
 ---
 
-**Anterior:** [Skill implement-us](user-skills-Implement-Us)
+**Anterior:** [Skill implement-us](UserSkillsImplementUs)
 **Siguiente:** [README Principal](../../../README.md)
-**Índice:** [Volver al índice](Documentation-Index)
+**Índice:** [Volver al índice](UserIndex)

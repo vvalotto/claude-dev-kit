@@ -1,6 +1,6 @@
 # Referencia de Configuración
 
-**Última Actualización:** 2026-02-15
+**Última Actualización:** 2026-02-17
 **Audiencia:** Usuario Avanzado / Desarrollador
 **Nivel:** Avanzado
 
@@ -370,11 +370,11 @@ export CLAUDE_DEVKIT_CONFIG=/custom/path/config.json
 ## Recursos Adicionales
 
 - [Personalización](Customization) - Crear perfiles custom
-- [Tracking](user-tracking-User-Guide) - Sistema de tracking
-- [Templates](developer-architecture-Template-System) - Sistema de templates
+- [Tracking](UserTrackingUserGuide) - Sistema de tracking
+- [Templates](DeveloperArchitectureTemplateSystem) - Sistema de templates
 
 ---
 
 **Anterior:** [Personalización](Customization)
-**Siguiente:** [Skill implement-us](user-skills-Implement-Us)
+**Siguiente:** [Skill implement-us](UserSkillsImplementUs)
 **Índice:** [Volver al índice](Index)
