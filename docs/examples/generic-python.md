@@ -1234,3 +1234,7 @@ examples/code/csv-tool/
 **Generado con Claude Dev Kit** — Framework para desarrollo asistido con Claude Code
 
 *Stack: generic-python | Tests: 90/90 | Coverage: 98% | Pylint: 10.00/10*
+
+---
+
+**[← Anterior: Flask WebApp](flask-webapp-project.md)** | **[Índice de Ejemplos](../README.md)**

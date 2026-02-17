@@ -2474,3 +2474,7 @@ python ~/.claude-dev-kit/install/installer.py --profile flask-rest --yes
 **Tutorial Creado:** 2026-02-16
 **Claude Dev Kit:** v1.0
 **Perfil:** fastapi-rest
+
+---
+
+**[← Anterior: PyQt MVC](pyqt-project.md)** | **[Índice de Ejemplos](../README.md)** | **[Siguiente: Flask REST API →](flask-rest-api-project.md)**

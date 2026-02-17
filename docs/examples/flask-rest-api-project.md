@@ -1607,3 +1607,7 @@ Dentro del ejemplo encontrarás:
 **Generado con Claude Dev Kit** - Framework para desarrollo asistido con Claude Code
 
 *Stack: flask-rest | Tests: 38/38 | Coverage: 94% | Pylint: 9.65/10*
+
+---
+
+**[← Anterior: FastAPI REST API](fastapi-project.md)** | **[Índice de Ejemplos](../README.md)** | **[Siguiente: Flask WebApp →](flask-webapp-project.md)**

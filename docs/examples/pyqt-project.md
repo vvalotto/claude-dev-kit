@@ -2257,3 +2257,7 @@ Si encuentras formas de mejorar el framework:
 **Tutorial Creado:** 2026-02-16
 **Claude Dev Kit:** v1.0
 **Perfil:** pyqt-mvc
+
+---
+
+**[Índice de Ejemplos](../README.md)** | **[Siguiente: FastAPI REST API →](fastapi-project.md)**
