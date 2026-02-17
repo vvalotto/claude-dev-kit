@@ -363,7 +363,7 @@ git clone https://github.com/vvalotto/claude-dev-kit.git ~/.claude-dev-kit
 cd ~/projects/mi-proyecto
 
 # 4. Instalar
-~/.claude-dev-kit/install/install.sh --profile django-mvt --yes
+~/.claude-dev-kit/install/install.sh --profile generic-python --yes
 ```
 
 ---
@@ -602,8 +602,8 @@ Edita `.claude/config.json` si necesitas personalizar:
 
 - **Proyecto Principal:** [README.md](../README.md)
 - **Guía del Proyecto:** `CLAUDE.md` (en tu proyecto)
-- **Sistema de Tracking:** [Documentación de tracking](../docs/tracking/)
-- **Skills:** [Catálogo de skills](../skills/README.md)
+- **Sistema de Tracking:** [Documentación de tracking](../docs/user/tracking/user-guide.md)
+- **Skills:** [Skill implement-us](../skills/implement-us/README.md)
 
 ---
 
@@ -622,4 +622,4 @@ MIT License - Ver [LICENSE](../LICENSE) para más detalles.
 ---
 
 **Versión:** 1.0.0
-**Última Actualización:** 2026-02-09
+**Última Actualización:** 2026-02-17

@@ -8,14 +8,15 @@
 
 ## Resumen Ejecutivo
 
-| Categoría | Issues Encontrados | Issues Resueltos |
-|-----------|-------------------|-----------------|
-| Referencias a django-mvt | 5 | 5 ✅ |
+| Categoría | Encontrados | Resueltos |
+|-----------|-------------|-----------|
+| Referencias a django-mvt en docs/ | 5 | 5 ✅ |
 | Versiones/estados desactualizados | 3 | 3 ✅ |
-| Fechas desactualizadas | 8 | 8 ✅ |
-| Links/marcadores incorrectos en skill.md | 8 | 8 ✅ |
-| Links en index.md (contexto Wiki) | 4 | 0 ⚠️ (pendiente TICKET-065) |
-| **Total** | **28** | **24 resueltos / 4 a TICKET-065** |
+| Fechas desactualizadas en docs/ | 8 | 8 ✅ |
+| Marcadores _(pendiente)_ en skill.md | 8 | 8 ✅ |
+| READMEs internos (install/skills/templates/tracking) | 11 | 11 ✅ |
+| Links en index.md (contexto Wiki) | 4 | 0 ⚠️ pendiente TICKET-065 |
+| **Total** | **39** | **35 resueltos / 4 a TICKET-065** |
 
 ---
 
@@ -180,6 +181,32 @@ Actualizados a `2026-02-17` los siguientes archivos:
 | Las 10 fases descritas uniformemente | ✅ |
 | Fechas actualizadas (2026-02-17) | ✅ |
 | skill.md sin marcadores `_(pendiente)_` | ✅ |
+
+---
+
+---
+
+## 7. READMEs Internos del Framework (Revisión Adicional)
+
+Revisión de `install/README.md`, `skills/implement-us/README.md`, `templates/README.md` y `tracking/README.md`.
+
+### Hallazgos y Correcciones
+
+| Archivo | Issue | Corrección |
+|---------|-------|-----------|
+| `install/README.md` | Ejemplo Fedora usaba `--profile django-mvt` | `--profile generic-python` |
+| `install/README.md` | Link a `docs/tracking/` (ruta incorrecta) | `docs/user/tracking/user-guide.md` |
+| `install/README.md` | Link a `skills/README.md` (no existe) | `skills/implement-us/README.md` |
+| `install/README.md` | Fecha `2026-02-09` | `2026-02-17` |
+| `skills/implement-us/README.md` | "9 fases de implementación" (incorrecto) | "10 fases (Fase 0 a Fase 9)" |
+| `skills/implement-us/README.md` | Fecha `2026-02-14` | `2026-02-17` |
+| `templates/README.md` | "9 fases de implementación" (incorrecto) | "10 fases" |
+| `templates/README.md` | `django-mvt.json` en ejemplo de comando | `my-stack.json` |
+| `templates/README.md` | Ejemplos marcados "(cuando esté implementado)" | Links reales a `examples/code/` y `docs/examples/` |
+| `templates/README.md` | Fecha `2026-02-14` | `2026-02-17` |
+| `tracking/README.md` | Link a `docs/tracking/architecture.md` (no existe) | `docs/developer/architecture/tracking.md` |
+
+**Total adicional:** 11 issues encontrados, 11 resueltos ✅
 
 ---
 

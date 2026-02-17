@@ -212,5 +212,5 @@ print(f"Tiempo efectivo: {status['effective_seconds'] / 60} minutos")
 ## Documentación Adicional
 
 - **Guía de Usuario**: `docs/tracking/user-guide.md`
-- **Arquitectura**: `docs/tracking/architecture.md`
+- **Arquitectura**: `docs/developer/architecture/tracking.md`
 - **Ejemplos**: `docs/tracking/examples.md`
