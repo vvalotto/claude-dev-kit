@@ -1076,6 +1076,21 @@ python .claude/tracking/time_tracker.py end --phase 4 --us {US_ID}
 
 ---
 
+## 🚫 Si esta fase falla — Protocolo de recuperación
+
+**Síntoma:** Uno o más tests unitarios fallan (`FAILED` en la salida de pytest).
+
+**Protocolo:**
+1. Leé el output completo del error — no asumas la causa
+2. Identificá si el problema está en el test o en la implementación:
+   - **Error en implementación** → volvé a Fase 3, corregí el código, regresá a Fase 4
+   - **Error en el test** (mal escrito, fixture incorrecto) → corregí el test en esta fase
+3. Re-ejecutá la suite completa: `pytest tests/ -v`
+4. No avances a Fase 5 hasta que **todos** los tests pasen
+5. Si después de 2 intentos de corrección los tests siguen fallando, informá al usuario antes de continuar
+
+---
+
 ## Resumen de la Fase
 
 Al finalizar esta fase:

@@ -708,6 +708,22 @@ python .claude/tracking/time_tracker.py end --phase 5 --us {US_ID}
 
 ---
 
+## 🚫 Si esta fase falla — Protocolo de recuperación
+
+**Síntoma:** Uno o más tests de integración fallan.
+
+**Protocolo:**
+1. Leé el output completo del error
+2. Identificá el origen del fallo:
+   - **Problema de integración entre componentes** → revisá las interfaces y contratos en Fase 3
+   - **Componente individual roto** → volvé a Fase 3 a corregir la implementación, luego volvé a Fase 4 y 5
+   - **Test mal configurado** (fixture, mock incorrecto) → corregí el test en esta fase
+3. Re-ejecutá la suite completa: `pytest tests/ -v`
+4. No avances a Fase 6 hasta que **todos** los tests pasen
+5. Si después de 2 intentos la fase sigue fallando, informá al usuario
+
+---
+
 ## Resumen de la Fase
 
 Al finalizar esta fase:

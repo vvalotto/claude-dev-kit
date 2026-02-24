@@ -522,6 +522,22 @@ python .claude/tracking/time_tracker.py end --phase 6 --us {US_ID}
 
 ---
 
+## 🚫 Si esta fase falla — Protocolo de recuperación
+
+**Síntoma:** Uno o más escenarios BDD fallan o están en SKIP.
+
+**Protocolo:**
+1. Leé el output completo del error del escenario fallido
+2. Identificá el origen del fallo:
+   - **La implementación no cumple el escenario** → volvé a Fase 3 a corregir el código
+   - **El escenario está mal redactado o es ambiguo** → volvé a Fase 1 a revisar y ajustar el escenario con el usuario
+   - **El step definition está mal implementado** → corregí el step en esta fase
+3. Re-ejecutá todos los escenarios: `pytest tests/bdd/ -v`
+4. No avances a Fase 7 hasta que **todos** los escenarios estén en verde
+5. Si después de 2 intentos la fase sigue fallando, informá al usuario
+
+---
+
 ## Resumen de la Fase
 
 Al finalizar esta fase:

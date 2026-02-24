@@ -242,12 +242,20 @@ El skill tiene puntos de aprobación en:
 
 - `--skip-bdd`: Salta Fase 1 y Fase 6 (no recomendado)
 
-### Manejo de Errores
+### Manejo de Fallas
 
-Si una fase falla:
-- **Tests fallan (4, 5, 6):** El skill se detiene hasta que los tests pasen
-- **Quality gates fallan (7):** Se advierte al usuario, puede continuar bajo su responsabilidad
-- **Validación falla (0):** Se advierte, puede continuar con datos manuales
+Si una fase falla, seguí este protocolo en orden:
+
+1. **Identificar la causa concreta** — leer el output completo del error, no asumir
+2. **Determinar en qué fase está el problema** — puede ser la fase actual u otra anterior
+3. **Aplicar la corrección en la fase correspondiente** — no parchear síntomas
+4. **Re-ejecutar la fase completa** — no solo el paso que falló
+5. **Verificar el checklist de salida** antes de avanzar a la siguiente fase
+6. **Si después de 2 intentos la fase sigue fallando** — informar al usuario y no continuar de forma autónoma
+
+> Una fase con checklist de salida incompleto **no puede avanzar**. El agente no debe saltear fases ni marcar ítems como completos sin haberlos verificado.
+
+**Protocolos específicos por fase** — ver sección "Si esta fase falla" en cada archivo de fase.
 
 ---
 
