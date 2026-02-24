@@ -5,11 +5,12 @@
 
 ---
 
-## Tracking
+## 🔴 Acción Requerida — Iniciar tracking de fase
 
-**Al inicio de la fase:**
-```python
-tracker.start_phase(9, "Reporte Final")
+Ejecutá antes de cualquier otra acción en esta fase:
+
+```bash
+python .claude/tracking/time_tracker.py start --phase 9 --us {US_ID}
 ```
 
 ---
@@ -479,18 +480,14 @@ python scripts/generate_report.py {US_ID}
 
 ---
 
-## Tracking al Finalizar
+## 🔴 Acción Requerida — Cerrar tracking
 
-```python
-tracker.end_phase(9, auto_approved=True)
-tracker.end_tracking()  # Finaliza tracking completo y genera reportes de tiempo
+```bash
+python .claude/tracking/time_tracker.py end --phase 9 --us {US_ID}
+python .claude/tracking/time_tracker.py end-tracking --us {US_ID}
 ```
 
-**Importante:** `tracker.end_tracking()` debe llamarse al final de la Fase 9 para:
-- Cerrar el tracking de la US
-- Generar reporte de tiempo por fase
-- Calcular métricas de productividad
-- Guardar datos para análisis histórico
+El comando `end-tracking` cierra el tracking de la US, guarda los datos históricos y genera el reporte de tiempo por fase.
 
 ---
 

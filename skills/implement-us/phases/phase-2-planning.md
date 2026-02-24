@@ -5,11 +5,12 @@
 
 ---
 
-## Tracking
+## 🔴 Acción Requerida — Iniciar tracking de fase
 
-**Al inicio de la fase:**
-```python
-tracker.start_phase(2, "Generación del Plan de Implementación")
+Ejecutá antes de cualquier otra acción en esta fase:
+
+```bash
+python .claude/tracking/time_tracker.py start --phase 2 --us {US_ID}
 ```
 
 ---
@@ -454,11 +455,10 @@ Este es un punto crítico donde el usuario debe validar:
 
 ---
 
-## Tracking
+## 🔴 Acción Requerida — Cerrar tracking
 
-**Al finalizar la fase:**
-```python
-tracker.end_phase(2, auto_approved=False)  # Requiere aprobación del usuario
+```bash
+python .claude/tracking/time_tracker.py end --phase 2 --us {US_ID}
 ```
 
 ---
