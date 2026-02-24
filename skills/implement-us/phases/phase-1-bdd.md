@@ -5,6 +5,18 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar precondiciones
+
+Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fase 0:
+
+```bash
+ls docs/plans/{US_ID}-context.md
+```
+
+Si no existe, **no avances** — completá la fase correspondiente primero.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -127,6 +139,17 @@ Este es un punto crítico donde el usuario debe validar que los escenarios:
 - Son verificables y automatizables
 
 ---
+
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de avanzar a Fase 2, confirmá que:
+- [ ] `docs/bdd/{US_ID}.feature` existe en disco: `ls docs/bdd/{US_ID}.feature`
+- [ ] Los escenarios fueron presentados al usuario
+- [ ] El usuario aprobó los escenarios BDD
+- [ ] Tracking de Fase 1 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 

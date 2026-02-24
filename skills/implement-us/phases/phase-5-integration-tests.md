@@ -5,6 +5,18 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar precondiciones
+
+Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fase 4:
+
+```bash
+ls tests/
+```
+
+Si no existe, **no avances** — completá la fase correspondiente primero.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -677,6 +689,16 @@ pytest tests/integration/ -v --cov={MODULE_NAME} --cov-report=html
 - ❌ Componentes internos del sistema
 
 ---
+
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de avanzar a Fase 6, confirmá que:
+- [ ] Todos los tests de integración pasan: `pytest tests/ -v`
+- [ ] Suite completa ejecutada sin errores
+- [ ] Tracking de Fase 5 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 

@@ -5,6 +5,18 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar precondiciones
+
+Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fase 7:
+
+```bash
+ls quality/reports/{US_ID}-quality.json
+```
+
+Si no existe, **no avances** — completá la fase correspondiente primero.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -426,6 +438,16 @@ sphinx-apidoc -o docs/api/ app/
 ```
 
 ---
+
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de avanzar a Fase 9, confirmá que:
+- [ ] Documentación generada y presentada al usuario
+- [ ] El usuario aprobó la documentación
+- [ ] Tracking de Fase 8 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 
