@@ -5,11 +5,12 @@
 
 ---
 
-## Tracking
+## 🔴 Acción Requerida — Iniciar tracking de fase
 
-**Al inicio de la fase:**
-```python
-tracker.start_phase(3, "Implementación Guiada por Tareas")
+Ejecutá antes de cualquier otra acción en esta fase:
+
+```bash
+python .claude/tracking/time_tracker.py start --phase 3 --us {US_ID}
 ```
 
 ---
@@ -32,15 +33,12 @@ Identificar la primera tarea no completada del plan generado en Fase 2.
 
 ---
 
-### 2. TRACKING: Iniciar tarea
+### 2. 🔴 Acción Requerida — Iniciar tracking de tarea
 
-```python
-tracker.start_task(
-    task_id=f"task_{task_number:03d}",
-    task_name="{TASK_NAME}",  # Ej: "Implementar UserModel"
-    task_type="{TASK_TYPE}",  # modelo, vista, controlador, servicio, etc.
-    estimated_minutes={ESTIMATED_TIME}  # Del plan
-)
+Ejecutá antes de comenzar la implementación de cada tarea:
+
+```bash
+python .claude/tracking/time_tracker.py start-task --us {US_ID} --task-id task_{TASK_NUMBER:03d} --task-name "{TASK_NAME}"
 ```
 
 **Tipos de tarea según arquitectura:**
@@ -690,13 +688,12 @@ pytest tests/test_{filename}.py -v --tb=short
 
 ---
 
-### 8. TRACKING: Finalizar tarea
+### 8. 🔴 Acción Requerida — Finalizar tracking de tarea
 
-```python
-tracker.end_task(
-    task_id=f"task_{task_number:03d}",
-    file_created="{COMPONENT_PATH}/{filename}.{ext}"
-)
+Ejecutá inmediatamente después de completar la tarea:
+
+```bash
+python .claude/tracking/time_tracker.py end-task --us {US_ID} --task-id task_{TASK_NUMBER:03d}
 ```
 
 ---
@@ -854,13 +851,11 @@ Esto permite:
 
 ---
 
-## Tracking al Finalizar
+## 🔴 Acción Requerida — Cerrar tracking
 
-```python
-tracker.end_phase(3, auto_approved=True)  # Las tareas ya fueron aprobadas individualmente
+```bash
+python .claude/tracking/time_tracker.py end --phase 3 --us {US_ID}
 ```
-
-**Nota:** Se usa `auto_approved=True` porque cada tarea ya fue aprobada por el usuario durante la implementación.
 
 ---
 

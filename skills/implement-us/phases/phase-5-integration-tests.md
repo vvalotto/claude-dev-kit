@@ -5,11 +5,12 @@
 
 ---
 
-## Tracking
+## 🔴 Acción Requerida — Iniciar tracking de fase
 
-**Al inicio de la fase:**
-```python
-tracker.start_phase(5, "Tests de Integración")
+Ejecutá antes de cualquier otra acción en esta fase:
+
+```bash
+python .claude/tracking/time_tracker.py start --phase 5 --us {US_ID}
 ```
 
 ---
@@ -677,10 +678,10 @@ pytest tests/integration/ -v --cov={MODULE_NAME} --cov-report=html
 
 ---
 
-## Tracking al Finalizar
+## 🔴 Acción Requerida — Cerrar tracking
 
-```python
-tracker.end_phase(5, auto_approved=True)
+```bash
+python .claude/tracking/time_tracker.py end --phase 5 --us {US_ID}
 ```
 
 ---

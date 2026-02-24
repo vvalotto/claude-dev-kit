@@ -5,11 +5,12 @@
 
 ---
 
-## Tracking
+## 🔴 Acción Requerida — Iniciar tracking de fase
 
-**Al inicio de la fase:**
-```python
-tracker.start_phase(8, "Actualización de Documentación")
+Ejecutá antes de cualquier otra acción en esta fase:
+
+```bash
+python .claude/tracking/time_tracker.py start --phase 8 --us {US_ID}
 ```
 
 ---
@@ -426,10 +427,10 @@ sphinx-apidoc -o docs/api/ app/
 
 ---
 
-## Tracking al Finalizar
+## 🔴 Acción Requerida — Cerrar tracking
 
-```python
-tracker.end_phase(8, auto_approved=True)
+```bash
+python .claude/tracking/time_tracker.py end --phase 8 --us {US_ID}
 ```
 
 ---

@@ -5,11 +5,12 @@
 
 ---
 
-## Tracking
+## 🔴 Acción Requerida — Iniciar tracking de fase
 
-**Al inicio de la fase:**
-```python
-tracker.start_phase(7, "Quality Gates")
+Ejecutá antes de cualquier otra acción en esta fase:
+
+```bash
+python .claude/tracking/time_tracker.py start --phase 7 --us {US_ID}
 ```
 
 ---
@@ -458,10 +459,10 @@ Agregar a observaciones del reporte:
 
 ---
 
-## Tracking al Finalizar
+## 🔴 Acción Requerida — Cerrar tracking
 
-```python
-tracker.end_phase(7, auto_approved=True)
+```bash
+python .claude/tracking/time_tracker.py end --phase 7 --us {US_ID}
 ```
 
 ---

@@ -1,139 +1,175 @@
 # Fase 0: Validación de Contexto
 
-**Objetivo:** Verificar que el entorno del proyecto tiene todo lo necesario para implementar la Historia de Usuario.
-
+**Objetivo:** Verificar que el entorno del proyecto tiene todo lo necesario para implementar la Historia de Usuario, clasificar la HU y generar el archivo de contexto que guiará todas las fases siguientes.
 
 ---
 
-## Tracking
+## 🔴 Acción Requerida — Iniciar tracking
 
-**Al inicio de la fase:**
-```python
-from .tracking.time_tracker import TimeTracker
+Ejecutá este comando antes de cualquier otra acción en esta fase:
 
-# Inicializar tracker
-tracker = TimeTracker(us_id, us_title, us_points, producto)
-tracker.start_tracking()
-tracker.start_phase(0, "Validación de Contexto")
+```bash
+python .claude/tracking/time_tracker.py start --us {US_ID} --phase 0
 ```
+
+---
+
+## 🔴 Acción Requerida — Verificar herramientas requeridas
+
+Antes de comenzar la implementación, verificá que las herramientas del skill están disponibles:
+
+```bash
+python -m pylint --version     # Requerido: Fase 7
+python -m radon --version      # Requerido: Fase 7
+python -m pytest --version     # Requerido: Fases 4, 5, 6, 7
+python -m pytest_bdd --version # Requerido: Fase 6
+```
+
+Si algún comando falla, **no avances**. Informá al usuario:
+
+> **🚫 STOP — Herramienta `{nombre}` no disponible.**
+> Instalala con `pip install {paquete}` antes de continuar.
+> No se puede garantizar la ejecución completa del skill sin esta herramienta.
+
+| Herramienta | Paquete | Fases que la requieren |
+|-------------|---------|------------------------|
+| pylint | `pylint` | Fase 7 |
+| radon | `radon` | Fase 7 |
+| pytest | `pytest` | Fases 4, 5, 6, 7 |
+| pytest-bdd | `pytest-bdd` | Fase 6 |
 
 ---
 
 ## 1. Verificar que existe la historia de usuario
 
-**Buscar en estructura de documentación del proyecto:**
+Buscá el archivo de la HU en la estructura de documentación del proyecto:
 
-> **Rutas comunes según stack:**
+> **📖 Referencia — Rutas comunes según stack:**
 > - **PyQt/MVC:** `{PRODUCT}/docs/HISTORIAS-USUARIO-*.md`
 > - **FastAPI:** `docs/user-stories/US-*.md` o `{PRODUCT}/docs/US-*.md`
-> - **Django:** `docs/requirements/US-*.md` o `{app}/docs/US-*.md`
-> - **Generic:** `docs/US-*.md` o `requirements/US-*.md`
+> - **Flask/Generic:** `docs/US-*.md` o `requirements/US-*.md`
 
-**Extraer de la US:**
+Extraé de la US:
 - Título de la historia
 - Criterios de aceptación
 - Puntos de estimación
 - Prioridad
 
-**Si no se encuentra:**
-- Preguntar al usuario por la ubicación
-- O permitir ingresar manualmente los datos de la US
+**Si no se encuentra:** preguntá al usuario por la ubicación antes de continuar.
 
 ---
 
 ## 2. Validar arquitectura de referencia
 
-**Buscar documentación arquitectónica:**
-
-Verificar que existe documentación de la arquitectura del proyecto en uno de estos formatos:
-- `docs/architecture/ADR-*.md` (Architecture Decision Records)
+Verificá que existe documentación de la arquitectura del proyecto:
+- `docs/architecture/ADR-*.md`
 - `docs/architecture.md`
 - `ARCHITECTURE.md`
 - `README.md` (sección de arquitectura)
 
-**Verificar patrones arquitectónicos configurados:**
+Leé del archivo de configuración `.claude/skills/implement-us/config.json` los patrones a validar.
 
-Leer del archivo de configuración `.claude/skills/implement-us/config.json` los patrones a validar:
+> **📖 Referencia — Patrones según perfil:**
+> - **PyQt/MVC:** MVC, Factory, Coordinator
+> - **FastAPI:** Layered Architecture, Dependency Injection, Repository
+> - **Flask REST/Webapp:** Blueprints, Service Layer, Repository
+> - **Generic:** Patrones definidos en config o saltar validación
 
-```json
-{
-  "architecture_pattern": "{ARCHITECTURE_PATTERN}",
-  "required_patterns": ["{PATTERNS}"],
-  "architecture_doc": "{ARCHITECTURE_DOC}"
-}
-```
-
-> **Patrones según perfil:**
-> - **PyQt/MVC:** Validar MVC, Factory, Coordinator
-> - **FastAPI:** Validar Layered Architecture, Dependency Injection, Repository
-> - **Django:** Validar MVT, Class-Based Views, Managers
-> - **Generic:** Validar patrones definidos en config o saltar validación
-
-**Checkpoint:**
-- ✅ Arquitectura documentada encontrada
-- ✅ Patrones requeridos confirmados en el proyecto
-- ⚠️ Si falta documentación, advertir al usuario pero continuar
+Si falta documentación de arquitectura, advertí al usuario pero continuá.
 
 ---
 
 ## 3. Verificar estándares de calidad
 
-**Validar que existen:**
+Verificá que existen:
 
-1. **CLAUDE.md** con quality gates definidos:
-   - Pylint score mínimo
-   - Complejidad ciclomática máxima
-   - Cobertura de tests mínima
+1. **CLAUDE.md** con quality gates definidos (pylint mínimo, cobertura mínima)
+2. **Estructura de tests:** directorio `tests/`, `conftest.py` (si usa pytest)
+3. **Herramientas de calidad:** `.pylintrc`, `pytest.ini` o `pyproject.toml`
 
-2. **Estructura de tests:**
-   - Directorio `tests/` existe
-   - `conftest.py` configurado (si usa pytest)
-   - Framework de testing instalado (verificar según `{TEST_FRAMEWORK}`)
-
-3. **Herramientas de calidad configuradas:**
-   - `.pylintrc` o configuración de pylint
-   - `pytest.ini` o `pyproject.toml` (si usa pytest)
-   - `.coveragerc` o configuración de coverage
-
-**Si faltan herramientas:**
-- Advertir al usuario
-- Ofrecer crear configuración básica
-- O continuar sin quality gates (no recomendado)
+Si faltan configuraciones, ofrecé crearlas o advertí al usuario antes de continuar.
 
 ---
 
-## Output de la Fase
+## 🔴 Acción Requerida — Clasificar tipo de HU
 
-**Template de resumen:**
+Analizá la descripción y criterios de aceptación de la HU y determiná su tipo según la siguiente tabla:
+
+| Tipo de HU | ¿BDD aplica? |
+|------------|--------------|
+| Nueva funcionalidad | ✅ Sí |
+| Mejora de comportamiento existente | ✅ Sí |
+| Refactorización (sin cambio de comportamiento) | ❌ No |
+| Eliminación de code smells | ❌ No |
+| Corrección de bug | ⚠️ Depende — informar al usuario |
+
+Informá la clasificación al usuario y esperá confirmación antes de continuar. El usuario puede hacer override de la decisión de BDD.
+
+---
+
+## 🔴 Acción Requerida — Generar archivo de contexto
+
+Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (completando todos los campos con los datos reales):
 
 ```markdown
-## ✅ Contexto Validado
+# Contexto de Ejecución — {US_ID}
 
-**Historia de Usuario:** US-XXX - {título}
-**Producto:** {PRODUCT}
-**Puntos:** X
-**Prioridad:** Alta/Media/Baja
+## Historia de Usuario
+- **ID:** {US_ID}
+- **Título:** {US_TITLE}
+- **Tipo:** {HU_TYPE}
+- **Puntos:** {US_POINTS}
+- **Prioridad:** {US_PRIORITY}
 
-**Arquitectura:**
-- Patrón: {ARCHITECTURE_PATTERN}
-- Documentación: {ARCHITECTURE_DOC} encontrado
-- Patrones verificados: {PATTERNS}
+## Decisiones de Ejecución
+- **BDD:** {Sí / No — justificación}
+- **Fases a ejecutar:** 0, [1 si BDD], 2, 3, 4, 5, [6 si BDD], 7, 8, 9
 
-**Quality Gates:**
-- ✅ CLAUDE.md configurado
-- ✅ Tests configurados ({TEST_FRAMEWORK})
-- ✅ Herramientas de calidad disponibles
+## Perfil Activo
+- **Perfil:** {PROFILE}
+- **Umbrales de calidad:**
+  - pylint ≥ {pylint_min}
+  - CC ≤ {cc_max}
+  - MI ≥ {mi_min}
+  - cobertura ≥ {coverage_min}%
 
-**Listo para proceder con Fase 1: Generación de Escenarios BDD**
+## Rutas de Artefactos
+- Contexto: docs/plans/{US_ID}-context.md
+- BDD feature: docs/bdd/{US_ID}.feature
+- Plan: docs/plans/{US_ID}-plan.md
+- Reporte: docs/reports/{US_ID}-report.md
+- Quality report: quality/reports/{US_ID}-quality.json
 ```
+
+Los umbrales se leen del perfil activo en `.claude/skills/implement-us/config.json`.
+
+## 🔴 Acción Requerida — Verificar existencia del archivo de contexto
+
+Después de generarlo, confirmá que el archivo existe en disco:
+
+```bash
+ls docs/plans/{US_ID}-context.md
+```
+
+Si no existe, generalo nuevamente antes de avanzar a Fase 1.
 
 ---
 
-## Tracking
+## ✅ Checklist de Salida
 
-**Al finalizar la fase:**
-```python
-tracker.end_phase(0, auto_approved=True)
+Antes de avanzar a Fase 1, confirmá que:
+- [ ] Todas las herramientas requeridas están disponibles (pylint, radon, pytest, pytest-bdd)
+- [ ] La HU fue encontrada y sus datos extraídos
+- [ ] La arquitectura del proyecto fue validada
+- [ ] El tipo de HU fue clasificado y confirmado por el usuario
+- [ ] La decisión de BDD fue comunicada al usuario
+- [ ] `docs/plans/{US_ID}-context.md` existe en disco: `ls docs/plans/{US_ID}-context.md`
+- [ ] Los umbrales de calidad provienen del perfil activo (no hardcodeados)
+
+## 🔴 Acción Requerida — Cerrar tracking
+
+```bash
+python .claude/tracking/time_tracker.py end --us {US_ID} --phase 0
 ```
 
 ---
