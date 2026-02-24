@@ -5,6 +5,18 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar precondiciones
+
+Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fase 2:
+
+```bash
+ls docs/plans/{US_ID}-plan.md
+```
+
+Si no existe, **no avances** — completá la fase correspondiente primero.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -1045,6 +1057,16 @@ def authenticated_client(client, test_user):
 - ❌ Imports y constantes
 
 ---
+
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de avanzar a Fase 5, confirmá que:
+- [ ] Todos los tests unitarios pasan: `pytest tests/ -v`
+- [ ] Cobertura verificada
+- [ ] Tracking de Fase 4 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 

@@ -5,6 +5,27 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar precondiciones
+
+Antes de comenzar la implementación, confirmá que existen los artefactos de fases anteriores:
+
+```bash
+ls docs/plans/{US_ID}-context.md   # Generado en Fase 0
+ls docs/plans/{US_ID}-plan.md      # Generado en Fase 2
+```
+
+Si alguno no existe, **no avances** — completá la fase correspondiente primero.
+
+---
+
+## 🔴 Acción Requerida — Establecer contexto antes de implementar
+
+1. **Leé el plan completo** desde `docs/plans/{US_ID}-plan.md` para identificar la próxima tarea pendiente. No inferir el estado del plan desde el contexto de la conversación.
+
+2. **Leé los criterios de aceptación** de la HU. Antes de implementar cada tarea, verificá que contribuye a al menos un criterio. Si encontrás criterios sin cobertura en el plan, informá al usuario antes de continuar.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -698,16 +719,15 @@ python .claude/tracking/time_tracker.py end-task --us {US_ID} --task-id task_{TA
 
 ---
 
-### 9. Actualizar plan INMEDIATAMENTE
+### 9. 🔴 Acción Requerida — Actualizar plan después de cada tarea
 
-**IMPORTANTE:** Después de completar cada tarea, actualizar el plan de implementación:
+Inmediatamente después de completar la tarea, editá `docs/plans/{US_ID}-plan.md` y marcá el checkbox:
 
-1. Marcar checkbox como completado: `- [x] {TASK_NAME}`
-2. Actualizar contador: "Tareas completadas: X/Y"
-3. Actualizar porcentaje de progreso
-4. Agregar nota si hay cambios al plan
+```
+- [x] {TASK_NAME}
+```
 
-**Esto da visibilidad en tiempo real del progreso** y permite retomar fácilmente si la sesión se interrumpe.
+No avances a la siguiente tarea sin haber actualizado el archivo en disco. Esta actualización es lo que permite retomar el trabajo si la sesión se interrumpe.
 
 Ejemplo de actualización:
 ```markdown
@@ -848,6 +868,16 @@ Esto permite:
 > - Funciones puras cuando sea posible
 > - Type hints en signature
 > - Documentación de excepciones que puede lanzar"
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de avanzar a Fase 4, confirmá que:
+- [ ] Todos los componentes del plan están implementados (todos los checkboxes marcados en `docs/plans/{US_ID}-plan.md`)
+- [ ] `docs/plans/{US_ID}-plan.md` actualizado con el estado final
+- [ ] Los criterios de aceptación de la HU tienen cobertura en el código implementado
+- [ ] Tracking de Fase 3 cerrado
 
 ---
 

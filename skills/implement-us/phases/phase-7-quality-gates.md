@@ -5,6 +5,18 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar precondiciones
+
+Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fases 4, 5 y 6:
+
+```bash
+ls tests pasando (Fase 4, 5, 6)
+```
+
+Si no existe, **no avances** — completá la fase correspondiente primero.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -458,6 +470,18 @@ Agregar a observaciones del reporte:
 **Importante:** Excepciones deben ser temporales y justificadas
 
 ---
+
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de avanzar a Fase 8, confirmá que:
+- [ ] `quality/reports/{US_ID}-quality.json` existe con estado `APROBADO`
+- [ ] Pylint ≥ umbral del perfil activo
+- [ ] CC ≤ umbral del perfil activo
+- [ ] Coverage ≥ umbral del perfil activo
+- [ ] Tracking de Fase 7 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 

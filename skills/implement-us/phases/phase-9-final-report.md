@@ -5,6 +5,19 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar insumos del reporte
+
+El reporte final consolida datos de fases anteriores. Antes de comenzar, verificá que existen:
+
+```bash
+ls docs/plans/{US_ID}-plan.md              # Para listar tareas completadas
+ls quality/reports/{US_ID}-quality.json    # Para incluir métricas reales
+```
+
+Si alguno no existe, **no avances** — completá la fase correspondiente primero.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -477,6 +490,25 @@ def generar_reporte(us_id, component_path, metricas, archivos, tests):
 ```bash
 python scripts/generate_report.py {US_ID}
 ```
+
+---
+
+## 🚫 STOP — Verificar reporte antes de cerrar
+
+**No cierres el tracking hasta que:**
+1. `docs/reports/{US_ID}-report.md` exista en disco: `ls docs/reports/{US_ID}-report.md`
+2. El reporte incluya las métricas reales leídas desde `quality/reports/{US_ID}-quality.json` (no reconstruidas de memoria)
+3. El usuario haya recibido el link al reporte
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de cerrar el tracking, confirmá que:
+- [ ] `docs/reports/{US_ID}-report.md` existe en disco
+- [ ] El reporte incluye métricas reales de Fase 7
+- [ ] El usuario recibió el reporte
+- [ ] Tracking de Fase 9 cerrado
 
 ---
 

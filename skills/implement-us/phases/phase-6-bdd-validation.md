@@ -5,6 +5,18 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar precondiciones
+
+Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fase 1:
+
+```bash
+ls docs/bdd/{US_ID}.feature
+```
+
+Si no existe, **no avances** — completá la fase correspondiente primero.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -491,6 +503,16 @@ pytest tests/features/ --json-report --json-report-file=reports/bdd-report.json
 ```
 
 ---
+
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de avanzar a Fase 7, confirmá que:
+- [ ] Todos los escenarios BDD pasan: `pytest tests/bdd/ -v`
+- [ ] Ningún escenario en estado SKIP o FAILED
+- [ ] Tracking de Fase 6 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 
