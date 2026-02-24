@@ -2,7 +2,7 @@
 
 > Framework agnóstico de dominio para implementación automatizada de historias de usuario con Claude Code
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.1.0)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
@@ -196,7 +196,7 @@ Templates parametrizados con variables y snippets:
 
 ## 🗺️ Roadmap
 
-### v1.1 🔄 (En desarrollo)
+### v1.1.0 ✅ (Completado — 2026-02-24)
 
 - ✅ Skill `implement-us` — mejoras de robustez y reproducibilidad
   - Fase 0: verificación fail-fast de herramientas + clasificación automática de HU + `context.md`

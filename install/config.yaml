@@ -1,10 +1,10 @@
 # Claude Dev Kit - Configuración de Instalación
-# Version: 1.0
+# Version: 1.1
 #
 # Este archivo define los perfiles de instalación para diferentes stacks tecnológicos,
 # reglas de copia de archivos, y validaciones post-instalación.
 
-version: "1.0"
+version: "1.1"
 
 # =============================================================================
 # PERFILES POR STACK TECNOLÓGICO

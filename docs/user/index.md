@@ -1,7 +1,7 @@
 # Documentación Claude Dev Kit
 
 **Última Actualización:** 2026-02-24
-**Versión:** 1.0.0 (v1.1 en desarrollo)
+**Versión:** 1.1.0
 **Estado:** Estable
 
 ---

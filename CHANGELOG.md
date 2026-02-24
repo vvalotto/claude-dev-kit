@@ -7,6 +7,10 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+---
+
+## [1.1.0] - 2026-02-24
+
 ### Agregado
 
 #### Skill `implement-us` — Nuevos archivos de referencia
