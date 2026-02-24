@@ -2,7 +2,6 @@
 
 **Objetivo:** Ejecutar y validar que todos los escenarios BDD (Gherkin) generados en la Fase 1 pasan correctamente.
 
-**Duración estimada:** 15-20 minutos
 
 ---
 

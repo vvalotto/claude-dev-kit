@@ -2,7 +2,6 @@
 
 **Objetivo:** Verificar que el entorno del proyecto tiene todo lo necesario para implementar la Historia de Usuario.
 
-**Duración estimada:** 5-10 minutos
 
 ---
 
