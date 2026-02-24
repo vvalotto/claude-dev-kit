@@ -118,8 +118,21 @@ storage_path: Path
 
 ## Integración con implement-us
 
-El skill `/implement-us` crearía una instancia de `TimeTracker` al inicio y la usaría en cada fase:
+El skill `/implement-us` invoca el sistema de tracking mediante **directivas bash** al inicio y cierre de cada fase. Este es el mecanismo actual desde v1.1:
 
+```bash
+# Al inicio de cada fase
+python .claude/tracking/time_tracker.py start --phase N --us {US_ID}
+
+# Al cerrar cada fase
+python .claude/tracking/time_tracker.py end --phase N --us {US_ID}
+```
+
+Las instrucciones están en secciones `🔴 Acción Requerida` de cada archivo de fase, lo que garantiza que el agente las ejecuta en lugar de interpretarlas como documentación.
+
+> **Nota histórica:** El diseño original contemplaba llamadas directas a la API Python (`tracker.start_phase(N)`, `tracker.end_phase(N)`). Ese enfoque fue reemplazado en v1.1 porque el agente interpretaba esos bloques de código como ejemplos de documentación y no los ejecutaba (OBS-001).
+
+**API Python de referencia (para desarrollo de nuevos skills de tracking):**
 ```python
 # Al inicio
 tracker = TimeTracker(us_id, us_title, us_points, producto)

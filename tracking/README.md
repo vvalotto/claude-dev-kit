@@ -165,9 +165,16 @@ Ver documentación de cada skill para detalles de uso.
 
 ## Integración con /implement-us
 
-El skill `/implement-us` usa este módulo automáticamente para trackear tiempo en cada fase de implementación.
+El skill `/implement-us` invoca este módulo mediante **comandos bash** al inicio y cierre de cada fase:
 
-No requiere intervención manual del usuario (excepto para pausas).
+```bash
+python .claude/tracking/time_tracker.py start --phase N --us {US_ID}
+python .claude/tracking/time_tracker.py end --phase N --us {US_ID}
+```
+
+Estas instrucciones están en secciones `🔴 Acción Requerida` de cada archivo de fase. No requiere intervención manual del usuario (excepto para pausas con `/track-pause`).
+
+> Los ejemplos Python de la API (arriba y abajo) son válidos para developers que extiendan o usen el módulo directamente. El skill los invoca vía CLI para garantizar ejecución (en lugar de ser interpretados como documentación).
 
 ## Ejemplo Avanzado
 

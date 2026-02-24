@@ -1,6 +1,7 @@
 # Skill implement-us - Guía Completa
 
-**Última Actualización:** 2026-02-17
+**Última Actualización:** 2026-02-24
+**Versión:** v1.1
 **Audiencia:** Usuario Final
 **Nivel:** Básico - Intermedio
 
@@ -12,10 +13,13 @@ El skill `implement-us` es el componente principal de Claude Dev Kit. Automatiza
 
 **Características:**
 - ✅ 10 fases guiadas: Desde validación hasta reporte final
-- ✅ Tracking automático de tiempo por fase
+- ✅ Tracking automático de tiempo por fase (directivas bash)
 - ✅ Generación de BDD, tests y documentación
 - ✅ Quality gates automáticos
 - ✅ Personalizable por stack tecnológico
+- ✅ Gates de entrada por fase (verificación de precondiciones)
+- ✅ Checklists de salida verificables antes de avanzar
+- ✅ Protocolo de recuperación ante fallas (límite de intentos autónomos)
 
 ---
 
@@ -35,15 +39,18 @@ El skill `implement-us` es el componente principal de Claude Dev Kit. Automatiza
 
 ### Fase 0: Validación de Contexto
 
-**Propósito:** Verificar prerequisitos antes de comenzar
+**Propósito:** Verificar prerequisitos y establecer el contexto de ejecución
 
 **Validaciones:**
+- ✅ Herramientas requeridas disponibles (pylint, radon, pytest, pytest-bdd) — fail-fast si alguna falta
 - ✅ Archivo US-XXX.md existe
 - ✅ Proyecto Python válido
 - ✅ Git inicializado
-- ✅ Configuración válida
+- ✅ Configuración y perfil activo válidos
 
-**Salida:** Confirmación de que todo está listo
+**Clasificación de HU:** El skill analiza el tipo de historia (nueva funcionalidad, refactorización, bug fix, etc.) y decide automáticamente si aplica BDD. Informa la decisión al usuario con justificación y permite override antes de continuar.
+
+**Output:** `docs/plans/{US_ID}-context.md` — decisiones de ejecución, fases a ejecutar, rutas de artefactos y umbrales de calidad del perfil activo
 
 ---
 
@@ -69,13 +76,15 @@ Feature: Calculadora Simple
 
 **Propósito:** Desglosar US en tareas estimadas
 
-**Output:** `docs/planning/US-001-plan.md`
+**Output:** `docs/plans/{US_ID}-plan.md`
 
 **Contenido:**
 - Desglose de componentes
-- Tareas con estimaciones
+- Tareas con estimaciones de complejidad relativa
 - Orden de implementación
 - Dependencias
+
+**Control de flujo:** Incluye un bloque STOP antes de avanzar a Fase 3 — el plan debe existir en disco y el usuario debe aprobar explícitamente antes de continuar.
 
 ---
 
@@ -86,9 +95,12 @@ Feature: Calculadora Simple
 **Output:** Archivos en `src/`
 
 **Proceso:**
-1. Crear estructura de componentes
-2. Implementar lógica core
-3. Manejar casos edge
+1. Leer `docs/plans/{US_ID}-plan.md` desde disco (gate de entrada)
+2. Verificar que cada tarea cubre al menos un criterio de aceptación de la HU
+3. Crear estructura de componentes
+4. Implementar lógica core
+5. Manejar casos edge
+6. Marcar checkboxes del plan al completar cada tarea
 
 ---
 
@@ -157,13 +169,15 @@ Feature: Calculadora Simple
 
 **Propósito:** Generar resumen de implementación
 
-**Output:** `docs/reports/US-001-report.md`
+**Output:** `docs/reports/{US_ID}-report.md`
 
 **Contenido:**
 - Tiempo total y por fase
-- Métricas de calidad
+- Métricas de calidad (leídas desde `quality/reports/{US_ID}-quality.json`)
 - Archivos creados
 - Resumen de tests
+
+**Control de flujo:** El tracking no se cierra hasta que el reporte exista en disco. Se verifican los insumos al inicio (plan.md y quality.json).
 
 ---
 
@@ -185,14 +199,47 @@ Feature: Calculadora Simple
 
 ---
 
+## Artefactos del Skill
+
+Cada ejecución genera artefactos en rutas canónicas definidas en `skills/implement-us/artifacts.md`:
+
+| Artefacto | Ruta | Generado en |
+|-----------|------|-------------|
+| Contexto de ejecución | `docs/plans/{US_ID}-context.md` | Fase 0 |
+| Escenarios BDD | `docs/bdd/{US_ID}.feature` | Fase 1 |
+| Plan de implementación | `docs/plans/{US_ID}-plan.md` | Fase 2 |
+| Reporte de calidad | `quality/reports/{US_ID}-quality.json` | Fase 7 |
+| Reporte final | `docs/reports/{US_ID}-report.md` | Fase 9 |
+
+Cada fase verifica que los artefactos de las fases anteriores existen en disco antes de comenzar (gate de entrada).
+
+---
+
+## Protocolo de Recuperación ante Fallas
+
+Si una fase falla, el skill sigue este protocolo:
+
+1. Leer el output completo del error — no asumir la causa
+2. Determinar en qué fase está el origen del problema
+3. Aplicar la corrección en la fase correspondiente
+4. Re-ejecutar la fase completa (no solo el paso que falló)
+5. Verificar el checklist de salida antes de avanzar
+6. Si después de 2 intentos la fase sigue fallando — informar al usuario
+
+Cada fase de testing (4, 5, 6, 7) incluye un árbol de decisión específico sobre el origen del fallo.
+
+---
+
 ## Tracking Automático
 
-El skill integra tracking de tiempo automáticamente:
+El skill integra tracking de tiempo automáticamente mediante comandos bash:
 
-- ⏱️ **Auto-start:** Se inicia al comenzar fase
+- ⏱️ **Auto-start:** Directiva bash al comenzar cada fase
 - ⏸️ **Pausas:** Usa `/track-pause` si necesitas parar
 - ▶️ **Resume:** Usa `/track-resume` para continuar
 - 📊 **Reportes:** `/track-status` para ver progreso
+
+El tracking acumula datos empíricos de performance del agente. No se compara con estimaciones humanas.
 
 ---
 

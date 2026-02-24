@@ -1,8 +1,9 @@
 # Plan de Mejoras — Claude Dev Kit v1.1
 
 **Fecha:** 2026-02-23
+**Completado:** 2026-02-24
 **Basado en:** `docs/mejoras/registro de mejoras.md`
-**Estado:** Planificado — pendiente de ejecución
+**Estado:** Completado — 11/11 tickets ejecutados · 4 PRs mergeados (#25–#28)
 
 ---
 
@@ -699,20 +700,22 @@ Todos los archivos de fase (phase-0 a phase-9) y `skill.md`.
 
 ## Estado del Plan
 
-| Ticket | Estado |
-|--------|--------|
-| TICKET-069 | ⬜ Pendiente |
-| TICKET-070 | ⬜ Pendiente |
-| TICKET-071 | ⬜ Pendiente |
-| TICKET-072 | ⬜ Pendiente |
-| TICKET-073 | ⬜ Pendiente |
-| TICKET-074 | ⬜ Pendiente |
-| TICKET-075 | ⬜ Pendiente |
-| TICKET-076 | ⬜ Pendiente |
-| TICKET-077 | ⬜ Pendiente |
-| TICKET-078 | ⬜ Pendiente |
-| TICKET-079 | ⬜ Pendiente |
+| Ticket | Estado | PR |
+|--------|--------|----|
+| TICKET-069 | ✅ Completado | #25 |
+| TICKET-070 | ✅ Completado | #25 |
+| TICKET-071 | ✅ Completado | #26 |
+| TICKET-072 | ✅ Completado | #26 |
+| TICKET-073 | ✅ Completado | #26 |
+| TICKET-074 | ✅ Completado | #27 |
+| TICKET-075 | ✅ Completado | #27 |
+| TICKET-076 | ✅ Completado | #27 |
+| TICKET-077 | ✅ Completado | #27 |
+| TICKET-078 | ✅ Completado | #28 |
+| TICKET-079 | ✅ Completado | #25 |
+
+**Gestión:** GitHub Issues #14–#24 · Milestone "v1.1 — Mejoras implement-us" (11/11 cerrados)
 
 ---
 
-**Próximo paso:** Revisar y aprobar este plan antes de iniciar ejecución.
+**Plan completado.** Ver CHANGELOG.md sección `[Sin publicar]` para el registro formal de cambios.

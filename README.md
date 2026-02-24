@@ -84,16 +84,16 @@ EOF
 
 | Fase | Qué Hace | Output |
 |------|----------|--------|
-| **0. Validación** | Verifica prerequisitos | - |
-| **1. BDD** | Genera escenarios Gherkin | `tests/features/US-001.feature` |
-| **2. Planning** | Crea plan detallado con tareas | `docs/planning/US-001-plan.md` |
-| **3. Implementación** | Genera código base | `src/*.py` |
+| **0. Validación** | Verifica herramientas, clasifica HU, decide BDD | `docs/plans/{US_ID}-context.md` |
+| **1. BDD** | Genera escenarios Gherkin | `docs/bdd/{US_ID}.feature` |
+| **2. Planning** | Crea plan detallado con tareas *(STOP — requiere aprobación)* | `docs/plans/{US_ID}-plan.md` |
+| **3. Implementación** | Genera código guiado por el plan en disco | `src/*.py` |
 | **4. Tests Unitarios** | Crea tests por componente | `tests/test_*.py` |
 | **5. Tests Integración** | Tests end-to-end | `tests/integration/` |
 | **6. Validación BDD** | Ejecuta escenarios | pytest-bdd output |
-| **7. Quality Gates** | Valida métricas | Pylint, coverage, CC |
+| **7. Quality Gates** | Valida métricas | `quality/reports/{US_ID}-quality.json` |
 | **8. Documentación** | Docstrings y comentarios | Código documentado |
-| **9. Reporte Final** | Resumen y métricas | `docs/reports/US-001-report.md` |
+| **9. Reporte Final** | Resumen y métricas *(STOP — reporte debe existir)* | `docs/reports/{US_ID}-report.md` |
 
 **Ver:** [Documentación completa del skill](docs/user/skills/implement-us.md)
 
@@ -196,7 +196,17 @@ Templates parametrizados con variables y snippets:
 
 ## 🗺️ Roadmap
 
-### v1.0.0 ✅ (Completado)
+### v1.1 🔄 (En desarrollo)
+
+- ✅ Skill `implement-us` — mejoras de robustez y reproducibilidad
+  - Fase 0: verificación fail-fast de herramientas + clasificación automática de HU + `context.md`
+  - Gates de entrada y checklists de salida en todas las fases
+  - Tracking reescrito como directivas bash imperativas (todas las fases)
+  - STOP bloqueante en Fase 2 (aprobación de plan) y Fase 9 (reporte en disco)
+  - Protocolo de recuperación ante fallas (skill.md + Fases 4, 5, 6, 7)
+  - Archivos de referencia: `artifacts.md` (rutas canónicas) y `conventions.md` (convención estructural)
+
+### v1.0.0 ✅ (Completado — 2026-02-17)
 
 - ✅ Sistema de instalación multiplataforma (Linux, macOS, Windows)
 - ✅ Skill `implement-us` con 10 fases y 5 perfiles (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python)
@@ -207,7 +217,7 @@ Templates parametrizados con variables y snippets:
 - ✅ Suite de tests del framework (107 tests, 99% cobertura)
 - ✅ GitHub Wiki sincronizada
 
-### Futuro (post v1.0)
+### Futuro (post v1.1)
 
 - Soporte para proyectos TypeScript/Node.js
 - Integración con GitHub Actions para quality gates automáticos

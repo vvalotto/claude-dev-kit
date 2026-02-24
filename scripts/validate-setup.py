@@ -174,7 +174,9 @@ class SetupValidator:
 
         required_files = [
             '.claude/config.json',
-            '.claude/skills/implement-us/SKILL.md',
+            '.claude/skills/implement-us/skill.md',
+            '.claude/skills/implement-us/artifacts.md',
+            '.claude/skills/implement-us/conventions.md',
             '.claude/tracking/time_tracker.py',
             '.claude/tracking/commands.py',
             '.claude/tracking/__init__.py'

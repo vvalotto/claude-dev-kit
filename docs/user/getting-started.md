@@ -1,6 +1,6 @@
 # Guía de Inicio Rápido
 
-**Última Actualización:** 2026-02-17
+**Última Actualización:** 2026-02-24
 **Audiencia:** Usuario Final
 **Nivel:** Básico
 **Tiempo estimado:** 15 minutos
@@ -280,16 +280,16 @@ El skill **implement-us** automatiza todo el ciclo de desarrollo:
 
 | Fase | Qué Hace | Output |
 |------|----------|--------|
-| **0. Validación** | Verifica prerequisitos | - |
-| **1. BDD** | Genera escenarios Gherkin | `tests/features/US-001.feature` |
-| **2. Planning** | Crea plan detallado | `docs/planning/US-001-plan.md` |
-| **3. Implementación** | Genera código base | `src/calculator.py` |
+| **0. Validación** | Verifica herramientas, clasifica HU, decide BDD | `docs/plans/US-001-context.md` |
+| **1. BDD** | Genera escenarios Gherkin | `docs/bdd/US-001.feature` |
+| **2. Planning** | Crea plan detallado *(STOP: requiere aprobación)* | `docs/plans/US-001-plan.md` |
+| **3. Implementación** | Genera código guiado por el plan | `src/calculator.py` |
 | **4. Tests Unitarios** | Crea tests | `tests/test_calculator.py` |
 | **5. Tests Integración** | Tests end-to-end | `tests/integration/` |
 | **6. Validación BDD** | Ejecuta escenarios | Resultado pytest-bdd |
-| **7. Quality Gates** | Pylint, coverage, CC | Métricas de calidad |
+| **7. Quality Gates** | Pylint, coverage, CC | `quality/reports/US-001-quality.json` |
 | **8. Documentación** | Docstrings y comentarios | Código documentado |
-| **9. Reporte Final** | Resumen y métricas | `docs/reports/US-001-report.md` |
+| **9. Reporte Final** | Resumen y métricas *(STOP: reporte debe existir)* | `docs/reports/US-001-report.md` |
 
 > **Importante:** El skill **sugiere código y tests**, pero tú decides si aceptar, modificar o rechazar cada sugerencia.
 
@@ -304,15 +304,19 @@ mi-proyecto/
 ├── src/
 │   └── calculator.py          # ✅ Código implementado
 ├── tests/
-│   ├── features/
-│   │   └── US-001.feature     # ✅ Escenarios BDD
 │   ├── test_calculator.py     # ✅ Tests unitarios
 │   └── integration/           # ✅ Tests de integración
 ├── docs/
-│   ├── planning/
+│   ├── bdd/
+│   │   └── US-001.feature     # ✅ Escenarios BDD
+│   ├── plans/
+│   │   ├── US-001-context.md  # ✅ Contexto de ejecución (Fase 0)
 │   │   └── US-001-plan.md     # ✅ Plan de implementación
 │   └── reports/
 │       └── US-001-report.md   # ✅ Reporte final
+├── quality/
+│   └── reports/
+│       └── US-001-quality.json # ✅ Métricas de calidad
 └── .claude/
     └── tracking/
         └── US-001.json        # ✅ Tracking de tiempo

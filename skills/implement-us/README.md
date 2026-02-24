@@ -15,8 +15,11 @@ El skill `implement-us` guía paso a paso la implementación de una Historia de 
 - ✅ 10 fases de implementación (Fase 0: Validación hasta Fase 9: Reporte Final)
 - ✅ Generación automática de BDD, tests, documentación
 - ✅ Quality gates integrados (Pylint, CC, MI, Coverage)
-- ✅ Time tracking automático
+- ✅ Time tracking automático (directivas bash imperativas)
 - ✅ Sistema de perfiles personalizables
+- ✅ Gates de entrada y checklists de salida por fase
+- ✅ Protocolo de recuperación ante fallas
+- ✅ Rutas canónicas centralizadas en artifacts.md
 
 ---
 
@@ -35,6 +38,8 @@ El skill `implement-us` guía paso a paso la implementación de una Historia de 
 ```
 skills/implement-us/
 ├── skill.md                   # Orquestador principal
+├── artifacts.md               # Mapa centralizado de artefactos y rutas canónicas
+├── conventions.md             # Convención estructural de archivos de fase
 ├── config.json                # Configuración base genérica
 ├── phases/                    # Agentes especializados por fase
 │   ├── phase-0-validation.md
@@ -305,6 +310,7 @@ Todas las variables configurables en los perfiles:
 - ✅ 5 perfiles (pyqt, fastapi, flask-rest, flask-webapp, generic)
 - ✅ 10 phases (phase-0 a phase-9)
 - ✅ 1 orquestador (skill.md)
+- ✅ 2 archivos de referencia (artifacts.md, conventions.md)
 
 ---
 
@@ -318,4 +324,4 @@ Todas las variables configurables en los perfiles:
 
 ---
 
-**Última Actualización:** 2026-02-17 - 5 perfiles completos, 10 fases implementadas, validados en Fase 7
+**Última Actualización:** 2026-02-24 — v1.1: gates/checklists, tracking bash, protocolo de fallas, artifacts.md, conventions.md

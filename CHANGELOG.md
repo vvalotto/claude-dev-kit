@@ -7,6 +7,47 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Agregado
+
+#### Skill `implement-us` — Nuevos archivos de referencia
+- `skills/implement-us/artifacts.md` — Mapa centralizado de artefactos: rutas canónicas, fase generadora y fases consumidoras de cada output del skill
+- `skills/implement-us/conventions.md` — Convención estructural para archivos de fase: secciones imperativas (`🔴 Acción Requerida`), secciones de referencia (`📖 Referencia`), checklists de salida y bloques STOP
+
+### Modificado
+
+#### Skill `implement-us` — Mejoras de robustez y reproducibilidad (v1.1)
+
+**Fase 0 — Validación de Contexto**
+- Verificación fail-fast de herramientas requeridas al inicio: pylint, radon, pytest, pytest-bdd; el proceso se detiene si alguna falta
+- Clasificación automática del tipo de HU (nueva funcionalidad, refactorización, corrección de bug, etc.) con decisión automática sobre si aplica BDD
+- Generación de `docs/plans/{US_ID}-context.md` con decisiones de ejecución, rutas de artefactos y umbrales de calidad del perfil activo
+
+**Tracking — Todas las fases**
+- Instrucciones de tracking (inicio/cierre de fase) reescritas como directivas bash imperativas en secciones `🔴 Acción Requerida`; se eliminaron los bloques de código Python que el agente interpretaba como documentación y no ejecutaba
+- Estimaciones de duración humana (`Duración estimada: X minutos`) removidas de los encabezados de todas las fases (PRIN-001: las estimaciones humanas no producen varianza útil en ejecución por agente)
+
+**Gates de entrada y checklists de salida — Todas las fases**
+- Cada fase incluye ahora un gate de entrada que verifica la existencia de los artefactos requeridos de la fase anterior antes de comenzar
+- Cada fase incluye un checklist de salida con condiciones verificables antes de avanzar a la siguiente fase
+
+**Fase 2 — Plan de Implementación**
+- Bloque STOP bloqueante antes de avanzar a Fase 3: el plan debe existir en disco y el usuario debe dar aprobación explícita
+
+**Fase 3 — Implementación**
+- Gate de entrada que verifica `context.md` y `plan.md` en disco antes de comenzar
+- Instrucción imperativa de lectura del plan desde disco (no reconstruido desde contexto de sesión)
+- Verificación de que cada tarea cubre al menos un criterio de aceptación de la HU
+
+**Fase 9 — Reporte Final**
+- Verificación de insumos al inicio (plan.md y quality.json deben existir en disco)
+- Bloque STOP antes de cerrar tracking: el reporte debe existir en disco antes de finalizar
+
+**Resiliencia — Protocolo de recuperación ante fallas**
+- `skill.md`: sección "Manejo de Fallas" con protocolo general de 6 pasos; límite de 2 intentos autónomos antes de escalar al usuario
+- Fases 4, 5, 6 y 7: protocolos específicos de qué hacer cuando la fase falla, con árbol de decisión del origen del fallo (implementación, escenario, step definition, quality gate específico)
+
+---
+
 ## [1.0.0] - 2026-02-17
 
 ### Agregado

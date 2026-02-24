@@ -1,7 +1,7 @@
 # Documentación Claude Dev Kit
 
-**Última Actualización:** 2026-02-17
-**Versión:** 1.0.0
+**Última Actualización:** 2026-02-24
+**Versión:** 1.0.0 (v1.1 en desarrollo)
 **Estado:** Estable
 
 ---
@@ -236,7 +236,7 @@ Templates parametrizados con variables y snippets:
 
 ### Soporte y Comunidad
 
-- Changelog - Historial de versiones (pendiente)
+- [Changelog](https://github.com/vvalotto/claude-dev-kit/blob/main/CHANGELOG.md) - Historial de versiones
 - Contributing - Guía de contribución (pendiente)
 - [License](https://github.com/vvalotto/claude-dev-kit/blob/main/LICENSE) - Licencia MIT (pendiente)
 
