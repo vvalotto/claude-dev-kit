@@ -5,6 +5,18 @@
 
 ---
 
+## 🔴 Acción Requerida — Verificar precondiciones
+
+Antes de comenzar esta fase, confirmá que existe el archivo de contexto generado en Fase 0:
+
+```bash
+ls docs/plans/{US_ID}-context.md
+```
+
+Si no existe, **no avances** — ejecutá Fase 0 primero.
+
+---
+
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
 Ejecutá antes de cualquier otra acción en esta fase:
@@ -441,17 +453,35 @@ El plan generado debe seguir esta estructura:
 
 ---
 
-## Punto de Aprobación
+## 🔴 Acción Requerida — Verificar existencia del plan
 
-**Usuario revisa y aprueba el plan**
+Antes de presentarlo al usuario, confirmá que el archivo fue generado en disco:
 
-Este es un punto crítico donde el usuario debe validar:
-- La estructura de componentes es correcta
-- Las estimaciones son razonables
-- No falta ningún componente o integración importante
-- El orden de tareas tiene sentido
+```bash
+ls docs/plans/{US_ID}-plan.md
+```
 
-**El plan puede ajustarse en esta fase** antes de comenzar la implementación.
+Si no existe, generalo siguiendo el template de esta fase antes de continuar.
+
+---
+
+## 🚫 STOP — Checkpoint de aprobación
+
+**No avances a Fase 3 hasta que:**
+1. `docs/plans/{US_ID}-plan.md` exista en disco ✅
+2. El usuario haya respondido explícitamente con aprobación del plan
+
+Presentá el plan al usuario y esperá su respuesta antes de continuar. El usuario puede solicitar ajustes — incorporalos y volvé a presentar.
+
+---
+
+## ✅ Checklist de Salida
+
+Antes de avanzar a Fase 3, confirmá que:
+- [ ] `docs/plans/{US_ID}-plan.md` existe en disco: `ls docs/plans/{US_ID}-plan.md`
+- [ ] El plan fue presentado al usuario
+- [ ] El usuario aprobó el plan explícitamente
+- [ ] Tracking de Fase 2 cerrado
 
 ---
 
