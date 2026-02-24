@@ -699,6 +699,27 @@ radon cc src/ --total-average  # CC ≤ 10
 
 ---
 
+## 🚫 Si esta fase falla — Protocolo de recuperación
+
+**Síntoma:** Una o más métricas están por debajo del umbral del perfil activo.
+
+**Protocolo por métrica:**
+
+- **Pylint < umbral** → corregí los issues reportados en el código (Fase 3), re-ejecutá pylint
+- **CC > umbral** → identificá las funciones con CC alta, refactorizá en Fase 3, regresá a Fase 7
+- **MI < umbral** → reducí tamaño de funciones o CC, corregí en Fase 3
+- **Coverage < umbral** → identificá líneas no cubiertas con `pytest --cov-report=term-missing`, agregá tests en Fase 4, regresá a Fase 7
+
+**Si el umbral no se alcanza después de correcciones razonables:**
+- No ignorar silenciosamente
+- Documentar como excepción justificada en el campo `observaciones` del reporte de calidad
+- Informar al usuario antes de continuar
+
+4. Re-ejecutá **todos** los quality gates después de cada corrección
+5. No avances a Fase 8 hasta que el reporte tenga estado `APROBADO` o excepción documentada
+
+---
+
 ## Resumen de la Fase
 
 Al finalizar esta fase:
