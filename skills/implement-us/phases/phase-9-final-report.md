@@ -2,7 +2,6 @@
 
 **Objetivo:** Generar un reporte completo de la implementación con métricas, componentes creados y estado final.
 
-**Duración estimada:** 5-10 minutos
 
 ---
 

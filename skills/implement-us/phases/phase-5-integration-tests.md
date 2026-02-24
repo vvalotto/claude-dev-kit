@@ -2,7 +2,6 @@
 
 **Objetivo:** Validar que múltiples componentes funcionan correctamente juntos, probando flujos end-to-end del sistema.
 
-**Duración estimada:** 20-30 minutos
 
 ---
 

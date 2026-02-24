@@ -2,7 +2,6 @@
 
 **Objetivo:** Analizar la Historia de Usuario y generar escenarios BDD en formato Gherkin.
 
-**Duración estimada:** 15-20 minutos
 
 ---
 

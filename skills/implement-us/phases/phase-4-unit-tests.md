@@ -2,7 +2,6 @@
 
 **Objetivo:** Implementar tests unitarios exhaustivos para cada componente creado, asegurando calidad y cobertura mínima.
 
-**Duración estimada:** 30-45 minutos
 
 ---
 

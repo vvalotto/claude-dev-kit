@@ -2,7 +2,6 @@
 
 **Objetivo:** Actualizar la documentación del proyecto para reflejar los cambios y componentes implementados.
 
-**Duración estimada:** 10-15 minutos
 
 ---
 

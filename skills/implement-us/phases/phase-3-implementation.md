@@ -2,7 +2,6 @@
 
 **Objetivo:** Implementar cada componente del plan de forma incremental, con revisión y aprobación del usuario en cada paso.
 
-**Duración estimada:** Variable según plan (típicamente 45-90 minutos)
 
 ---
 

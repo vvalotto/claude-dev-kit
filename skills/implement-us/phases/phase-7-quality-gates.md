@@ -2,7 +2,6 @@
 
 **Objetivo:** Validar que el código implementado cumple con los estándares de calidad definidos mediante métricas objetivas.
 
-**Duración estimada:** 10-15 minutos
 
 ---
 

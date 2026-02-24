@@ -2,7 +2,6 @@
 
 **Objetivo:** Crear un plan detallado de implementación basado en la arquitectura configurada del proyecto.
 
-**Duración estimada:** 15-20 minutos
 
 ---
 

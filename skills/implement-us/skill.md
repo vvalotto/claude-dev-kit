@@ -95,7 +95,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Validar arquitectura de referencia
 - Verificar estándares de calidad
 
-**Duración:** 5-10 min | **Aprobación:** Automática
+**Aprobación:** Automática
 
 ---
 
@@ -109,7 +109,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Generar escenarios Given-When-Then
 - Crear archivo `.feature`
 
-**Duración:** 15-20 min | **Aprobación:** Requerida (usuario revisa escenarios)
+**Aprobación:** Requerida (usuario revisa escenarios)
 
 ---
 
@@ -124,7 +124,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Estimar tiempos por tarea
 - Generar checklist de implementación
 
-**Duración:** 15-20 min | **Aprobación:** Requerida (usuario revisa plan)
+**Aprobación:** Requerida (usuario revisa plan)
 
 ---
 
@@ -138,7 +138,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Tracking de tiempo por tarea
 - Checkpoints opcionales de aprobación
 
-**Duración:** Variable según US | **Aprobación:** Por tarea (configurable)
+**Aprobación:** Por tarea (configurable)
 
 ---
 
@@ -152,7 +152,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Configurar fixtures y mocks
 - Ejecutar tests y validar cobertura
 
-**Duración:** 20-30 min | **Aprobación:** Automática (tests deben pasar)
+**Aprobación:** Automática (tests deben pasar)
 
 ---
 
@@ -166,7 +166,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Validar interacción entre componentes
 - Ejecutar suite completa
 
-**Duración:** 15-25 min | **Aprobación:** Automática (tests deben pasar)
+**Aprobación:** Automática (tests deben pasar)
 
 ---
 
@@ -180,7 +180,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Ejecutar escenarios BDD
 - Validar que todos los escenarios pasan
 
-**Duración:** 20-30 min | **Aprobación:** Automática (escenarios deben pasar)
+**Aprobación:** Automática (escenarios deben pasar)
 
 ---
 
@@ -195,7 +195,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Verificar cobertura de tests
 - Generar reporte de calidad
 
-**Duración:** 5-10 min | **Aprobación:** Automática (gates deben pasar)
+**Aprobación:** Automática (gates deben pasar)
 
 ---
 
@@ -209,7 +209,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Generar docstrings si faltan
 - Actualizar README o docs del proyecto
 
-**Duración:** 10-15 min | **Aprobación:** Requerida (usuario revisa docs)
+**Aprobación:** Requerida (usuario revisa docs)
 
 ---
 
@@ -224,7 +224,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 - Calcular varianza de estimación vs tiempo real
 - Exportar métricas para análisis histórico
 
-**Duración:** 5-10 min | **Aprobación:** Automática
+**Aprobación:** Automática
 
 ---
 
@@ -254,10 +254,11 @@ Si una fase falla:
 ## Tracking de Tiempo
 
 El skill usa el sistema de tracking integrado (`tracking/time_tracker.py`) para:
-- Registrar tiempo por fase
-- Registrar tiempo por tarea (en Fase 3)
-- Calcular varianza estimado vs real
-- Generar reportes históricos
+- Registrar tiempo real por fase y por tarea (Fase 3)
+- Acumular datos empíricos de performance del agente a lo largo del tiempo
+- Generar reportes históricos comparables entre ejecuciones del agente
+
+> **Nota (PRIN-001):** Las estimaciones de duración definidas en los archivos de fase son referencias de complejidad relativa basadas en esfuerzo humano. No representan tiempos esperados de ejecución del agente. El tracking registra tiempos reales sin comparar contra estimaciones humanas.
 
 **Comandos disponibles:**
 - `/track-pause [razón]` - Pausar tracking
@@ -316,6 +317,13 @@ El componente debe heredar de {BASE_CLASS}
 
 ---
 
-**Versión:** 2.0.0 (Framework-Agnostic - Arquitectura Modular)
-**Última actualización:** 2026-02-10
+## Documentos de Referencia del Skill
+
+- **[`artifacts.md`](./artifacts.md):** Mapa centralizado de rutas y artefactos generados por el skill. Fuente de verdad para todas las rutas de archivos.
+- **[`conventions.md`](./conventions.md):** Convención estructural de los archivos de fase — distingue secciones imperativas (`🔴 Acción Requerida`) de secciones de referencia (`📖 Referencia`).
+
+---
+
+**Versión:** 2.1.0 (Mejoras v1.1 — artifacts, conventions)
+**Última actualización:** 2026-02-24
 **Basado en:** `_work/from-simapp/skills/implement-us.md` (versión PyQt/MVC)
