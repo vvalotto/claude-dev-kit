@@ -2,27 +2,29 @@
 
 **Objetivo:** Verificar que el entorno del proyecto tiene todo lo necesario para implementar la Historia de Usuario, clasificar la HU y generar el archivo de contexto que guiará todas las fases siguientes.
 
+> **📌 Instrucción de ejecución:** Seguir este archivo de arriba a abajo, en el orden en que aparecen los pasos. No saltar ni reordenar.
+
 ---
 
-## 🔴 Acción Requerida — Iniciar tracking
+## Paso 1 🔴 — Iniciar tracking
 
 Ejecutá este comando antes de cualquier otra acción en esta fase:
 
 ```bash
-python .claude/tracking/time_tracker.py start --us {US_ID} --phase 0
+python .claude/tracking/track.py start-phase 0 "Validación de Contexto"
 ```
 
 ---
 
-## 🔴 Acción Requerida — Verificar herramientas requeridas
+## Paso 2 🔴 — Verificar herramientas requeridas
 
-Antes de comenzar la implementación, verificá que las herramientas del skill están disponibles:
+Verificá que las herramientas del skill están disponibles:
 
 ```bash
 python -m pylint --version     # Requerido: Fase 7
 python -m radon --version      # Requerido: Fase 7
 python -m pytest --version     # Requerido: Fases 4, 5, 6, 7
-python -m pytest_bdd --version # Requerido: Fase 6
+python -c "import pytest_bdd; print(pytest_bdd.__version__)" # Requerido: Fase 6
 ```
 
 Si algún comando falla, **no avances**. Informá al usuario:
@@ -40,16 +42,35 @@ Si algún comando falla, **no avances**. Informá al usuario:
 
 ---
 
-## 1. Verificar que existe la historia de usuario
+## Paso 3 🔴 — Establecer fuentes
 
-Buscá el archivo de la HU en la estructura de documentación del proyecto:
+Antes de buscar ningún archivo, preguntá al usuario:
 
-> **📖 Referencia — Rutas comunes según stack:**
+1. **Fuente de la historia de usuario:** ¿Dónde está la HU a implementar?
+   - a) Documento local (indicar ruta o patrón, ej. `docs/user-stories/US-001.md`)
+   - b) GitHub Issue (indicar número, ej. `#42`)
+   - c) Jira (indicar ticket ID, ej. `PROJ-123`)
+   - d) Otro sistema (indicar cómo acceder)
+
+2. **Fuente de arquitectura:** ¿Dónde está la definición de arquitectura del proyecto?
+   - a) Archivo local (indicar ruta, ej. `docs/architecture.md`)
+   - b) Wiki / Confluence / Notion (indicar URL o instrucción de acceso)
+   - c) No está documentada (el agente inferirá del código existente)
+
+Registrá las respuestas en `docs/plans/{US_ID}-context.md` como `fuente_hu` y `fuente_arquitectura`.
+
+---
+
+## Paso 4 — Verificar que existe la historia de usuario
+
+Buscá la HU en la fuente indicada en el Paso 3. Si la fuente es un documento local, buscá según el patrón indicado por el usuario o bien en las ubicaciones comunes:
+
+> **📖 Rutas comunes según stack:**
 > - **PyQt/MVC:** `{PRODUCT}/docs/HISTORIAS-USUARIO-*.md`
 > - **FastAPI:** `docs/user-stories/US-*.md` o `{PRODUCT}/docs/US-*.md`
 > - **Flask/Generic:** `docs/US-*.md` o `requirements/US-*.md`
 
-Extraé de la US:
+Extraé de la HU:
 - Título de la historia
 - Criterios de aceptación
 - Puntos de estimación
@@ -59,27 +80,23 @@ Extraé de la US:
 
 ---
 
-## 2. Validar arquitectura de referencia
+## Paso 5 — Validar arquitectura de referencia
 
-Verificá que existe documentación de la arquitectura del proyecto:
-- `docs/architecture/ADR-*.md`
-- `docs/architecture.md`
-- `ARCHITECTURE.md`
-- `README.md` (sección de arquitectura)
+1. Leé el perfil activo del archivo `.claude/skills/implement-us/config.json`, clave `variables.architecture_pattern`. Registrá el valor en `context.md` como `Patrón activo`.
 
-Leé del archivo de configuración `.claude/skills/implement-us/config.json` los patrones a validar.
+2. Buscá documentación de arquitectura del proyecto en:
+   - `docs/architecture*.md`
+   - `ARCHITECTURE.md`
+   - `README.md` (sección de arquitectura)
+   - La ubicación indicada por el usuario en el Paso 3
 
-> **📖 Referencia — Patrones según perfil:**
-> - **PyQt/MVC:** MVC, Factory, Coordinator
-> - **FastAPI:** Layered Architecture, Dependency Injection, Repository
-> - **Flask REST/Webapp:** Blueprints, Service Layer, Repository
-> - **Generic:** Patrones definidos en config o saltar validación
+3. Si no existe ningún archivo de arquitectura:
 
-Si falta documentación de arquitectura, advertí al usuario pero continuá.
+   > **⚠️ Sin documentación de arquitectura.** El agente inferirá el patrón del código existente. Continuando.
 
 ---
 
-## 3. Verificar estándares de calidad
+## Paso 6 — Verificar estándares de calidad
 
 Verificá que existen:
 
@@ -87,11 +104,16 @@ Verificá que existen:
 2. **Estructura de tests:** directorio `tests/`, `conftest.py` (si usa pytest)
 3. **Herramientas de calidad:** `.pylintrc`, `pytest.ini` o `pyproject.toml`
 
-Si faltan configuraciones, ofrecé crearlas o advertí al usuario antes de continuar.
+Si alguno falta, crealo automáticamente con los defaults del perfil activo y notificá al usuario:
+
+> ✅ Creado `.pylintrc` con score mínimo {pylint_min}
+> ✅ Creado `pytest.ini` con configuración base
+
+Los archivos pueden modificarse manualmente antes de continuar si se requiere personalización.
 
 ---
 
-## 🔴 Acción Requerida — Clasificar tipo de HU
+## Paso 7 🔴 — Clasificar tipo de HU
 
 Analizá la descripción y criterios de aceptación de la HU y determiná su tipo según la siguiente tabla:
 
@@ -103,16 +125,32 @@ Analizá la descripción y criterios de aceptación de la HU y determiná su tip
 | Eliminación de code smells | ❌ No |
 | Corrección de bug | ⚠️ Depende — informar al usuario |
 
-Informá la clasificación al usuario y esperá confirmación antes de continuar. El usuario puede hacer override de la decisión de BDD.
+Presentá la clasificación al usuario con las opciones:
+
+> **Clasificación propuesta:** {tipo de HU}
+> **Decisión BDD:** {Sí / No}
+>
+> Respondé:
+> - **[sí]** para confirmar
+> - **[no-bdd]** para forzar sin BDD
+> - **[otro]** para reclasificar
+>
+> Cualquier otro mensaje se interpreta como confirmación de la propuesta.
 
 ---
 
-## 🔴 Acción Requerida — Generar archivo de contexto
+## Paso 8 🔴 — Generar archivo de contexto
 
-Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (completando todos los campos con los datos reales):
+Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (completando todos los campos con los datos reales).
+
+> **📖 Referencia:** Las rutas de artefactos provienen de `.claude/skills/implement-us/artifacts.md`. Si cambian las convenciones de rutas, ese archivo es la fuente de verdad.
 
 ```markdown
 # Contexto de Ejecución — {US_ID}
+
+## Fuentes
+- **Fuente HU:** {fuente_hu}
+- **Fuente Arquitectura:** {fuente_arquitectura}
 
 ## Historia de Usuario
 - **ID:** {US_ID}
@@ -127,6 +165,7 @@ Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (com
 
 ## Perfil Activo
 - **Perfil:** {PROFILE}
+- **Patrón arquitectónico:** {architecture_pattern}
 - **Umbrales de calidad:**
   - pylint ≥ {pylint_min}
   - CC ≤ {cc_max}
@@ -143,7 +182,9 @@ Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (com
 
 Los umbrales se leen del perfil activo en `.claude/skills/implement-us/config.json`.
 
-## 🔴 Acción Requerida — Verificar existencia del archivo de contexto
+---
+
+## Paso 9 🔴 — Verificar existencia del archivo de contexto
 
 Después de generarlo, confirmá que el archivo existe en disco:
 
@@ -159,17 +200,20 @@ Si no existe, generalo nuevamente antes de avanzar a Fase 1.
 
 Antes de avanzar a Fase 1, confirmá que:
 - [ ] Todas las herramientas requeridas están disponibles (pylint, radon, pytest, pytest-bdd)
+- [ ] Las fuentes de HU y arquitectura fueron consultadas al usuario (Paso 3)
 - [ ] La HU fue encontrada y sus datos extraídos
-- [ ] La arquitectura del proyecto fue validada
+- [ ] El patrón arquitectónico fue leído del config y registrado en context.md
 - [ ] El tipo de HU fue clasificado y confirmado por el usuario
 - [ ] La decisión de BDD fue comunicada al usuario
 - [ ] `docs/plans/{US_ID}-context.md` existe en disco: `ls docs/plans/{US_ID}-context.md`
 - [ ] Los umbrales de calidad provienen del perfil activo (no hardcodeados)
 
-## 🔴 Acción Requerida — Cerrar tracking
+---
+
+## Paso 10 🔴 — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --us {US_ID} --phase 0
+python .claude/tracking/track.py end-phase 0
 ```
 
 ---
