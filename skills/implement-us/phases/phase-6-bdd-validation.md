@@ -7,10 +7,10 @@
 
 ## 🔴 Acción Requerida — Verificar precondiciones
 
-Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fase 1:
+Antes de comenzar esta fase, confirmá que existe el feature file generado en Fase 1:
 
 ```bash
-ls docs/bdd/{US_ID}.feature
+ls tests/features/{US_ID}-*.feature
 ```
 
 Si no existe, **no avances** — completá la fase correspondiente primero.
@@ -19,10 +19,10 @@ Si no existe, **no avances** — completá la fase correspondiente primero.
 
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
-Ejecutá antes de cualquier otra acción en esta fase:
+Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/time_tracker.py start --phase 6 --us {US_ID}
+python .claude/tracking/track.py start-phase 6 "Validación BDD"
 ```
 
 ---
@@ -214,89 +214,6 @@ def valida_email(context, email):
 
 ---
 
-**Django - Steps con Django Client:**
-```python
-# tests/step_defs/test_user_views_steps.py
-import pytest
-from pytest_bdd import scenarios, given, when, then, parsers
-from django.contrib.auth import get_user_model
-from django.urls import reverse
-from app.models import UserProfile
-
-User = get_user_model()
-
-scenarios('../features/{US_ID}-user-views.feature')
-
-@pytest.fixture
-def context():
-    """Contexto compartido."""
-    return {'response': None, 'user': None}
-
-@pytest.mark.django_db
-@given("el usuario está autenticado")
-def usuario_autenticado(client, context):
-    """Usuario autenticado."""
-    user = User.objects.create_user(
-        username="testuser",
-        email="test@example.com",
-        password="testpass123"
-    )
-    client.force_login(user)
-    context['user'] = user
-
-@pytest.mark.django_db
-@given(parsers.parse('existe un perfil con nombre "{nombre}"'))
-def perfil_existente(context, nombre):
-    """Crear perfil en DB."""
-    profile = UserProfile.objects.create(
-        user=context['user'],
-        nombre=nombre,
-        edad=25
-    )
-    context['profile'] = profile
-
-@pytest.mark.django_db
-@when(parsers.parse('el usuario accede a la URL "{url_name}"'))
-def acceder_url(client, context, url_name):
-    """GET a una URL por nombre."""
-    url = reverse(url_name)
-    response = client.get(url)
-    context['response'] = response
-
-@pytest.mark.django_db
-@when(parsers.parse('el usuario envía el formulario con nombre "{nombre}"'))
-def enviar_formulario(client, context, nombre):
-    """POST de formulario."""
-    url = reverse('user_profile_create')
-    response = client.post(url, {
-        'nombre': nombre,
-        'edad': 30,
-        'biografia': 'Bio de prueba'
-    })
-    context['response'] = response
-
-@pytest.mark.django_db
-@then(parsers.parse("el sistema responde con código {status_code:d}"))
-def valida_status_code(context, status_code):
-    """Validar código HTTP."""
-    assert context['response'].status_code == status_code
-
-@pytest.mark.django_db
-@then(parsers.parse('la página muestra el texto "{texto}"'))
-def valida_texto_pagina(context, texto):
-    """Validar contenido de página."""
-    content = context['response'].content.decode('utf-8')
-    assert texto in content
-
-@pytest.mark.django_db
-@then(parsers.parse('existe un perfil en la base de datos con nombre "{nombre}"'))
-def valida_perfil_db(nombre):
-    """Validar que perfil existe en DB."""
-    assert UserProfile.objects.filter(nombre=nombre).exists()
-```
-
----
-
 **Generic Python - Steps para lógica de negocio:**
 ```python
 # tests/step_defs/test_calculator_steps.py
@@ -355,24 +272,26 @@ def valida_error(context, mensaje):
 **Comandos de ejecución:**
 
 ```bash
-# Ejecutar todos los escenarios de la US
-pytest tests/features/{US_ID}-*.feature -v
+# Ejecutar todos los escenarios de la US (via step_defs que cargan los features)
+pytest tests/step_defs/ -v
 
 # Ejecutar con output detallado
-pytest tests/features/{US_ID}-*.feature -v -s
+pytest tests/step_defs/ -v -s
 
 # Ejecutar escenario específico por nombre
-pytest tests/features/{US_ID}-*.feature -k "nombre del escenario" -v
+pytest tests/step_defs/ -k "nombre del escenario" -v
 
 # Generar reporte JUnit (para CI/CD)
-pytest tests/features/{US_ID}-*.feature -v --junit-xml=reports/bdd-results.xml
+pytest tests/step_defs/ -v --junit-xml=reports/bdd-results.xml
 ```
+
+> pytest-bdd descubre los escenarios a través de los archivos de step_defs que importan `scenarios(...)`. Los features residen en `tests/features/` y los steps en `tests/step_defs/`.
 
 **Ejemplo de output exitoso:**
 ```
-tests/features/US-042-user-profile.feature::Usuario puede ver su perfil PASSED
-tests/features/US-042-user-profile.feature::Usuario puede editar su nombre PASSED
-tests/features/US-042-user-profile.feature::Sistema valida edad mínima PASSED
+tests/step_defs/test_user_profile_steps.py::Usuario puede ver su perfil PASSED
+tests/step_defs/test_user_profile_steps.py::Usuario puede editar su nombre PASSED
+tests/step_defs/test_user_profile_steps.py::Sistema valida edad mínima PASSED
 
 3 scenarios passed, 0 failed, 0 skipped
 ```
@@ -510,14 +429,14 @@ pytest tests/features/ --json-report --json-report-file=reports/bdd-report.json
 ## ✅ Checklist de Salida
 
 Antes de avanzar a Fase 7, confirmá que:
-- [ ] Todos los escenarios BDD pasan: `pytest tests/bdd/ -v`
+- [ ] Todos los escenarios BDD pasan: `pytest tests/step_defs/ -v`
 - [ ] Ningún escenario en estado SKIP o FAILED
 - [ ] Tracking de Fase 6 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --phase 6 --us {US_ID}
+python .claude/tracking/track.py end-phase 6
 ```
 
 ---
@@ -530,9 +449,9 @@ python .claude/tracking/time_tracker.py end --phase 6 --us {US_ID}
 1. Leé el output completo del error del escenario fallido
 2. Identificá el origen del fallo:
    - **La implementación no cumple el escenario** → volvé a Fase 3 a corregir el código
-   - **El escenario está mal redactado o es ambiguo** → volvé a Fase 1 a revisar y ajustar el escenario con el usuario
+   - **El escenario está mal redactado o es ambiguo** → editá `tests/features/{US_ID}-*.feature` directamente, mostrá el cambio al usuario para aprobación y re-ejecutá. Si el cambio implica revisar la lógica de la HU, volvé a Fase 1.
    - **El step definition está mal implementado** → corregí el step en esta fase
-3. Re-ejecutá todos los escenarios: `pytest tests/bdd/ -v`
+3. Re-ejecutá todos los escenarios: `pytest tests/step_defs/ -v`
 4. No avances a Fase 7 hasta que **todos** los escenarios estén en verde
 5. Si después de 2 intentos la fase sigue fallando, informá al usuario
 
