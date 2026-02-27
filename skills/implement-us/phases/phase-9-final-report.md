@@ -28,6 +28,27 @@ python .claude/tracking/track.py start-phase 9 "Reporte Final"
 
 ---
 
+## 🔴 Acción Requerida — Leer umbrales antes de completar el template
+
+Antes de generar el reporte, leé los umbrales reales desde el reporte de quality gates:
+
+```bash
+cat quality/reports/{US_ID}-quality.json | jq '.umbrales'
+```
+
+Mapeá los valores obtenidos a los placeholders del template:
+
+| Campo en `quality.json → umbrales` | Placeholder en el template |
+|------------------------------------|---------------------------|
+| `pylint_min` | `{PYLINT_MIN}` |
+| `cc_max` | `{CC_MAX}` |
+| `mi_min` | `{MI_MIN}` |
+| `coverage_min` | `{COVERAGE_MIN}` |
+
+No uses valores hardcodeados ni los reconstruyas de memoria. El `quality.json` es la fuente de verdad.
+
+---
+
 ## Acción
 
 Generar un reporte estructurado que documente todo el proceso de implementación, desde los escenarios BDD hasta las métricas de calidad final.
