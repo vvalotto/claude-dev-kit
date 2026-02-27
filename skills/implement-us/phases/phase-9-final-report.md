@@ -482,9 +482,15 @@ Antes de cerrar el tracking, confirmá que:
 # Cerrar fase 9
 python .claude/tracking/track.py end-phase 9
 
-# Cerrar tracking completo de la US (guarda histórico y genera reporte de tiempo)
+# Cerrar tracking completo de la US
 python .claude/tracking/track.py end-tracking
 ```
+
+> **¿Qué hace `end-tracking`?** Es el único punto del skill donde se invoca este subcomando.
+> A diferencia de `end-phase` (que cierra solo la fase actual), `end-tracking` cierra el
+> tracking completo de la US: calcula el tiempo total real acumulado en todas las fases,
+> guarda el histórico en `.claude/tracking/` y genera el reporte de tiempo final.
+> Debe ejecutarse **después** de `end-phase 9`, no en lugar de él.
 
 ---
 
