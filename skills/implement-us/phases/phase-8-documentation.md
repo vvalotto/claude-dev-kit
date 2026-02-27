@@ -345,7 +345,7 @@ panel.show()
 
 **Para proyectos con documentación extensa:**
 
-#### API Documentation (FastAPI, Django REST)
+#### API Documentation (FastAPI, Flask REST)
 ```markdown
 ## API Endpoints - {COMPONENT_NAME}
 
@@ -409,12 +409,12 @@ git-chglog -o CHANGELOG.md
 ### Auto-generar documentación de API
 ```bash
 # FastAPI: OpenAPI generado automáticamente
-# Accesible en /docs
+# Accesible en /docs (Swagger UI) y /redoc
 
-# Django REST Framework
-python manage.py generate_swagger
+# Flask REST: Usar flask-openapi3 o flasgger si están instalados
+# Si no hay generación automática, documentar manualmente los endpoints
 
-# Sphinx para código Python
+# Sphinx para código Python (todos los stacks)
 sphinx-apidoc -o docs/api/ app/
 ```
 

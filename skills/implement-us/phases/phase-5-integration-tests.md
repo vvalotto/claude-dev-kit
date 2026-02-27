@@ -7,13 +7,17 @@
 
 ## 🔴 Acción Requerida — Verificar precondiciones
 
-Antes de comenzar esta fase, confirmá que los tests unitarios de Fase 4 existen y pasan:
+Antes de comenzar esta fase, confirmá que los tests unitarios de Fase 4 pasan:
 
 ```bash
 pytest tests/unit/ -v --tb=short
 ```
 
-Si el directorio no existe o algún test falla, **no avances** — completá Fase 4 primero.
+> La precondición es que **los tests pasan**, no solo que el directorio existe.
+> Si `tests/unit/` no tiene tests aún, significa que Fase 4 no se completó — completala primero.
+> Si algún test falla, resolvé los fallos en Fase 4 antes de continuar.
+
+Si algún test falla, **no avances** — completá Fase 4 primero.
 
 ---
 
