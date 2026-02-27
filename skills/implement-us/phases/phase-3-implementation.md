@@ -5,9 +5,19 @@
 
 ---
 
+## 🔴 Acción Requerida — Iniciar tracking de fase
+
+Ejecutá como primera acción, antes de cualquier otra:
+
+```bash
+python .claude/tracking/track.py start-phase 3 "Implementación Guiada por Tareas"
+```
+
+---
+
 ## 🔴 Acción Requerida — Verificar precondiciones
 
-Antes de comenzar la implementación, confirmá que existen los artefactos de fases anteriores:
+Confirmá que existen los artefactos de fases anteriores:
 
 ```bash
 ls docs/plans/{US_ID}-context.md   # Generado en Fase 0
@@ -23,16 +33,6 @@ Si alguno no existe, **no avances** — completá la fase correspondiente primer
 1. **Leé el plan completo** desde `docs/plans/{US_ID}-plan.md` para identificar la próxima tarea pendiente. No inferir el estado del plan desde el contexto de la conversación.
 
 2. **Leé los criterios de aceptación** de la HU. Antes de implementar cada tarea, verificá que contribuye a al menos un criterio. Si encontrás criterios sin cobertura en el plan, informá al usuario antes de continuar.
-
----
-
-## 🔴 Acción Requerida — Iniciar tracking de fase
-
-Ejecutá antes de cualquier otra acción en esta fase:
-
-```bash
-python .claude/tracking/time_tracker.py start --phase 3 --us {US_ID}
-```
 
 ---
 
@@ -59,15 +59,8 @@ Identificar la primera tarea no completada del plan generado en Fase 2.
 Ejecutá antes de comenzar la implementación de cada tarea:
 
 ```bash
-python .claude/tracking/time_tracker.py start-task --us {US_ID} --task-id task_{TASK_NUMBER:03d} --task-name "{TASK_NAME}"
+python .claude/tracking/track.py start-task "{TASK_NAME}"
 ```
-
-**Tipos de tarea según arquitectura:**
-
-- **MVC (PyQt, Desktop):** `modelo`, `vista`, `controlador`, `factory`, `coordinator`
-- **Layered - FastAPI (async):** `model`, `schema`, `service`, `repository`, `endpoint`
-- **Layered - Flask (sync):** `api`, `domain`, `repository`, `mapper`, `error_handler`
-- **Generic:** `class`, `function`, `module`, `config`
 
 ---
 
@@ -643,69 +636,50 @@ class {COMPONENT_NAME}:
 Mostrar el código completo generado y esperar respuesta del usuario:
 - **yes**: Proceder a escribir el archivo
 - **no**: Cancelar y pasar a siguiente tarea
-- **edit**: Permitir al usuario modificar el código antes de escribir
+- **edit**: Solicitar cambios al usuario respondiendo: *"¿Qué cambios querés hacer? Podés describir las modificaciones o pegar el código corregido directamente."*
+  - Si el usuario describe cambios verbalmente → aplicar las modificaciones y volver a presentar el código para aprobación
+  - Si el usuario pega código → usarlo tal cual y volver a presentar para confirmación final
+  - Repetir el ciclo hasta obtener `yes` o `no`
 
 ---
 
 ### 6. Escribir archivo si usuario aprueba
 
-Usar el tool `Write` para crear el archivo en la ubicación especificada.
+Usá el tool `Write` para crear el archivo en `{COMPONENT_PATH}/{filename}.{ext}` con el código generado y confirmá al usuario:
 
-```python
-# Pseudocódigo
-if user_approves:
-    write_file(path="{COMPONENT_PATH}/{filename}.{ext}", content=generated_code)
-    print(f"✅ Archivo creado: {COMPONENT_PATH}/{filename}.{ext}")
+```
+✅ Archivo creado: {COMPONENT_PATH}/{filename}.{ext}
 ```
 
 ---
 
-### 7. Ejecutar tests básicos (si aplica)
+### 7. Verificar sintaxis e imports
 
-Después de crear el archivo, ejecutar validaciones rápidas:
+Después de crear el archivo, verificá que el código es sintácticamente válido e importable:
 
 **PyQt/MVC:**
 ```bash
-# Verificar imports
 python -c "from {COMPONENT_PATH}.modelo import {COMPONENT_NAME}Modelo"
-
-# Ejecutar tests si existen
-pytest tests/test_{component}_modelo.py -v --tb=short
 ```
 
 **FastAPI:**
 ```bash
-# Verificar schemas
 python -c "from {COMPONENT_PATH}.schemas import {COMPONENT_NAME}Create"
-
-# Validar con mypy
-mypy {COMPONENT_PATH}/schemas.py
 ```
 
 **Flask:**
 ```bash
-# Verificar imports (API layer)
 python -c "from app.servicios.{feature}.api import bp"
-
-# Verificar domain model
 python -c "from app.general.{feature} import {COMPONENT_NAME}"
-
-# Verificar repository
 python -c "from app.datos.{feature}.repositorio import {COMPONENT_NAME}Repository"
-
-# Ejecutar tests si existen
-pytest tests/unit/test_{component}.py -v --tb=short
-pytest tests/integration/test_{feature}_api.py -v --tb=short
 ```
 
 **Generic Python:**
 ```bash
-# Verificar sintaxis
 python -m py_compile {COMPONENT_PATH}/{filename}.py
-
-# Ejecutar tests si existen
-pytest tests/test_{filename}.py -v --tb=short
 ```
+
+> Los tests corresponden a Fase 4 (unitarios) y Fase 5 (integración). No ejecutar tests en esta fase.
 
 ---
 
@@ -714,7 +688,7 @@ pytest tests/test_{filename}.py -v --tb=short
 Ejecutá inmediatamente después de completar la tarea:
 
 ```bash
-python .claude/tracking/time_tracker.py end-task --us {US_ID} --task-id task_{TASK_NUMBER:03d}
+python .claude/tracking/track.py end-task "{TASK_NAME}"
 ```
 
 ---
@@ -748,6 +722,28 @@ Tareas completadas: 3/12 (25%)
 ### 10. Continuar con siguiente tarea
 
 Repetir los pasos 1-9 para la siguiente tarea no completada hasta finalizar todas las tareas del plan.
+
+---
+
+### 11. 🔴 Acción Requerida — Revisión de código obsoleto
+
+Una vez implementadas **todas** las tareas del plan, revisá si la nueva implementación dejó código obsoleto:
+
+1. **Buscá** clases, funciones o módulos que hayan sido reemplazados o que ya no se referencien desde ningún archivo del proyecto.
+2. **Listá** los archivos o bloques candidatos a eliminación con su razón.
+3. **Presentá** la lista al usuario antes de eliminar:
+
+```
+🗑️ Código posiblemente obsoleto detectado:
+- {archivo/función 1}: [razón]
+- {archivo/función 2}: [razón]
+
+¿Eliminar? (yes/no por cada ítem)
+```
+
+4. **Solo eliminá** lo que el usuario confirme explícitamente.
+
+> Si no encontrás código obsoleto: *"No se detectó código obsoleto tras la implementación."*
 
 ---
 
@@ -833,28 +829,6 @@ Esto permite:
 
 ---
 
-### Django/MVT
-
-**Referencia para Models:**
-> "Revisar modelos en `app/models/*.py`:
-> - Usar validators de Django
-> - Definir `Meta` con verbose_name y ordering
-> - Implementar `__str__` descriptivo"
-
-**Referencia para Views:**
-> "Revisar vistas en `app/views/*.py`:
-> - Usar Class-Based Views cuando sea apropiado
-> - Generic views para CRUD estándar
-> - Decoradores para permisos (@login_required)"
-
-**Referencia para Templates:**
-> "Revisar templates en `templates/app/*.html`:
-> - Extender de `base.html`
-> - Usar template tags y filters
-> - Estructurar con bloques reutilizables"
-
----
-
 ### Generic Python
 
 **Referencia para Classes:**
@@ -884,7 +858,7 @@ Antes de avanzar a Fase 4, confirmá que:
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --phase 3 --us {US_ID}
+python .claude/tracking/track.py end-phase 3
 ```
 
 ---
