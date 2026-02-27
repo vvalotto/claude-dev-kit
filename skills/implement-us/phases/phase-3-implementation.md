@@ -34,6 +34,19 @@ Si alguno no existe, **no avances** — completá la fase correspondiente primer
 
 2. **Leé los criterios de aceptación** de la HU. Antes de implementar cada tarea, verificá que contribuye a al menos un criterio. Si encontrás criterios sin cobertura en el plan, informá al usuario antes de continuar.
 
+3. **Verificá el flag `--skip-bdd`** leyendo el campo `skip_bdd` de `docs/plans/{US_ID}-context.md`.
+   - Si `skip_bdd: true` → confirmá que Fase 1 y Fase 6 están marcadas como omitidas en el plan. Si el agente intentara leer un feature file en Fase 6 cuando `skip_bdd: true`, fallaría: este es el punto para anticiparlo.
+
+4. **Leé las rutas exactas de componentes** desde `customizations/{perfil}.json → component_structure` antes de iniciar el ciclo de tareas. No inferir rutas por defecto del contexto de la conversación — usá las rutas del perfil activo.
+
+```bash
+# Identificar el perfil activo
+cat .claude/skills/implement-us/config.json | jq '.variables.architecture_pattern'
+
+# Leer component_structure del perfil activo
+cat .claude/skills/implement-us/customizations/{perfil}.json | jq '.component_structure'
+```
+
 ---
 
 ## Acción
