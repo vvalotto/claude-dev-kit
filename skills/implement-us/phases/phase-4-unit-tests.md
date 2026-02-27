@@ -855,45 +855,51 @@ class TestCalculator:
 
 ### 4. Ejecutar tests
 
+> **Antes de ejecutar:** Leé la ruta de tests unitarios desde el config del perfil activo:
+> ```bash
+> cat .claude/skills/implement-us/config.json | jq '.test_framework_config.unit_test_path'
+> ```
+> Usá ese valor en lugar de `tests/` en los comandos siguientes. Por defecto: `tests/unit/`.
+
 Según el stack, ejecutar tests con comandos apropiados:
 
 **PyQt/MVC:**
 ```bash
-# Ejecutar todos los tests
-pytest tests/ -v
+# Ejecutar todos los tests unitarios
+pytest {UNIT_TEST_PATH} -v
 
 # Ejecutar tests de un componente específico
-pytest tests/test_user_profile_modelo.py -v
+pytest {UNIT_TEST_PATH}/test_user_profile_modelo.py -v
 
 # Con coverage
-pytest tests/ -v --cov={COMPONENT_PATH} --cov-report=term --cov-report=html
+pytest {UNIT_TEST_PATH} -v --cov={COMPONENT_PATH} --cov-report=term --cov-report=html
 
 # Solo tests que fallen
-pytest tests/ -v --lf
+pytest {UNIT_TEST_PATH} -v --lf
 ```
 
 **FastAPI:**
 ```bash
 # Ejecutar tests (incluye async)
-pytest tests/ -v
+pytest {UNIT_TEST_PATH} -v
 
 # Con coverage
-pytest tests/ -v --cov=app --cov-report=term --cov-report=html
+pytest {UNIT_TEST_PATH} -v --cov=app --cov-report=term --cov-report=html
 
 # Solo tests async
-pytest tests/ -v -k async
+pytest {UNIT_TEST_PATH} -v -k async
 ```
 
 **Generic Python:**
 ```bash
 # Ejecutar tests
-pytest tests/ -v
+pytest {UNIT_TEST_PATH} -v
 
 # Con coverage detallado
-pytest tests/ -v --cov={MODULE_NAME} --cov-report=term-missing
+pytest {UNIT_TEST_PATH} -v --cov={MODULE_NAME} --cov-report=term-missing
 
 # Mostrar print statements
-pytest tests/ -v -s
+pytest {UNIT_TEST_PATH} -v -s
 ```
 
 ---
