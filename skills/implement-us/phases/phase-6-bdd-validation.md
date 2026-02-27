@@ -56,7 +56,24 @@ tests/
 
 ---
 
-### 2. Implementar steps de los escenarios
+### 2. Consultar template de steps del perfil activo
+
+Antes de implementar los steps, verificá si el perfil activo define un template de referencia:
+
+```bash
+cat .claude/skills/implement-us/customizations/{perfil}.json | jq '.bdd_config.steps_template'
+```
+
+Si existe un `steps_template` (ej. `templates/bdd/pyqt-steps.py` para PyQt), leelo como referencia estructural para:
+- Patrón de imports (`from pytest_bdd import given, when, then`)
+- Decoradores de steps (`@given`, `@when`, `@then`)
+- Fixtures utilizados en ese stack
+
+Si el perfil no define `steps_template`, usá el patrón estándar de pytest-bdd.
+
+---
+
+### 3. Implementar steps de los escenarios
 
 Los escenarios BDD se componen de tres tipos de steps:
 
