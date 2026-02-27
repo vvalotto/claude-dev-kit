@@ -32,7 +32,12 @@ python .claude/tracking/track.py start-phase 1 "Generación de Escenarios BDD"
 
 Leé los criterios de aceptación directamente del archivo de la HU. La fuente está en el campo `fuente_hu` de `docs/plans/{US_ID}-context.md`.
 
-> **📖 Referencia estructural:** Consultá `.claude/templates/bdd-scenario.feature` para entender el formato esperado antes de generar los escenarios.
+> **📖 Template de referencia:** Leé el template específico del perfil activo antes de generar los escenarios:
+> - PyQt: `.claude/templates/bdd/pyqt-scenario.feature`
+> - FastAPI: `.claude/templates/bdd/api-scenario.feature`
+> - Flask REST / Flask Webapp / Generic: `.claude/templates/bdd/scenario.feature`
+>
+> Usá el template como **referencia estructural** — respetá el formato de cabecera (Feature, tags, idioma), pero completá el contenido con los escenarios específicos de la HU. No copies el template literal; adaptalo.
 
 ---
 
@@ -68,6 +73,10 @@ Guardá los escenarios en la ruta canónica definida en `artifacts.md`:
 ```
 tests/features/{US_ID}-{nombre}.feature
 ```
+
+> **Convención de `{nombre}`:** slug del título de la HU en minúsculas con guiones y sin caracteres especiales.
+> Ejemplo: título "Alta de producto" → `{nombre}` = `alta-de-producto`
+> Archivo resultante: `US-001-alta-de-producto.feature`
 
 Verificá que existe:
 
