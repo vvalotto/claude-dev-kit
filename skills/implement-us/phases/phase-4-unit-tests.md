@@ -19,10 +19,10 @@ Si no existe, **no avances** — completá la fase correspondiente primero.
 
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
-Ejecutá antes de cualquier otra acción en esta fase:
+Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/time_tracker.py start --phase 4 --us {US_ID}
+python .claude/tracking/track.py start-phase 4 "Tests Unitarios"
 ```
 
 ---
@@ -40,55 +40,39 @@ Por cada componente implementado en la Fase 3, crear tests unitarios que validen
 Antes de escribir tests, verificar la configuración del framework de testing según el perfil:
 
 ### PyQt/MVC
-```bash
-# Dependencias necesarias
-pytest>=7.0.0
-pytest-qt>=4.2.0
-pytest-cov>=4.0.0
 
-# Fixtures disponibles
-- qapp: Aplicación Qt (automático con pytest-qt)
-- qtbot: Herramientas de testing de Qt (interacción con widgets)
-```
+**Dependencias necesarias:** `pytest`, `pytest-qt`, `pytest-cov`
+
+**Fixtures disponibles:**
+- `qapp`: Aplicación Qt (provisto automáticamente por pytest-qt)
+- `qtbot`: Herramientas de testing de Qt (interacción con widgets)
 
 ### FastAPI/Layered
-```bash
-# Dependencias necesarias
-pytest>=7.0.0
-pytest-asyncio>=0.21.0
-httpx>=0.24.0
-pytest-cov>=4.0.0
 
-# Fixtures disponibles
-- client: Cliente HTTP de testing
-- test_db: Base de datos de prueba (si usa DB)
-- async_client: Cliente asíncrono
-```
+**Dependencias necesarias:** `pytest`, `pytest-asyncio`, `httpx`, `pytest-cov`
+
+**Fixtures disponibles:**
+- `client`: Cliente HTTP de testing
+- `test_db`: Base de datos de prueba (si usa DB)
+- `async_client`: Cliente asíncrono
 
 ### Flask/Layered
-```bash
-# Dependencias necesarias
-pytest>=7.0.0
-pytest-flask>=1.2.0
-pytest-cov>=4.0.0
 
-# Fixtures disponibles
-- app: Flask app instance (scope='module')
-- client: Flask test client para requests HTTP
-- context: Test request context para acceder request/session
-```
+**Dependencias necesarias:** `pytest`, `pytest-flask`, `pytest-cov`
+
+**Fixtures disponibles:**
+- `app`: Flask app instance (scope='module')
+- `client`: Flask test client para requests HTTP
+- `context`: Test request context para acceder request/session
 
 ### Generic Python
-```bash
-# Dependencias necesarias
-pytest>=7.0.0
-pytest-cov>=4.0.0
 
-# Fixtures disponibles
-- tmp_path: Directorio temporal para tests
-- monkeypatch: Monkey patching de objetos
-- capsys: Captura de stdout/stderr
-```
+**Dependencias necesarias:** `pytest`, `pytest-cov`
+
+**Fixtures disponibles:**
+- `tmp_path`: Directorio temporal para tests
+- `monkeypatch`: Monkey patching de objetos
+- `capsys`: Captura de stdout/stderr
 
 ---
 
@@ -900,21 +884,6 @@ pytest tests/ -v --cov=app --cov-report=term --cov-report=html
 pytest tests/ -v -k async
 ```
 
-**Django:**
-```bash
-# Ejecutar tests
-pytest tests/ -v
-
-# Con configuración de DB
-pytest tests/ -v --ds=config.settings.test
-
-# Reusar DB para velocidad
-pytest tests/ -v --reuse-db
-
-# Coverage
-pytest tests/ -v --cov=app --cov-report=term
-```
-
 **Generic Python:**
 ```bash
 # Ejecutar tests
@@ -931,7 +900,7 @@ pytest tests/ -v -s
 
 ### 5. Validar coverage
 
-**Objetivo mínimo:** Coverage > 95% del código nuevo
+**Objetivo mínimo:** El umbral de coverage está definido en el perfil activo — leé el campo `quality_gates.coverage_threshold` en `.claude/skills/implement-us/config.json` antes de evaluar.
 
 ```bash
 # Generar reporte de coverage
@@ -1015,35 +984,11 @@ def client(test_db):
     return TestClient(app)
 ```
 
-**Django:**
-```python
-# tests/conftest.py
-import pytest
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-@pytest.fixture
-def test_user(db):
-    """Usuario de prueba."""
-    return User.objects.create_user(
-        username="testuser",
-        email="test@example.com",
-        password="testpass123"
-    )
-
-@pytest.fixture
-def authenticated_client(client, test_user):
-    """Cliente autenticado."""
-    client.force_login(test_user)
-    return client
-```
-
 ---
 
 ## Objetivo de Coverage
 
-**Target:** > 95% de cobertura del código nuevo
+**Target:** El umbral mínimo se lee del perfil activo (`quality_gates.coverage_threshold` en `.claude/skills/implement-us/config.json`)
 
 **Qué debe estar cubierto:**
 - ✅ Todos los métodos públicos
@@ -1064,14 +1009,14 @@ def authenticated_client(client, test_user):
 ## ✅ Checklist de Salida
 
 Antes de avanzar a Fase 5, confirmá que:
-- [ ] Todos los tests unitarios pasan: `pytest tests/ -v`
+- [ ] Todos los tests unitarios pasan: `pytest tests/unit/ -v`
 - [ ] Cobertura verificada
 - [ ] Tracking de Fase 4 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --phase 4 --us {US_ID}
+python .claude/tracking/track.py end-phase 4
 ```
 
 ---
@@ -1085,8 +1030,8 @@ python .claude/tracking/time_tracker.py end --phase 4 --us {US_ID}
 2. Identificá si el problema está en el test o en la implementación:
    - **Error en implementación** → volvé a Fase 3, corregí el código, regresá a Fase 4
    - **Error en el test** (mal escrito, fixture incorrecto) → corregí el test en esta fase
-3. Re-ejecutá la suite completa: `pytest tests/ -v`
-4. No avances a Fase 5 hasta que **todos** los tests pasen
+3. Re-ejecutá los tests unitarios: `pytest tests/unit/ -v`
+4. No avances a Fase 5 hasta que **todos** los tests unitarios pasen
 5. Si después de 2 intentos de corrección los tests siguen fallando, informá al usuario antes de continuar
 
 ---
@@ -1096,7 +1041,7 @@ python .claude/tracking/time_tracker.py end --phase 4 --us {US_ID}
 Al finalizar esta fase:
 
 ✅ Tests unitarios completos para todos los componentes
-✅ Coverage > 95% del código nuevo
+✅ Coverage ≥ umbral del perfil activo
 ✅ Tests ejecutándose correctamente (todos pasan)
 ✅ Fixtures reutilizables en conftest.py (si aplica)
 ✅ Validación de comportamiento y casos edge
