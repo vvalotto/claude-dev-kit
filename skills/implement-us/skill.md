@@ -269,13 +269,16 @@ El skill usa el sistema de tracking integrado (`.claude/tracking/track.py`) para
 > **Nota (PRIN-001):** Las estimaciones de duración definidas en los archivos de fase son referencias de complejidad relativa basadas en esfuerzo humano. No representan tiempos esperados de ejecución del agente. El tracking registra tiempos reales sin comparar contra estimaciones humanas.
 
 **Comandos CLI:**
-```bash
-python .claude/tracking/track.py start-phase N "Nombre de Fase"
-python .claude/tracking/track.py end-phase N
-python .claude/tracking/track.py start-task "nombre de tarea"
-python .claude/tracking/track.py end-task "nombre de tarea"
-python .claude/tracking/track.py end-tracking
-```
+
+| Comando | Cuándo usarlo |
+|---------|--------------|
+| `python .claude/tracking/track.py start-phase N "Nombre"` | Al inicio de cada fase (N = 0..9) |
+| `python .claude/tracking/track.py end-phase N` | Al cerrar cada fase |
+| `python .claude/tracking/track.py start-task "nombre"` | Al iniciar cada tarea dentro de Fase 3 |
+| `python .claude/tracking/track.py end-task "nombre"` | Al completar cada tarea dentro de Fase 3 |
+| `python .claude/tracking/track.py end-tracking` | **Solo en Fase 9**, al finalizar la US completa |
+
+> **`end-tracking` vs `end-phase`:** `end-phase` cierra únicamente la fase actual. `end-tracking` cierra el tracking completo de la US: calcula el tiempo total real acumulado, guarda el histórico en disco y genera el reporte de tiempo final. Solo debe invocarse una vez, al final de Fase 9, después de `end-phase 9`.
 
 ---
 

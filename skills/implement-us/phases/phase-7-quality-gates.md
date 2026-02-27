@@ -44,7 +44,7 @@ Ejecutar herramientas de análisis estático y validar que todas las métricas d
 pylint {COMPONENT_PATH}/ --output-format=json
 ```
 
-**Target:** ≥ 8.0/10
+**Target:** ≥ valor de `quality_gates.pylint.min_score` del perfil activo
 
 **Qué valida:**
 - Convenciones de naming (PEP 8)
@@ -63,7 +63,7 @@ user_profile/modelo.py:1:0: C0114: Missing module docstring (missing-module-docs
 Your code has been rated at 9.2/10
 ```
 
-**Si no pasa (< 8.0):**
+**Si no pasa (no alcanza el umbral del perfil activo):**
 - Revisar warnings/errors reportados
 - Corregir issues identificados
 - Re-ejecutar hasta superar umbral
@@ -107,7 +107,7 @@ user_profile/modelo.py
 Average complexity: A (2.5)
 ```
 
-**Si no pasa (> 10):**
+**Si no pasa (supera el umbral `max_per_function` del perfil activo):**
 - Identificar funciones/métodos con CC alta
 - Extraer lógica a funciones auxiliares
 - Simplificar condicionales anidados
@@ -126,7 +126,7 @@ Average complexity: A (2.5)
 radon mi {COMPONENT_PATH}/ -s
 ```
 
-**Target:** MI promedio > 20
+**Target:** MI promedio > valor de `quality_gates.maintainability_index.min_score` del perfil activo
 
 **Interpretación:**
 - **0-10:** Muy difícil de mantener
@@ -147,7 +147,7 @@ user_profile/vista.py - B (65.2)
 Average MI: A (71.85)
 ```
 
-**Si no pasa (< 20):**
+**Si no pasa (no alcanza el umbral del perfil activo):**
 - Reducir tamaño de funciones (max 20-30 líneas)
 - Reducir complejidad ciclomática
 - Mejorar documentación
@@ -165,7 +165,7 @@ Average MI: A (71.85)
 pytest tests/ --cov={COMPONENT_PATH} --cov-report=term --cov-report=json
 ```
 
-**Target:** ≥ 95%
+**Target:** ≥ valor de `quality_gates.coverage.min_percent` del perfil activo
 
 **Ejemplo de output:**
 ```
@@ -186,7 +186,7 @@ TOTAL                             85      4    95%
 - ❌ Código boilerplate (imports, constantes)
 - ❌ Métodos abstractos no implementados
 
-**Si no pasa (< 95%):**
+**Si no pasa (no alcanza el umbral del perfil activo):**
 - Revisar líneas no cubiertas en reporte
 - Agregar tests para casos faltantes
 - Priorizar código crítico de negocio
@@ -203,7 +203,7 @@ pylint {COMPONENT_PATH}/ --output-format=json > quality/reports/{US_ID}-pylint.j
 pylint {COMPONENT_PATH}/ --output-format=text
 ```
 
-**Validar:** Score ≥ 8.0
+**Validar:** Score ≥ umbral `pylint.min_score` del perfil activo
 
 ---
 
@@ -262,22 +262,27 @@ Crear archivo JSON con todas las métricas:
 **Ubicación:** `{PROJECT_PATH}/quality/reports/{US_ID}-quality.json`
 
 **Formato:**
+
+> Antes de generar el archivo, leé los umbrales del perfil activo:
+> `cat .claude/skills/implement-us/config.json | jq '.quality_gates'`
+> Reemplazá `{PYLINT_MIN}`, `{CC_MAX}`, `{MI_MIN}`, `{COVERAGE_MIN}` con los valores obtenidos.
+
 ```json
 {
   "us_id": "{US_ID}",
-  "fecha": "2026-02-11T15:30:00Z",
+  "fecha": "{FECHA_ISO}",
   "componente": "{COMPONENT_PATH}",
   "metricas": {
-    "pylint": 9.2,
-    "cc_promedio": 2.1,
-    "mi_promedio": 78.5,
-    "coverage": 97.3
+    "pylint": 0.0,
+    "cc_promedio": 0.0,
+    "mi_promedio": 0.0,
+    "coverage": 0.0
   },
   "umbrales": {
-    "pylint_min": 8.0,
-    "cc_max": 10.0,
-    "mi_min": 20.0,
-    "coverage_min": 95.0
+    "pylint_min": "{PYLINT_MIN}",
+    "cc_max": "{CC_MAX}",
+    "mi_min": "{MI_MIN}",
+    "coverage_min": "{COVERAGE_MIN}"
   },
   "estado": "APROBADO",
   "observaciones": []
@@ -285,43 +290,56 @@ Crear archivo JSON con todas las métricas:
 ```
 
 **Script de generación (opcional):**
+
+> Los umbrales se leen desde el config del perfil activo — no están hardcodeados.
+
 ```python
 import json
 from datetime import datetime
+from pathlib import Path
+
+def leer_umbrales_perfil(config_path=".claude/skills/implement-us/config.json"):
+    """Leer umbrales de quality gates desde el perfil activo."""
+    with open(config_path) as f:
+        config = json.load(f)
+    qg = config["quality_gates"]
+    return {
+        "pylint_min": qg["pylint"]["min_score"],
+        "cc_max": qg["cyclomatic_complexity"]["max_per_function"],
+        "mi_min": qg["maintainability_index"]["min_score"],
+        "coverage_min": qg["coverage"]["min_percent"]
+    }
+
+def todas_metricas_pasan(metricas, umbrales):
+    """Validar que todas las métricas superan los umbrales del perfil activo."""
+    return (
+        metricas['pylint'] >= umbrales['pylint_min'] and
+        metricas['cc_promedio'] <= umbrales['cc_max'] and
+        metricas['mi_promedio'] > umbrales['mi_min'] and
+        metricas['coverage'] >= umbrales['coverage_min']
+    )
 
 def generar_reporte_quality(us_id, component_path, metricas):
-    """Generar reporte JSON de quality gates."""
-    estado = "APROBADO" if todas_metricas_pasan(metricas) else "RECHAZADO"
+    """Generar reporte JSON de quality gates con umbrales del perfil activo."""
+    umbrales = leer_umbrales_perfil()
+    estado = "APROBADO" if todas_metricas_pasan(metricas, umbrales) else "RECHAZADO"
 
     reporte = {
         "us_id": us_id,
         "fecha": datetime.now().isoformat(),
         "componente": component_path,
         "metricas": metricas,
-        "umbrales": {
-            "pylint_min": 8.0,
-            "cc_max": 10.0,
-            "mi_min": 20.0,
-            "coverage_min": 95.0
-        },
+        "umbrales": umbrales,
         "estado": estado,
-        "observaciones": calcular_observaciones(metricas)
+        "observaciones": calcular_observaciones(metricas, umbrales)
     }
 
     output_path = f"quality/reports/{us_id}-quality.json"
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, 'w') as f:
         json.dump(reporte, f, indent=2)
 
     return reporte
-
-def todas_metricas_pasan(metricas):
-    """Validar que todas las métricas superan umbrales."""
-    return (
-        metricas['pylint'] >= 8.0 and
-        metricas['cc_promedio'] <= 10.0 and
-        metricas['mi_promedio'] > 20.0 and
-        metricas['coverage'] >= 95.0
-    )
 ```
 
 ---
@@ -332,10 +350,10 @@ def todas_metricas_pasan(metricas):
 
 | Métrica | Umbral | Descripción |
 |---------|--------|-------------|
-| Pylint | ≥ 8.0 | Calidad de código y estilo |
-| CC promedio | ≤ 10 | Complejidad por función |
-| MI promedio | > 20 | Mantenibilidad |
-| Coverage | ≥ 95% | Cobertura de tests |
+| Pylint | ≥ `pylint.min_score` del perfil activo | Calidad de código y estilo |
+| CC máx/función | ≤ `cyclomatic_complexity.max_per_function` del perfil activo | Complejidad por función |
+| MI promedio | > `maintainability_index.min_score` del perfil activo | Mantenibilidad |
+| Coverage | ≥ `coverage.min_percent` del perfil activo | Cobertura de tests |
 
 **Estado:** `APROBADO` si todas pasan, `RECHAZADO` si alguna falla
 
@@ -343,7 +361,7 @@ def todas_metricas_pasan(metricas):
 
 ## Manejo de Métricas que No Pasan
 
-### Si Pylint < 8.0
+### Si Pylint no alcanza el umbral del perfil activo
 
 1. **Revisar output detallado:**
    ```bash
