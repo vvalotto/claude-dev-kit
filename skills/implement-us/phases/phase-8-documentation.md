@@ -19,10 +19,10 @@ Si no existe, **no avances** — completá la fase correspondiente primero.
 
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
-Ejecutá antes de cualquier otra acción en esta fase:
+Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/time_tracker.py start --phase 8 --us {US_ID}
+python .claude/tracking/track.py start-phase 8 "Actualización de Documentación"
 ```
 
 ---
@@ -55,6 +55,7 @@ Actualizar documentos relevantes del proyecto para mantener la documentación si
    - **Tiempo real:** 2h 45min
    - **Varianza:** -15 min (-8%)
    ```
+   > Si el CLI de tracking no está disponible, usá el tiempo real observado en la sesión o dejá la sección con los estimados del plan y una nota: *"Tracking no disponible — tiempos estimados."*
 
 3. **Agregar lecciones aprendidas (opcional pero recomendado):**
    ```markdown
@@ -97,7 +98,23 @@ Actualizar documentos relevantes del proyecto para mantener la documentación si
 
 ---
 
-### 2. Actualizar Arquitectura (si aplica)
+### 2. 🔴 Acción Requerida — Discovery de documentación de arquitectura
+
+Buscá activamente los archivos de arquitectura del proyecto antes de decidir si actualizar:
+
+```bash
+# Buscar archivos con diagramas
+grep -rl "mermaid\|plantuml\|graph LR\|graph TD\|C4Context" docs/ 2>/dev/null
+
+# Buscar archivos de arquitectura por nombre
+find . -iname "ARCHITECTURE*" -o -iname "architecture*" -o -name "*.puml" 2>/dev/null
+```
+
+Leé cada archivo encontrado y evaluá si refleja los cambios realizados en esta US. Si un diagrama o descripción quedó desactualizado, actualizá ese archivo aunque el criterio de abajo no lo indique explícitamente.
+
+---
+
+### 3. Actualizar Arquitectura (si aplica)
 
 **Cuándo actualizar:**
 - Se agregó un componente nuevo significativo
@@ -163,29 +180,6 @@ Cliente → Endpoint → Service → Repository → Database
 ```
 ```
 
-#### Django/MVT
-```markdown
-## Arquitectura - {COMPONENT_NAME}
-
-### Estructura MVT
-
-```
-app/
-├── models/{component}.py      # Modelo Django ORM
-├── views/{component}.py       # Views (lógica)
-├── templates/{component}/     # Templates HTML
-├── forms/{component}.py       # Forms
-└── urls.py                    # URL routing
-```
-
-### URLs
-
-- `/{component}/` - Lista
-- `/{component}/<pk>/` - Detalle
-- `/{component}/create/` - Crear
-- `/{component}/<pk>/edit/` - Editar
-```
-
 #### Generic Python
 ```markdown
 ## Módulo {COMPONENT_NAME}
@@ -240,7 +234,7 @@ graph LR
 
 ---
 
-### 3. Actualizar CHANGELOG.md
+### 4. Actualizar CHANGELOG.md
 
 **Archivo:** `{PROJECT_PATH}/CHANGELOG.md`
 
@@ -286,7 +280,7 @@ graph LR
 
 ---
 
-### 4. Actualizar README (si aplica)
+### 5. Actualizar README (si aplica)
 
 **Cuándo actualizar README:**
 - ✅ Se agregó funcionalidad visible al usuario
@@ -347,7 +341,7 @@ panel.show()
 
 ---
 
-### 5. Actualizar Documentación Técnica (opcional)
+### 6. Actualizar Documentación Técnica (opcional)
 
 **Para proyectos con documentación extensa:**
 
@@ -396,19 +390,6 @@ panel.show()
 
 ---
 
-## Checklist de Documentación
-
-Antes de finalizar la fase, verificar:
-
-- [ ] Plan de implementación actualizado con estado "Completado"
-- [ ] Tiempo real vs estimado documentado
-- [ ] Arquitectura actualizada (si aplica)
-- [ ] CHANGELOG.md tiene entrada nueva
-- [ ] README actualizado (si aplica)
-- [ ] Screenshots agregados (si aplica)
-- [ ] Documentación técnica actualizada
-- [ ] Diagramas actualizados (si cambió arquitectura)
-- [ ] No hay referencias a código obsoleto en docs
 
 ---
 
@@ -445,14 +426,18 @@ sphinx-apidoc -o docs/api/ app/
 ## ✅ Checklist de Salida
 
 Antes de avanzar a Fase 9, confirmá que:
-- [ ] Documentación generada y presentada al usuario
-- [ ] El usuario aprobó la documentación
+- [ ] Plan de implementación actualizado con estado "Completado" y tiempo real
+- [ ] Discovery de arquitectura ejecutado — archivos desactualizados corregidos
+- [ ] CHANGELOG.md tiene entrada nueva para esta US
+- [ ] README actualizado (si se agregó funcionalidad visible o cambió estructura)
+- [ ] No hay referencias a código obsoleto en la documentación
+- [ ] El usuario revisó y aprobó la documentación generada
 - [ ] Tracking de Fase 8 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --phase 8 --us {US_ID}
+python .claude/tracking/track.py end-phase 8
 ```
 
 ---
