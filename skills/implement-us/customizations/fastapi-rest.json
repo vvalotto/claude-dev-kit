@@ -280,7 +280,6 @@
     "feature_template": "templates/bdd/api-scenario.feature",
     "steps_template": "templates/bdd/api-steps.py",
     "tag_prefix": "@US-",
-    "language": "es",
     "step_patterns": {
       "given_api": "Dado que la API está disponible",
       "when_request": "Cuando se envía una petición {method} a {endpoint}",

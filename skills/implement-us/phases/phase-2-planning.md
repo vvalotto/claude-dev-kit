@@ -121,6 +121,11 @@ python .claude/tracking/track.py end-phase 2
 
 ## 📖 Template de Output
 
+**Archivo de salida:** `docs/plans/{US_ID}-plan.md`
+
+> **Prioridad de templates:** Si existe `.claude/templates/planning/implementation-plan.md`, usalo
+> como base estructural. Si no existe, usá el template embebido a continuación.
+
 El plan generado debe seguir esta estructura:
 
 ```markdown
@@ -175,11 +180,10 @@ El plan generado debe seguir esta estructura:
   - Suscripción a actualizaciones de datos
   - Callback para actualizar modelo
 
-### 3. Factory y Coordinator
-- [ ] Registrar en Factory
-  - Agregar EstadoControlador a factory_paneles.py
-- [ ] Integrar con Coordinator
-  - Agregar panel a main_coordinator.py
+### 3. Integración con mecanismo de composición
+- [ ] Registrar en el mecanismo de composición del perfil activo
+  - Para PyQt/MVC: agregar controlador a Factory y Coordinator
+  - Para otros patrones: registrar en el mecanismo correspondiente (DI container, app factory, etc.)
 
 **Estado:** 0/5 tareas completadas
 ```

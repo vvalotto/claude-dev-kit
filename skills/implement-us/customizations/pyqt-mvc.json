@@ -247,7 +247,6 @@
     "feature_template": "templates/bdd/pyqt-scenario.feature",
     "steps_template": "templates/bdd/pyqt-steps.py",
     "tag_prefix": "@US-",
-    "language": "es",
     "step_patterns": {
       "given_ui": "Dado que la aplicación PyQt está iniciada",
       "when_click": "Cuando el usuario hace click en {widget}",

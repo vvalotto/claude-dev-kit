@@ -104,10 +104,33 @@ Verificá que existen:
 2. **Estructura de tests:** directorio `tests/`, `conftest.py` (si usa pytest)
 3. **Herramientas de calidad:** `.pylintrc`, `pytest.ini` o `pyproject.toml`
 
-Si alguno falta, crealo automáticamente con los defaults del perfil activo y notificá al usuario:
+Si alguno falta, crealo automáticamente con los defaults del perfil activo y notificá al usuario.
+
+**Contenido mínimo de `.pylintrc`** (leé `quality_gates.pylint.min_score` del perfil activo):
+
+```ini
+[MASTER]
+fail-under={pylint_min}
+
+[FORMAT]
+max-line-length=120
+
+[MESSAGES CONTROL]
+disable=C0114,C0115,C0116
+```
+
+**Contenido mínimo de `pytest.ini`** (leé `test_framework_config.unit_test_path` e `integration_test_path` del perfil activo):
+
+```ini
+[pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+```
 
 > ✅ Creado `.pylintrc` con score mínimo {pylint_min}
-> ✅ Creado `pytest.ini` con configuración base
+> ✅ Creado `pytest.ini` con testpaths = tests
 
 Los archivos pueden modificarse manualmente antes de continuar si se requiere personalización.
 
@@ -161,6 +184,7 @@ Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (com
 
 ## Decisiones de Ejecución
 - **BDD:** {Sí / No — justificación}
+- **skip_bdd:** {true / false}
 - **Fases a ejecutar:** 0, [1 si BDD], 2, 3, 4, 5, [6 si BDD], 7, 8, 9
 
 ## Perfil Activo
