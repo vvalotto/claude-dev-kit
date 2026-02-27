@@ -14,13 +14,13 @@ Este skill utiliza las siguientes variables definidas en `config.json` y persona
 
 | Variable | Descripción | Valor Default | Ejemplos por Perfil |
 |----------|-------------|---------------|---------------------|
-| `{ARCHITECTURE_PATTERN}` | Patrón arquitectónico del proyecto | `generic` | **PyQt:** `mvc`<br>**FastAPI:** `layered`<br>**Django:** `mvt`<br>**Generic:** `generic` |
-| `{COMPONENT_TYPE}` | Tipo de componente a implementar | `Component` | **PyQt:** `Panel`, `Dialog`<br>**FastAPI:** `Endpoint`, `Service`<br>**Django:** `View`, `Model`<br>**Generic:** `Module` |
-| `{COMPONENT_PATH}` | Ruta base para componentes | `src/{name}/` | **PyQt:** `app/presentacion/{name}/`<br>**FastAPI:** `app/{layer}/{name}/`<br>**Django:** `{app}/{name}/`<br>**Generic:** `src/{name}/` |
-| `{TEST_FRAMEWORK}` | Framework de testing | `pytest` | **PyQt:** `pytest + pytest-qt`<br>**FastAPI:** `pytest + httpx`<br>**Django:** `pytest-django`<br>**Generic:** `pytest` |
-| `{BASE_CLASS}` | Clase base para componentes | `object` | **PyQt:** `QWidget`, `ModeloBase`<br>**FastAPI:** `BaseModel`, `BaseService`<br>**Django:** `Model`, `View`<br>**Generic:** `object` |
-| `{DOMAIN_CONTEXT}` | Contexto de dominio del proyecto | `application` | **PyQt:** `presentacion`, `dominio`<br>**FastAPI:** `api`, `domain`<br>**Django:** `apps`, `models`<br>**Generic:** `domain` |
-| `{PROJECT_ROOT}` | Raíz del proyecto | `.` | **PyQt:** `app/`<br>**FastAPI:** `src/`<br>**Django:** `project/`<br>**Generic:** `.` |
+| `{ARCHITECTURE_PATTERN}` | Patrón arquitectónico del proyecto | `generic` | **PyQt:** `mvc`<br>**FastAPI:** `layered`<br>**Generic:** `generic` |
+| `{COMPONENT_TYPE}` | Tipo de componente a implementar | `Component` | **PyQt:** `Panel`, `Dialog`<br>**FastAPI:** `Endpoint`, `Service`<br>**Generic:** `Module` |
+| `{COMPONENT_PATH}` | Ruta base para componentes | `src/{name}/` | **PyQt:** `app/presentacion/{name}/`<br>**FastAPI:** `app/{layer}/{name}/`<br>**Generic:** `src/{name}/` |
+| `{TEST_FRAMEWORK}` | Framework de testing | `pytest` | **PyQt:** `pytest + pytest-qt`<br>**FastAPI:** `pytest + httpx`<br>**Generic:** `pytest` |
+| `{BASE_CLASS}` | Clase base para componentes | `object` | **PyQt:** `QWidget`, `ModeloBase`<br>**FastAPI:** `BaseModel`, `BaseService`<br>**Generic:** `object` |
+| `{DOMAIN_CONTEXT}` | Contexto de dominio del proyecto | `application` | **PyQt:** `presentacion`, `dominio`<br>**FastAPI:** `api`, `domain`<br>**Generic:** `domain` |
+| `{PROJECT_ROOT}` | Raíz del proyecto | `.` | **PyQt:** `app/`<br>**FastAPI:** `src/`<br>**Generic:** `.` |
 | `{PRODUCT}` | Nombre del producto/módulo | `main` | Cualquier nombre de producto/módulo |
 
 ### Cómo se Resuelven las Variables
@@ -61,7 +61,7 @@ Este skill guía paso a paso la implementación de una Historia de Usuario (US) 
 El skill es **framework-agnostic** y se adapta automáticamente según el perfil instalado:
 - **PyQt/MVC:** Implementación de componentes UI con arquitectura MVC
 - **FastAPI:** Implementación de endpoints REST con arquitectura en capas
-- **Django:** Implementación MVT siguiendo convenciones Django
+- **Flask REST / Flask Webapp:** Implementación de APIs y webapps con Flask
 - **Generic Python:** Implementación de módulos Python genéricos
 
 ---
@@ -261,18 +261,21 @@ Si una fase falla, seguí este protocolo en orden:
 
 ## Tracking de Tiempo
 
-El skill usa el sistema de tracking integrado (`tracking/time_tracker.py`) para:
+El skill usa el sistema de tracking integrado (`.claude/tracking/track.py`) para:
 - Registrar tiempo real por fase y por tarea (Fase 3)
 - Acumular datos empíricos de performance del agente a lo largo del tiempo
 - Generar reportes históricos comparables entre ejecuciones del agente
 
 > **Nota (PRIN-001):** Las estimaciones de duración definidas en los archivos de fase son referencias de complejidad relativa basadas en esfuerzo humano. No representan tiempos esperados de ejecución del agente. El tracking registra tiempos reales sin comparar contra estimaciones humanas.
 
-**Comandos disponibles:**
-- `/track-pause [razón]` - Pausar tracking
-- `/track-resume` - Reanudar tracking
-- `/track-status` - Ver estado actual
-- `/track-report [us_id]` - Generar reporte de US
+**Comandos CLI:**
+```bash
+python .claude/tracking/track.py start-phase N "Nombre de Fase"
+python .claude/tracking/track.py end-phase N
+python .claude/tracking/track.py start-task "nombre de tarea"
+python .claude/tracking/track.py end-task "nombre de tarea"
+python .claude/tracking/track.py end-tracking
+```
 
 ---
 
@@ -317,7 +320,6 @@ Ver phases/phase-3-implementation.md para instrucciones detalladas
 # Estructura según {ARCHITECTURE_PATTERN}:
 
 **MVC:** {COMPONENT_PATH}/modelo.py, vista.py, controlador.py
-**MVT:** {COMPONENT_PATH}/models.py, views.py, templates/
 **Layered:** {COMPONENT_PATH}/schemas.py, service.py, router.py
 
 El componente debe heredar de {BASE_CLASS}

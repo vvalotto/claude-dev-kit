@@ -66,13 +66,13 @@ Por cada criterio de aceptación:
 Guardá los escenarios en la ruta canónica definida en `artifacts.md`:
 
 ```
-docs/bdd/{US_ID}.feature
+tests/features/{US_ID}-{nombre}.feature
 ```
 
 Verificá que existe:
 
 ```bash
-ls docs/bdd/{US_ID}.feature
+ls tests/features/{US_ID}-*.feature
 ```
 
 ---
@@ -81,7 +81,7 @@ ls docs/bdd/{US_ID}.feature
 
 Presentá los escenarios generados al usuario y esperá respuesta explícita:
 
-> Los escenarios BDD han sido generados en `docs/bdd/{US_ID}.feature`.
+> Los escenarios BDD han sido generados en `tests/features/{US_ID}-{nombre}.feature`.
 > Revisalos y respondé:
 > - **[aprobado]** para avanzar a Fase 2
 > - **[revisar]** para ajustar escenarios
@@ -137,7 +137,7 @@ Feature: Procesamiento de datos de entrada (US-004)
 ## ✅ Checklist de Salida
 
 Antes de avanzar a Fase 2, confirmá que:
-- [ ] `docs/bdd/{US_ID}.feature` existe en disco: `ls docs/bdd/{US_ID}.feature`
+- [ ] `tests/features/{US_ID}-*.feature` existe en disco: `ls tests/features/{US_ID}-*.feature`
 - [ ] Los escenarios fueron presentados al usuario
 - [ ] El usuario respondió **[aprobado]**
 - [ ] Tracking de Fase 1 cerrado

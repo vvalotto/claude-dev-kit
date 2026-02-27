@@ -215,6 +215,45 @@ Documento acumulativo de ajustes y ambigüedades detectados durante el análisis
 
 ---
 
+## skill.md
+
+### Ajustes
+
+| ID | Descripción | Severidad | OBS relacionada |
+|----|-------------|-----------|-----------------|
+| SK-A1 | OBS-5 Django presente: la tabla "Variables Disponibles" incluye Django en todos los rows — `{ARCHITECTURE_PATTERN}` (Django: mvt), `{COMPONENT_TYPE}` (Django: View, Model), `{COMPONENT_PATH}` (Django: {app}/{name}/), `{TEST_FRAMEWORK}` (Django: pytest-django), `{BASE_CLASS}` (Django: Model, View), `{DOMAIN_CONTEXT}` (Django: apps, models), `{PROJECT_ROOT}` (Django: project/). | Media | OBS-5 |
+| SK-A2 | OBS-5 Django presente: sección "Propósito" lista "**Django:** Implementación MVT siguiendo convenciones Django" como perfil soportado. | Media | OBS-5 |
+| SK-A3 | CLI de tracking desactualizado: sección "Tracking de Tiempo" referencia `tracking/time_tracker.py` en lugar de `track.py`. Además los comandos listados usan formato slash (`/track-pause`, `/track-resume`, `/track-status`, `/track-report`) que no corresponden al CLI normalizado en las fases (`track.py start-phase`, `end-phase`, etc.). | Media | OBS-3 |
+| SK-A4 | OBS-5 Django/MVT presente: sección "Ejemplo de Validación de Concepto" muestra `**MVT:** {COMPONENT_PATH}/models.py, views.py, templates/` en el bloque "DESPUÉS (Modular - Framework Agnostic)". | Baja | OBS-5 |
+
+---
+
+## artifacts.md
+
+### Ajustes
+
+| ID | Descripción | Severidad | OBS relacionada |
+|----|-------------|-----------|-----------------|
+| ART-A1 | Ruta del Feature BDD inconsistente con correcciones v1.2: la estructura de directorios, la tabla de artefactos, la descripción y los comandos de verificación usan `docs/bdd/{US_ID}.feature`. Las fases corregidas establecen `tests/features/{US_ID}-*.feature` como ruta canónica. Como `artifacts.md` es la "fuente de verdad" para rutas, esta inconsistencia puede revertir las correcciones ya aplicadas si las fases consultan este archivo en lugar de asumir la ruta correcta. | Alta | Nueva |
+
+---
+
+## conventions.md
+
+### Ajustes
+
+| ID | Descripción | Severidad | OBS relacionada |
+|----|-------------|-----------|-----------------|
+| CON-A1 | CLI de tracking desactualizado en los ejemplos: aparece en dos lugares con la interfaz antigua — (1) sección "Ejemplo correcto" de sección imperativa: `python .claude/tracking/time_tracker.py start --phase 7 --us {US_ID}`; (2) sección "Antes/Después": misma línea repetida. La interfaz normalizada en las fases es `python .claude/tracking/track.py start-phase 7 "Quality Gates"` (sin parámetro `--us`). Un agente que use conventions.md como referencia aprendería la interfaz incorrecta. | Media | OBS-3 |
+
+---
+
+## README.md
+
+Sin hallazgos — el README.md fue actualizado correctamente en v1.1. No contiene referencias a Django, usa las 5 columnas de perfiles reales (PyQt, FastAPI, Flask REST, Flask Webapp, Generic Python) y no expone comandos de tracking desactualizados.
+
+---
+
 ## Resumen Global de Hallazgos
 
 ### Por OBS referenciada
@@ -223,15 +262,15 @@ Documento acumulativo de ajustes y ambigüedades detectados durante el análisis
 |-----|----------------------------------|------------------------|
 | OBS-1 | Pendiente | F8-A2 |
 | OBS-2 | Pendiente | F3-A2 |
-| OBS-3 | Pendiente | F0-A3, F3-A4, F8-A3, F9-A3 |
+| OBS-3 | Pendiente | F0-A3, F3-A4, F8-A3, F9-A3, SK-A3, CON-A1 |
 | OBS-4 | Marcada como corregida (incorrectamente) | F2-A2, F2-AMB1 |
-| OBS-5 | Pendiente | F1-A1, F2-A1, F3-A1, F4-A1, F5-A1, F6-A1, F8-A1, F9-A1 |
+| OBS-5 | Pendiente | F1-A1, F2-A1, F3-A1, F4-A1, F5-A1, F6-A1, F8-A1, F9-A1, SK-A1, SK-A2, SK-A4 |
 | OBS-6 | Pendiente | F0-A1 |
 
 ### Hallazgos nuevos (no referenciados en mejoras-agentes-kit.md)
 
-| Hallazgo | Fase | Severidad |
-|----------|------|-----------|
+| Hallazgo | Descripción | Severidad |
+|----------|-------------|-----------|
 | F0-A2 | Comando pytest-bdd incorrecto | Media |
 | F0-A4 | Rutas hardcodeadas en context.md | Baja |
 | F1-A2 | Inconsistencia ruta feature file | Alta |
@@ -247,16 +286,17 @@ Documento acumulativo de ajustes y ambigüedades detectados durante el análisis
 | F7-A2 | Secciones de lenguajes no Python | Baja |
 | F7-A3, F9-A2 | Umbrales hardcodeados vs perfil | Media |
 | F8-A3, F9-A3 | CLI end-tracking sin definición | Media |
+| ART-A1 | Feature BDD path incorrecto en artifacts.md (fuente de verdad) | Alta |
 
 ### Hallazgos por severidad
 
 | Severidad | Cantidad |
 |-----------|---------|
-| Alta | 12 |
-| Media | 20 |
-| Baja | 10 |
-| **Total** | **42** |
+| Alta | 13 |
+| Media | 24 |
+| Baja | 11 |
+| **Total** | **48** |
 
 ---
 
-*Última actualización: 2026-02-26 — Fases 0-9 analizadas. Pendiente: skill.md, artifacts.md, conventions.md.*
+*Última actualización: 2026-02-27 — Análisis completo: Fases 0-9 + skill.md, artifacts.md, conventions.md, README.md.*

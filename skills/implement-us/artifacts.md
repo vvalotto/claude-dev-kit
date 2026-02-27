@@ -10,9 +10,11 @@ Cada fase que genera o consume un artefacto debe referenciar este mapa en lugar 
 
 ```
 {PROJECT_ROOT}/
+├── tests/
+│   ├── features/
+│   │   └── {US_ID}-{nombre}.feature
+│   └── step_defs/
 ├── docs/
-│   ├── bdd/
-│   │   └── {US_ID}.feature
 │   ├── plans/
 │   │   ├── {US_ID}-context.md
 │   │   └── {US_ID}-plan.md
@@ -35,7 +37,7 @@ Cada fase que genera o consume un artefacto debe referenciar este mapa en lugar 
 | Artefacto | Ruta | Generado en | Consumido en |
 |-----------|------|-------------|--------------|
 | Archivo de contexto | `docs/plans/{US_ID}-context.md` | Fase 0 | Fases 1–9 |
-| Feature BDD | `docs/bdd/{US_ID}.feature` | Fase 1 | Fase 6 |
+| Feature BDD | `tests/features/{US_ID}-{nombre}.feature` | Fase 1 | Fase 6 |
 | Plan de implementación | `docs/plans/{US_ID}-plan.md` | Fase 2 | Fases 3, 9 |
 | Reporte Pylint | `quality/reports/{US_ID}-pylint.json` | Fase 7 | Fase 9 |
 | Reporte CC | `quality/reports/{US_ID}-cc.json` | Fase 7 | Fase 9 |
@@ -52,8 +54,8 @@ Cada fase que genera o consume un artefacto debe referenciar este mapa en lugar 
 ### `docs/plans/{US_ID}-context.md`
 Generado en Fase 0. Registra las decisiones de ejecución del skill: tipo de HU, si aplica BDD, fases a ejecutar, perfil activo y umbrales de calidad. Todas las fases siguientes deben leerlo al inicio en lugar de asumir el contexto desde la conversación.
 
-### `docs/bdd/{US_ID}.feature`
-Generado en Fase 1. Contiene los escenarios Gherkin (Given-When-Then) aprobados por el usuario. Fase 6 lo utiliza para crear los step definitions y validar que todos los escenarios pasan.
+### `tests/features/{US_ID}-{nombre}.feature`
+Generado en Fase 1. Contiene los escenarios Gherkin (Given-When-Then) aprobados por el usuario. Fase 6 lo utiliza para crear los step definitions en `tests/step_defs/` y validar que todos los escenarios pasan.
 
 ### `docs/plans/{US_ID}-plan.md`
 Generado en Fase 2. Contiene el plan detallado de implementación con tareas, estimaciones de complejidad relativa y checkboxes de progreso. Fase 3 lo lee al inicio y actualiza los checkboxes después de cada tarea. Fase 9 lo utiliza para listar las tareas completadas en el reporte final.
@@ -87,7 +89,7 @@ Para verificar que un artefacto existe antes de continuar:
 ls docs/plans/{US_ID}-context.md
 
 # Feature BDD (prerequisito de Fase 6)
-ls docs/bdd/{US_ID}.feature
+ls tests/features/{US_ID}-*.feature
 
 # Plan (prerequisito de Fase 3)
 ls docs/plans/{US_ID}-plan.md

@@ -174,7 +174,7 @@ Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (com
 
 ## Rutas de Artefactos
 - Contexto: docs/plans/{US_ID}-context.md
-- BDD feature: docs/bdd/{US_ID}.feature
+- BDD feature: tests/features/{US_ID}-{nombre}.feature
 - Plan: docs/plans/{US_ID}-plan.md
 - Reporte: docs/reports/{US_ID}-report.md
 - Quality report: quality/reports/{US_ID}-quality.json
