@@ -7,7 +7,7 @@
     "description": "Implementador asistido de Historias de Usuario siguiendo el patrón arquitectónico configurado para el proyecto",
     "author": "Claude Dev Kit",
     "created": "2026-02-13",
-    "last_updated": "2026-02-13"
+    "last_updated": "2026-02-27"
   },
 
   "_comment_variables": "Variables globales del skill - Pueden ser sobrescritas por perfiles de customización",
@@ -20,7 +20,8 @@
       "examples": {
         "pyqt": "mvc",
         "fastapi": "layered",
-        "django": "mvt",
+        "flask-rest": "layered",
+        "flask-webapp": "bff",
         "generic": "generic"
       }
     },
@@ -30,7 +31,8 @@
       "examples": {
         "pyqt": "Panel, Dialog, Widget",
         "fastapi": "Endpoint, Service, Repository",
-        "django": "View, Model, Form",
+        "flask-rest": "Blueprint, Service, Repository",
+        "flask-webapp": "View, Template, Form",
         "generic": "Module, Class, Function"
       }
     },
@@ -40,7 +42,8 @@
       "examples": {
         "pyqt": "app/presentacion/{name}/",
         "fastapi": "app/{layer}/{name}/",
-        "django": "{app}/{name}/",
+        "flask-rest": "app/{blueprint}/{name}/",
+        "flask-webapp": "app/views/{name}/",
         "generic": "src/{name}/"
       }
     },
@@ -51,7 +54,8 @@
       "examples": {
         "pyqt": "pytest + pytest-qt",
         "fastapi": "pytest + httpx",
-        "django": "pytest-django",
+        "flask-rest": "pytest + requests",
+        "flask-webapp": "pytest + selenium",
         "generic": "pytest"
       }
     },
@@ -61,7 +65,8 @@
       "examples": {
         "pyqt": "QWidget, ModeloBase",
         "fastapi": "BaseModel, BaseService",
-        "django": "Model, View",
+        "flask-rest": "Resource, BaseService",
+        "flask-webapp": "MethodView, BaseService",
         "generic": "object"
       }
     },
@@ -71,7 +76,8 @@
       "examples": {
         "pyqt": "presentacion, dominio",
         "fastapi": "api, domain",
-        "django": "apps, models",
+        "flask-rest": "blueprints, services",
+        "flask-webapp": "views, templates",
         "generic": "domain"
       }
     },
@@ -81,7 +87,8 @@
       "examples": {
         "pyqt": "app/",
         "fastapi": "src/",
-        "django": "project/",
+        "flask-rest": "app/",
+        "flask-webapp": "app/",
         "generic": "."
       }
     },
@@ -168,7 +175,7 @@
       "description": "Actualizar documentación técnica y ADRs",
       "duration_min": 15,
       "duration_max": 30,
-      "approval_required": false,
+      "approval_required": true,
       "agent_file": "phases/phase-8-documentation.md"
     },
     "9": {
@@ -238,8 +245,10 @@
     "plugins": [],
     "fixtures_path": "tests/conftest.py",
     "features_path": "tests/features/",
-    "steps_path": "tests/features/steps/",
+    "steps_path": "tests/step_defs/",
     "test_path": "tests/",
+    "unit_test_path": "tests/unit/",
+    "integration_test_path": "tests/integration/",
     "markers": {
       "unit": "Tests unitarios",
       "integration": "Tests de integración",
