@@ -5,25 +5,25 @@
 
 ---
 
-## 🔴 Acción Requerida — Verificar precondiciones
+## 🔴 Acción Requerida — Iniciar tracking de fase
 
-Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fases 4, 5 y 6:
+Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-ls tests pasando (Fase 4, 5, 6)
+python .claude/tracking/track.py start-phase 7 "Quality Gates"
 ```
-
-Si no existe, **no avances** — completá la fase correspondiente primero.
 
 ---
 
-## 🔴 Acción Requerida — Iniciar tracking de fase
+## 🔴 Acción Requerida — Verificar precondiciones
 
-Ejecutá antes de cualquier otra acción en esta fase:
+Confirmá que las tres suites de tests de fases anteriores pasan:
 
 ```bash
-python .claude/tracking/time_tracker.py start --phase 7 --us {US_ID}
+pytest tests/unit/ tests/integration/ tests/step_defs/ -v --tb=short
 ```
+
+Si algún test falla, **no avances** — resolvé los fallos en la fase correspondiente primero.
 
 ---
 
@@ -81,12 +81,18 @@ Your code has been rated at 9.2/10
 
 **Comando con radon:**
 ```bash
+# Ver CC por función individual (criterio de aprobación)
+radon cc {COMPONENT_PATH}/ -s
+
+# Ver promedio general (orientativo)
 radon cc {COMPONENT_PATH}/ -a -s
 ```
 
-**Target:** CC promedio ≤ 10
+**Target:** CC de cada función ≤ `max_per_function` del perfil activo
 
-**Interpretación:**
+> El criterio de aprobación es el **máximo por función** (`max_per_function` en config.json), no el promedio. El promedio es orientativo. Si alguna función supera el umbral, debe refactorizarse aunque el promedio general sea bajo.
+
+**Interpretación por función:**
 - **1-5:** Código simple, fácil de testear
 - **6-10:** Moderadamente complejo, aceptable
 - **11-20:** Complejo, considerar refactorizar
@@ -221,8 +227,8 @@ python quality/scripts/calculate_metrics.py {COMPONENT_PATH}
 ```
 
 **Validar:**
-- CC promedio ≤ 10
-- MI promedio > 20
+- CC máx por función ≤ `max_per_function` del perfil activo
+- MI promedio > `min_score` del perfil activo
 
 ---
 
@@ -236,7 +242,7 @@ pytest tests/ \
   --cov-report=html:quality/reports/{US_ID}-coverage-html
 ```
 
-**Validar:** Coverage ≥ 95%
+**Validar:** Coverage ≥ umbral del perfil activo (`quality_gates.coverage.min_percent` en config.json)
 
 **Ver reporte detallado:**
 ```bash
@@ -390,27 +396,11 @@ def todas_metricas_pasan(metricas):
 
 ---
 
-## Herramientas Alternativas por Lenguaje
+## Herramientas Python
 
-### Python (actual)
 - **Linting:** pylint, flake8, ruff
-- **Métricas:** radon, mccabe
+- **Métricas de complejidad:** radon, mccabe
 - **Coverage:** pytest-cov, coverage.py
-
-### TypeScript/JavaScript
-- **Linting:** eslint, tslint
-- **Métricas:** complexity-report, plato
-- **Coverage:** istanbul, nyc, jest --coverage
-
-### Java
-- **Linting:** checkstyle, PMD, SpotBugs
-- **Métricas:** sonarqube, JaCoCo
-- **Coverage:** JaCoCo, Cobertura
-
-### C#/.NET
-- **Linting:** StyleCop, FxCop
-- **Métricas:** Visual Studio Metrics
-- **Coverage:** coverlet, dotnet-coverage
 
 ---
 
@@ -486,7 +476,7 @@ Antes de avanzar a Fase 8, confirmá que:
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --phase 7 --us {US_ID}
+python .claude/tracking/track.py end-phase 7
 ```
 
 ---
@@ -665,36 +655,28 @@ cat .claude/skills/implement-us/config.json | jq '.quality_gates'
 
 ---
 
-### Comandos de Validación por Perfil
+### Comandos de Validación
 
-**PyQt MVC:**
+Leé primero los umbrales y la ruta del componente del perfil activo:
+
 ```bash
-pytest --cov=app/presentacion --cov-fail-under=90
-pylint app/presentacion/ --fail-under=8.0
-radon cc app/presentacion/ --total-average --min C  # CC ≤ 12
+cat .claude/skills/implement-us/config.json | jq '.quality_gates'
 ```
 
-**FastAPI REST:**
-```bash
-pytest --cov=app/api --cov-fail-under=95
-pylint app/ --fail-under=8.5
-radon cc app/ --total-average  # CC ≤ 10
-radon mi app/ --min B  # MI ≥ 25
-```
+Luego ejecutá con los valores obtenidos (reemplazá `{COMPONENT_PATH}`, `{COVERAGE_THRESHOLD}` y `{PYLINT_MIN}` con los valores del perfil):
 
-**Flask REST:**
 ```bash
-pytest --cov=app --cov-fail-under=95
-pylint app/ --fail-under=8.0
-radon cc app/ --total-average  # CC ≤ 10
-radon mi app/ --min B  # MI ≥ 25
-```
+# Coverage
+pytest --cov={COMPONENT_PATH} --cov-fail-under={COVERAGE_THRESHOLD}
 
-**Generic Python:**
-```bash
-pytest --cov=src --cov-fail-under=95
-pylint src/ --fail-under=8.0
-radon cc src/ --total-average  # CC ≤ 10
+# Pylint
+pylint {COMPONENT_PATH}/ --fail-under={PYLINT_MIN}
+
+# CC por función (comparar cada función vs max_per_function del perfil)
+radon cc {COMPONENT_PATH}/ -s
+
+# Índice de Mantenibilidad (comparar vs mi_min del perfil)
+radon mi {COMPONENT_PATH}/ -s
 ```
 
 ---
@@ -724,11 +706,11 @@ radon cc src/ --total-average  # CC ≤ 10
 
 Al finalizar esta fase:
 
-✅ Todas las métricas de calidad validadas
-✅ Pylint ≥ 8.0 (código limpio y bien estructurado)
-✅ CC ≤ 10 (código simple y testeable)
-✅ MI > 20 (código mantenible)
-✅ Coverage ≥ 95% (alta confianza en tests)
+✅ Todas las métricas de calidad validadas contra umbrales del perfil activo
+✅ Pylint ≥ umbral del perfil (código limpio y bien estructurado)
+✅ CC ≤ umbral del perfil (código simple y testeable)
+✅ MI > umbral del perfil (código mantenible)
+✅ Coverage ≥ umbral del perfil (alta confianza en tests)
 ✅ Reporte JSON generado con estado APROBADO
 ✅ Código listo para producción
 

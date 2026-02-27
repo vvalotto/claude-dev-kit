@@ -20,10 +20,10 @@ Si alguno no existe, **no avances** — completá la fase correspondiente primer
 
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
-Ejecutá antes de cualquier otra acción en esta fase:
+Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/time_tracker.py start --phase 9 --us {US_ID}
+python .claude/tracking/track.py start-phase 9 "Reporte Final"
 ```
 
 ---
@@ -121,10 +121,12 @@ Generar un reporte estructurado que documente todo el proceso de implementación
 
 | Métrica | Valor | Umbral | Estado |
 |---------|-------|--------|--------|
-| Pylint | {PYLINT_SCORE}/10 | ≥ 8.0 | {STATUS} |
-| Complejidad Ciclomática | {CC_SCORE} | ≤ 10 | {STATUS} |
-| Índice de Mantenibilidad | {MI_SCORE} | > 20 | {STATUS} |
-| Cobertura de Tests | {COVERAGE}% | ≥ 95% | {STATUS} |
+| Pylint | {PYLINT_SCORE}/10 | ≥ {PYLINT_MIN} | {STATUS} |
+| Complejidad Ciclomática (máx/función) | {CC_SCORE} | ≤ {CC_MAX} | {STATUS} |
+| Índice de Mantenibilidad | {MI_SCORE} | > {MI_MIN} | {STATUS} |
+| Cobertura de Tests | {COVERAGE}% | ≥ {COVERAGE_MIN}% | {STATUS} |
+
+> Leé los umbrales del campo `umbrales` en `quality/reports/{US_ID}-quality.json`
 
 **Estado General:** ✅ APROBADO
 
@@ -207,10 +209,9 @@ Generar un reporte estructurado que documente todo el proceso de implementación
 
 ## Próximos Pasos
 
-- [ ] Integrar `{COMPONENT_NAME}Controlador` en `{FACTORY_CLASS}`
-- [ ] Conectar en `{COORDINATOR_CLASS}` con `{EXTERNAL_SERVICE}`
+- [ ] {INTEGRATION_TASK} (integración del componente con el sistema existente)
 - [ ] Implementar {NEXT_US_ID} ({NEXT_US_TITLE})
-- [ ] Agregar {OPTIONAL_FEATURE} (opcional)
+- [ ] {OPTIONAL_IMPROVEMENT} (opcional)
 
 ---
 
@@ -291,10 +292,12 @@ Generar un reporte estructurado que documente todo el proceso de implementación
 
 | Métrica | Valor | Umbral | Estado |
 |---------|-------|--------|--------|
-| Pylint | {PYLINT_SCORE}/10 | ≥ 8.0 | {STATUS} |
-| Complejidad Ciclomática | {CC_SCORE} | ≤ 10 | {STATUS} |
-| Índice de Mantenibilidad | {MI_SCORE} | > 20 | {STATUS} |
-| Cobertura de Tests | {COVERAGE}% | ≥ 95% | {STATUS} |
+| Pylint | {PYLINT_SCORE}/10 | ≥ {PYLINT_MIN} | {STATUS} |
+| Complejidad Ciclomática (máx/función) | {CC_SCORE} | ≤ {CC_MAX} | {STATUS} |
+| Índice de Mantenibilidad | {MI_SCORE} | > {MI_MIN} | {STATUS} |
+| Cobertura de Tests | {COVERAGE}% | ≥ {COVERAGE_MIN}% | {STATUS} |
+
+> Leé los umbrales del campo `umbrales` en `quality/reports/{US_ID}-quality.json`
 
 ---
 
@@ -333,45 +336,6 @@ Generar un reporte estructurado que documente todo el proceso de implementación
 - [ ] Implementar paginación en lista
 - [ ] Agregar WebSocket para real-time updates
 - [ ] Implementar {NEXT_US_ID}
-```
-
----
-
-### Django - Reporte de Implementación
-
-```markdown
-# Reporte de Implementación: {US_ID}
-
-## Componentes Implementados
-
-### Arquitectura MVT
-
-- ✅ **Model** (`app/models/{component}.py`)
-- ✅ **Views** (`app/views/{component}.py`)
-- ✅ **Templates** (`templates/app/{component}/`)
-- ✅ **Forms** (`app/forms/{component}.py`)
-- ✅ **URLs** (`app/urls.py`)
-
----
-
-## URLs Configuradas
-
-| URL Pattern | View | Template | Auth |
-|-------------|------|----------|------|
-| `/{component}/` | {Component}ListView | list.html | ✅ |
-| `/{component}/<pk>/` | {Component}DetailView | detail.html | ✅ |
-| `/{component}/create/` | {Component}CreateView | form.html | ✅ |
-| `/{component}/<pk>/edit/` | {Component}UpdateView | form.html | ✅ |
-| `/{component}/<pk>/delete/` | {Component}DeleteView | confirm.html | ✅ |
-
----
-
-## Migraciones
-
-- ✅ `migrations/000{N}_create_{component}.py`
-  - Model {ComponentModel} creado
-  - {FIELD_COUNT} campos
-  - Relaciones: {RELATIONS}
 ```
 
 ---
@@ -498,7 +462,7 @@ python scripts/generate_report.py {US_ID}
 **No cierres el tracking hasta que:**
 1. `docs/reports/{US_ID}-report.md` exista en disco: `ls docs/reports/{US_ID}-report.md`
 2. El reporte incluya las métricas reales leídas desde `quality/reports/{US_ID}-quality.json` (no reconstruidas de memoria)
-3. El usuario haya recibido el link al reporte
+3. El contenido completo del reporte fue presentado en la conversación e indicada la ruta del archivo: *"Reporte generado: `docs/reports/{US_ID}-report.md`"*
 
 ---
 
@@ -507,7 +471,7 @@ python scripts/generate_report.py {US_ID}
 Antes de cerrar el tracking, confirmá que:
 - [ ] `docs/reports/{US_ID}-report.md` existe en disco
 - [ ] El reporte incluye métricas reales de Fase 7
-- [ ] El usuario recibió el reporte
+- [ ] Reporte presentado en la conversación con ruta del archivo (`docs/reports/{US_ID}-report.md`)
 - [ ] Tracking de Fase 9 cerrado
 
 ---
@@ -515,11 +479,12 @@ Antes de cerrar el tracking, confirmá que:
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --phase 9 --us {US_ID}
-python .claude/tracking/time_tracker.py end-tracking --us {US_ID}
-```
+# Cerrar fase 9
+python .claude/tracking/track.py end-phase 9
 
-El comando `end-tracking` cierra el tracking de la US, guarda los datos históricos y genera el reporte de tiempo por fase.
+# Cerrar tracking completo de la US (guarda histórico y genera reporte de tiempo)
+python .claude/tracking/track.py end-tracking
+```
 
 ---
 

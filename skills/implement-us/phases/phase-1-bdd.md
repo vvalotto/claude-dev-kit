@@ -2,63 +2,96 @@
 
 **Objetivo:** Analizar la Historia de Usuario y generar escenarios BDD en formato Gherkin.
 
+> **📌 Instrucción de ejecución:** Seguir este archivo de arriba a abajo, en el orden en que aparecen los pasos. No saltar ni reordenar.
 
 ---
 
-## 🔴 Acción Requerida — Verificar precondiciones
+## Paso 1 🔴 — Verificar precondiciones
 
-Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fase 0:
+Confirmá que existe el artefacto generado en Fase 0:
 
 ```bash
 ls docs/plans/{US_ID}-context.md
 ```
 
-Si no existe, **no avances** — completá la fase correspondiente primero.
+Si no existe, **no avances** — completá Fase 0 primero.
 
 ---
 
-## 🔴 Acción Requerida — Iniciar tracking de fase
+## Paso 2 🔴 — Iniciar tracking
 
 Ejecutá antes de cualquier otra acción en esta fase:
 
 ```bash
-python .claude/tracking/time_tracker.py start --phase 1 --us {US_ID}
+python .claude/tracking/track.py start-phase 1 "Generación de Escenarios BDD"
 ```
 
 ---
 
-## Acción
+## Paso 3 — Leer criterios de aceptación
 
-Analizar la US y generar escenarios BDD en formato Gherkin.
+Leé los criterios de aceptación directamente del archivo de la HU. La fuente está en el campo `fuente_hu` de `docs/plans/{US_ID}-context.md`.
 
-**Template:** `.claude/templates/bdd-scenario.feature`
-
----
-
-## Pasos de Generación BDD
-
-### 1. Leer criterios de aceptación de la US
-
-- Extraídos en Fase 0
-- Cada criterio se convierte en al menos un escenario
-
-### 2. Por cada criterio, generar un escenario BDD:
-
-- **Given** (contexto/precondición) - Estado inicial del sistema
-- **When** (acción del usuario/sistema) - Trigger de la funcionalidad
-- **Then** (resultado esperado) - Comportamiento observable y verificable
-
-### 3. Generar archivo feature:
-
-> **Ubicación según stack:**
-> - **PyQt/MVC:** `{PRODUCT}/tests/features/US-XXX-{nombre}.feature`
-> - **FastAPI:** `tests/features/US-XXX-{nombre}.feature`
-> - **Django:** `{app}/tests/features/US-XXX-{nombre}.feature`
-> - **Generic:** `tests/features/US-XXX-{nombre}.feature`
+> **📖 Referencia estructural:** Consultá `.claude/templates/bdd-scenario.feature` para entender el formato esperado antes de generar los escenarios.
 
 ---
 
-## Ejemplos de Output por Stack
+## Paso 4 — Generar escenarios Gherkin
+
+Por cada criterio de aceptación:
+
+1. Generar **1 escenario de flujo exitoso** (obligatorio)
+2. Si el criterio menciona condiciones de error o estados alternativos, agregar escenarios adicionales para cada uno
+
+> El usuario valida si el set cubre los comportamientos relevantes en el Paso 6.
+
+**Estructura de cada escenario:**
+
+- **Given** — Estado inicial del sistema (contexto/precondición)
+- **When** — Acción del usuario o evento del sistema (trigger)
+- **Then** — Resultado observable y verificable
+
+**Buenas prácticas:**
+
+✅ Escenarios independientes — cada uno debe poder ejecutarse solo
+✅ Lenguaje del negocio — usar términos del dominio, no detalles técnicos
+✅ Un escenario = un comportamiento específico
+
+❌ Evitar detalles de implementación, múltiples comportamientos por escenario, dependencias entre escenarios
+
+---
+
+## Paso 5 — Guardar archivo feature
+
+Guardá los escenarios en la ruta canónica definida en `artifacts.md`:
+
+```
+tests/features/{US_ID}-{nombre}.feature
+```
+
+Verificá que existe:
+
+```bash
+ls tests/features/{US_ID}-*.feature
+```
+
+---
+
+## Paso 6 🔴 — Obtener aprobación del usuario
+
+Presentá los escenarios generados al usuario y esperá respuesta explícita:
+
+> Los escenarios BDD han sido generados en `tests/features/{US_ID}-{nombre}.feature`.
+> Revisalos y respondé:
+> - **[aprobado]** para avanzar a Fase 2
+> - **[revisar]** para ajustar escenarios
+> - **[rechazar]** para reescribir desde cero
+>
+> Solo **[aprobado]** avanza a la siguiente fase.
+
+---
+
+## 📖 Ejemplos de Output por Stack
 
 ### Ejemplo 1: Aplicación UI (PyQt, Desktop)
 
@@ -87,21 +120,7 @@ Feature: Endpoint de consulta de usuarios (US-002)
     And todos los usuarios tienen status "active"
 ```
 
-### Ejemplo 3: Aplicación Web (Django, Full Stack)
-
-```gherkin
-Feature: Formulario de registro de usuario (US-003)
-
-  Scenario: Usuario se registra con datos válidos
-    Given el usuario está en la página de registro
-    When ingresa email "user@example.com"
-    And ingresa contraseña "SecurePass123"
-    And hace clic en "Registrarse"
-    Then se muestra mensaje "Registro exitoso"
-    And el usuario es redirigido a /dashboard
-```
-
-### Ejemplo 4: Módulo Genérico (Generic Python)
+### Ejemplo 3: Módulo Genérico (Generic Python)
 
 ```gherkin
 Feature: Procesamiento de datos de entrada (US-004)
@@ -115,49 +134,23 @@ Feature: Procesamiento de datos de entrada (US-004)
 
 ---
 
-## Mejores Prácticas BDD
-
-✅ **Escenarios independientes:** Cada escenario debe poder ejecutarse solo
-✅ **Lenguaje del negocio:** Usar términos del dominio, no detalles técnicos
-✅ **Verificables:** Cada Then debe ser observable y automatizable
-✅ **Concisos:** Un escenario = un comportamiento específico
-
-❌ **Evitar:**
-- Detalles de implementación en los escenarios
-- Múltiples comportamientos en un solo escenario
-- Dependencias entre escenarios
-
----
-
-## Punto de Aprobación
-
-**Usuario revisa y aprueba escenarios BDD**
-
-Este es un punto crítico donde el usuario debe validar que los escenarios:
-- Cubren todos los criterios de aceptación
-- Están escritos en lenguaje de negocio
-- Son verificables y automatizables
-
----
-
-
----
-
 ## ✅ Checklist de Salida
 
 Antes de avanzar a Fase 2, confirmá que:
-- [ ] `docs/bdd/{US_ID}.feature` existe en disco: `ls docs/bdd/{US_ID}.feature`
+- [ ] `tests/features/{US_ID}-*.feature` existe en disco: `ls tests/features/{US_ID}-*.feature`
 - [ ] Los escenarios fueron presentados al usuario
-- [ ] El usuario aprobó los escenarios BDD
+- [ ] El usuario respondió **[aprobado]**
 - [ ] Tracking de Fase 1 cerrado
 
-## 🔴 Acción Requerida — Cerrar tracking
+---
+
+## Paso 7 🔴 — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --phase 1 --us {US_ID}
+python .claude/tracking/track.py end-phase 1
 ```
 
 ---
 
 **Fase anterior:** [Fase 0: Validación de Contexto](./phase-0-validation.md)
-**Siguiente fase:** Fase 2: Generación del Plan de Implementación _(pendiente)_
+**Siguiente fase:** [Fase 2: Generación del Plan de Implementación](./phase-2-planning.md)

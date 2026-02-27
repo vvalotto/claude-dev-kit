@@ -7,22 +7,22 @@
 
 ## 🔴 Acción Requerida — Verificar precondiciones
 
-Antes de comenzar esta fase, confirmá que existe el artefacto generado en Fase 4:
+Antes de comenzar esta fase, confirmá que los tests unitarios de Fase 4 existen y pasan:
 
 ```bash
-ls tests/
+pytest tests/unit/ -v --tb=short
 ```
 
-Si no existe, **no avances** — completá la fase correspondiente primero.
+Si el directorio no existe o algún test falla, **no avances** — completá Fase 4 primero.
 
 ---
 
 ## 🔴 Acción Requerida — Iniciar tracking de fase
 
-Ejecutá antes de cualquier otra acción en esta fase:
+Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/time_tracker.py start --phase 5 --us {US_ID}
+python .claude/tracking/track.py start-phase 5 "Tests de Integración"
 ```
 
 ---
@@ -67,23 +67,6 @@ Crear tests que validen la integración entre componentes implementados, simulan
 - `TestClient` de FastAPI para requests HTTP
 - Base de datos de prueba (SQLite, TestContainers)
 - Mocks de servicios externos (APIs terceros)
-
----
-
-### Django/MVT
-
-**Flujos típicos a testear:**
-- Request → View → Template → Response
-- Form submission → Model save → Redirect
-- Autenticación/permisos
-- Signals end-to-end
-- Admin integration
-
-**Herramientas:**
-- `Client` de Django para requests HTTP
-- Base de datos de prueba (configuración automática)
-- `@pytest.mark.django_db` para tests con DB
-- Mocks de servicios externos
 
 ---
 
@@ -366,131 +349,6 @@ class TestUserEndpointsIntegration:
 
 ---
 
-**Django/MVT - Test de integración View-Model-Template:**
-```python
-# tests/integration/test_user_views_integration.py
-import pytest
-from django.contrib.auth import get_user_model
-from django.urls import reverse
-from app.models import UserProfile
-
-User = get_user_model()
-
-@pytest.mark.django_db
-class TestUserViewsIntegration:
-    """Tests de integración de vistas de usuario."""
-
-    @pytest.fixture
-    def authenticated_user(self, client):
-        """Usuario autenticado."""
-        user = User.objects.create_user(
-            username="testuser",
-            email="test@example.com",
-            password="testpass123"
-        )
-        client.force_login(user)
-        return user
-
-    def test_crear_perfil_flujo_completo(self, client, authenticated_user):
-        """GET form → POST datos → Guardar DB → Redirect."""
-        # 1. Obtener formulario de creación
-        url = reverse('user_profile_create')
-        response = client.get(url)
-
-        assert response.status_code == 200
-        assert 'form' in response.context
-
-        # 2. Enviar formulario
-        response = client.post(url, {
-            'nombre': 'Juan Pérez',
-            'edad': 30,
-            'biografia': 'Mi biografía'
-        })
-
-        # 3. Validar redirect
-        assert response.status_code == 302
-
-        # 4. Validar que se guardó en DB
-        profile = UserProfile.objects.get(user=authenticated_user)
-        assert profile.nombre == 'Juan Pérez'
-        assert profile.edad == 30
-
-    def test_editar_perfil_con_validacion(self, client, authenticated_user):
-        """Test de validación end-to-end."""
-        # Crear perfil inicial
-        profile = UserProfile.objects.create(
-            user=authenticated_user,
-            nombre="Juan",
-            edad=30
-        )
-
-        # Intentar actualizar con edad inválida
-        url = reverse('user_profile_edit', kwargs={'pk': profile.pk})
-        response = client.post(url, {
-            'nombre': 'Juan Pérez',
-            'edad': -5,  # Inválido
-            'biografia': 'Biografía'
-        })
-
-        # Validar que form tiene error
-        assert response.status_code == 200
-        assert response.context['form'].errors
-        assert 'edad' in response.context['form'].errors
-
-        # Validar que no se guardó en DB
-        profile.refresh_from_db()
-        assert profile.edad == 30  # No cambió
-
-    def test_lista_filtrado_paginacion(self, client, authenticated_user):
-        """Test de vista de lista con filtros y paginación."""
-        # Crear múltiples perfiles
-        for i in range(25):
-            user = User.objects.create_user(
-                username=f"user{i}",
-                email=f"user{i}@example.com"
-            )
-            UserProfile.objects.create(
-                user=user,
-                nombre=f"Usuario {i}",
-                edad=20 + i
-            )
-
-        # Test paginación
-        url = reverse('user_profile_list')
-        response = client.get(url)
-
-        assert response.status_code == 200
-        assert 'page_obj' in response.context
-        assert len(response.context['page_obj']) == 20  # Default page size
-
-        # Test filtrado
-        response = client.get(url, {'edad__gte': 40})
-        profiles = list(response.context['page_obj'])
-        assert all(p.edad >= 40 for p in profiles)
-
-    def test_signals_end_to_end(self, client, authenticated_user):
-        """Test de signals de Django (post_save, etc.)."""
-        # Crear perfil debe disparar signal que crea log
-        from app.models import ActivityLog
-
-        profile = UserProfile.objects.create(
-            user=authenticated_user,
-            nombre="Juan",
-            edad=30
-        )
-
-        # Validar que signal creó el log
-        log = ActivityLog.objects.filter(
-            user=authenticated_user,
-            action='profile_created'
-        ).first()
-
-        assert log is not None
-        assert log.metadata['profile_id'] == profile.id
-```
-
----
-
 **Generic Python - Test de integración de pipeline:**
 ```python
 # tests/integration/test_data_pipeline_integration.py
@@ -623,18 +481,6 @@ pytest tests/integration/ -v --log-cli-level=DEBUG
 pytest tests/integration/ -v -n auto
 ```
 
-**Django:**
-```bash
-# Tests de integración
-pytest tests/integration/ -v
-
-# Con DB real (no reusar)
-pytest tests/integration/ -v --create-db
-
-# Solo tests que usan DB
-pytest tests/integration/ -v -m django_db
-```
-
 **Generic Python:**
 ```bash
 # Tests de integración
@@ -678,15 +524,16 @@ pytest tests/integration/ -v --cov={MODULE_NAME} --cov-report=html
 
 ### ¿Qué mockear?
 
-**Mockear:**
-- ✅ Servicios externos (APIs, servidores remotos)
-- ✅ Operaciones costosas (envío de emails, procesamiento pesado)
-- ✅ Dependencias no determinísticas (tiempo, random)
+**Mockear siempre:**
+- ✅ APIs y servicios externos fuera del sistema (servicios de terceros, backends remotos)
+- ✅ Operaciones costosas o no determinísticas (envío de emails, tiempo, random)
 
-**NO mockear (usar real):**
-- ❌ Base de datos (usar test DB)
-- ❌ Filesystem (usar tmp_path)
-- ❌ Componentes internos del sistema
+**Usar real o test double — no mock puro:**
+- ⚠️ Base de datos → usar test DB (SQLite en memoria u otra DB de prueba)
+- ⚠️ Filesystem → usar `tmp_path` de pytest
+- ⚠️ Componentes propios del sistema → integrarlos realmente (ese es el objetivo del test de integración)
+
+**Excepción válida:** se puede mockear un componente interno cuando su implementación aún no existe (Fase 3 incompleta) o cuando integrarlo correspondería a un nivel de test superior (ej. end-to-end). En ese caso, documentar la razón en el test.
 
 ---
 
@@ -696,14 +543,13 @@ pytest tests/integration/ -v --cov={MODULE_NAME} --cov-report=html
 ## ✅ Checklist de Salida
 
 Antes de avanzar a Fase 6, confirmá que:
-- [ ] Todos los tests de integración pasan: `pytest tests/ -v`
-- [ ] Suite completa ejecutada sin errores
+- [ ] Todos los tests de integración pasan: `pytest tests/integration/ -v`
 - [ ] Tracking de Fase 5 cerrado
 
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/time_tracker.py end --phase 5 --us {US_ID}
+python .claude/tracking/track.py end-phase 5
 ```
 
 ---
@@ -718,9 +564,9 @@ python .claude/tracking/time_tracker.py end --phase 5 --us {US_ID}
    - **Problema de integración entre componentes** → revisá las interfaces y contratos en Fase 3
    - **Componente individual roto** → volvé a Fase 3 a corregir la implementación, luego volvé a Fase 4 y 5
    - **Test mal configurado** (fixture, mock incorrecto) → corregí el test en esta fase
-3. Re-ejecutá la suite completa: `pytest tests/ -v`
+3. Re-ejecutá los tests de integración: `pytest tests/integration/ -v`
 4. No avances a Fase 6 hasta que **todos** los tests pasen
-5. Si después de 2 intentos la fase sigue fallando, informá al usuario
+5. Si después de 2 ciclos completos (ejecución → detección de no conformidad → corrección) los tests siguen fallando, informá al usuario antes de continuar
 
 ---
 
