@@ -157,5 +157,5 @@ Si vas a crear un nuevo documento:
 
 ### Proyecto
 - [README Principal](../README.md)
-- [Plan del Proyecto](../PROJECT_PLAN_claude-dev-kit.md)
+- [Plan del Proyecto](../gestion/PROJECT_PLAN_claude-dev-kit.md)
 - [Gestión de Tareas](../gestion/)

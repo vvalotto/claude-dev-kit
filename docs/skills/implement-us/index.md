@@ -13,6 +13,7 @@ Skill principal de Claude Dev Kit. Guía la implementación completa de una hist
 - [Instalación](#instalación)
 - [Uso](#uso)
 - [Las 10 Fases](#las-10-fases)
+- [Diagramas Visuales](#diagramas-visuales)
 - [Artefactos](#artefactos)
 - [Configuración](#configuración)
 - [Perfiles de Customización](#perfiles-de-customización)
@@ -102,6 +103,14 @@ Las fases 1 y 6 se saltan automáticamente si BDD no aplica (según la clasifica
 
 Para el detalle técnico de cada fase, ver los documentos individuales:
 [Fase 0](phase-0.md) · [Fase 1](phase-1.md) · [Fase 2](phase-2.md) · [Fase 3](phase-3.md) · [Fase 4](phase-4.md) · [Fase 5](phase-5.md) · [Fase 6](phase-6.md) · [Fase 7](phase-7.md) · [Fase 8](phase-8.md) · [Fase 9](phase-9.md)
+
+---
+
+## Diagramas Visuales
+
+Referencia gráfica del skill: flujo de ejecución con subgraphs temáticos, puntos de aprobación y loop de quality gates; más mapa de artefactos por fase.
+
+→ [Ver diagramas Mermaid](diagrams.md)
 
 ---
 
