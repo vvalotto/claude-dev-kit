@@ -17,7 +17,7 @@ Claude Dev Kit es un framework instalable que **automatiza el ciclo completo de 
 
 **¿Por qué usarlo?**
 - ✅ **Automatiza** el flujo de trabajo: Desde BDD hasta reporte final
-- ✅ **Personalizable** por stack: PyQt, FastAPI, Flask, Django, Python genérico
+- ✅ **Personalizable** por stack: PyQt, FastAPI, Flask REST, Flask WebApp, Python genérico
 - ✅ **Trackea tiempo** automáticamente por fase y tarea
 - ✅ **Genera** BDD, planes, tests, documentación y reportes
 - ✅ **Valida calidad** con quality gates (Pylint, coverage, complejidad)
@@ -85,7 +85,7 @@ EOF
 | Fase | Qué Hace | Output |
 |------|----------|--------|
 | **0. Validación** | Verifica herramientas, clasifica HU, decide BDD | `docs/plans/{US_ID}-context.md` |
-| **1. BDD** | Genera escenarios Gherkin | `docs/bdd/{US_ID}.feature` |
+| **1. BDD** | Genera escenarios Gherkin | `tests/features/{US_ID}-{nombre}.feature` |
 | **2. Planning** | Crea plan detallado con tareas *(STOP — requiere aprobación)* | `docs/plans/{US_ID}-plan.md` |
 | **3. Implementación** | Genera código guiado por el plan en disco | `src/*.py` |
 | **4. Tests Unitarios** | Crea tests por componente | `tests/test_*.py` |
@@ -105,11 +105,11 @@ Personaliza el framework para tu stack tecnológico:
 
 | Perfil | Stack | Arquitectura | Tests | Coverage |
 |--------|-------|--------------|-------|----------|
-| **pyqt-mvc** | PyQt6 Desktop | MVC | pytest-qt | 95% |
+| **pyqt-mvc** | PyQt6 Desktop | MVC | pytest-qt | 90% |
 | **fastapi-rest** | FastAPI API | Layered | pytest-asyncio | 95% |
-| **flask-rest** | Flask API | Blueprints | pytest-flask | 90% |
-| **flask-webapp** | Flask Web | MVT | pytest-flask | 85% |
-| **generic-python** | Python | Flexible | pytest | 90% |
+| **flask-rest** | Flask API | Layered | pytest-flask | 95% |
+| **flask-webapp** | Flask Web | BFF + SSR | pytest-flask | 90% |
+| **generic-python** | Python | Flexible | pytest | 95% |
 
 **Ver:** [Guía de Personalización](docs/user/customization.md)
 
@@ -298,4 +298,4 @@ Este proyecto está bajo licencia MIT. Ver [LICENSE](LICENSE) para más detalles
 
 ---
 
-**¿Listo para empezar?** → [Guía de Inicio Rápido](docs/getting-started.md)
+**¿Listo para empezar?** → [Guía de Inicio Rápido](docs/user/getting-started.md)
