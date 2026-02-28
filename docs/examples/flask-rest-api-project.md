@@ -1585,7 +1585,7 @@ examples/code/flask-contacts-api/
 
 - `docs/user/getting-started.md` - Guía de inicio rápido del framework
 - `docs/user/installation.md` - Instalación detallada
-- `docs/user/skills/implement-us.md` - Documentación completa del skill
+- `docs/skills/implement-us/index.md` - Documentación completa del skill
 - `docs/examples/flask-webapp-project.md` - Tutorial Flask WebApp
 
 ### Artefactos Generados por el Framework

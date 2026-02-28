@@ -2,7 +2,7 @@
 
 Documentación técnica del sistema de templates del framework.
 
-> **Para usuarios:** Ver [docs/templates/template-system.md](../docs/templates/template-system.md)
+> **Para usuarios:** Ver [docs/developer/architecture/template-system.md](../docs/developer/architecture/template-system.md)
 
 Este directorio contiene los templates reutilizables que el skill `/implement-us` utiliza internamente.
 

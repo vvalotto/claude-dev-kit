@@ -22,7 +22,7 @@ Este directorio contiene los workflows de CI/CD del proyecto.
 
 docs/user/getting-started.md           → wiki/user-Getting-Started.md
 docs/user/installation.md              → wiki/user-Installation.md
-docs/user/skills/implement-us.md       → wiki/user-skills-Implement-Us.md
+docs/skills/implement-us/index.md      → wiki/skills-implement-us-Index.md
 docs/user/tracking/user-guide.md       → wiki/user-tracking-User-Guide.md
 docs/developer/architecture/tracking.md → wiki/developer-architecture-Tracking.md
 
@@ -42,7 +42,10 @@ Wiki/
 ├── user-Installation.md                       # docs/user/installation.md
 ├── user-Customization.md                      # docs/user/customization.md
 ├── user-Configuration.md                      # docs/user/configuration.md
-├── user-skills-Implement-Us.md                # docs/user/skills/implement-us.md
+├── skills-implement-us-Index.md               # docs/skills/implement-us/index.md
+├── skills-implement-us-Phase-0.md             # docs/skills/implement-us/phase-0.md
+├── ...                                        # Fases 1-8
+├── skills-implement-us-Phase-9.md             # docs/skills/implement-us/phase-9.md
 ├── user-tracking-User-Guide.md                # docs/user/tracking/user-guide.md
 ├── user-tracking-Examples.md                  # docs/user/tracking/examples.md
 │
@@ -106,7 +109,7 @@ Copia todos los archivos de `docs/` a la raíz de `wiki/`:
 - Convierte nombres a PascalCase (getting-started → Getting-Started)
 - Ejemplos:
   - `docs/user/getting-started.md` → `wiki/user-Getting-Started.md`
-  - `docs/user/skills/implement-us.md` → `wiki/user-skills-Implement-Us.md`
+  - `docs/skills/implement-us/index.md` → `wiki/skills-implement-us-Index.md`
   - `docs/developer/architecture/tracking.md` → `wiki/developer-architecture-Tracking.md`
 
 ### Paso 5: Sincronizar Casos Especiales

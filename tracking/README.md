@@ -2,7 +2,7 @@
 
 Documentación técnica de la arquitectura interna del sistema de tracking.
 
-> **Para usuarios:** Ver [docs/tracking/user-guide.md](../docs/tracking/user-guide.md)
+> **Para usuarios:** Ver [docs/user/tracking/user-guide.md](../docs/user/tracking/user-guide.md)
 
 Módulo core del sistema de tracking automático para el skill `/implement-us`.
 
@@ -218,6 +218,6 @@ print(f"Tiempo efectivo: {status['effective_seconds'] / 60} minutos")
 
 ## Documentación Adicional
 
-- **Guía de Usuario**: `docs/tracking/user-guide.md`
+- **Guía de Usuario**: `docs/user/tracking/user-guide.md`
 - **Arquitectura**: `docs/developer/architecture/tracking.md`
-- **Ejemplos**: `docs/tracking/examples.md`
+- **Ejemplos**: `docs/user/tracking/examples.md`

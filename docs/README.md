@@ -17,9 +17,6 @@ docs/
 │   ├── customization.md             # 🎨 Personalización del framework
 │   ├── configuration.md             # ⚙️ Referencia de configuración
 │   │
-│   ├── skills/                      # 🛠️ Skills del framework
-│   │   └── implement-us.md          # Skill principal para implementar US
-│   │
 │   └── tracking/                    # ⏱️ Sistema de tracking
 │       ├── user-guide.md            # Guía de usuario del tracking
 │       └── examples.md              # Ejemplos de uso
@@ -33,6 +30,13 @@ docs/
 │   └── contributing/                # Guías de contribución
 │       ├── creating-skills.md       # Crear skills custom
 │       └── template.md              # Plantilla estándar para nuevos documentos
+│
+├── skills/                          # 📖 Documentación del skill (wiki)
+│   └── implement-us/                # Skill principal implement-us
+│       ├── index.md                 # Índice y descripción general
+│       ├── phase-0.md               # Fase 0: Validación de contexto
+│       ├── ...                      # Fases 1-8
+│       └── phase-9.md               # Fase 9: Reporte final
 │
 └── examples/                        # 📚 Tutoriales por stack
     ├── pyqt-project.md
@@ -54,7 +58,7 @@ Si eres **nuevo**, comienza aquí:
 3. [Instalación](UserInstallation) - Setup detallado
 
 Si ya tienes el framework instalado:
-- [Skill implement-us](UserSkillsImplementUs) - Implementar historias de usuario
+- [Skill implement-us](SkillImplementUs) - Implementar historias de usuario
 - [Sistema de tracking](UserTrackingUserGuide) - Tracking de tiempo automático
 - [Personalización](UserCustomization) - Adaptar a tu stack tecnológico
 - [Configuración](UserConfiguration) - Referencia completa de opciones
@@ -86,7 +90,7 @@ Documentación interna y análisis:
 - [user/installation.md](UserInstallation) - Instalación detallada
 - [user/customization.md](UserCustomization) - Personalización del framework
 - [user/configuration.md](UserConfiguration) - Referencia de configuración
-- [user/skills/implement-us.md](UserSkillsImplementUs) - Uso del skill principal
+- [skills/implement-us/index.md](SkillImplementUs) - Uso del skill principal
 - [user/tracking/user-guide.md](UserTrackingUserGuide) - Guía de tracking de tiempo
 - [user/tracking/examples.md](UserTrackingExamples) - Ejemplos de tracking
 
@@ -145,7 +149,7 @@ Si vas a crear un nuevo documento:
 ### Documentos Principales
 - [📘 Índice Principal](UserIndex)
 - [🚀 Getting Started](UserGettingStarted)
-- [🛠️ Skill implement-us](UserSkillsImplementUs)
+- [🛠️ Skill implement-us](SkillImplementUs)
 
 ### Recursos Técnicos
 - [📝 Sistema de Templates](DeveloperArchitectureTemplateSystem)
@@ -153,5 +157,5 @@ Si vas a crear un nuevo documento:
 
 ### Proyecto
 - [README Principal](../README.md)
-- [Plan del Proyecto](../PROJECT_PLAN_claude-dev-kit.md)
+- [Plan del Proyecto](../gestion/PROJECT_PLAN_claude-dev-kit.md)
 - [Gestión de Tareas](../gestion/)

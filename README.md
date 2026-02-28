@@ -2,7 +2,7 @@
 
 > Framework agnóstico de dominio para implementación automatizada de historias de usuario con Claude Code
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.1.0)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.3.0)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
@@ -17,7 +17,7 @@ Claude Dev Kit es un framework instalable que **automatiza el ciclo completo de 
 
 **¿Por qué usarlo?**
 - ✅ **Automatiza** el flujo de trabajo: Desde BDD hasta reporte final
-- ✅ **Personalizable** por stack: PyQt, FastAPI, Flask, Django, Python genérico
+- ✅ **Personalizable** por stack: PyQt, FastAPI, Flask REST, Flask WebApp, Python genérico
 - ✅ **Trackea tiempo** automáticamente por fase y tarea
 - ✅ **Genera** BDD, planes, tests, documentación y reportes
 - ✅ **Valida calidad** con quality gates (Pylint, coverage, complejidad)
@@ -85,7 +85,7 @@ EOF
 | Fase | Qué Hace | Output |
 |------|----------|--------|
 | **0. Validación** | Verifica herramientas, clasifica HU, decide BDD | `docs/plans/{US_ID}-context.md` |
-| **1. BDD** | Genera escenarios Gherkin | `docs/bdd/{US_ID}.feature` |
+| **1. BDD** | Genera escenarios Gherkin | `tests/features/{US_ID}-{nombre}.feature` |
 | **2. Planning** | Crea plan detallado con tareas *(STOP — requiere aprobación)* | `docs/plans/{US_ID}-plan.md` |
 | **3. Implementación** | Genera código guiado por el plan en disco | `src/*.py` |
 | **4. Tests Unitarios** | Crea tests por componente | `tests/test_*.py` |
@@ -95,7 +95,7 @@ EOF
 | **8. Documentación** | Docstrings y comentarios | Código documentado |
 | **9. Reporte Final** | Resumen y métricas *(STOP — reporte debe existir)* | `docs/reports/{US_ID}-report.md` |
 
-**Ver:** [Documentación completa del skill](docs/user/skills/implement-us.md)
+**Ver:** [Documentación completa del skill](docs/skills/implement-us/index.md)
 
 ---
 
@@ -105,11 +105,11 @@ Personaliza el framework para tu stack tecnológico:
 
 | Perfil | Stack | Arquitectura | Tests | Coverage |
 |--------|-------|--------------|-------|----------|
-| **pyqt-mvc** | PyQt6 Desktop | MVC | pytest-qt | 95% |
+| **pyqt-mvc** | PyQt6 Desktop | MVC | pytest-qt | 90% |
 | **fastapi-rest** | FastAPI API | Layered | pytest-asyncio | 95% |
-| **flask-rest** | Flask API | Blueprints | pytest-flask | 90% |
-| **flask-webapp** | Flask Web | MVT | pytest-flask | 85% |
-| **generic-python** | Python | Flexible | pytest | 90% |
+| **flask-rest** | Flask API | Layered | pytest-flask | 95% |
+| **flask-webapp** | Flask Web | BFF + SSR | pytest-flask | 90% |
+| **generic-python** | Python | Flexible | pytest | 95% |
 
 **Ver:** [Guía de Personalización](docs/user/customization.md)
 
@@ -169,7 +169,7 @@ Templates parametrizados con variables y snippets:
 | [📦 Instalación](docs/user/installation.md) | Setup completo y troubleshooting |
 | [🎨 Personalización](docs/user/customization.md) | Adaptar a tu stack |
 | [⚙️ Configuración](docs/user/configuration.md) | Referencia de opciones |
-| [🛠️ Skill implement-us](docs/user/skills/implement-us.md) | Las 10 fases explicadas |
+| [🛠️ Skill implement-us](docs/skills/implement-us/index.md) | Las 10 fases explicadas |
 | [⏱️ Sistema de Tracking](docs/user/tracking/user-guide.md) | Comandos y reportes |
 
 ### Para Desarrolladores
@@ -196,6 +196,14 @@ Templates parametrizados con variables y snippets:
 
 ## 🗺️ Roadmap
 
+### v1.3.0 ✅ (Completado — 2026-02-27)
+
+- ✅ Skill `implement-us` — correcciones sistemáticas post-análisis (42 hallazgos + 24 discrepancias)
+  - `config.json`: corregidas claves `steps_path`, `test_path`; eliminadas referencias a Django
+  - `skill.md`: documentado subcomando `end-tracking` (antes ausente, causaba fallo en Fase 9)
+  - Fases 0–9: umbrales de Fase 7 leídos desde perfil activo (no hardcodeados); rutas BDD unificadas; template usage clarificado en Fases 1, 2, 3 y 4
+  - `artifacts.md`, `conventions.md`: rutas BDD corregidas (`docs/bdd/` → `tests/features/`); referencias Django eliminadas
+
 ### v1.1.0 ✅ (Completado — 2026-02-24)
 
 - ✅ Skill `implement-us` — mejoras de robustez y reproducibilidad
@@ -217,7 +225,7 @@ Templates parametrizados con variables y snippets:
 - ✅ Suite de tests del framework (107 tests, 99% cobertura)
 - ✅ GitHub Wiki sincronizada
 
-### Futuro (post v1.1)
+### Futuro (post v1.3)
 
 - Soporte para proyectos TypeScript/Node.js
 - Integración con GitHub Actions para quality gates automáticos
@@ -298,4 +306,4 @@ Este proyecto está bajo licencia MIT. Ver [LICENSE](LICENSE) para más detalles
 
 ---
 
-**¿Listo para empezar?** → [Guía de Inicio Rápido](docs/getting-started.md)
+**¿Listo para empezar?** → [Guía de Inicio Rápido](docs/user/getting-started.md)

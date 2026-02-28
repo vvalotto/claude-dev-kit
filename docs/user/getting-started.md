@@ -511,7 +511,7 @@ Esto actualizará `.claude/skills/implement-us/config.json` con la configuració
 Profundiza en cada componente:
 
 1. **[Instalación Detallada](Installation)** - Opciones avanzadas, modos de instalación
-2. **[Skill implement-us](UserSkillsImplementUs)** - Entender las 10 fases en detalle
+2. **[Skill implement-us](SkillImplementUs)** - Entender las 10 fases en detalle
 3. **[Sistema de Tracking](UserTrackingUserGuide)** - Comandos avanzados, reportes históricos
 4. **[Personalización Completa](Customization)** - Crear perfiles custom, modificar templates
 5. **[Referencia de Configuración](Configuration)** - Todas las opciones disponibles
@@ -657,7 +657,7 @@ FAILED tests/test_calculator.py::test_suma - AssertionError
 - [x] Comandos básicos de tracking
 - [x] Personalización de configuración
 - [ ] **Próximo:** [Instalación Detallada](Installation)
-- [ ] **Próximo:** [Skill implement-us - Guía Completa](UserSkillsImplementUs)
+- [ ] **Próximo:** [Skill implement-us - Guía Completa](SkillImplementUs)
 - [ ] **Próximo:** [Tutorial de tu stack](examples)
 
 ---
@@ -667,7 +667,7 @@ FAILED tests/test_calculator.py::test_suma - AssertionError
 Elige tu próximo paso según tu objetivo:
 
 **Si quieres profundizar en el framework:**
-→ [Skill implement-us - Documentación Completa](UserSkillsImplementUs)
+→ [Skill implement-us - Documentación Completa](SkillImplementUs)
 
 **Si quieres personalizarlo a tu stack:**
 → [Guía de Personalización](Customization)

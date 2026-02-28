@@ -34,7 +34,7 @@ Claude Dev Kit es un framework instalable y reutilizable para proyectos Python q
 2. **[Instalación Detallada](UserInstallation)** - Setup completo paso a paso
    Instalación interactiva y no interactiva, selección de perfil, validación.
 
-3. **[Skill implement-us](UserSkillsImplementUs)** - El skill principal
+3. **[Skill implement-us](SkillImplementUs)** - El skill principal
    Guía completa del skill que automatiza la implementación de historias de usuario.
 
 ---
@@ -58,7 +58,7 @@ Documentación de los skills disponibles:
 
 | Documento | Descripción | Estado |
 |-----------|-------------|--------|
-| **[Skill implement-us](UserSkillsImplementUs)** | Implementación automatizada de US | ✅ Completo |
+| **[Skill implement-us](SkillImplementUs)** | Implementación automatizada de US | ✅ Completo |
 | **[Tracking - Guía de Usuario](UserTrackingUserGuide)** | Sistema de tracking de tiempo | ✅ Completo |
 | **[Tracking - Ejemplos](UserTrackingExamples)** | Ejemplos de uso del tracking | ✅ Completo |
 
@@ -96,7 +96,7 @@ Elige tu camino según tu objetivo:
 
 1. [Guía de Inicio Rápido](UserGettingStarted) - 15 minutos
 2. [Instalación Detallada](UserInstallation) - 10 minutos
-3. [Skill implement-us](UserSkillsImplementUs) - 20 minutos
+3. [Skill implement-us](SkillImplementUs) - 20 minutos
 4. [Tracking - Guía de Usuario](UserTrackingUserGuide) - 10 minutos
 
 **Tiempo total:** ~1 hora
@@ -175,7 +175,7 @@ El skill principal del framework que guía paso a paso la implementación de his
 8. **Documentación** - Docstrings y comentarios
 9. **Reporte Final** - Métricas y resumen
 
-**Ver:** [Documentación completa del skill](UserSkillsImplementUs)
+**Ver:** [Documentación completa del skill](SkillImplementUs)
 
 ### Sistema de Perfiles
 

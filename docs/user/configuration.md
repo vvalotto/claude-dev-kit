@@ -376,5 +376,5 @@ export CLAUDE_DEVKIT_CONFIG=/custom/path/config.json
 ---
 
 **Anterior:** [Personalización](Customization)
-**Siguiente:** [Skill implement-us](UserSkillsImplementUs)
+**Siguiente:** [Skill implement-us](SkillImplementUs)
 **Índice:** [Volver al índice](Index)

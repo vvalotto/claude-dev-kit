@@ -1,28 +1,14 @@
 # CLAUDE.md
 
-Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar con código en este repositorio.
+Este archivo proporciona orientación a Claude Code al trabajar en este repositorio.
 
 ---
 
 ## Visión General del Proyecto
 
-**Claude Dev Kit** es un framework de desarrollo agnóstico de dominio diseñado para asistir la construcción de software con Claude Code. Proporciona skills reutilizables, templates y herramientas de tracking que automatizan el ciclo de implementación de historias de usuario.
+**Claude Dev Kit** es un framework de desarrollo agnóstico de dominio que automatiza la implementación de historias de usuario con Claude Code. Proporciona skills reutilizables, templates y un sistema de tracking de tiempo.
 
-**Estado Actual:** v1.0.0 Released. El framework está completo y estable.
-
-**Progreso:**
-- ✅ **Fase 1-2:** Setup inicial y sistema de instalación (100%)
-- ✅ **Fase 3:** Generalización de skills (100%)
-- ✅ **Fase 4:** Generalización de templates (100%)
-- ✅ **Fase 5:** Sistema de tracking (100%)
-- ✅ **Fase 6:** Documentación general (100%)
-- ✅ **Fase 7:** Ejemplos por stack (100%)
-- ✅ **Fase 8:** Testing del framework (100%)
-- ✅ **Fase 9:** Release v1.0 (100%)
-
-> **Seguimiento detallado:** Ver `gestion/` para tickets y progreso actualizado
-
-**Objetivo Principal:** Crear un framework instalable y reutilizable para proyectos Python que pueda personalizarse para diferentes stacks tecnológicos (PyQt, FastAPI, Django, etc.).
+**Estado Actual:** v1.3.0 — Estable y completo. El framework está publicado y en uso.
 
 ---
 
@@ -30,417 +16,129 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) al trabajar
 
 ```
 claude-dev-kitc/
-├── PROJECT_PLAN_claude-dev-kit.md  # Plan completo del proyecto y roadmap
-├── _work/                          # Directorio de trabajo con archivos migrados
-│   ├── QUICK_SUMMARY.md           # Resumen rápido del contenido migrado
-│   ├── MIGRATION_NOTES.md         # Notas detalladas de migración
-│   └── from-simapp/               # Archivos fuente de simapp_termostato
-│       ├── skills/                # Definición del skill implement-us
-│       ├── templates/             # Templates BDD, planning, testing
-│       ├── tracking/              # Sistema de tracking de tiempo (listo para usar)
-│       └── docs/                  # Documentación de referencia
-```
-
-**Archivos Clave para Leer Primero:**
-- `PROJECT_PLAN_claude-dev-kit.md` - Arquitectura completa y plan de implementación
-- `_work/QUICK_SUMMARY.md` - Resumen rápido de lo que hay que hacer
-- `_work/MIGRATION_NOTES.md` - Notas detalladas sobre cómo generalizar componentes
-
----
-
-## Arquitectura Planificada (Estado Objetivo)
-
-La estructura final será:
-
-```
-claude-dev-kit/
-├── install/              # Sistema de instalación
-│   ├── installer.py      # Instalador multiplataforma
-│   ├── config.yaml       # Configuración de instalación
-│   └── validate-setup.py # Validador post-instalación
-├── skills/               # Definiciones de skills
-│   └── implement-us/     # Skill principal para implementar historias de usuario
-│       ├── skill.md      # Definición completa del skill
-│       ├── config.json   # Configuración base
-│       ├── phases/       # Documentación de cada fase (0-9)
-│       └── customizations/ # Perfiles específicos por stack
-│           ├── pyqt-mvc.json
-│           ├── fastapi-rest.json
-│           ├── flask-rest.json
-│           ├── flask-webapp.json
-│           └── generic-python.json
-├── templates/            # Templates reutilizables
-│   ├── bdd/             # Escenarios Gherkin, steps pytest-bdd
-│   ├── planning/        # Planes de implementación, ADRs
-│   ├── testing/         # Templates de tests unitarios e integración
-│   └── reporting/       # Reportes de implementación
-├── tracking/             # Sistema de tracking de tiempo
-│   ├── time_tracker.py  # Funcionalidad core de tracking
-│   ├── commands.py      # Comandos /track-*
-│   └── models.py        # Modelos de datos (Task, Phase, Pause)
-├── docs/                 # Documentación del framework
-├── examples/             # Proyectos de ejemplo completos
-└── scripts/              # Scripts de utilidad
+├── skills/implement-us/       # Skill principal (orquestador + 10 fases + 5 perfiles)
+│   ├── skill.md               # Orquestador — leer primero al trabajar con el skill
+│   ├── artifacts.md           # Mapa centralizado de artefactos y rutas canónicas
+│   ├── conventions.md         # Convención estructural de archivos de fase
+│   ├── config.json            # Configuración base genérica
+│   ├── phases/                # phase-0-validation.md … phase-9-final-report.md
+│   └── customizations/        # pyqt-mvc.json, fastapi-rest.json, flask-rest.json,
+│                              #   flask-webapp.json, generic-python.json
+├── templates/                 # Templates parametrizados con {VARIABLE} y {SNIPPET:id}
+│   ├── bdd/scenario.feature
+│   ├── planning/implementation-plan.md
+│   ├── testing/test-unit.py
+│   └── reporting/implementation-report.md
+├── tracking/                  # Sistema de tracking de tiempo (Python, dataclasses)
+│   ├── time_tracker.py        # Core: TimeTracker, Task, Phase, Pause
+│   ├── commands.py            # Comandos /track-*
+│   └── reports.py             # Generación de reportes
+├── install/                   # Instalador multiplataforma
+├── docs/                      # Documentación completa
+│   ├── skills/implement-us/   # Documentación unificada del skill (índice + phase-0…9)
+│   ├── user/                  # Guías de usuario (getting-started, installation, etc.)
+│   ├── developer/             # Docs técnicas (architecture, contributing)
+│   ├── examples/              # Tutoriales por stack
+│   └── mejoras/               # Registro de hallazgos y planes de mejora
+├── examples/                  # Proyectos de ejemplo completos con tests
+├── tests/                     # Suite de tests del framework (107 tests, 99% cobertura)
+└── gestion/                   # Tickets y progreso del proyecto
 ```
 
 ---
 
-## Flujo de Trabajo de Desarrollo
+## El Skill implement-us
 
-### Fase Actual: Próximos Pasos
+El skill guía la implementación de una historia de usuario a través de **10 fases** (0–9):
 
-**Fases 1-7 completadas:** Setup, instalación, skills, templates, tracking, documentación, ejemplos.
+| Fase | Nombre | Output principal |
+|------|--------|-----------------|
+| 0 | Validación de Contexto | `docs/plans/{US_ID}-context.md` |
+| 1 | Generación BDD | `tests/features/{US_ID}-{nombre}.feature` |
+| 2 | Plan de Implementación | `docs/plans/{US_ID}-plan.md` |
+| 3 | Implementación | Archivos de código según perfil activo |
+| 4 | Tests Unitarios | `tests/unit/test_*.py` |
+| 5 | Tests de Integración | `tests/integration/test_*.py` |
+| 6 | Validación BDD | `tests/step_defs/test_*_steps.py` |
+| 7 | Quality Gates | `quality/reports/{US_ID}-quality.json` |
+| 8 | Documentación | Actualiza plan, CHANGELOG, docs de arquitectura |
+| 9 | Reporte Final | `docs/reports/{US_ID}-report.md` |
 
-**En curso:**
-- **Fase 8:** Testing del framework (Sprint 5 activo — TICKET-059 y TICKET-060 completados)
+**Archivos clave del skill:**
+- `skills/implement-us/skill.md` — orquestador, punto de entrada
+- `skills/implement-us/artifacts.md` — **fuente de verdad de rutas canónicas**
+- `skills/implement-us/conventions.md` — convención estructural de archivos de fase
+- `docs/skills/implement-us/` — documentación completa del skill para referencia
 
-**Próximos pasos:**
-1. **Fase 8:** Completar tests (TICKET-061, 062, 063)
-2. **Fase 9:** Release 1.0
+### Perfiles Disponibles
 
-> **Ver progreso detallado:** `gestion/` para tickets y estado actualizado
-
-### Al Crear Nuevos Archivos
-
-- **Skills**: Deben estar en formato Markdown, seguir la estructura en `_work/from-simapp/skills/implement-us.md`
-- **Templates**: Usar sintaxis `{VARIABLE_NAME}` para placeholders
-- **Código Python**: Seguir patrones del sistema de tracking (dataclasses, type hints, docstrings)
-- **Configuración**: Usar JSON para configs de skills, YAML para config del instalador
-
----
-
-## Conceptos Clave
-
-### 1. Mecanismo de Instalación
-
-El instalador copia el framework en el proyecto del usuario bajo `.claude/`:
-
-```
-proyecto-usuario/
-├── .claude/              # Creado por el instalador
-│   ├── skills/
-│   ├── templates/
-│   ├── tracking/
-│   └── config.json
-└── CLAUDE.md            # Generado si no existe
-```
-
-**Modos de Instalación:**
-- Interactivo: Pregunta al usuario para seleccionar perfil (PyQt, FastAPI, Flask REST, Flask WebApp, Genérico)
-- No interactivo: `python installer.py --profile pyqt-mvc --yes`
-- Validación: Valida automáticamente la instalación después de completarla
-
-### 2. Sistema de Perfiles
-
-Los perfiles personalizan el framework para stacks tecnológicos específicos:
-
-- **pyqt-mvc**: PyQt6 + arquitectura MVC + patrones Factory/Coordinator
-- **fastapi-rest**: FastAPI + APIs REST + arquitectura en capas
-- **flask-rest**: Flask + APIs REST + arquitectura en capas (sync/threading)
-- **flask-webapp**: Flask + WebApp fullstack + Jinja2 SSR + patrón BFF
-- **generic-python**: Proyectos Python genéricos sin framework específico
-
-Cada perfil proporciona:
-- Configuración personalizada (`customizations/{profile}.json`)
-- Configuración del framework de testing específico del stack
-- Definiciones de patrones arquitectónicos
-- Templates de estructura de componentes
-
-### 3. El Skill implement-us
-
-El skill principal que guía paso a paso la implementación de historias de usuario:
-
-**9 Fases:**
-0. Validación de Contexto
-1. Generación de Escenarios BDD
-2. Generación de Plan de Implementación
-3. Implementación
-4. Tests Unitarios
-5. Tests de Integración
-6. Validación BDD
-7. Quality Gates (pylint, complejidad, cobertura)
-8. Documentación
-9. Reporte Final
-
-Cada fase incluye:
-- Tracking de tiempo (inicio/fin automático)
-- Checkpoints opcionales de aprobación del usuario
-- Generación de output basada en templates
-- Desglose de tareas con estimaciones
-
-### 4. Sistema de Tracking de Tiempo
-
-Ubicado en `_work/from-simapp/tracking/` (listo para migrar):
-
-**Características:**
-- Tracking automático de tiempo por fase y tarea
-- Pausa/reanudación manual con tracking de razón (`/track-pause`, `/track-resume`)
-- Reportes de estado en tiempo real (`/track-status`)
-- Reportes históricos por US o producto (`/track-report`, `/track-history`)
-- Tracking de varianza (tiempo estimado vs. real)
-
-**Modelos de Datos:**
-- `Task`: Tarea individual dentro de una fase
-- `Phase`: Una de las 9 fases de implementación
-- `Pause`: Períodos de pausa manual con razón
-
-### 5. Sistema de Templates
-
-Los templates usan placeholders `{VARIABLE_NAME}` que se reemplazan durante la generación:
-
-**Variables Comunes:**
-- `{US_ID}`: Identificador de historia de usuario (ej. US-001)
-- `{US_TITLE}`: Título de la historia de usuario
-- `{ARCHITECTURE_PATTERN}`: mvc, mvt, layered, etc.
-- `{COMPONENT_TYPE}`: Panel, View, Controller, Service, etc.
-- `{COMPONENT_PATH}`: Ruta del archivo para el componente
-- `{TEST_FRAMEWORK}`: pytest, unittest, etc.
+| Perfil | Stack | Arquitectura | Coverage mín. |
+|--------|-------|--------------|--------------|
+| `pyqt-mvc` | PyQt6 Desktop | MVC | 90% |
+| `fastapi-rest` | FastAPI | Layered | 95% |
+| `flask-rest` | Flask API | Layered | 95% |
+| `flask-webapp` | Flask Web | BFF + SSR | 90% |
+| `generic-python` | Python genérico | Flexible | 95% |
 
 ---
 
-## Estándares de Calidad
+## Sistema de Templates
 
-### Quality Gates de Código (del plan)
+Templates en `templates/` con placeholders `{VARIABLE_NAME}` y `{SNIPPET:id}`:
+- Las variables se definen en `skills/implement-us/customizations/{perfil}.json`
+- Los snippets son bloques de código específicos por stack (condicionales por perfil)
+- Documentación técnica: `docs/developer/architecture/template-system.md`
 
-Al implementar el framework mismo:
-- **Pylint**: Puntaje mínimo 8.0/10
-- **Complejidad Ciclomática**: Máximo 10 por función
-- **Índice de Mantenibilidad**: Mínimo 20
-- **Cobertura de Tests**: Mínimo 95% para el sistema de tracking
+---
 
-### Convención de Commits
+## Sistema de Tracking
 
+Tracking automático de tiempo por fase mediante directivas bash imperativas en cada archivo de fase. Las instrucciones están en secciones `🔴 Acción Requerida`.
+
+**Comandos disponibles:** `/track-pause`, `/track-resume`, `/track-status`, `/track-report`, `/track-history`
+
+**Persistencia:** `.claude/tracking/{US_ID}-tracking.json`
+
+---
+
+## Convenciones de Código
+
+### Commits
 ```
 <type>(<scope>): <subject>
-
-Types:
-- feat: Nueva funcionalidad
-- fix: Corrección de bug
-- docs: Solo documentación
-- refactor: Refactorización de código
-- test: Agregar tests
-- chore: Mantenimiento
-
-Ejemplos:
-feat(installer): agregar soporte para perfil Django
-docs(tracking): documentar comando /track-history
-fix(templates): corregir variables en test-unit.py
+# Types: feat, fix, docs, refactor, test, chore
 ```
 
-### Estrategia de Branching
-
+### Branching
 ```
 main                    # Releases de producción
   └── develop           # Desarrollo activo
-       ├── feature/xxx  # Nuevas funcionalidades
-       ├── fix/xxx      # Correcciones de bugs
-       └── docs/xxx     # Documentación
+       ├── feature/xxx
+       ├── fix/xxx
+       └── docs/xxx
 ```
 
-Rama actual: `inicializacion-proyecto` (rama de configuración inicial)
+### Quality Gates (del skill)
+- **Pylint:** ≥ 8.0 (FastAPI: ≥ 8.5)
+- **Complejidad Ciclomática:** ≤ 10 por función (PyQt: ≤ 12)
+- **Índice de Mantenibilidad:** > 20 (FastAPI: > 25)
+- **Cobertura:** según perfil (ver tabla de perfiles)
 
 ---
 
-## Comandos Esenciales
+## Documentación de Referencia
 
-### Instalación (cuando esté implementado)
-
-```bash
-# Clonar kit en ubicación global
-git clone https://github.com/vvalotto/claude-dev-kit.git ~/.claude-dev-kit
-
-# Navegar al proyecto destino
-cd ~/mi-proyecto-python
-
-# Ejecutar instalador (interactivo)
-python ~/.claude-dev-kit/install/installer.py
-
-# O no interactivo con perfil
-python ~/.claude-dev-kit/install/installer.py --profile pyqt-mvc --yes
-
-# Validar instalación
-python ~/.claude-dev-kit/scripts/validate-setup.py
-```
-
-### Desarrollo
-
-```bash
-# Instalar dependencias del framework (cuando exista requirements.txt)
-pip install -r requirements.txt
-
-# Ejecutar tests del framework (cuando tests/ esté implementado)
-pytest tests/
-
-# Validar script de instalación
-python scripts/validate-setup.py
-```
-
-### Usando el Skill (después de instalación en un proyecto)
-
-```bash
-# Implementar una historia de usuario
-/implement-us US-001
-
-# Con especificación de producto
-/implement-us US-001 --producto mi_producto
-
-# Saltar generación BDD
-/implement-us US-001 --skip-bdd
-```
-
-### Comandos de Time Tracking (después de implementación)
-
-```bash
-/track-pause [razón]          # Pausar tracking actual
-/track-resume                 # Reanudar tracking
-/track-status                 # Mostrar estado actual
-/track-report [us_id]         # Generar reporte para US
-/track-history [--last N]     # Mostrar historial
-```
+| Qué necesito saber | Dónde leer |
+|--------------------|------------|
+| Cómo funciona el skill fase a fase | `docs/skills/implement-us/phase-X.md` |
+| Rutas canónicas de artefactos | `skills/implement-us/artifacts.md` |
+| Variables y snippets de templates | `docs/developer/architecture/template-system.md` |
+| Arquitectura del tracking | `docs/developer/architecture/tracking.md` |
+| Crear un skill custom | `docs/developer/contributing/creating-skills.md` |
+| Guía de usuario final | `docs/user/index.md` |
+| Hallazgos y mejoras pendientes | `docs/mejoras/hallazgos.md` |
+| Tickets y progreso | `gestion/` |
 
 ---
 
-## Guías de Migración
-
-Al generalizar componentes de `_work/from-simapp/`:
-
-### Generalización de Skills
-
-**Remover:**
-- Referencias específicas a "MVC", "Factory", "Coordinator"
-- Menciones específicas de PyQt6
-- Rutas hardcodeadas a simapp_termostato
-- Referencias a "Panel", "Display", componentes específicos
-
-**Reemplazar con:**
-- Variables: `{ARCHITECTURE_PATTERN}`, `{COMPONENT_TYPE}`, `{COMPONENT_PATH}`
-- Instrucciones para leer configuración del perfil
-- Ejemplos genéricos o múltiples ejemplos por stack
-
-**Ejemplo:**
-
-Antes:
-```markdown
-### 1. Panel Display (MVC)
-- [ ] app/presentacion/paneles/display/modelo.py (10 min)
-```
-
-Después:
-```markdown
-### 1. {COMPONENT_NAME} ({ARCHITECTURE_PATTERN})
-- [ ] {COMPONENT_PATH}/modelo.py (10 min)
-
-> Nota: La estructura de componentes se define en el perfil seleccionado.
-> Ver `.claude/skills/implement-us/config.json` para personalizar.
-```
-
-### Generalización de Templates
-
-Reemplazar suposiciones hardcodeadas:
-- `{TEST_FRAMEWORK}` en lugar de "pytest-qt"
-- `{BASE_CLASS}` en lugar de "ModeloBase"
-- `{COMPONENT_TYPE}` en lugar de "Panel"
-
-### Archivos de Configuración
-
-Convertir `implement-us-config.json` en:
-1. **Config base** (`skills/implement-us/config.json`): Valores por defecto genéricos
-2. **Configs de perfil** (`skills/implement-us/customizations/{profile}.json`): Overrides específicos del stack
-
-El instalador fusiona base + perfil al instalar.
-
----
-
-## Estrategia de Testing
-
-### Tests del Framework
-
-```
-tests/
-├── test_installer.py      # Test del proceso de instalación
-├── test_tracking.py       # Test del sistema de tracking de tiempo
-├── test_config_merge.py   # Test de fusión de configs
-└── conftest.py           # Fixtures compartidos
-```
-
-### Tests de Proyectos de Ejemplo
-
-Cada ejemplo en `examples/{stack}/` debe incluir:
-- Suite de tests completa demostrando el framework
-- Escenarios BDD
-- Tests unitarios y de integración
-- Validación de quality gates
-
----
-
-## Estructura de Documentación
-
-Toda la documentación va en `docs/`:
-
-- `getting-started.md` - Guía de inicio rápido para usuarios
-- `installation.md` - Instrucciones de instalación detalladas
-- `customization.md` - Cómo personalizar perfiles y templates
-- `configuration.md` - Referencia completa de configuración
-- `skills/implement-us.md` - Documentación completa del skill
-- `tracking/tracking-guide.md` - Guía de tracking de tiempo
-- `examples/{stack}.md` - Tutorial para cada stack
-
----
-
-## Notas Importantes para Claude Code
-
-1. **Este es un proyecto de framework, no una aplicación.** El código que escribimos será usado POR otros proyectos, no se ejecuta directamente.
-
-2. **El directorio `_work/` contiene material fuente** que necesita ser adaptado, no código de producción. Es un área de trabajo/planificación.
-
-3. **Comenzar con la migración del sistema de tracking** ya que es genérico y no necesita cambios. Esto proporciona logros tempranos.
-
-4. **No crear código de implementación sin consultar el plan.** Todo sigue la estructura en `PROJECT_PLAN_claude-dev-kit.md`.
-
-5. **El sistema de perfiles es clave.** El mismo skill/template debe funcionar para PyQt, FastAPI, Django, etc. Pensar en términos de variables y overrides.
-
-6. **Los templates usan reemplazo simple de strings** con sintaxis `{VARIABLE}`, no motores de templating complejos.
-
-7. **El instalador es crítico.** Los usuarios necesitan una experiencia de instalación fluida y guiada con validación.
-
-8. **Documentar sobre la marcha.** Como esto es un framework, la documentación es tan importante como el código.
-
----
-
-## Recursos
-
-- **Plan del Proyecto**: `PROJECT_PLAN_claude-dev-kit.md` - Roadmap completo y arquitectura
-- **Resumen Rápido**: `_work/QUICK_SUMMARY.md` - Qué hay que hacer
-- **Notas de Migración**: `_work/MIGRATION_NOTES.md` - Cómo generalizar componentes
-- **Skill Fuente**: `_work/from-simapp/skills/implement-us.md` - Implementación de referencia
-- **Tracking Fuente**: `_work/from-simapp/tracking/*.py` - Sistema de tracking listo para usar
-
----
-
-## Sprint Actual: Sprint 3 - Documentación + Ejemplos (Semana 3)
-
-**Sprint 1 (Completado):**
-- ✅ Setup inicial
-- ✅ Sistema de instalación completo
-- ✅ Validación de setup
-
-**Sprint 2 (Completado):**
-- ✅ Generalización de skills (5 perfiles)
-- ✅ Generalización de templates (4 templates)
-- ✅ Sistema de tracking completo
-
-**Sprint 3 (Completado):**
-- ✅ Fase 6: Documentación general (100%)
-- ✅ Fase 7: Ejemplos por stack (100%)
-
-**Sprint 5 (Completado):**
-- ✅ Fase 8: Testing del framework (107 tests, 99% cobertura)
-
-**Sprint 6 (Completado):**
-- ✅ Fase 9: Release v1.0 — CHANGELOG, Wiki, archivos clave, tag v1.0.0
-
-**Entregable:** Framework completo y publicado como v1.0.0
-
----
-
-**Última Actualización:** 2026-02-17
+**Última Actualización:** 2026-02-28 — v1.3.0

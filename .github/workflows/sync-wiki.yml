@@ -58,8 +58,8 @@ jobs:
           # Caso especial: docs/user/index.md → UserIndex.md
           cp docs/user/index.md wiki/UserIndex.md
 
-          # Sincronizar docs/user/skills/
-          for file in docs/user/skills/*.md; do
+          # Sincronizar docs/skills/implement-us/
+          for file in docs/skills/implement-us/*.md; do
             [ -f "$file" ] || continue
 
             wiki_name=$(build_wiki_name "$file")
