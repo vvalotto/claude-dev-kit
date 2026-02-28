@@ -95,7 +95,7 @@ EOF
 | **8. Documentación** | Docstrings y comentarios | Código documentado |
 | **9. Reporte Final** | Resumen y métricas *(STOP — reporte debe existir)* | `docs/reports/{US_ID}-report.md` |
 
-**Ver:** [Documentación completa del skill](docs/user/skills/implement-us.md)
+**Ver:** [Documentación completa del skill](docs/skills/implement-us/index.md)
 
 ---
 
@@ -169,7 +169,7 @@ Templates parametrizados con variables y snippets:
 | [📦 Instalación](docs/user/installation.md) | Setup completo y troubleshooting |
 | [🎨 Personalización](docs/user/customization.md) | Adaptar a tu stack |
 | [⚙️ Configuración](docs/user/configuration.md) | Referencia de opciones |
-| [🛠️ Skill implement-us](docs/user/skills/implement-us.md) | Las 10 fases explicadas |
+| [🛠️ Skill implement-us](docs/skills/implement-us/index.md) | Las 10 fases explicadas |
 | [⏱️ Sistema de Tracking](docs/user/tracking/user-guide.md) | Comandos y reportes |
 
 ### Para Desarrolladores

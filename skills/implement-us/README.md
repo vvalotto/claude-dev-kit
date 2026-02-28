@@ -2,7 +2,7 @@
 
 Documentación técnica de la arquitectura y estructura interna del skill.
 
-> **Para usuarios:** Ver [docs/skills/implement-us.md](../../docs/skills/implement-us.md)
+> **Para usuarios:** Ver [docs/skills/implement-us/index.md](../../docs/skills/implement-us/index.md)
 
 ---
 

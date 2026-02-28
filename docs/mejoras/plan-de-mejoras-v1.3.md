@@ -1,7 +1,7 @@
 # Plan de Mejoras — Claude Dev Kit v1.3
 
 **Fecha:** 2026-02-27
-**Basado en:** `docs/developer/skill-implement-us-descripcion-tecnica.md` (análisis post v1.2)
+**Basado en:** análisis post v1.2 de las fases del skill (documento eliminado — contenido integrado en `docs/skills/implement-us/phase-X.md` y `docs/mejoras/hallazgos.md`)
 **Estado:** Pendiente
 **Tickets:** TICKET-080 a TICKET-089 (10 tickets · 24 discrepancias)
 
@@ -9,7 +9,7 @@
 
 ## Contexto
 
-Durante la generación del documento técnico `skill-implement-us-descripcion-tecnica.md` (sesión 2026-02-27),
+Durante el análisis técnico de las fases del skill (sesión 2026-02-27),
 se detectaron **24 discrepancias** entre los archivos del skill y las convenciones establecidas.
 Este plan organiza su resolución en tickets agrupados por archivo afectado y prioridad.
 
@@ -249,7 +249,7 @@ El plan está completo cuando:
 - [ ] `config.json` pasa una revisión de coherencia (rutas consistentes con las fases)
 - [ ] `skill.md` documenta todos los subcomandos del CLI de tracking
 - [ ] `phase-7-quality-gates.md` no tiene valores numéricos de umbral hardcodeados
-- [ ] El documento técnico `skill-implement-us-descripcion-tecnica.md` se actualiza para reflejar el estado post v1.3
+- [ ] `docs/skills/implement-us/phase-X.md` refleja el estado post v1.3 (referencia técnica integrada en nueva documentación)
 
 ---
 

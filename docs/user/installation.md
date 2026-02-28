@@ -595,7 +595,7 @@ python ~/.claude-dev-kit/install/installer.py --upgrade
 - [Getting Started](Getting-Started) - Guía de inicio rápido
 - [Personalización](Customization) - Modificar perfiles y configuración
 - [Configuración](Configuration) - Referencia completa de opciones
-- [Skill implement-us](UserSkillsImplementUs) - Uso del skill principal
+- [Skill implement-us](SkillImplementUs) - Uso del skill principal
 
 ---
 

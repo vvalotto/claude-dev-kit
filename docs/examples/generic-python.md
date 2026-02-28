@@ -1214,7 +1214,7 @@ examples/code/csv-tool/
 
 - `docs/user/getting-started.md` — Guía de inicio del framework
 - `docs/user/installation.md` — Instalación detallada
-- `docs/user/skills/implement-us.md` — Documentación del skill
+- `docs/skills/implement-us/index.md` — Documentación del skill
 
 ### Artefactos Generados por el Framework
 
