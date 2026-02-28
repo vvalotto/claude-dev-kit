@@ -9,6 +9,39 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.0] - 2026-02-27
+
+### Corregido
+
+#### Skill `implement-us` — Correcciones sistemáticas post-análisis (42 hallazgos v1.2 + 24 discrepancias v1.3)
+
+**Archivos de configuración (`config.json`)**
+- Corregida clave `steps_path`: `"tests/features/steps/"` → `"tests/step_defs/"` (alineada con convención real)
+- Corregida clave `test_path`: `"tests/"` → incluye subdirectorios `unit/` e `integration/` según fase
+- Eliminadas referencias residuales a Django de `variables.*.examples` en todos los campos
+
+**`skill.md`**
+- Documentado subcomando `end-tracking` del CLI de tracking (antes ausente, causaba fallo en Fase 9)
+- Eliminadas referencias a Django de ejemplos de perfil
+
+**Fases 0–9** (correcciones aplicadas sobre todas las fases):
+- **Fase 0:** Clarificados valores por defecto para `.pylintrc` y `pytest.ini`; agregado campo `skip_bdd` al template de `context.md`; eliminadas rutas BDD hardcodeadas (reemplazadas por referencias a `artifacts.md`)
+- **Fase 1:** Clarificada forma de usar el template BDD y convención de nombres del feature file (`{US_ID}-{nombre}.feature`); unificada ruta canónica `tests/features/` en todos los puntos del archivo
+- **Fase 2:** Clarificada ruta de output del plan (`docs/plans/{US_ID}-plan.md`) en el template; establecida prioridad explícita entre template externo y template embebido
+- **Fase 3:** Agregada verificación de flag `--skip-bdd` antes de referencias a feature files; agregada instrucción de leer `component_structure` del perfil activo
+- **Fase 4:** Ruta de tests unitarios leída desde `config.json` en lugar de hardcodeada como `tests/unit/`
+- **Fase 5:** Ajustada precondición: verifica que no existan tests de integración previos antes de crear
+- **Fase 6:** Clarificado uso de `bdd_config.steps_template` del perfil activo
+- **Fase 7:** Corregidos umbrales hardcodeados en script Python de quality gates; umbrales ahora leídos desde `quality_gates` del perfil activo
+- **Fase 8:** Eliminada referencia a `python manage.py generate_swagger` (Django) de la sección de automatización
+- **Fase 9:** Agregado mapeo explícito de `quality.json → umbrales` para rellenar templates de reporte
+
+**`artifacts.md`, `conventions.md`**
+- Rutas BDD corregidas: `docs/bdd/` → `tests/features/` en toda la documentación de artefactos
+- Eliminadas referencias a Django de ejemplos de rutas
+
+---
+
 ## [1.1.0] - 2026-02-24
 
 ### Agregado
