@@ -192,5 +192,7 @@ Cinco proyectos completos y funcionales generados usando el propio framework, ca
 
 ---
 
-[Sin publicar]: https://github.com/vvalotto/claude-dev-kit/compare/v1.0.0...HEAD
+[Sin publicar]: https://github.com/vvalotto/claude-dev-kit/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.1.0...v1.3.0
+[1.1.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.0.0
