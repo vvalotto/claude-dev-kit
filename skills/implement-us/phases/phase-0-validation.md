@@ -11,7 +11,7 @@
 Ejecutá este comando antes de cualquier otra acción en esta fase:
 
 ```bash
-python .claude/tracking/track.py start-phase 0 "Validación de Contexto"
+python .claude/tracking/track.py start-phase 0 "Validación de Contexto" --us {US_ID}
 ```
 
 ---

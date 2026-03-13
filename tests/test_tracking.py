@@ -128,6 +128,50 @@ class TestTimeTrackerLifecycle:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Tests: TimeTracker — from_json
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestTimeTrackerFromJson:
+    def test_from_json_restores_metadata(self, tracker_with_phase):
+        path = tracker_with_phase.storage_path
+        restored = TimeTracker.from_json(path)
+        assert restored.us_id == tracker_with_phase.us_id
+        assert restored.us_title == tracker_with_phase.us_title
+        assert restored.us_points == tracker_with_phase.us_points
+        assert restored.producto == tracker_with_phase.producto
+
+    def test_from_json_restores_started_at(self, started_tracker):
+        path = started_tracker.storage_path
+        restored = TimeTracker.from_json(path)
+        assert restored.started_at is not None
+
+    def test_from_json_restores_phases(self, tracker_with_phase):
+        path = tracker_with_phase.storage_path
+        restored = TimeTracker.from_json(path)
+        assert len(restored.phases) == 1
+        assert restored.phases[0].phase_number == 0
+
+    def test_from_json_restores_current_phase(self, tracker_with_phase):
+        path = tracker_with_phase.storage_path
+        restored = TimeTracker.from_json(path)
+        assert restored.current_phase is not None
+        assert restored.current_phase.phase_number == 0
+
+    def test_from_json_can_continue_phase(self, tracker_with_phase):
+        """Tracker restaurado permite cerrar la fase activa."""
+        path = tracker_with_phase.storage_path
+        restored = TimeTracker.from_json(path)
+        restored.end_phase(0)
+        assert restored.phases[0].status == "completed"
+
+    def test_from_json_completed_tracking(self, started_tracker):
+        started_tracker.end_tracking()
+        path = started_tracker.storage_path
+        restored = TimeTracker.from_json(path)
+        assert restored.completed_at is not None
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Tests: TimeTracker — Fases
 # ─────────────────────────────────────────────────────────────────────────────
 

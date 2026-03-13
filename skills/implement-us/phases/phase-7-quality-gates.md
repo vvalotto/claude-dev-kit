@@ -482,6 +482,51 @@ Agregar a observaciones del reporte:
 
 ---
 
+## 🔴 Acción Requerida — Generar reporte de quality gates
+
+Antes de cerrar el tracking, generá el reporte JSON con los resultados de todas las métricas:
+
+**Ubicación:** `quality/reports/{US_ID}-quality.json`
+
+Creá el archivo con los valores reales obtenidos en los pasos anteriores:
+
+```json
+{
+  "us_id": "{US_ID}",
+  "fecha": "{FECHA_ISO}",
+  "componente": "{COMPONENT_PATH}",
+  "metricas": {
+    "pylint": 0.0,
+    "cc_promedio": 0.0,
+    "mi_promedio": 0.0,
+    "coverage": 0.0
+  },
+  "umbrales": {
+    "pylint_min": 8.0,
+    "cc_max": 10,
+    "mi_min": 20,
+    "coverage_min": 95.0
+  },
+  "estado": "APROBADO",
+  "observaciones": []
+}
+```
+
+> Reemplazá los valores `0.0` con los resultados reales de pylint, radon y pytest-cov.
+> Leé los umbrales correctos del perfil activo con:
+> ```bash
+> cat .claude/skills/implement-us/config.json | jq '.quality_gates'
+> ```
+> Cambiá `"estado"` a `"RECHAZADO"` si alguna métrica no alcanza el umbral. Documentá la causa en `"observaciones"`.
+
+Si el directorio no existe, crealo:
+
+```bash
+mkdir -p quality/reports
+```
+
+---
+
 ## ✅ Checklist de Salida
 
 Antes de avanzar a Fase 8, confirmá que:
