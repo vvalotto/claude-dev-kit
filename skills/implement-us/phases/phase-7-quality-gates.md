@@ -35,6 +35,16 @@ Ejecutar herramientas de análisis estático y validar que todas las métricas d
 
 ## Métricas de Calidad
 
+> **Si el perfil activo es `hexagonal-ddd-bc`:** No usar `radon` directamente.
+> Usar `codeguard` que orquesta pylint + radon + designreviewer en una sola pasada.
+>
+> ```bash
+> codeguard src/{bc}/ --format json > quality/reports/codeguard/{US_ID}-codeguard.json
+> ```
+>
+> `designreviewer` se ejecuta **al cierre del Incremento** (no por US), vía pre-push hook
+> o manualmente. Si reporta CRITICAL, bloquea el merge.
+
 ### 1. Pylint (Análisis Estático)
 
 **Objetivo:** Validar estilo, convenciones y errores potenciales.
