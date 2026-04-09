@@ -9,6 +9,30 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.0] - 2026-04-09
+
+### Agregado
+
+#### Perfil `hexagonal-ddd-bc` para el skill `implement-us`
+
+- Nuevo perfil de customización `skills/implement-us/customizations/hexagonal-ddd-bc.json`
+  para proyectos con arquitectura hexagonal + DDD + BC-first (Bounded Context first)
+- Cubre los 8 tipos de componentes DDD: AggregateRoot, ValueObject, DomainEvent,
+  Port, CommandHandler, QueryHandler, Repository, ApiRouter
+- Define `implementation_order` explícito (VOs → Events → Aggregate → Ports →
+  CommandHandlers → QueryHandlers → Repositories → ApiRouter)
+- Integrado con `codeguard` como orquestador de quality gates (no radon directo)
+- Cierra issue #46
+
+#### Anotaciones en fases para arquitectura hexagonal
+
+- `phase-3-implementation.md`: nota sobre el orden de implementación obligatorio
+  para BCs DDD
+- `phase-7-quality-gates.md`: nota sobre uso de `codeguard` en lugar de `radon`
+  directo cuando el perfil activo es `hexagonal-ddd-bc`
+
+---
+
 ## [1.3.0] - 2026-02-27
 
 ### Corregido

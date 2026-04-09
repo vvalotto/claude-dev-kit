@@ -1,0 +1,208 @@
+{
+  "_comment_profile": "Perfil genérico para arquitectura hexagonal + DDD + BC-first",
+
+  "profile_metadata": {
+    "name": "hexagonal-ddd-bc",
+    "display_name": "Hexagonal DDD BC-First",
+    "description": "Arquitectura hexagonal con DDD organizada por Bounded Context. domain → application → infrastructure → api.",
+    "extends": "config.json",
+    "version": "1.0.0",
+    "author": "Claude Dev Kit",
+    "created": "2026-04-09",
+    "target_stack": "Python 3.10+ + cualquier framework HTTP",
+    "architecture": "Hexagonal DDD BC-First (domain → application → infrastructure → api)"
+  },
+
+  "variables": {
+    "architecture_pattern": {
+      "default": "hexagonal",
+      "description": "Hexagonal DDD BC-first: domain → application → infrastructure → api",
+      "available": ["hexagonal"],
+      "layers": {
+        "domain": "Aggregates, ValueObjects, DomainEvents, Ports (interfaces)",
+        "application": "CommandHandlers, QueryHandlers",
+        "infrastructure": "Repository implementations, EventStore, ACLs",
+        "api": "Framework router del BC"
+      },
+      "golden_rule": "<bc>/domain/ no importa nada fuera de su domain/. Solo shared/domain/ es excepción."
+    },
+    "component_type": {
+      "default": "AggregateRoot",
+      "description": "Tipo de componente DDD a implementar",
+      "available": [
+        "AggregateRoot",
+        "ValueObject",
+        "DomainEvent",
+        "Port",
+        "CommandHandler",
+        "QueryHandler",
+        "Repository",
+        "ApiRouter"
+      ]
+    },
+    "component_path": {
+      "default": "src/{bc}/domain/aggregates/",
+      "description": "Ruta base según tipo de componente y BC",
+      "by_component": {
+        "AggregateRoot": "src/{bc}/domain/aggregates/",
+        "ValueObject":   "src/{bc}/domain/value_objects/",
+        "DomainEvent":   "src/{bc}/domain/events/",
+        "Port":          "src/{bc}/domain/ports/",
+        "CommandHandler":"src/{bc}/application/commands/",
+        "QueryHandler":  "src/{bc}/application/queries/",
+        "Repository":    "src/{bc}/infrastructure/repositories/",
+        "ApiRouter":     "src/{bc}/api/"
+      }
+    },
+    "test_framework": {
+      "default": "pytest + httpx",
+      "plugins": ["pytest-asyncio", "httpx", "pytest-cov", "pytest-bdd"]
+    },
+    "project_root": {
+      "default": "src/",
+      "description": "Raíz del código fuente — organizado por BC"
+    }
+  },
+
+  "component_structure": {
+    "bc_feature": {
+      "description": "BC completo con arquitectura hexagonal DDD",
+      "base_path": "src/{bc}/",
+      "implementation_order": [
+        "ValueObjects",
+        "DomainEvents",
+        "AggregateRoot",
+        "Ports",
+        "CommandHandlers",
+        "QueryHandlers",
+        "Repositories",
+        "ApiRouter"
+      ],
+      "_comment_order": "El orden es obligatorio: cada elemento depende del anterior.",
+      "files": {
+        "aggregate": {
+          "path": "src/{bc}/domain/aggregates/{nombre}.py",
+          "responsibilities": [
+            "Encapsula invariantes del BC",
+            "Emite DomainEvents ante cambios de estado",
+            "Sin dependencias de infraestructura"
+          ]
+        },
+        "value_object": {
+          "path": "src/{bc}/domain/value_objects/{nombre}.py",
+          "responsibilities": [
+            "Inmutable — frozen dataclass o __setattr__ bloqueado",
+            "Validación propia en __init__",
+            "Igualdad por valor, no por identidad"
+          ]
+        },
+        "domain_event": {
+          "path": "src/{bc}/domain/events/{nombre}.py",
+          "responsibilities": [
+            "Describe algo que ocurrió en el dominio",
+            "Inmutable — todos los campos readonly",
+            "Nombrado en pasado: EntidadCreada, EstadoCambiado"
+          ]
+        },
+        "port": {
+          "path": "src/{bc}/domain/ports/{nombre}.py",
+          "responsibilities": [
+            "Define el contrato de repositorio o servicio externo",
+            "Solo métodos abstractos — sin implementación",
+            "Implementado en infrastructure/"
+          ]
+        },
+        "command_handler": {
+          "path": "src/{bc}/application/commands/{nombre}_handler.py",
+          "responsibilities": [
+            "Carga aggregate desde repositorio",
+            "Llama método del aggregate",
+            "Persiste aggregate",
+            "Sin lógica de negocio — delega al aggregate"
+          ]
+        },
+        "query_handler": {
+          "path": "src/{bc}/application/queries/{nombre}_handler.py",
+          "responsibilities": [
+            "Lee datos del repositorio o read model",
+            "Retorna DTOs o view models",
+            "Sin side effects"
+          ]
+        },
+        "repository_impl": {
+          "path": "src/{bc}/infrastructure/repositories/{nombre}_repository.py",
+          "responsibilities": [
+            "Implementa el puerto definido en domain/ports/",
+            "Traduce entre domain objects y mecanismo de persistencia",
+            "Sin lógica de negocio"
+          ]
+        },
+        "api_router": {
+          "path": "src/{bc}/api/router.py",
+          "responsibilities": [
+            "Solo importa application/ — nunca domain/ directamente",
+            "Traduce HTTP request → Command/Query",
+            "Traduce resultado → HTTP response"
+          ]
+        }
+      },
+      "test_files": {
+        "test_aggregate":       "tests/unit/{bc}/test_{nombre}.py",
+        "test_value_object":    "tests/unit/{bc}/test_{nombre}.py",
+        "test_command_handler": "tests/unit/{bc}/test_{nombre}_handler.py",
+        "test_integration":     "tests/integration/{bc}/test_{nombre}.py"
+      }
+    }
+  },
+
+  "quality_gates": {
+    "codeguard": {
+      "enabled": true,
+      "tool": "codeguard",
+      "command": "codeguard src/{bc}/ --format json",
+      "notes": "CodeGuard orquesta pylint + radon + designreviewer. Usar codeguard, nunca radon directamente."
+    },
+    "pylint": {
+      "enabled": true,
+      "min_score": 8.0,
+      "scope": "src/{bc}/domain/ + src/{bc}/application/",
+      "notes": "Invocado por CodeGuard"
+    },
+    "cyclomatic_complexity": {
+      "enabled": true,
+      "max_per_function": 10,
+      "tool": "radon (vía CodeGuard)"
+    },
+    "coverage": {
+      "enabled": true,
+      "min_percent": 90.0,
+      "tool": "pytest-cov",
+      "scope": "src/{bc}/domain/ + src/{bc}/application/",
+      "notes": "Infrastructure y api no cuentan para el umbral mínimo"
+    }
+  },
+
+  "design_patterns": {
+    "hexagonal_architecture": {
+      "description": "Hexagonal DDD BC-First",
+      "import_rules": [
+        "domain/: sin imports fuera de su propio domain/ (solo shared/domain/ permitido)",
+        "application/: importa domain/, nunca infrastructure/",
+        "infrastructure/: implementa puertos de domain/",
+        "api/: importa application/, nunca domain/ directamente"
+      ],
+      "bc_communication": "Solo a través de puertos (domain/ports/). Nunca imports directos entre BCs.",
+      "acl_location": "infrastructure/ del BC consumidor"
+    },
+    "aggregate_pattern": {
+      "event_sourcing_note": "Si el BC usa Event Sourcing, los eventos son la fuente de verdad. El aggregate los emite y se reconstruye desde ellos.",
+      "crud_note": "Si el BC es CRUD, el aggregate tiene estado directo. Los eventos son opcionales (auditoria)."
+    }
+  },
+
+  "bdd_config": {
+    "runner": "pytest-bdd",
+    "language_note": "NO usar # language: es — pytest-bdd 8.x requiere English keywords (Given/When/Then)",
+    "tag_prefix": "@US-"
+  }
+}
