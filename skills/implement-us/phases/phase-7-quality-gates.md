@@ -10,7 +10,7 @@
 Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/track.py start-phase 7 "Quality Gates"
+python .claude/tracking/tracker_cli.py start-phase 7 "Quality Gates"
 ```
 
 ---
@@ -546,10 +546,22 @@ Antes de avanzar a Fase 8, confirmá que:
 - [ ] Coverage ≥ umbral del perfil activo
 - [ ] Tracking de Fase 7 cerrado
 
+## 🔴 Acción Requerida — Verificar reporte antes de cerrar
+
+Confirmá que el reporte de quality gates existe en disco antes de avanzar a Fase 8:
+
+```bash
+ls quality/reports/{US_ID}-quality.json
+```
+
+Si no existe, generalo con los valores reales obtenidos en los pasos anteriores (ver sección "Generar Reporte Consolidado").
+
+---
+
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/track.py end-phase 7
+python .claude/tracking/tracker_cli.py end-phase 7
 ```
 
 ---

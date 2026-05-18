@@ -22,7 +22,7 @@ Si no existe, **no avances** — completá la fase correspondiente primero.
 Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/track.py start-phase 4 "Tests Unitarios"
+python .claude/tracking/tracker_cli.py start-phase 4 "Tests Unitarios"
 ```
 
 ---
@@ -1022,7 +1022,7 @@ Antes de avanzar a Fase 5, confirmá que:
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/track.py end-phase 4
+python .claude/tracking/tracker_cli.py end-phase 4
 ```
 
 ---

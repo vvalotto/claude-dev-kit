@@ -23,7 +23,7 @@ Si alguno no existe, **no avances** — completá la fase correspondiente primer
 Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/track.py start-phase 9 "Reporte Final"
+python .claude/tracking/tracker_cli.py start-phase 9 "Reporte Final"
 ```
 
 ---
@@ -497,18 +497,30 @@ Antes de cerrar el tracking, confirmá que:
 
 ---
 
+## 🔴 Acción Requerida — Verificar reporte antes de cerrar
+
+Confirmá que el reporte final existe en disco antes de cerrar el tracking:
+
+```bash
+ls docs/reports/{US_ID}-report.md
+```
+
+Si no existe, generalo usando el template de la sección anterior antes de continuar.
+
+---
+
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
 # Cerrar fase 9
-python .claude/tracking/track.py end-phase 9
+python .claude/tracking/tracker_cli.py end-phase 9
 
 # Cerrar tracking completo de la US
-python .claude/tracking/track.py end-tracking
+python .claude/tracking/tracker_cli.py end
 ```
 
-> **¿Qué hace `end-tracking`?** Es el único punto del skill donde se invoca este subcomando.
-> A diferencia de `end-phase` (que cierra solo la fase actual), `end-tracking` cierra el
+> **¿Qué hace `end`?** Es el único punto del skill donde se invoca este subcomando.
+> A diferencia de `end-phase` (que cierra solo la fase actual), `end` cierra el
 > tracking completo de la US: calcula el tiempo total real acumulado en todas las fases,
 > guarda el histórico en `.claude/tracking/` y genera el reporte de tiempo final.
 > Debe ejecutarse **después** de `end-phase 9`, no en lugar de él.

@@ -26,7 +26,7 @@ Si algún test falla, **no avances** — completá Fase 4 primero.
 Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/track.py start-phase 5 "Tests de Integración"
+python .claude/tracking/tracker_cli.py start-phase 5 "Tests de Integración"
 ```
 
 ---
@@ -553,7 +553,7 @@ Antes de avanzar a Fase 6, confirmá que:
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/track.py end-phase 5
+python .claude/tracking/tracker_cli.py end-phase 5
 ```
 
 ---

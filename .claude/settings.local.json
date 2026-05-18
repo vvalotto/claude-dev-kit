@@ -17,7 +17,25 @@
       "Bash(cat:*)",
       "Bash(git rm docs/session-memory-improvements.md)",
       "Bash(done)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(gh release:*)",
+      "Bash(gh wiki:*)",
+      "Bash(git checkout:*)",
+      "Bash(read f:*)",
+      "Bash(gh pr:*)",
+      "Bash(python -m pytest tests/test_tracking.py -v 2>&1 | tail -40)",
+      "Bash(rm:*)",
+      "Bash(gh issue:*)",
+      "Bash(git pull:*)",
+      "Bash(git tag:*)",
+      "Bash(python3 -m json.tool)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:v for k,v in d.items\\(\\) if 'profile' in k.lower\\(\\) or 'active' in k.lower\\(\\) or 'customiz' in k.lower\\(\\)}, indent=2\\)\\)\")",
+      "Bash(python3 -c ':*)",
+      "Bash(python *)",
+      "Bash(git rm *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('mergeable:', d['mergeable']\\); print\\('reviews:', d['reviews']\\); print\\('checks:', [\\(c['name'], c['conclusion']\\) for c in d.get\\('statusCheckRollup',[]\\)]\\)\")",
+      "Bash(sed -i '' 's|python .claude/tracking/track\\\\.py start-phase 3|python .claude/tracking/tracker_cli.py start-phase 3|g' 's|python .claude/tracking/track\\\\.py end-phase 3|python .claude/tracking/tracker_cli.py end-phase 3|g' /Users/victor/PycharmProjects/claude-dev-kitc/skills/implement-us/phases/phase-3-implementation.md)",
+      "Bash(sed -i '' 's|python .claude/tracking/track\\\\.py|python .claude/tracking/tracker_cli.py|g' /Users/victor/PycharmProjects/claude-dev-kitc/skills/implement-us/phases/phase-3-implementation.md)"
     ]
   }
 }

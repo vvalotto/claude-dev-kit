@@ -11,7 +11,8 @@
 Ejecutá este comando antes de cualquier otra acción en esta fase:
 
 ```bash
-python .claude/tracking/track.py start-phase 0 "Validación de Contexto" --us {US_ID}
+python .claude/tracking/tracker_cli.py init {US_ID} "{US_TITLE}" {STORY_POINTS} {PRODUCT}
+python .claude/tracking/tracker_cli.py start-phase 0 "Validación de Contexto"
 ```
 
 ---
@@ -237,7 +238,7 @@ Antes de avanzar a Fase 1, confirmá que:
 ## Paso 10 🔴 — Cerrar tracking
 
 ```bash
-python .claude/tracking/track.py end-phase 0
+python .claude/tracking/tracker_cli.py end-phase 0
 ```
 
 ---
