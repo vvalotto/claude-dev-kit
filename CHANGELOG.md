@@ -9,6 +9,41 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.1] - 2026-05-18
+
+### Agregado
+
+#### CLI de tracking (`tracker_cli.py`) — PR B, cierra #42 #45
+
+- Nuevo `tracking/tracker_cli.py`: wrapper bash-callable para `TimeTracker` con 7 subcomandos:
+  `init`, `start-phase`, `end-phase`, `start-task`, `end-task`, `status`, `end`
+- `TimeTracker.load(us_id)`: nuevo classmethod que carga un tracker por ID sin conocer la ruta física
+- Validación de trackers activos múltiples: error claro con lista de IDs si hay más de uno activo
+- 27 nuevos tests en `tests/test_tracker_cli.py` (ciclo completo, casos de error, prefijos no-US)
+
+### Corregido
+
+#### Instalador — PR A, cierra #38 #39 #40
+
+- Eliminada dependencia de `pyyaml`; configuración migrada a `install/config.json` (stdlib pura)
+- Manejo de `EOFError` en stdin no interactivo (`--force` para sobrescribir, `--profile` para perfil)
+- Documentación de troubleshooting en `install/README.md`: EOFError, ModuleNotFoundError (pyyaml), uv/venv sin pip
+
+#### Tracking — glob de trackers — PR B, cierra #45
+
+- Corrección de `glob`: usa `*-tracking.json` en lugar de `US-*-tracking.json`; soporta cualquier prefijo (INC-, TEC-, etc.)
+
+#### Pipeline de fases — PR C, cierra #43 #44
+
+- Fases 0–9 migradas de `track.py` a `tracker_cli.py` (módulo anterior eliminado)
+- Fase 0: agrega comando `init` previo a `start-phase` para inicializar el tracker
+- Fase 3: corregido formato de `start-task` y `end-task` con argumentos explícitos (`task_id task_name task_type estimated_minutes`)
+- Fase 9: `end-tracking` → `end` (subcomando correcto de `tracker_cli.py`)
+- Fase 7: gate ejecutable `ls quality/reports/{US_ID}-quality.json` antes de cerrar tracking
+- Fase 9: gate ejecutable `ls docs/reports/{US_ID}-report.md` antes de cerrar tracking
+
+---
+
 ## [1.4.0] - 2026-04-09
 
 ### Agregado
@@ -216,7 +251,9 @@ Cinco proyectos completos y funcionales generados usando el propio framework, ca
 
 ---
 
-[Sin publicar]: https://github.com/vvalotto/claude-dev-kit/compare/v1.3.0...HEAD
+[Sin publicar]: https://github.com/vvalotto/claude-dev-kit/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/vvalotto/claude-dev-kit/compare/v1.4.0...v1.4.1
+[1.4.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.1.0...v1.3.0
 [1.1.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.0.0

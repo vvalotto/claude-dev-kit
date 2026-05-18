@@ -8,7 +8,7 @@ Este archivo proporciona orientación a Claude Code al trabajar en este reposito
 
 **Claude Dev Kit** es un framework de desarrollo agnóstico de dominio que automatiza la implementación de historias de usuario con Claude Code. Proporciona skills reutilizables, templates y un sistema de tracking de tiempo.
 
-**Estado Actual:** v1.3.0 — Estable y completo. El framework está publicado y en uso.
+**Estado Actual:** v1.4.1 — Estable y completo. El framework está publicado y en uso.
 
 ---
 
@@ -31,6 +31,7 @@ claude-dev-kitc/
 │   └── reporting/implementation-report.md
 ├── tracking/                  # Sistema de tracking de tiempo (Python, dataclasses)
 │   ├── time_tracker.py        # Core: TimeTracker, Task, Phase, Pause
+│   ├── tracker_cli.py         # CLI bash-callable (init, start/end-phase, start/end-task, status, end)
 │   ├── commands.py            # Comandos /track-*
 │   └── reports.py             # Generación de reportes
 ├── install/                   # Instalador multiplataforma
@@ -41,7 +42,7 @@ claude-dev-kitc/
 │   ├── examples/              # Tutoriales por stack
 │   └── mejoras/               # Registro de hallazgos y planes de mejora
 ├── examples/                  # Proyectos de ejemplo completos con tests
-├── tests/                     # Suite de tests del framework (107 tests, 99% cobertura)
+├── tests/                     # Suite de tests del framework (142 tests, 99% cobertura)
 └── gestion/                   # Tickets y progreso del proyecto
 ```
 
@@ -79,6 +80,7 @@ El skill guía la implementación de una historia de usuario a través de **10 f
 | `flask-rest` | Flask API | Layered | 95% |
 | `flask-webapp` | Flask Web | BFF + SSR | 90% |
 | `generic-python` | Python genérico | Flexible | 95% |
+| `hexagonal-ddd-bc` | Python DDD | Hexagonal + BC-first | 90% |
 
 ---
 
@@ -95,7 +97,9 @@ Templates en `templates/` con placeholders `{VARIABLE_NAME}` y `{SNIPPET:id}`:
 
 Tracking automático de tiempo por fase mediante directivas bash imperativas en cada archivo de fase. Las instrucciones están en secciones `🔴 Acción Requerida`.
 
-**Comandos disponibles:** `/track-pause`, `/track-resume`, `/track-status`, `/track-report`, `/track-history`
+**CLI bash-callable:** `python .claude/tracking/tracker_cli.py <subcomando>` — usada internamente por las fases del skill. Subcomandos: `init`, `start-phase`, `end-phase`, `start-task`, `end-task`, `status`, `end`.
+
+**Comandos de usuario:** `/track-pause`, `/track-resume`, `/track-status`, `/track-report`, `/track-history`
 
 **Persistencia:** `.claude/tracking/{US_ID}-tracking.json`
 
@@ -141,4 +145,4 @@ main                    # Releases de producción
 
 ---
 
-**Última Actualización:** 2026-02-28 — v1.3.0
+**Última Actualización:** 2026-05-18 — v1.4.1

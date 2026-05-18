@@ -2,11 +2,11 @@
 
 > Framework agnóstico de dominio para implementación automatizada de historias de usuario con Claude Code
 
-[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.3.0)
+[![Version](https://img.shields.io/badge/version-1.4.1-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.4.1)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
-[![Tests](https://img.shields.io/badge/tests-107%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-142%20passed-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen.svg)](tests/)
 
 ---
@@ -110,6 +110,7 @@ Personaliza el framework para tu stack tecnológico:
 | **flask-rest** | Flask API | Layered | pytest-flask | 95% |
 | **flask-webapp** | Flask Web | BFF + SSR | pytest-flask | 90% |
 | **generic-python** | Python | Flexible | pytest | 95% |
+| **hexagonal-ddd-bc** | Python DDD | Hexagonal + BC-first | pytest | 90% |
 
 **Ver:** [Guía de Personalización](docs/user/customization.md)
 
@@ -196,40 +197,46 @@ Templates parametrizados con variables y snippets:
 
 ## 🗺️ Roadmap
 
+### v1.4.1 ✅ (Completado — 2026-05-18)
+
+- ✅ Instalador: eliminada dependencia de `pyyaml`; configuración migrada a JSON (stdlib pura)
+- ✅ Instalador: manejo de `EOFError` en stdin no interactivo (CI, pipes)
+- ✅ Tracking: nuevo `tracker_cli.py` — CLI bash-callable con 7 subcomandos (init, start/end-phase, start/end-task, status, end)
+- ✅ Tracking: `TimeTracker.load(us_id)` — carga tracker por ID; glob corregido para soportar cualquier prefijo
+- ✅ Pipeline: fases 0–9 migradas de `track.py` a `tracker_cli.py`
+- ✅ Pipeline: gates ejecutables en Fase 7 (`quality/reports/`) y Fase 9 (`docs/reports/`)
+- ✅ Suite de tests: 142 tests, 99% cobertura
+
+### v1.4.0 ✅ (Completado — 2026-04-09)
+
+- ✅ Nuevo perfil `hexagonal-ddd-bc` para proyectos con arquitectura hexagonal + DDD + BC-first
+- ✅ Integración con `codeguard` como orquestador de quality gates para este perfil
+
 ### v1.3.0 ✅ (Completado — 2026-02-27)
 
 - ✅ Skill `implement-us` — correcciones sistemáticas post-análisis (42 hallazgos + 24 discrepancias)
-  - `config.json`: corregidas claves `steps_path`, `test_path`; eliminadas referencias a Django
-  - `skill.md`: documentado subcomando `end-tracking` (antes ausente, causaba fallo en Fase 9)
-  - Fases 0–9: umbrales de Fase 7 leídos desde perfil activo (no hardcodeados); rutas BDD unificadas; template usage clarificado en Fases 1, 2, 3 y 4
-  - `artifacts.md`, `conventions.md`: rutas BDD corregidas (`docs/bdd/` → `tests/features/`); referencias Django eliminadas
 
 ### v1.1.0 ✅ (Completado — 2026-02-24)
 
 - ✅ Skill `implement-us` — mejoras de robustez y reproducibilidad
-  - Fase 0: verificación fail-fast de herramientas + clasificación automática de HU + `context.md`
+  - Fase 0: verificación fail-fast + clasificación de HU + `context.md`
   - Gates de entrada y checklists de salida en todas las fases
-  - Tracking reescrito como directivas bash imperativas (todas las fases)
-  - STOP bloqueante en Fase 2 (aprobación de plan) y Fase 9 (reporte en disco)
-  - Protocolo de recuperación ante fallas (skill.md + Fases 4, 5, 6, 7)
-  - Archivos de referencia: `artifacts.md` (rutas canónicas) y `conventions.md` (convención estructural)
+  - STOP bloqueante en Fase 2 y Fase 9
 
 ### v1.0.0 ✅ (Completado — 2026-02-17)
 
 - ✅ Sistema de instalación multiplataforma (Linux, macOS, Windows)
-- ✅ Skill `implement-us` con 10 fases y 5 perfiles (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python)
+- ✅ Skill `implement-us` con 10 fases y 5 perfiles
 - ✅ Sistema de templates parametrizados (35 snippets)
 - ✅ Sistema de tracking de tiempo automático (5 skills)
-- ✅ Documentación completa (13 documentos)
 - ✅ 5 ejemplos funcionales completos con tests
-- ✅ Suite de tests del framework (107 tests, 99% cobertura)
-- ✅ GitHub Wiki sincronizada
+- ✅ Suite de tests del framework
 
-### Futuro (post v1.3)
+### Futuro (v1.5)
 
+- Skill `/adapt-project` para personalizar `implement-us` al contexto del proyecto (#41)
 - Soporte para proyectos TypeScript/Node.js
 - Integración con GitHub Actions para quality gates automáticos
-- Perfil para Django MVT
 - Dashboard web para tracking de tiempo
 
 ---
