@@ -260,7 +260,7 @@ python installer.py [OPTIONS]
 | `--yes`, `-y` | Aceptar todas las confirmaciones | `-y` |
 | `--dry-run` | Simular instalación sin cambios | `--dry-run` |
 | `--force` | Sobrescribir archivos existentes | `--force` |
-| `--config PATH` | Usar config.yaml personalizado | `--config custom.yaml` |
+| `--config PATH` | Usar config.json personalizado | `--config custom.json` |
 | `--target DIR` | Directorio destino del proyecto | `--target /path/to/proyecto` |
 | `--no-color` | Deshabilitar colores (para CI/CD) | `--no-color` |
 | `--skip-validation` | Omitir validación post-instalación | `--skip-validation` |
@@ -443,6 +443,74 @@ sudo apt upgrade python3
 
 **Windows:**
 - Descargar última versión desde https://www.python.org/downloads/
+
+---
+
+### Error: EOFError o "stdin no interactivo"
+
+**Síntoma:**
+```
+(stdin no interactivo — usar --profile para especificar el perfil)
+```
+o
+```
+ERROR: Error durante instalación: EOF when reading a line
+```
+
+**Causa:** El instalador se ejecutó desde un entorno sin terminal (Claude Code, script, CI/CD).
+
+**Solución:** Pasar el perfil directamente con `--profile` y `--yes`:
+
+```bash
+python3 ~/.claude-dev-kit/install/installer.py --profile fastapi-rest --yes
+```
+
+---
+
+### Error: ModuleNotFoundError (pyyaml u otra dependencia)
+
+**Síntoma:**
+```
+ModuleNotFoundError: No module named 'yaml'
+```
+
+**Causa:** El instalador de versiones anteriores requería `pyyaml`. Desde v1.4 el
+instalador usa únicamente la librería estándar de Python (stdlib), sin dependencias externas.
+
+**Solución:** Actualizar el Claude Dev Kit a v1.4+:
+
+```bash
+cd ~/.claude-dev-kit
+git pull
+```
+
+---
+
+### Instalación en proyectos con uv / venv sin pip
+
+**Síntoma:** El `python` activo en el shell corresponde al virtualenv del proyecto y
+no expone `pip`, o es una versión incompatible.
+
+**Solución:** Usar el Python del sistema directamente:
+
+```bash
+# macOS / Linux — Python del sistema
+python3 ~/.claude-dev-kit/install/installer.py --profile fastapi-rest --yes
+
+# macOS con Python.framework (si python3 del sistema no está en PATH)
+/Library/Frameworks/Python.framework/Versions/3.12/bin/python3 \
+  ~/.claude-dev-kit/install/installer.py --profile fastapi-rest --yes
+
+# Linux — verificar versión
+/usr/bin/python3 --version
+/usr/bin/python3 ~/.claude-dev-kit/install/installer.py --profile fastapi-rest --yes
+```
+
+**Re-instalar sobre instalación existente** (usar `--force`):
+
+```bash
+python3 ~/.claude-dev-kit/install/installer.py --profile fastapi-rest --yes --force
+```
 
 ---
 
