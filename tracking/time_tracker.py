@@ -398,6 +398,27 @@ class TimeTracker:
         )
 
     @classmethod
+    def load(cls, us_id: str) -> 'TimeTracker':
+        """Carga un TimeTracker desde su us_id, buscando en .claude/tracking/.
+
+        Args:
+            us_id: ID de la Historia de Usuario (ej: "US-001", "INC-2.0")
+
+        Returns:
+            Instancia de TimeTracker con estado completo restaurado
+
+        Raises:
+            FileNotFoundError: Si no existe el archivo de tracking para us_id
+        """
+        path = Path(f".claude/tracking/{us_id}-tracking.json")
+        if not path.exists():
+            raise FileNotFoundError(
+                f"No existe tracking para '{us_id}': {path}\n"
+                f"Inicializar con: tracker_cli.py init {us_id} ..."
+            )
+        return cls.from_json(path)
+
+    @classmethod
     def from_json(cls, file_path: Path) -> 'TimeTracker':
         """Carga un TimeTracker desde un archivo JSON existente.
 
