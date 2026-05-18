@@ -17,7 +17,6 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-import yaml
 
 # Hacer importable install/
 sys.path.insert(0, str(Path(__file__).parent.parent / "install"))
@@ -25,7 +24,7 @@ from installer import ClaudeDevKitInstaller  # noqa: E402
 
 REPO_ROOT = Path(__file__).parent.parent
 INSTALL_DIR = REPO_ROOT / "install"
-CONFIG_PATH = INSTALL_DIR / "config.yaml"
+CONFIG_PATH = INSTALL_DIR / "config.json"
 
 
 # =============================================================================
@@ -41,17 +40,17 @@ class TestLoadConfig:
         assert "messages" in installer.config
 
     def test_load_config_missing_file(self, kit_root, tmp_path):
-        """Lanza FileNotFoundError si config.yaml no existe."""
-        missing = tmp_path / "nonexistent.yaml"
+        """Lanza FileNotFoundError si config.json no existe."""
+        missing = tmp_path / "nonexistent.json"
         with pytest.raises(FileNotFoundError):
             ClaudeDevKitInstaller(missing, kit_root)
 
-    def test_load_config_invalid_yaml(self, kit_root, tmp_path):
-        """Lanza yaml.YAMLError si el archivo tiene YAML inválido."""
-        bad_yaml = tmp_path / "bad.yaml"
-        bad_yaml.write_text("profiles: [\ninvalid: yaml: content: {{")
-        with pytest.raises(yaml.YAMLError):
-            ClaudeDevKitInstaller(bad_yaml, kit_root)
+    def test_load_config_invalid_json(self, kit_root, tmp_path):
+        """Lanza json.JSONDecodeError si el archivo tiene JSON inválido."""
+        bad_json = tmp_path / "bad.json"
+        bad_json.write_text("{profiles: [invalid json content")
+        with pytest.raises(json.JSONDecodeError):
+            ClaudeDevKitInstaller(bad_json, kit_root)
 
 
 # =============================================================================
@@ -69,7 +68,7 @@ class TestValidateProfile:
         assert installer.validate_profile("nonexistent-profile") is False
 
     def test_validate_profile_all_five(self, installer):
-        """Los 5 perfiles del config.yaml retornan True."""
+        """Los 5 perfiles del config.json retornan True."""
         profiles = ["pyqt-mvc", "fastapi-rest", "flask-rest", "flask-webapp", "generic-python"]
         for profile in profiles:
             assert installer.validate_profile(profile) is True, (
@@ -110,6 +109,14 @@ class TestCheckTargetDir:
         target = tmp_path / ".claude"
         target.mkdir()
         with patch("builtins.input", return_value="n"):
+            result = installer.check_target_dir(target, force=False)
+        assert result is False
+
+    def test_target_dir_exists_eof_returns_false(self, installer, tmp_path):
+        """Si stdin no es TTY (EOFError), retorna False sin crashear."""
+        target = tmp_path / ".claude"
+        target.mkdir()
+        with patch("builtins.input", side_effect=EOFError):
             result = installer.check_target_dir(target, force=False)
         assert result is False
 
@@ -375,12 +382,19 @@ class TestSelectProfileInteractive:
 
     def test_select_keyboard_interrupt_exits(self, installer):
         """KeyboardInterrupt durante la selección llama sys.exit(0)."""
-        # sys.exit() lanza SystemExit — lo dejamos propagarse y lo capturamos
         with patch("builtins.input", side_effect=KeyboardInterrupt), \
              patch("builtins.print"), \
              pytest.raises(SystemExit) as exc_info:
             installer.select_profile_interactive()
         assert exc_info.value.code == 0
+
+    def test_select_eof_exits_with_error(self, installer):
+        """EOFError (stdin no-TTY) llama sys.exit(1) con mensaje claro."""
+        with patch("builtins.input", side_effect=EOFError), \
+             patch("builtins.print"), \
+             pytest.raises(SystemExit) as exc_info:
+            installer.select_profile_interactive()
+        assert exc_info.value.code == 1
 
 
 # =============================================================================
