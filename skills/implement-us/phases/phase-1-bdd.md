@@ -23,7 +23,7 @@ Si no existe, **no avances** — completá Fase 0 primero.
 Ejecutá antes de cualquier otra acción en esta fase:
 
 ```bash
-python .claude/tracking/track.py start-phase 1 "Generación de Escenarios BDD"
+python .claude/tracking/tracker_cli.py start-phase 1 "Generación de Escenarios BDD"
 ```
 
 ---
@@ -156,7 +156,7 @@ Antes de avanzar a Fase 2, confirmá que:
 ## Paso 7 🔴 — Cerrar tracking
 
 ```bash
-python .claude/tracking/track.py end-phase 1
+python .claude/tracking/tracker_cli.py end-phase 1
 ```
 
 ---

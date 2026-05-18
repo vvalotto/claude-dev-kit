@@ -22,7 +22,7 @@ Si no existe, **no avances** — completá la fase correspondiente primero.
 Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/track.py start-phase 8 "Actualización de Documentación"
+python .claude/tracking/tracker_cli.py start-phase 8 "Actualización de Documentación"
 ```
 
 ---
@@ -437,7 +437,7 @@ Antes de avanzar a Fase 9, confirmá que:
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/track.py end-phase 8
+python .claude/tracking/tracker_cli.py end-phase 8
 ```
 
 ---

@@ -10,7 +10,7 @@
 Ejecutá como primera acción, antes de cualquier otra:
 
 ```bash
-python .claude/tracking/track.py start-phase 3 "Implementación Guiada por Tareas"
+python .claude/tracking/tracker_cli.py start-phase 3 "Implementación Guiada por Tareas"
 ```
 
 ---
@@ -87,7 +87,7 @@ Identificar la primera tarea no completada del plan generado en Fase 2.
 Ejecutá antes de comenzar la implementación de cada tarea:
 
 ```bash
-python .claude/tracking/track.py start-task "{TASK_NAME}"
+python .claude/tracking/tracker_cli.py start-task "{TASK_ID}" "{TASK_NAME}" "{TASK_TYPE}" {ESTIMATED_MINUTES}
 ```
 
 ---
@@ -716,7 +716,7 @@ python -m py_compile {COMPONENT_PATH}/{filename}.py
 Ejecutá inmediatamente después de completar la tarea:
 
 ```bash
-python .claude/tracking/track.py end-task "{TASK_NAME}"
+python .claude/tracking/tracker_cli.py end-task "{TASK_ID}" "{FILE_CREATED}"
 ```
 
 ---
@@ -886,7 +886,7 @@ Antes de avanzar a Fase 4, confirmá que:
 ## 🔴 Acción Requerida — Cerrar tracking
 
 ```bash
-python .claude/tracking/track.py end-phase 3
+python .claude/tracking/tracker_cli.py end-phase 3
 ```
 
 ---

@@ -23,7 +23,7 @@ Si no existe, **no avances** — ejecutá Fase 0 primero.
 Ejecutá antes de cualquier otra acción en esta fase:
 
 ```bash
-python .claude/tracking/track.py start-phase 2 "Generación del Plan de Implementación"
+python .claude/tracking/tracker_cli.py start-phase 2 "Generación del Plan de Implementación"
 ```
 
 ---
@@ -114,7 +114,7 @@ Antes de avanzar a Fase 3, confirmá que:
 ## Paso 8 🔴 — Cerrar tracking
 
 ```bash
-python .claude/tracking/track.py end-phase 2
+python .claude/tracking/tracker_cli.py end-phase 2
 ```
 
 ---
