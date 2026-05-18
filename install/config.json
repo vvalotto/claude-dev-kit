@@ -1,0 +1,167 @@
+{
+  "version": "1.1",
+  "profiles": {
+    "pyqt-mvc": {
+      "name": "PyQt + MVC",
+      "description": "PyQt6 applications with MVC architecture",
+      "architecture_pattern": "mvc",
+      "test_framework": "pytest-qt",
+      "component_types": ["Panel", "Model", "Controller", "Display"],
+      "patterns": ["Factory", "Coordinator", "Observer"],
+      "variables": {
+        "base_class": "ModeloBase",
+        "test_base_class": "QWidget",
+        "import_test_framework": "from pytestqt.qtbot import QtBot"
+      }
+    },
+    "fastapi-rest": {
+      "name": "FastAPI + REST",
+      "description": "FastAPI REST APIs with layered architecture",
+      "architecture_pattern": "layered",
+      "test_framework": "pytest",
+      "component_types": ["Router", "Service", "Repository", "Schema"],
+      "patterns": ["Dependency Injection", "Repository Pattern", "Service Layer"],
+      "variables": {
+        "base_class": "BaseModel",
+        "test_base_class": "TestClient",
+        "import_test_framework": "from fastapi.testclient import TestClient"
+      }
+    },
+    "flask-rest": {
+      "name": "Flask REST API",
+      "description": "Flask REST APIs with layered architecture (Services → Domain → Data)",
+      "architecture_pattern": "layered",
+      "test_framework": "pytest",
+      "component_types": ["Blueprint", "Service", "Repository", "Model"],
+      "patterns": ["Layered Architecture", "Repository Pattern", "Service Layer"],
+      "variables": {
+        "base_class": "object",
+        "test_base_class": "unittest.TestCase",
+        "import_test_framework": "import pytest"
+      }
+    },
+    "flask-webapp": {
+      "name": "Flask WebApp",
+      "description": "Flask fullstack webapps with Jinja2 templates and SSR",
+      "architecture_pattern": "bff",
+      "test_framework": "pytest",
+      "component_types": ["Blueprint", "Template", "Form", "Static"],
+      "patterns": ["BFF (Backend for Frontend)", "Server-Side Rendering", "MVC"],
+      "variables": {
+        "base_class": "object",
+        "test_base_class": "unittest.TestCase",
+        "import_test_framework": "import pytest"
+      }
+    },
+    "generic-python": {
+      "name": "Generic Python",
+      "description": "Generic Python projects without specific framework",
+      "architecture_pattern": "modular",
+      "test_framework": "pytest",
+      "component_types": ["Module", "Class", "Function"],
+      "patterns": ["SOLID Principles", "Design Patterns"],
+      "variables": {
+        "base_class": "object",
+        "test_base_class": "unittest.TestCase",
+        "import_test_framework": "import pytest"
+      }
+    }
+  },
+  "installation": {
+    "target_dir": ".claude",
+    "create_claude_md": true,
+    "overwrite_policy": "ask",
+    "copy_rules": [
+      {
+        "source": "skills",
+        "target": "{target_dir}/skills",
+        "recursive": true,
+        "description": "Skills (implement-us, etc.)"
+      },
+      {
+        "source": "templates",
+        "target": "{target_dir}/templates",
+        "recursive": true,
+        "description": "Templates (BDD, planning, testing, reporting)"
+      },
+      {
+        "source": "tracking",
+        "target": "{target_dir}/tracking",
+        "recursive": true,
+        "description": "Time tracking system"
+      }
+    ],
+    "generated_files": [
+      {
+        "path": "{target_dir}/config.json",
+        "type": "json",
+        "description": "Main configuration file (merged base + profile)"
+      },
+      {
+        "path": "CLAUDE.md",
+        "type": "markdown",
+        "description": "Project guide for Claude Code",
+        "only_if_missing": true
+      }
+    ]
+  },
+  "validation": {
+    "required_dirs": [
+      ".claude",
+      ".claude/skills",
+      ".claude/skills/implement-us",
+      ".claude/templates",
+      ".claude/templates/bdd",
+      ".claude/templates/planning",
+      ".claude/templates/testing",
+      ".claude/templates/reporting",
+      ".claude/tracking"
+    ],
+    "required_files": [
+      ".claude/config.json",
+      ".claude/skills/implement-us/SKILL.md",
+      ".claude/tracking/time_tracker.py",
+      ".claude/tracking/commands.py",
+      ".claude/tracking/__init__.py"
+    ],
+    "optional_files": [
+      "CLAUDE.md",
+      ".claude/hooks/save-session.sh",
+      ".claude/hooks/check-session-start.sh"
+    ],
+    "content_checks": [
+      {
+        "file": ".claude/config.json",
+        "type": "json_valid",
+        "description": "Config JSON is valid"
+      },
+      {
+        "file": ".claude/config.json",
+        "type": "json_has_keys",
+        "required_keys": ["profile", "version"],
+        "description": "Config has required keys"
+      }
+    ],
+    "python_imports": [
+      {
+        "module": "tracking",
+        "description": "Tracking module imports correctly"
+      },
+      {
+        "module": "tracking.time_tracker",
+        "description": "TimeTracker imports correctly"
+      },
+      {
+        "module": "tracking.commands",
+        "description": "Tracking commands import correctly"
+      }
+    ]
+  },
+  "messages": {
+    "welcome": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🚀 Claude Dev Kit - Installer v1.0\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n",
+    "profile_selection": "Selecciona el perfil para tu proyecto:\n\n1. PyQt + MVC (pyqt-mvc)\n   └─ PyQt6 applications with MVC architecture\n\n2. FastAPI + REST (fastapi-rest)\n   └─ FastAPI REST APIs with layered architecture\n\n3. Flask REST API (flask-rest)\n   └─ Flask REST APIs with layered architecture (sync)\n\n4. Flask WebApp (flask-webapp)\n   └─ Flask fullstack webapps with Jinja2 templates and SSR\n\n5. Generic Python (generic-python)\n   └─ Generic Python projects without specific framework\n",
+    "success": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ Instalación completada exitosamente!\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nPróximos pasos:\n1. Revisar CLAUDE.md generado\n2. Configurar tu proyecto en .claude/config.json\n3. Ejecutar: /implement-us US-001\n",
+    "validation_running": "🔍 Ejecutando validación de instalación...\n",
+    "already_exists": "⚠️  El directorio .claude/ ya existe.\n\nOpciones:\n- Usar --force para sobrescribir\n- Eliminar .claude/ manualmente\n- Cancelar instalación\n"
+  }
+}

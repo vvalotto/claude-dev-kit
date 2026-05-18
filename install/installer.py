@@ -23,7 +23,6 @@ import argparse
 import sys
 import shutil
 import json
-import yaml
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 import logging
@@ -75,7 +74,7 @@ class ClaudeDevKitInstaller:
         Inicializar instalador.
 
         Args:
-            config_path: Ruta al archivo config.yaml
+            config_path: Ruta al archivo config.json
             kit_root: Directorio raíz del Claude Dev Kit
         """
         self.kit_root = kit_root
@@ -98,30 +97,32 @@ class ClaudeDevKitInstaller:
 
     def load_config(self, path: Path) -> Dict[str, Any]:
         """
-        Cargar configuración desde config.yaml.
+        Cargar configuración desde config.json.
 
         Args:
-            path: Ruta al archivo config.yaml
+            path: Ruta al archivo config.json
 
         Returns:
             Diccionario con configuración
 
         Raises:
-            FileNotFoundError: Si config.yaml no existe
-            yaml.YAMLError: Si YAML es inválido
+            FileNotFoundError: Si config.json no existe
+            json.JSONDecodeError: Si el JSON es inválido
         """
         if not path.exists():
             raise FileNotFoundError(
-                f"{Colors.RED}Error: config.yaml no encontrado en {path}{Colors.NC}"
+                f"{Colors.RED}Error: config.json no encontrado en {path}{Colors.NC}"
             )
 
         try:
             with open(path, 'r', encoding='utf-8') as f:
-                config = yaml.safe_load(f)
+                config = json.load(f)
             return config
-        except yaml.YAMLError as e:
-            raise yaml.YAMLError(
-                f"{Colors.RED}Error: config.yaml inválido: {e}{Colors.NC}"
+        except json.JSONDecodeError as e:
+            raise json.JSONDecodeError(
+                f"Error: config.json inválido: {e.msg}",
+                e.doc,
+                e.pos,
             )
 
     def select_profile_interactive(self) -> str:
@@ -161,6 +162,9 @@ class ClaudeDevKitInstaller:
                     print(f"{Colors.RED}Por favor, selecciona un número entre 1 y {len(profile_list)}{Colors.NC}")
             except ValueError:
                 print(f"{Colors.RED}Por favor, ingresa un número válido{Colors.NC}")
+            except EOFError:
+                print(f"\n{Colors.YELLOW}stdin no interactivo — usar --profile para especificar el perfil{Colors.NC}")
+                sys.exit(1)
             except KeyboardInterrupt:
                 print(f"\n{Colors.YELLOW}Instalación cancelada por el usuario{Colors.NC}")
                 sys.exit(0)
@@ -207,7 +211,11 @@ class ClaudeDevKitInstaller:
         # Mostrar mensaje de advertencia
         print(self.config['messages']['already_exists'])
 
-        response = input(f"{Colors.BOLD}¿Sobrescribir? [s/N]: {Colors.NC}").lower()
+        try:
+            response = input(f"{Colors.BOLD}¿Sobrescribir? [s/N]: {Colors.NC}").lower()
+        except EOFError:
+            print("(stdin no interactivo — usando default: N. Usar --force para sobrescribir.)")
+            return False
         return response in ['s', 'y', 'yes', 'si', 'sí']
 
     def copy_framework_files(self, target_dir: Path, dry_run: bool = False) -> None:
@@ -470,7 +478,7 @@ def main():  # pragma: no cover
     # Determinar directorio raíz del kit
     script_dir = Path(__file__).parent
     kit_root = script_dir.parent
-    config_path = script_dir / 'config.yaml'
+    config_path = script_dir / 'config.json'
 
     # Parser de argumentos
     parser = argparse.ArgumentParser(
@@ -527,7 +535,7 @@ Perfiles disponibles:
         '--config',
         type=Path,
         default=config_path,
-        help=f'Ruta al config.yaml (default: {config_path})'
+        help=f'Ruta al config.json (default: {config_path})'
     )
 
     parser.add_argument(

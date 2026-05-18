@@ -2,7 +2,7 @@
 Fixtures compartidos para la suite de tests de Claude Dev Kit.
 
 Proporciona:
-- config_yaml_path: Path al install/config.yaml real
+- config_json_path: Path al install/config.json real
 - kit_root: Path al directorio raíz del kit
 - installer: Instancia de ClaudeDevKitInstaller con config real
 - mock_project_dir: Directorio temporal vacío (tmp_path)
@@ -31,10 +31,10 @@ from tracking.time_tracker import TimeTracker  # noqa: E402
 # =============================================================================
 
 @pytest.fixture(scope="session")
-def config_yaml_path() -> Path:
-    """Path al install/config.yaml real del repositorio."""
-    path = INSTALL_DIR / "config.yaml"
-    assert path.exists(), f"config.yaml no encontrado en {path}"
+def config_json_path() -> Path:
+    """Path al install/config.json real del repositorio."""
+    path = INSTALL_DIR / "config.json"
+    assert path.exists(), f"config.json no encontrado en {path}"
     return path
 
 
@@ -45,13 +45,13 @@ def kit_root() -> Path:
 
 
 @pytest.fixture(scope="session")
-def installer(config_yaml_path, kit_root) -> ClaudeDevKitInstaller:
+def installer(config_json_path, kit_root) -> ClaudeDevKitInstaller:
     """
     Instancia de ClaudeDevKitInstaller con la config real.
 
-    Scope=session para no recargar config.yaml en cada test.
+    Scope=session para no recargar config.json en cada test.
     """
-    return ClaudeDevKitInstaller(config_yaml_path, kit_root)
+    return ClaudeDevKitInstaller(config_json_path, kit_root)
 
 
 @pytest.fixture
