@@ -64,6 +64,8 @@ El skill es **framework-agnostic** y se adapta automáticamente según el perfil
 - **Flask REST / Flask Webapp:** Implementación de APIs y webapps con Flask
 - **Generic Python:** Implementación de módulos Python genéricos
 
+> **📖 Referencia:** Si ninguno de los perfiles bundleados en `customizations/` describe la arquitectura real del proyecto, corré `/adapt-project` una vez antes de la primera US — genera un perfil custom calibrado a la estructura real en vez de forzar un perfil bundleado que no encaja.
+
 ---
 
 ## Uso

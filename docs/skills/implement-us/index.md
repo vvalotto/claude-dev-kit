@@ -32,7 +32,7 @@ El entorno del proyecto destino debe satisfacer las siguientes precondiciones an
 | Python 3.10+ disponible | `python --version` | Usuario / Fase 0 |
 | Repositorio git inicializado | `git status` | Usuario |
 | Framework instalado en `.claude/` | `ls .claude/skills/implement-us/config.json` | Fase 0 |
-| Perfil de customización activo | Clave `active_profile` en `config.json` | Fase 0 |
+| Perfil de customización activo | Clave `profile` en `.claude/config.json` | Fase 0 |
 | `pylint` instalado | `python -m pylint --version` | Fase 0 |
 | `radon` instalado | `python -m radon --version` | Fase 0 |
 | `pytest` instalado | `python -m pytest --version` | Fase 0 |
@@ -134,7 +134,9 @@ Cada ejecución produce artefactos en rutas canónicas. Las rutas base se config
 
 ## Configuración
 
-La configuración vive en `.claude/skills/implement-us/config.json` dentro del proyecto destino.
+La configuración vive en dos archivos:
+- `.claude/config.json` — generado por el instalador (o por `/adapt-project`), determina el **perfil activo** (clave `profile`).
+- `.claude/skills/implement-us/customizations/{profile}.json` — valores reales del perfil activo (rutas, umbrales, patrones). Es lo que leen las fases, no `.claude/skills/implement-us/config.json` (que es solo el config base genérico, igual en todo proyecto).
 
 ### Variables principales
 
@@ -165,7 +167,7 @@ Los umbrales se leen en Fase 0 y se registran en `context.md`. La Fase 7 los usa
 }
 ```
 
-Si no existe `.pylintrc` o `pytest.ini` en el proyecto, la Fase 0 los crea con valores por defecto tomados de `config.json`.
+Si no existe `.pylintrc` o `pytest.ini` en el proyecto, la Fase 0 los crea con valores por defecto tomados del perfil activo (`customizations/{profile}.json`).
 
 ### Rutas de artefactos
 
@@ -189,7 +191,7 @@ Si no existe `.pylintrc` o `pytest.ini` en el proyecto, la Fase 0 los crea con v
 
 ## Perfiles de Customización
 
-Los perfiles sobrescriben valores de `config.json` para adaptarse al stack tecnológico del proyecto. Se definen en `.claude/skills/implement-us/customizations/`.
+Los perfiles sobrescriben valores del `config.json` base para adaptarse al stack tecnológico del proyecto. Se definen en `.claude/skills/implement-us/customizations/`.
 
 | Perfil | Stack | Archivo |
 |---|---|---|
@@ -198,8 +200,12 @@ Los perfiles sobrescriben valores de `config.json` para adaptarse al stack tecno
 | `flask-rest` | Flask REST + Layered | `customizations/flask-rest.json` |
 | `flask-webapp` | Flask WebApp + BFF | `customizations/flask-webapp.json` |
 | `generic-python` | Python genérico | `customizations/generic-python.json` |
+| `hexagonal-ddd-bc` | Python DDD Hexagonal BC-first | `customizations/hexagonal-ddd-bc.json` |
+| `clean-architecture-bc` | FastAPI + SQLAlchemy async, Clean Architecture BC-first | `customizations/clean-architecture-bc.json` |
 
-El instalador fusiona `config.json` base + el perfil seleccionado al momento de instalar. Las claves del perfil tienen precedencia sobre la config base.
+Para los 5 primeros, el instalador fusiona `config.json` base + el perfil seleccionado al momento de instalar (`--profile {perfil}`), y escribe la clave `profile` en `.claude/config.json`. Los dos perfiles BC-first todavía no están registrados en el instalador (ver issue #56) — se activan escribiendo `profile` en `.claude/config.json` a mano, o corriendo `/adapt-project`.
+
+**¿Ninguno encaja?** Corré `/adapt-project` una vez — diagnostica la arquitectura real del proyecto y genera un perfil custom calibrado en vez de forzar uno bundleado.
 
 ---
 
@@ -257,6 +263,8 @@ Las fases de testing (4, 5, 6, 7) incluyen un árbol de decisión específico pa
 ├── templates/                 # Templates de artefactos
 └── customizations/            # Perfiles por stack
 ```
+
+Skill hermano (no vive dentro de `implement-us/`): `.claude/skills/adapt-project/skill.md` — calibración inicial del proyecto, ver sección [Perfiles de Customización](#perfiles-de-customización).
 
 ### Flujo de datos entre fases
 

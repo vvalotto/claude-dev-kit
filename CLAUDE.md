@@ -25,6 +25,8 @@ claude-dev-kitc/
 │   └── customizations/        # pyqt-mvc.json, fastapi-rest.json, flask-rest.json,
 │                              #   flask-webapp.json, generic-python.json, hexagonal-ddd-bc.json,
 │                              #   clean-architecture-bc.json
+├── skills/adapt-project/      # Skill de calibración inicial (una vez por proyecto)
+│   └── skill.md                #   Diagnóstico + preguntas guiadas + genera perfil custom
 ├── templates/                 # Templates parametrizados con {VARIABLE} y {SNIPPET:id}
 │   ├── bdd/scenario.feature
 │   ├── planning/implementation-plan.md
@@ -83,6 +85,8 @@ El skill guía la implementación de una historia de usuario a través de **10 f
 | `generic-python` | Python genérico | Flexible | 95% |
 | `hexagonal-ddd-bc` | Python DDD | Hexagonal + BC-first | 90% |
 | `clean-architecture-bc` | FastAPI + SQLAlchemy async | Clean Architecture + BC-first | 90% |
+
+Si ninguno encaja con el proyecto real, correr `/adapt-project` (`skills/adapt-project/skill.md`) una vez para generar un perfil custom calibrado.
 
 ---
 

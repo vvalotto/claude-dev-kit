@@ -50,8 +50,8 @@ Archivos en `tests/unit/test_{component_name}.py` por cada componente del plan.
 |---|---|---|---|
 | Archivos de código de producción | Artefactos | ✅ Sí | Fase 3 |
 | `docs/plans/{US_ID}-plan.md` | Artefacto | ✅ Sí | Fase 2 |
-| Framework de testing del perfil | `config.json` → `test_framework_config` | ✅ Sí | Perfil activo |
-| Umbral de cobertura | `config.json` → `quality_gates.coverage.min_percent` | ✅ Sí | Perfil activo |
+| Framework de testing del perfil | `customizations/{PROFILE}.json` → `test_framework_config` | ✅ Sí | Perfil activo |
+| Umbral de cobertura | `customizations/{PROFILE}.json` → `quality_gates.coverage.min_percent` | ✅ Sí | Perfil activo |
 
 ### Salidas
 
@@ -118,7 +118,7 @@ class Test{Component}Behavior:
 
 - Tests en `tests/unit/` (no en la raíz de `tests/`).
 - Ejecución: `pytest tests/unit/ -v`.
-- La ruta de tests unitarios se lee de `config.json` → `test_framework_config.unit_test_path` (por defecto `tests/unit/`).
+- La ruta de tests unitarios se lee de `customizations/{PROFILE}.json` → `test_framework_config.unit_test_path` (por defecto `tests/unit/`).
 - El umbral de cobertura se lee del perfil activo, no se hardcodea.
 
 ### Protocolo de recuperación

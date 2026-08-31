@@ -96,7 +96,7 @@ Podés pedir ajustes antes de aprobar: el skill incorpora tus cambios y vuelve a
 |---|---|---|
 | `{US_ID}-plan.md` | **Genera** | `docs/plans/{US_ID}-plan.md` |
 | `{US_ID}-context.md` | **Lee** | `docs/plans/{US_ID}-context.md` |
-| `config.json` | **Lee** (patrón arquitectónico) | `.claude/skills/implement-us/config.json` |
+| `customizations/{perfil}.json` | **Lee** (patrón arquitectónico) | `.claude/skills/implement-us/customizations/{PROFILE}.json` |
 
 ### Convenciones
 

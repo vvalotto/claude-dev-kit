@@ -61,8 +61,8 @@ Si respondés `edit`, podés describir cambios verbalmente o pegar el código co
 |---|---|---|---|
 | `docs/plans/{US_ID}-plan.md` | Artefacto | ✅ Sí | Fase 2 |
 | `docs/plans/{US_ID}-context.md` | Artefacto | ✅ Sí | Fase 0 |
-| Perfil activo (rutas, clases base, patrones) | `config.json` + perfil | ✅ Sí | Instalación |
-| `customizations/{perfil}.json` → `component_structure` | Perfil | ✅ Sí | Instalación |
+| `{PROFILE}` activo | `docs/plans/{US_ID}-context.md` (registrado en Fase 0) | ✅ Sí | Fase 0 |
+| `customizations/{PROFILE}.json` → `component_structure`, `implementation_order` si aplica | Perfil activo | ✅ Sí | Instalación |
 
 ### Salidas
 

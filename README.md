@@ -115,6 +115,8 @@ Personaliza el framework para tu stack tecnológico:
 
 **Ver:** [Guía de Personalización](docs/user/customization.md)
 
+**¿Ninguno encaja con tu proyecto?** Corré `/adapt-project` una sola vez — diagnostica la arquitectura real y genera un perfil custom calibrado, sin editar JSON a mano.
+
 ---
 
 ### ⏱️ Sistema de Tracking
@@ -232,10 +234,10 @@ Templates parametrizados con variables y snippets:
 - ✅ Sistema de tracking de tiempo automático (5 skills)
 - ✅ 5 ejemplos funcionales completos con tests
 - ✅ Suite de tests del framework
+- ✅ Skill `/adapt-project` para calibrar `implement-us` a proyectos sin perfil bundleado (#41)
 
 ### Futuro (v1.5)
 
-- Skill `/adapt-project` para personalizar `implement-us` al contexto del proyecto (#41)
 - Soporte para proyectos TypeScript/Node.js
 - Integración con GitHub Actions para quality gates automáticos
 - Dashboard web para tracking de tiempo

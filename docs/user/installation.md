@@ -226,7 +226,7 @@ python ~/.claude-dev-kit/install/installer.py --config install-config.json
 
 ## Sistema de Perfiles
 
-El framework soporta 5 perfiles predefinidos que personalizan la experiencia según tu stack.
+El instalador (`--profile`) soporta 5 perfiles predefinidos que personalizan la experiencia según tu stack. Hay 2 perfiles adicionales orientados a arquitecturas DDD/Clean (`hexagonal-ddd-bc`, `clean-architecture-bc`) que todavía no están integrados al instalador — se activan a mano o corriendo `/adapt-project` después de instalar. Si ninguno encaja con tu proyecto, `/adapt-project` genera un perfil custom calibrado a tu arquitectura real.
 
 ### 1. pyqt-mvc - Aplicaciones Desktop PyQt6
 

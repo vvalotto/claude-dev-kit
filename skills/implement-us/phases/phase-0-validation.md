@@ -90,13 +90,17 @@ Extraé de la HU:
 
 2. Leé `variables.architecture_pattern.default` de `.claude/skills/implement-us/customizations/{PROFILE}.json`. Registrá ambos valores en `context.md`: `Perfil activo` (el nombre determinado en el punto 1) y `Patrón arquitectónico` (este valor).
 
-3. Buscá documentación de arquitectura del proyecto en:
+3. **Verificá si existe `docs/plans/PROJECT-CONTEXT.md`** (generado por el skill `/adapt-project`, si se corrió alguna vez en este proyecto):
+   - Si existe, leelo y **priorizá su contenido sobre inferencias automáticas** — documenta la arquitectura real del proyecto y discrepancias conocidas con el perfil bundleado usado como base. Registrá en `context.md` que el proyecto tiene una adaptación previa.
+   - Si no existe, continuá normalmente — es opcional y solo aplica a proyectos que corrieron `/adapt-project`.
+
+4. Buscá documentación de arquitectura del proyecto en:
    - `docs/architecture*.md`
    - `ARCHITECTURE.md`
    - `README.md` (sección de arquitectura)
    - La ubicación indicada por el usuario en el Paso 3
 
-4. Si no existe ningún archivo de arquitectura:
+5. Si no existe ningún archivo de arquitectura:
 
    > **⚠️ Sin documentación de arquitectura.** El agente inferirá el patrón del código existente. Continuando.
 

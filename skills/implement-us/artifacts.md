@@ -16,6 +16,7 @@ Cada fase que genera o consume un artefacto debe referenciar este mapa en lugar 
 │   └── step_defs/
 ├── docs/
 │   ├── plans/
+│   │   ├── PROJECT-CONTEXT.md      # opcional — generado por /adapt-project
 │   │   ├── {US_ID}-context.md
 │   │   └── {US_ID}-plan.md
 │   └── reports/
@@ -36,6 +37,7 @@ Cada fase que genera o consume un artefacto debe referenciar este mapa en lugar 
 
 | Artefacto | Ruta | Generado en | Consumido en |
 |-----------|------|-------------|--------------|
+| Contexto de proyecto (opcional) | `docs/plans/PROJECT-CONTEXT.md` | `/adapt-project` (una vez, no por US) | Fase 0 de cada US |
 | Archivo de contexto | `docs/plans/{US_ID}-context.md` | Fase 0 | Fases 1–9 |
 | Feature BDD | `tests/features/{US_ID}-{nombre}.feature` | Fase 1 | Fase 6 |
 | Plan de implementación | `docs/plans/{US_ID}-plan.md` | Fase 2 | Fases 3, 9 |
@@ -50,6 +52,9 @@ Cada fase que genera o consume un artefacto debe referenciar este mapa en lugar 
 ---
 
 ## Descripción de Artefactos
+
+### `docs/plans/PROJECT-CONTEXT.md` (opcional)
+Generado por el skill `/adapt-project`, una sola vez por proyecto (no por US) — solo cuando ningún perfil bundleado en `customizations/` encaja con la arquitectura real. Registra el diagnóstico de la arquitectura real, las decisiones tomadas en las preguntas guiadas, y las discrepancias con el perfil bundleado usado como base. Fase 0 lo lee, si existe, y prioriza su contenido sobre inferencias automáticas.
 
 ### `docs/plans/{US_ID}-context.md`
 Generado en Fase 0. Registra las decisiones de ejecución del skill: tipo de HU, si aplica BDD, fases a ejecutar, perfil activo y umbrales de calidad. Todas las fases siguientes deben leerlo al inicio en lugar de asumir el contexto desde la conversación.
@@ -85,6 +90,9 @@ Generado en Fase 9. Reporte completo de la implementación: resumen de la HU, ta
 Para verificar que un artefacto existe antes de continuar:
 
 ```bash
+# Contexto de proyecto (opcional — solo si se corrió /adapt-project)
+ls docs/plans/PROJECT-CONTEXT.md
+
 # Archivo de contexto (prerequisito de todas las fases)
 ls docs/plans/{US_ID}-context.md
 

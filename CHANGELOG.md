@@ -14,6 +14,14 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
   componentes `Entity`, `Port`, `UseCase`, `Repository`, `Gateway`, `Controller`. Target stack:
   FastAPI + SQLAlchemy async + PostgreSQL. Cierra #55.
 
+- Nuevo skill `/adapt-project` (`skills/adapt-project/skill.md`): calibra `implement-us` a
+  proyectos cuya arquitectura real no encaja con ningún perfil bundleado. Diagnostica la
+  estructura del proyecto y herramientas de calidad presentes, hace preguntas guiadas solo sobre
+  lo no inferible, y genera un perfil custom (`customizations/{project_slug}-custom.json`, nunca
+  sobrescribe un perfil bundleado) + `.claude/config.json` calibrado + `docs/plans/PROJECT-CONTEXT.md`
+  con el diagnóstico y las discrepancias detectadas. Se corre una sola vez por proyecto, antes de
+  la primera US. Fase 0 de `implement-us` ahora lee `PROJECT-CONTEXT.md` si existe. Cierra #41.
+
 ### Corregido
 
 - Renombrado `templates/testing/test-unit.py` a `templates/testing/test-unit.py.tpl` para que los

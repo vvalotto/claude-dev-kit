@@ -42,8 +42,14 @@ El estado del reporte es `APROBADO` si todas las métricas superan sus umbrales,
 | Flask REST | 8.0 | 10 | 25 | 95% |
 | Flask Webapp | 8.0 | 10 | 20 | 90% |
 | Generic Python | 8.0 | 10 | 20 | 95% |
+| Hexagonal DDD BC-first | 8.0 | 10 | 20 | 90% |
+| Clean Architecture BC-first | 8.0 | 10 | 20 | 90% |
 
-Los umbrales exactos se leen siempre del perfil activo en `config.json`, no se hardcodean.
+Los umbrales exactos se leen siempre del perfil activo (`customizations/{PROFILE}.json`), no se hardcodean.
+
+### CodeGuard (perfiles BC-first)
+
+Si el perfil activo define `quality_gates.codeguard.enabled: true` (los dos perfiles BC-first), la fase no invoca `radon` directamente: usa `codeguard`, que orquesta Pylint + radon + DesignReviewer en una sola pasada. Además, `codeguard` corre solo sobre los archivos `.py` modificados/agregados por la US respecto a la rama base — no sobre todo el árbol del componente — para no reportar deuda preexistente ajena a la US. Esa deuda sigue siendo visible en DesignReviewer al cierre de Incremento. El gate de coverage no se acota: sigue midiendo el componente completo.
 
 ### Artefacto que produce
 
@@ -59,8 +65,8 @@ Los umbrales exactos se leen siempre del perfil activo en `config.json`, no se h
 |---|---|---|---|
 | Archivos de código de producción | Artefactos | ✅ Sí | Fase 3 |
 | `pytest tests/unit/ tests/integration/ tests/step_defs/ -v` pasando | Resultado ejecutable | ✅ Sí | Fases 4-5-6 |
-| Umbrales del perfil activo | `config.json` → `quality_gates` | ✅ Sí | Perfil activo |
-| `{COMPONENT_PATH}` del perfil | `config.json` → `variables.component_path` | ✅ Sí | Perfil activo |
+| Umbrales del perfil activo | `customizations/{PROFILE}.json` → `quality_gates` | ✅ Sí | Perfil activo |
+| `{COMPONENT_PATH}` del perfil | `customizations/{PROFILE}.json` → `variables.component_path` | ✅ Sí | Perfil activo |
 
 ### Salidas
 
@@ -100,7 +106,7 @@ Ninguno externo. El formato de `quality.json` está embebido en el archivo de fa
 }
 ```
 
-Los valores de `umbrales` se leen de `config.json → quality_gates` antes de generar el archivo.
+Los valores de `umbrales` se leen de `customizations/{PROFILE}.json → quality_gates` antes de generar el archivo.
 
 ### Artefactos
 
@@ -118,7 +124,7 @@ Los valores de `{COMPONENT_PATH}`, `{COVERAGE_THRESHOLD}` y `{PYLINT_MIN}` se le
 
 ```bash
 # Leer umbrales del perfil activo
-cat .claude/skills/implement-us/config.json | jq '.quality_gates'
+cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.quality_gates'
 
 # Coverage
 pytest tests/ --cov={COMPONENT_PATH} --cov-fail-under={COVERAGE_THRESHOLD} \

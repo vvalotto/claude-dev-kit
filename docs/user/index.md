@@ -59,6 +59,7 @@ Documentación de los skills disponibles:
 | Documento | Descripción | Estado |
 |-----------|-------------|--------|
 | **[Skill implement-us](SkillImplementUs)** | Implementación automatizada de US | ✅ Completo |
+| **Skill adapt-project** | Calibra `implement-us` a proyectos sin perfil bundleado | ✅ Completo |
 | **[Tracking - Guía de Usuario](UserTrackingUserGuide)** | Sistema de tracking de tiempo | ✅ Completo |
 | **[Tracking - Ejemplos](UserTrackingExamples)** | Ejemplos de uso del tracking | ✅ Completo |
 
@@ -186,6 +187,10 @@ El framework soporta múltiples stacks tecnológicos a través de **perfiles de 
 - **flask-rest** - APIs REST con Flask
 - **flask-webapp** - Aplicaciones web fullstack con Flask
 - **generic-python** - Proyectos Python sin framework específico
+- **hexagonal-ddd-bc** - Hexagonal DDD organizado por Bounded Context
+- **clean-architecture-bc** - Clean Architecture organizada por Bounded Context
+
+¿Ninguno encaja con tu proyecto? Corré `/adapt-project` una vez — diagnostica la arquitectura real y genera un perfil custom.
 
 Cada perfil personaliza:
 - Patrones arquitectónicos
@@ -253,7 +258,7 @@ Templates parametrizados con variables y snippets:
 
 ### ¿Funciona con mi stack tecnológico?
 
-El framework soporta 5 perfiles predefinidos (PyQt, FastAPI, Flask REST, Flask WebApp, Python genérico) y permite crear perfiles custom para cualquier stack.
+El framework soporta 7 perfiles predefinidos (PyQt, FastAPI, Flask REST, Flask WebApp, Python genérico, Hexagonal DDD BC-first, Clean Architecture BC-first) y permite crear perfiles custom para cualquier stack — a mano o automáticamente con `/adapt-project`.
 
 **Ver:** [Personalización - Crear Perfil Custom](UserCustomization#crear-perfil-custom)
 

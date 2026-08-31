@@ -13,7 +13,7 @@ Fase de entrada del skill. Verifica que el entorno del proyecto está listo para
 1. Verifica que las herramientas requeridas están instaladas (pylint, radon, pytest, pytest-bdd)
 2. Pregunta dónde está la historia de usuario y la documentación de arquitectura
 3. Lee y extrae la información de la HU (título, criterios de aceptación, estimación)
-4. Lee el perfil de customización activo y sus umbrales de calidad
+4. Determina el perfil activo leyendo `.claude/config.json` → `profile`, y lee sus umbrales de calidad desde `customizations/{perfil}.json`. Si el proyecto corrió `/adapt-project` alguna vez, también lee `docs/plans/PROJECT-CONTEXT.md` y prioriza ese contexto sobre inferencias automáticas.
 5. Clasifica el tipo de HU y propone si aplica BDD — espera confirmación del usuario
 6. Si faltan `.pylintrc` o `pytest.ini`, los crea automáticamente con los valores del perfil activo
 7. Genera `docs/plans/{US_ID}-context.md` con todo el contexto del run
@@ -67,8 +67,9 @@ Ninguno externo. El template de `context.md` está embebido directamente en el a
 | Artefacto | Operación | Ruta |
 |---|---|---|
 | `{US_ID}-context.md` | **Genera** | `docs/plans/{US_ID}-context.md` |
-| `config.json` | **Lee** | `.claude/skills/implement-us/config.json` |
-| `customizations/{perfil}.json` | **Lee** | `.claude/skills/implement-us/customizations/` |
+| `config.json` (raíz) | **Lee** (determina `{PROFILE}`, clave `profile`) | `.claude/config.json` |
+| `customizations/{perfil}.json` | **Lee** (umbrales, patrón, rutas) | `.claude/skills/implement-us/customizations/` |
+| `PROJECT-CONTEXT.md` (opcional) | **Lee si existe** (generado por `/adapt-project`) | `docs/plans/PROJECT-CONTEXT.md` |
 | `.pylintrc` | **Crea si no existe** | raíz del proyecto (con `quality_gates.pylint.min_score` del perfil) |
 | `pytest.ini` | **Crea si no existe** | raíz del proyecto (con `test_framework_config.*_path` del perfil) |
 
