@@ -85,7 +85,7 @@ Extraé de la HU:
 
 1. **Determinar el perfil activo (`{PROFILE}`):**
    - Leé `.claude/config.json` (generado por el instalador), clave `profile`. Ese valor es el nombre del perfil, ej. `fastapi-rest`, `hexagonal-ddd-bc`.
-   - Si `.claude/config.json` no existe o no tiene la clave `profile` (puede pasar con perfiles BC-first todavía no soportados por el instalador — ver `.claude/skills/implement-us/customizations/`), preguntá al usuario qué perfil de esa carpeta aplica al proyecto.
+   - Si `.claude/config.json` no existe o no tiene la clave `profile` (instalación manual sin pasar por el instalador, o perfil custom generado por `/adapt-project` sin actualizar esta clave), preguntá al usuario qué perfil de `.claude/skills/implement-us/customizations/` aplica al proyecto.
    - Confirmá que existe `.claude/skills/implement-us/customizations/{PROFILE}.json`. Si no existe ningún archivo con ese nombre, **no avances** — informá al usuario antes de continuar.
 
 2. Leé `variables.architecture_pattern.default` de `.claude/skills/implement-us/customizations/{PROFILE}.json`. Registrá ambos valores en `context.md`: `Perfil activo` (el nombre determinado en el punto 1) y `Patrón arquitectónico` (este valor).

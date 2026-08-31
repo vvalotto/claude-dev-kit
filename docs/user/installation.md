@@ -226,7 +226,7 @@ python ~/.claude-dev-kit/install/installer.py --config install-config.json
 
 ## Sistema de Perfiles
 
-El instalador (`--profile`) soporta 5 perfiles predefinidos que personalizan la experiencia según tu stack. Hay 2 perfiles adicionales orientados a arquitecturas DDD/Clean (`hexagonal-ddd-bc`, `clean-architecture-bc`) que todavía no están integrados al instalador — se activan a mano o corriendo `/adapt-project` después de instalar. Si ninguno encaja con tu proyecto, `/adapt-project` genera un perfil custom calibrado a tu arquitectura real.
+El instalador (`--profile`) soporta 7 perfiles predefinidos que personalizan la experiencia según tu stack, incluyendo dos orientados a arquitecturas DDD/Clean por Bounded Context (`hexagonal-ddd-bc`, `clean-architecture-bc`). Si ninguno encaja con tu proyecto, `/adapt-project` genera un perfil custom calibrado a tu arquitectura real.
 
 ### 1. pyqt-mvc - Aplicaciones Desktop PyQt6
 
@@ -327,6 +327,50 @@ src/
 ├── core/        # Funcionalidad core
 ├── utils/       # Utilidades
 └── interfaces/  # CLIs, APIs, etc.
+```
+
+---
+
+### 6. hexagonal-ddd-bc - Hexagonal DDD BC-First
+
+**Ideal para:** Proyectos con arquitectura hexagonal + DDD organizados por Bounded Context
+
+**Características:**
+- Arquitectura: Hexagonal (`domain → application → infrastructure → api`, por BC)
+- Patrones: AggregateRoot, ValueObject, DomainEvent, Port, CommandHandler, QueryHandler
+- Test Framework: pytest + httpx
+- Quality Gates: 90% coverage, Pylint 8.0+ (vía `codeguard`, no `radon` directo)
+
+**Ejemplo de proyecto:**
+```
+src/
+└── {bc}/
+    ├── domain/          # Aggregates, ValueObjects, DomainEvents, Ports
+    ├── application/     # CommandHandlers, QueryHandlers
+    ├── infrastructure/  # Repository implementations
+    └── api/             # Router del BC
+```
+
+---
+
+### 7. clean-architecture-bc - Clean Architecture BC-First
+
+**Ideal para:** Proyectos con Clean Architecture (Uncle Bob) organizados por Bounded Context
+
+**Características:**
+- Arquitectura: Clean Architecture (`entities → use_cases → interface_adapters → frameworks`, por BC)
+- Patrones: Entity, Port, UseCase, Repository, Gateway, Controller
+- Test Framework: pytest + httpx
+- Quality Gates: 90% coverage, Pylint 8.0+ (vía `codeguard`, no `radon` directo)
+
+**Ejemplo de proyecto:**
+```
+src/
+└── {bc}/
+    ├── entities/            # Reglas de negocio empresariales
+    ├── use_cases/           # UseCases y Ports
+    ├── interface_adapters/  # Controllers y Gateways
+    └── frameworks/          # Repositories, routers, drivers concretos
 ```
 
 ---

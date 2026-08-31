@@ -7,6 +7,17 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Agregado
+
+- Instalador (`--profile`): registrados los perfiles `hexagonal-ddd-bc` y `clean-architecture-bc`
+  en `install/config.json`, alcance mínimo — usan el mismo modelo plano de los otros 5 perfiles
+  (`architecture_pattern`, `test_framework`, `component_types`, `patterns`, `variables`). El
+  `CLAUDE.md` autogenerado para estos 2 perfiles lista tipos de componente y patrones sin capas
+  ni `implementation_order` (esa información completa sigue viviendo en
+  `customizations/{perfil}.json`, que es lo que `implement-us` realmente lee en runtime — el
+  `CLAUDE.md` generado es solo referencia inicial). Sin cambios en `install/installer.py`: ambas
+  funciones (`merge_configs`, `generate_claude_md`) ya eran genéricas. Cierra #56.
+
 ---
 
 ## [1.5.0] - 2026-08-31

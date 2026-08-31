@@ -67,9 +67,12 @@ class TestValidateProfile:
         """Un perfil desconocido retorna False."""
         assert installer.validate_profile("nonexistent-profile") is False
 
-    def test_validate_profile_all_five(self, installer):
-        """Los 5 perfiles del config.json retornan True."""
-        profiles = ["pyqt-mvc", "fastapi-rest", "flask-rest", "flask-webapp", "generic-python"]
+    def test_validate_profile_all_seven(self, installer):
+        """Los 7 perfiles del config.json retornan True."""
+        profiles = [
+            "pyqt-mvc", "fastapi-rest", "flask-rest", "flask-webapp", "generic-python",
+            "hexagonal-ddd-bc", "clean-architecture-bc",
+        ]
         for profile in profiles:
             assert installer.validate_profile(profile) is True, (
                 f"Perfil '{profile}' debería ser válido"
@@ -193,6 +196,15 @@ class TestGenerateConfigJson:
         data = json.loads(content)  # No debe lanzar
         assert isinstance(data, dict)
 
+    @pytest.mark.parametrize("profile", ["hexagonal-ddd-bc", "clean-architecture-bc"])
+    def test_generates_valid_json_bc_first_profiles(self, installer, tmp_path, profile):
+        """Los perfiles BC-first generan config.json válido con la clave profile correcta."""
+        target = tmp_path / ".claude"
+        target.mkdir()
+        installer.generate_config_json(target, profile)
+        data = json.loads((target / "config.json").read_text())
+        assert data["profile"] == profile
+
 
 # =============================================================================
 # Tests: generate_claude_md
@@ -217,6 +229,13 @@ class TestGenerateClaudeMd:
         """dry_run=True no crea CLAUDE.md."""
         installer.generate_claude_md(tmp_path, "pyqt-mvc", dry_run=True)
         assert not (tmp_path / "CLAUDE.md").exists()
+
+    @pytest.mark.parametrize("profile", ["hexagonal-ddd-bc", "clean-architecture-bc"])
+    def test_creates_for_bc_first_profiles(self, installer, tmp_path, profile):
+        """Genera CLAUDE.md para los perfiles BC-first sin lanzar excepciones."""
+        installer.generate_claude_md(tmp_path, profile)
+        content = (tmp_path / "CLAUDE.md").read_text()
+        assert "Port" in content  # component_type compartido por ambos perfiles
 
 
 # =============================================================================

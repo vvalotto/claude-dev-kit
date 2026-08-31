@@ -303,11 +303,13 @@ Todas las variables configurables en los perfiles:
 ✅ flask-rest.json válido
 ✅ flask-webapp.json válido
 ✅ generic-python.json válido
+✅ hexagonal-ddd-bc.json válido
+✅ clean-architecture-bc.json válido
 ```
 
 **Estructura verificada:**
 - ✅ 1 config base (config.json)
-- ✅ 5 perfiles (pyqt, fastapi, flask-rest, flask-webapp, generic)
+- ✅ 7 perfiles (pyqt, fastapi, flask-rest, flask-webapp, generic, hexagonal-ddd-bc, clean-architecture-bc)
 - ✅ 10 phases (phase-0 a phase-9)
 - ✅ 1 orquestador (skill.md)
 - ✅ 2 archivos de referencia (artifacts.md, conventions.md)

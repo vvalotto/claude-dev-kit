@@ -65,6 +65,32 @@
         "test_base_class": "unittest.TestCase",
         "import_test_framework": "import pytest"
       }
+    },
+    "hexagonal-ddd-bc": {
+      "name": "Hexagonal DDD BC-First",
+      "description": "Hexagonal DDD architecture organized by Bounded Context (domain -> application -> infrastructure -> api)",
+      "architecture_pattern": "hexagonal",
+      "test_framework": "pytest + httpx",
+      "component_types": ["AggregateRoot", "ValueObject", "DomainEvent", "Port", "CommandHandler", "QueryHandler", "Repository", "ApiRouter"],
+      "patterns": ["Hexagonal Architecture", "DDD", "BC-First", "Dependency Rule"],
+      "variables": {
+        "base_class": "object",
+        "test_base_class": "AsyncClient",
+        "import_test_framework": "from httpx import AsyncClient"
+      }
+    },
+    "clean-architecture-bc": {
+      "name": "Clean Architecture BC-First",
+      "description": "Clean Architecture organized by Bounded Context (entities -> use_cases -> interface_adapters -> frameworks)",
+      "architecture_pattern": "clean-architecture",
+      "test_framework": "pytest + httpx",
+      "component_types": ["Entity", "Port", "UseCase", "Repository", "Gateway", "Controller"],
+      "patterns": ["Clean Architecture", "BC-First", "Dependency Rule"],
+      "variables": {
+        "base_class": "object",
+        "test_base_class": "AsyncClient",
+        "import_test_framework": "from httpx import AsyncClient"
+      }
     }
   },
   "installation": {

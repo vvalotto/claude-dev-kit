@@ -203,7 +203,7 @@ Los perfiles sobrescriben valores del `config.json` base para adaptarse al stack
 | `hexagonal-ddd-bc` | Python DDD Hexagonal BC-first | `customizations/hexagonal-ddd-bc.json` |
 | `clean-architecture-bc` | FastAPI + SQLAlchemy async, Clean Architecture BC-first | `customizations/clean-architecture-bc.json` |
 
-Para los 5 primeros, el instalador fusiona `config.json` base + el perfil seleccionado al momento de instalar (`--profile {perfil}`), y escribe la clave `profile` en `.claude/config.json`. Los dos perfiles BC-first todavía no están registrados en el instalador (ver issue #56) — se activan escribiendo `profile` en `.claude/config.json` a mano, o corriendo `/adapt-project`.
+El instalador fusiona `config.json` base + el perfil seleccionado al momento de instalar (`--profile {perfil}`) para los 7 perfiles, y escribe la clave `profile` en `.claude/config.json`.
 
 **¿Ninguno encaja?** Corré `/adapt-project` una vez — diagnostica la arquitectura real del proyecto y genera un perfil custom calibrado en vez de forzar uno bundleado.
 
