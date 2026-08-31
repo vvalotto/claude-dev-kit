@@ -65,7 +65,7 @@ Archivos en `tests/unit/test_{component_name}.py` por cada componente del plan.
 
 | Template | Ruta en `config.json` |
 |---|---|
-| Test unitario genérico | `templates/testing/test-unit.py` |
+| Test unitario genérico | `templates/testing/test-unit.py.tpl` |
 
 Los perfiles definen `template_variables.TEST_FILE_PATTERN` con el patrón de nombres de archivos de test por stack.
 

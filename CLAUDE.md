@@ -27,7 +27,7 @@ claude-dev-kitc/
 ├── templates/                 # Templates parametrizados con {VARIABLE} y {SNIPPET:id}
 │   ├── bdd/scenario.feature
 │   ├── planning/implementation-plan.md
-│   ├── testing/test-unit.py
+│   ├── testing/test-unit.py.tpl
 │   └── reporting/implementation-report.md
 ├── tracking/                  # Sistema de tracking de tiempo (Python, dataclasses)
 │   ├── time_tracker.py        # Core: TimeTracker, Task, Phase, Pause

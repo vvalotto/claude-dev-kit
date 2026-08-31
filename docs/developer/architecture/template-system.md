@@ -25,7 +25,7 @@ templates/                    # Templates base generalizados
 ├── bdd/scenario.feature      # Escenarios Gherkin
 ├── planning/implementation-plan.md
 ├── reporting/implementation-report.md
-└── testing/test-unit.py
+└── testing/test-unit.py.tpl
 
 skills/implement-us/
 ├── config.json               # Configuración base
@@ -164,7 +164,7 @@ Los **snippets** son bloques de código/texto que se insertan condicionalmente s
 }
 ```
 
-**Template:** `test-unit.py`
+**Template:** `test-unit.py.tpl`
 ```python
 import pytest
 {SNIPPET:test_imports}
@@ -202,7 +202,7 @@ from app.presentacion.display import DisplayController
 }
 ```
 
-**Template:** `test-unit.py`
+**Template:** `test-unit.py.tpl`
 ```python
 {SNIPPET:test_signals_class}
 

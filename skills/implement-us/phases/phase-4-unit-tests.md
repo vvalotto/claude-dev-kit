@@ -31,7 +31,7 @@ python .claude/tracking/tracker_cli.py start-phase 4 "Tests Unitarios"
 
 Por cada componente implementado en la Fase 3, crear tests unitarios que validen su comportamiento de forma aislada.
 
-**Template:** `.claude/templates/test-unit.py`
+**Template:** `.claude/templates/testing/test-unit.py.tpl`
 
 ---
 

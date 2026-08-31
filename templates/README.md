@@ -41,7 +41,7 @@ El skill `/implement-us` genera archivos automáticamente durante las 10 fases d
 |------|----------------|-----------------|
 | Fase 1 | `bdd/scenario.feature` | `tests/features/{US_ID}-{name}.feature` |
 | Fase 2 | `planning/implementation-plan.md` | `docs/plans/{US_ID}-plan.md` |
-| Fase 4 | `testing/test-unit.py` | `tests/test_{component}.py` |
+| Fase 4 | `testing/test-unit.py.tpl` | `tests/test_{component}.py` |
 | Fase 9 | `reporting/implementation-report.md` | `docs/reports/{US_ID}-report.md` |
 
 ---
@@ -98,7 +98,7 @@ Template para generar el plan de implementación detallado de una historia de us
 
 **Directorio:** `templates/testing/`
 
-#### `test-unit.py`
+#### `test-unit.py.tpl`
 
 Template para generar estructura de tests unitarios usando pytest.
 
@@ -240,10 +240,10 @@ Ejemplo en template:
 | `integration_checklist` | implementation-plan.md | Checklist de integración con el sistema | Todos |
 | `architecture_code_blocks` | implementation-report.md | Bloques de código de integración (Factory, Router, etc.) | Todos |
 | `manual_testing_specifics` | implementation-report.md | Secciones de testing manual específicas | Todos |
-| `test_imports` | test-unit.py | Imports del framework de testing | Todos |
-| `test_signals_class` | test-unit.py | Clase TestSignals para PyQt | Solo pyqt-mvc |
-| `test_integration_class` | test-unit.py | Clase TestIntegracion específica | Todos |
-| `test_fixtures` | test-unit.py | Fixtures pytest del framework | Todos |
+| `test_imports` | test-unit.py.tpl | Imports del framework de testing | Todos |
+| `test_signals_class` | test-unit.py.tpl | Clase TestSignals para PyQt | Solo pyqt-mvc |
+| `test_integration_class` | test-unit.py.tpl | Clase TestIntegracion específica | Todos |
+| `test_fixtures` | test-unit.py.tpl | Fixtures pytest del framework | Todos |
 
 ### Cómo Funcionan
 

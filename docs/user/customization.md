@@ -180,7 +180,7 @@ Modifica templates para tu proyecto.
 │   ├── implementation-plan.md
 │   └── task-breakdown.md
 ├── testing/
-│   ├── test-unit.py
+│   ├── test-unit.py.tpl
 │   └── test-integration.py
 └── reporting/
     └── implementation-report.md
@@ -233,7 +233,7 @@ En tu perfil custom:
 ### Usar Snippet en Template
 
 ```python
-# En test-unit.py template
+# En test-unit.py.tpl template
 {SNIPPET:django_model}
 ```
 

@@ -7,6 +7,13 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Corregido
+
+- Renombrado `templates/testing/test-unit.py` a `templates/testing/test-unit.py.tpl` para que los
+  linters de pre-commit (black, ruff, isort) del proyecto consumidor no intenten parsear el
+  template como Python válido — sus placeholders (`{MODULE_PATH}`, `{CLASS_NAME}`, etc.) no son
+  sintaxis Python. Cierra #52.
+
 ---
 
 ## [1.4.1] - 2026-05-18

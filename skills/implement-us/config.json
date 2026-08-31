@@ -143,7 +143,7 @@
       "duration_max": 60,
       "approval_required": false,
       "agent_file": "phases/phase-4-unit-tests.md",
-      "output_template": "templates/testing/test-unit.py"
+      "output_template": "templates/testing/test-unit.py.tpl"
     },
     "5": {
       "name": "Tests de Integración",
