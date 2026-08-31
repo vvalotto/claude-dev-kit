@@ -34,6 +34,13 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
     `quality_gates.coverage.min_percent` en Fase 4.
   Cierra #54.
 
+- Fase 7 acota `codeguard` a los archivos `.py` modificados/agregados por la US respecto a la
+  rama base (`git diff` contra `develop`/`main`), en vez de correr sobre todo `src/{bc}/`. Evita
+  que deuda preexistente en código no tocado por la US aparezca en su reporte de quality gates —
+  esa deuda sigue visible en DesignReviewer al cierre de Incremento. El gate de coverage no se
+  modifica: sigue midiendo sobre el componente completo. Actualizado también `quality_gates.codeguard.command`
+  en los perfiles `hexagonal-ddd-bc` y `clean-architecture-bc`. Cierra #53.
+
 ---
 
 ## [1.4.1] - 2026-05-18

@@ -159,8 +159,8 @@
     "codeguard": {
       "enabled": true,
       "tool": "codeguard",
-      "command": "codeguard src/{bc}/ --format json",
-      "notes": "CodeGuard orquesta pylint + radon + designreviewer. Usar codeguard, nunca radon directamente."
+      "command": "codeguard {PATHS} --format json",
+      "notes": "CodeGuard orquesta pylint + radon + designreviewer. Usar codeguard, nunca radon directamente. {PATHS} son los .py modificados/agregados por la US respecto a la rama base (ver Fase 7) — no todo src/{bc}/."
     },
     "pylint": {
       "enabled": true,

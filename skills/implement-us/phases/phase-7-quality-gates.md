@@ -36,14 +36,22 @@ Ejecutar herramientas de análisis estático y validar que todas las métricas d
 ## Métricas de Calidad
 
 > **Si el perfil activo (`customizations/{PROFILE}.json`, ver `docs/plans/{US_ID}-context.md`) define `quality_gates.codeguard.enabled: true`:** No usar `radon` directamente.
-> Usar `codeguard`, con el comando indicado en `quality_gates.codeguard.command` del perfil, que orquesta pylint + radon + designreviewer en una sola pasada.
+> Usar `codeguard`, que orquesta pylint + radon + designreviewer en una sola pasada, **acotado a los archivos `.py` modificados o agregados por esta US** (no todo el árbol del componente/BC — evita reportar deuda preexistente de código que la US no tocó):
 >
 > ```bash
-> codeguard src/{bc}/ --format json > quality/reports/codeguard/{US_ID}-codeguard.json
+> BASE_BRANCH=$(git rev-parse --verify develop >/dev/null 2>&1 && echo develop || echo main)
+> ARCHIVOS_MODIFICADOS=$(git diff --name-only --diff-filter=ACMR "$(git merge-base "$BASE_BRANCH" HEAD)" -- '*.py' | grep '^src/')
+>
+> if [ -z "$ARCHIVOS_MODIFICADOS" ]; then
+>   echo "Sin archivos .py modificados bajo src/ — nada que analizar con codeguard."
+> else
+>   codeguard $ARCHIVOS_MODIFICADOS --format json > quality/reports/codeguard/{US_ID}-codeguard.json
+> fi
 > ```
 >
-> `designreviewer` se ejecuta **al cierre del Incremento** (no por US), vía pre-push hook
-> o manualmente. Si reporta CRITICAL, bloquea el merge.
+> El gate de **coverage** (paso 4 más abajo) no se acota — sigue midiendo sobre `{COMPONENT_PATH}` completo.
+>
+> `designreviewer` se ejecuta **al cierre del Incremento** (no por US), corre sobre el árbol completo vía pre-push hook o manualmente, y es donde vuelve a ser visible la deuda preexistente que Fase 7 ya no reporta por US. Si reporta CRITICAL, bloquea el merge.
 
 ### 1. Pylint (Análisis Estático)
 
