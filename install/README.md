@@ -241,6 +241,57 @@ mi-proyecto-python/
 
 ---
 
+### 6. Hexagonal DDD BC-First (`hexagonal-ddd-bc`)
+
+**Descripción:** Hexagonal DDD architecture organized by Bounded Context (domain → application → infrastructure → api)
+
+**Cuándo usar:**
+- Proyectos DDD con arquitectura hexagonal
+- Organización por Bounded Context, no por capa técnica global
+- Componentes: AggregateRoot, ValueObject, DomainEvent, Port, CommandHandler, QueryHandler, Repository, ApiRouter
+
+**Ejemplo de proyecto:**
+```
+mi-proyecto-ddd/
+├── src/
+│   └── {bc}/
+│       ├── domain/          # Aggregates, ValueObjects, DomainEvents, Ports
+│       ├── application/     # CommandHandlers, QueryHandlers
+│       ├── infrastructure/  # Repository implementations
+│       └── api/             # Router del BC
+├── tests/
+└── .claude/                 # Instalado por el kit
+```
+
+**Testing Framework:** `pytest + httpx`
+
+---
+
+### 7. Clean Architecture BC-First (`clean-architecture-bc`)
+
+**Descripción:** Clean Architecture organized by Bounded Context (entities → use_cases → interface_adapters → frameworks)
+
+**Cuándo usar:**
+- Proyectos con Clean Architecture (Uncle Bob) organizados por Bounded Context
+- Componentes: Entity, Port, UseCase, Repository, Gateway, Controller
+
+**Ejemplo de proyecto:**
+```
+mi-proyecto-clean/
+├── src/
+│   └── {bc}/
+│       ├── entities/            # Reglas de negocio empresariales
+│       ├── use_cases/           # UseCases y Ports
+│       ├── interface_adapters/  # Controllers y Gateways
+│       └── frameworks/          # Repositories, routers, drivers concretos
+├── tests/
+└── .claude/                     # Instalado por el kit
+```
+
+**Testing Framework:** `pytest + httpx`
+
+---
+
 ## ⚙️ Opciones de Línea de Comandos
 
 ### Sintaxis Completa

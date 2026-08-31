@@ -95,7 +95,7 @@ Referencia completa de todas las opciones de configuración disponibles en Claud
 
 **Tipo:** String
 **Default:** "generic-python"
-**Valores:** pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python
+**Valores:** pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python, hexagonal-ddd-bc, clean-architecture-bc
 
 ```json
 "profile": "fastapi-rest"

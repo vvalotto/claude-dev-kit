@@ -127,13 +127,15 @@ python ~/.claude-dev-kit/install/installer.py
 
 Selecciona tu stack tecnológico:
 
-1. pyqt-mvc       - Aplicaciones de escritorio con PyQt6 + MVC
-2. fastapi-rest   - APIs REST asíncronas con FastAPI
-3. flask-rest     - APIs REST con Flask
-4. flask-webapp   - Aplicaciones web fullstack con Flask
-5. generic-python - Proyectos Python genéricos
+1. pyqt-mvc              - Aplicaciones de escritorio con PyQt6 + MVC
+2. fastapi-rest          - APIs REST asíncronas con FastAPI
+3. flask-rest            - APIs REST con Flask
+4. flask-webapp          - Aplicaciones web fullstack con Flask
+5. generic-python        - Proyectos Python genéricos
+6. hexagonal-ddd-bc      - Hexagonal DDD organizado por Bounded Context
+7. clean-architecture-bc - Clean Architecture organizada por Bounded Context
 
-Ingresa el número (1-5):
+Ingresa el número (1-7):
 ```
 
 **Selecciona tu perfil:**
@@ -142,8 +144,10 @@ Ingresa el número (1-5):
 - `3` → Flask-REST: Para APIs REST con Flask
 - `4` → Flask-WebApp: Para aplicaciones web con Flask
 - `5` → Generic-Python: Para proyectos Python sin framework específico
+- `6` → Hexagonal-DDD-BC: Para arquitectura hexagonal + DDD organizada por Bounded Context
+- `7` → Clean-Architecture-BC: Para Clean Architecture organizada por Bounded Context
 
-> **Tip:** Si no estás seguro, elige **5 (generic-python)**. Podrás personalizarlo después.
+> **Tip:** Si no estás seguro, elige **5 (generic-python)**. Podrás personalizarlo después. Si tu proyecto ya tiene una arquitectura DDD/Clean por Bounded Context definida, `6` o `7` te van a ahorrar trabajo — y si ninguno encaja exacto con tu estructura real, corré `/adapt-project` después de instalar.
 
 ---
 

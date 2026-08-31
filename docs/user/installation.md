@@ -110,13 +110,15 @@ Proyecto detectado: /Users/usuario/mi-proyecto-python
 
 Selecciona tu stack tecnológico:
 
-1. pyqt-mvc       - Aplicaciones desktop PyQt6 + MVC
-2. fastapi-rest   - APIs REST asíncronas con FastAPI
-3. flask-rest     - APIs REST con Flask
-4. flask-webapp   - Aplicaciones web fullstack con Flask
-5. generic-python - Proyectos Python genéricos
+1. pyqt-mvc              - Aplicaciones desktop PyQt6 + MVC
+2. fastapi-rest          - APIs REST asíncronas con FastAPI
+3. flask-rest            - APIs REST con Flask
+4. flask-webapp          - Aplicaciones web fullstack con Flask
+5. generic-python        - Proyectos Python genéricos
+6. hexagonal-ddd-bc      - Hexagonal DDD organizado por Bounded Context
+7. clean-architecture-bc - Clean Architecture organizada por Bounded Context
 
-Ingresa el número (1-5): _
+Ingresa el número (1-7): _
 ```
 
 ### Paso 5: Confirmar Instalación

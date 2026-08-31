@@ -37,6 +37,10 @@ python ~/.claude-dev-kit/install/installer.py --profile pyqt-mvc
 | flask-rest | Flask API | Blueprints | pytest-flask |
 | flask-webapp | Flask Web | MVT | pytest-flask |
 | generic-python | Python | Flexible | pytest |
+| hexagonal-ddd-bc | Python DDD | Hexagonal + BC-first | pytest + httpx |
+| clean-architecture-bc | FastAPI + SQLAlchemy async | Clean Architecture + BC-first | pytest + httpx |
+
+¿Ninguno encaja con tu proyecto? Corré `/adapt-project` una vez — diagnostica la arquitectura real y genera un perfil custom calibrado, sin tener que seguir los pasos manuales de esta sección.
 
 ### Crear Perfil Custom
 
