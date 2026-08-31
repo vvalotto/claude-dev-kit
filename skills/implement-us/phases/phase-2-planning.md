@@ -30,7 +30,7 @@ python .claude/tracking/tracker_cli.py start-phase 2 "Generación del Plan de Im
 
 ## Paso 3 — Identificar patrón y componentes
 
-Leé el patrón activo del archivo `.claude/skills/implement-us/config.json`, clave `variables.architecture_pattern`. Luego identificá los componentes a crear según la siguiente referencia:
+Leé el patrón activo del perfil (`.claude/skills/implement-us/customizations/{PROFILE}.json`, perfil registrado en `docs/plans/{US_ID}-context.md`), clave `variables.architecture_pattern.default`. Luego identificá los componentes a crear según la siguiente referencia:
 
 > **Componentes según patrón:**
 >

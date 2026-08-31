@@ -37,30 +37,25 @@ Si alguno no existe, **no avances** — completá la fase correspondiente primer
 3. **Verificá el flag `--skip-bdd`** leyendo el campo `skip_bdd` de `docs/plans/{US_ID}-context.md`.
    - Si `skip_bdd: true` → confirmá que Fase 1 y Fase 6 están marcadas como omitidas en el plan. Si el agente intentara leer un feature file en Fase 6 cuando `skip_bdd: true`, fallaría: este es el punto para anticiparlo.
 
-4. **Leé las rutas exactas de componentes** desde `customizations/{perfil}.json → component_structure` antes de iniciar el ciclo de tareas. No inferir rutas por defecto del contexto de la conversación — usá las rutas del perfil activo.
+4. **Leé las rutas exactas de componentes** desde `customizations/{PROFILE}.json → component_structure` antes de iniciar el ciclo de tareas. No inferir rutas por defecto del contexto de la conversación — usá las rutas del perfil activo.
+
+   El nombre del perfil activo (`{PROFILE}`) está registrado en `docs/plans/{US_ID}-context.md`, sección **Perfil Activo** (determinado en Fase 0, Paso 5). No lo vuelvas a derivar de otra fuente.
 
 ```bash
-# Identificar el perfil activo
-cat .claude/skills/implement-us/config.json | jq '.variables.architecture_pattern'
-
-# Leer component_structure del perfil activo
-cat .claude/skills/implement-us/customizations/{perfil}.json | jq '.component_structure'
+# Leer component_structure del perfil activo (PROFILE tomado de context.md)
+cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.component_structure'
 ```
 
-#### Si el perfil activo es `hexagonal-ddd-bc` — Orden de implementación obligatorio
+#### Si el perfil activo define `implementation_order` — Orden de implementación obligatorio
 
-En arquitectura hexagonal DDD, los componentes tienen dependencias directas entre sí. Implementar siempre en este orden dentro de cada BC:
+Algunos perfiles con arquitecturas por capas y dependencias directas entre componentes (BC-first, hexagonal, Clean Architecture) declaran un orden de implementación obligatorio en `component_structure.{feature}.implementation_order` dentro de `customizations/{PROFILE}.json`.
 
-1. **ValueObjects** — sin dependencias
-2. **DomainEvents** — usan ValueObjects
-3. **AggregateRoot** — usa VOs y emite Events
-4. **Ports** — interfaces ABC que el Aggregate necesita
-5. **CommandHandlers** — usan Aggregate + Ports
-6. **QueryHandlers** — usan Ports o read models
-7. **Repositories** — implementan Ports
-8. **ApiRouter** — importa solo application/
+Si el perfil activo define ese campo:
+1. Leé `implementation_order` del perfil.
+2. Implementá los componentes exactamente en ese orden dentro de cada BC/feature — cada uno depende del anterior.
+3. No implementes un componente si su dependencia no está lista y testeada.
 
-No implementar un componente si su dependencia no está lista y testeada.
+Si el perfil activo no define `implementation_order`, seguí el orden de tareas del plan generado en Fase 2.
 
 ---
 
@@ -119,7 +114,7 @@ Presentar al usuario:
 
 ### 4. Generar código base usando patrones del proyecto
 
-Leer la configuración del perfil (`.claude/skills/implement-us/config.json`) para determinar:
+Leer la configuración del perfil activo (`.claude/skills/implement-us/customizations/{PROFILE}.json`) para determinar:
 - **Base classes** a extender
 - **Imports** necesarios según stack
 - **Estructura de archivos** esperada

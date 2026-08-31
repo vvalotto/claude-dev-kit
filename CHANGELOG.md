@@ -21,6 +21,19 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
   template como Python válido — sus placeholders (`{MODULE_PATH}`, `{CLASS_NAME}`, etc.) no son
   sintaxis Python. Cierra #52.
 
+- Docs de fase (`phase-0`, `phase-2`, `phase-3`, `phase-4`, `phase-7`) ya no hardcodean el nombre
+  de un perfil específico (`hexagonal-ddd-bc`) en su lógica condicional, ni leen los umbrales de
+  quality gates / rutas de tests desde `.claude/skills/implement-us/config.json` (el config base
+  genérico, igual para todo proyecto). Ahora:
+  - Fase 0 determina y registra el perfil activo (`{PROFILE}`) leyendo `.claude/config.json` →
+    `profile`, validando que exista `customizations/{PROFILE}.json`.
+  - Las fases siguientes leen umbrales, rutas de componentes y flags como `implementation_order`
+    o `quality_gates.codeguard.enabled` desde `customizations/{PROFILE}.json`, no de un perfil
+    hardcodeado.
+  - Corregida además la clave `quality_gates.coverage_threshold` (no existía) por
+    `quality_gates.coverage.min_percent` en Fase 4.
+  Cierra #54.
+
 ---
 
 ## [1.4.1] - 2026-05-18

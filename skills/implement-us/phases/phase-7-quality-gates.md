@@ -35,8 +35,8 @@ Ejecutar herramientas de análisis estático y validar que todas las métricas d
 
 ## Métricas de Calidad
 
-> **Si el perfil activo es `hexagonal-ddd-bc`:** No usar `radon` directamente.
-> Usar `codeguard` que orquesta pylint + radon + designreviewer en una sola pasada.
+> **Si el perfil activo (`customizations/{PROFILE}.json`, ver `docs/plans/{US_ID}-context.md`) define `quality_gates.codeguard.enabled: true`:** No usar `radon` directamente.
+> Usar `codeguard`, con el comando indicado en `quality_gates.codeguard.command` del perfil, que orquesta pylint + radon + designreviewer en una sola pasada.
 >
 > ```bash
 > codeguard src/{bc}/ --format json > quality/reports/codeguard/{US_ID}-codeguard.json
@@ -274,7 +274,7 @@ Crear archivo JSON con todas las métricas:
 **Formato:**
 
 > Antes de generar el archivo, leé los umbrales del perfil activo:
-> `cat .claude/skills/implement-us/config.json | jq '.quality_gates'`
+> `cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.quality_gates'`
 > Reemplazá `{PYLINT_MIN}`, `{CC_MAX}`, `{MI_MIN}`, `{COVERAGE_MIN}` con los valores obtenidos.
 
 ```json
@@ -308,7 +308,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-def leer_umbrales_perfil(config_path=".claude/skills/implement-us/config.json"):
+def leer_umbrales_perfil(config_path=".claude/skills/implement-us/customizations/{PROFILE}.json"):
     """Leer umbrales de quality gates desde el perfil activo."""
     with open(config_path) as f:
         config = json.load(f)
@@ -525,7 +525,7 @@ Creá el archivo con los valores reales obtenidos en los pasos anteriores:
 > Reemplazá los valores `0.0` con los resultados reales de pylint, radon y pytest-cov.
 > Leé los umbrales correctos del perfil activo con:
 > ```bash
-> cat .claude/skills/implement-us/config.json | jq '.quality_gates'
+> cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.quality_gates'
 > ```
 > Cambiá `"estado"` a `"RECHAZADO"` si alguna métrica no alcanza el umbral. Documentá la causa en `"observaciones"`.
 
@@ -709,7 +709,7 @@ Los umbrales específicos se definen en el archivo de configuración del perfil:
 
 ```bash
 # Leer umbrales del perfil activo
-cat .claude/skills/implement-us/config.json | jq '.quality_gates'
+cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.quality_gates'
 ```
 
 **Ejemplo de output (Flask REST):**
@@ -745,7 +745,7 @@ cat .claude/skills/implement-us/config.json | jq '.quality_gates'
 Leé primero los umbrales y la ruta del componente del perfil activo:
 
 ```bash
-cat .claude/skills/implement-us/config.json | jq '.quality_gates'
+cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.quality_gates'
 ```
 
 Luego ejecutá con los valores obtenidos (reemplazá `{COMPONENT_PATH}`, `{COVERAGE_THRESHOLD}` y `{PYLINT_MIN}` con los valores del perfil):

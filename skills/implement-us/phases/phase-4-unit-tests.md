@@ -855,11 +855,11 @@ class TestCalculator:
 
 ### 4. Ejecutar tests
 
-> **Antes de ejecutar:** Leé la ruta de tests unitarios desde el config del perfil activo:
+> **Antes de ejecutar:** Leé la ruta de tests unitarios desde el perfil activo:
 > ```bash
-> cat .claude/skills/implement-us/config.json | jq '.test_framework_config.unit_test_path'
+> cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.test_framework_config.unit_test_path'
 > ```
-> Usá ese valor en lugar de `tests/` en los comandos siguientes. Por defecto: `tests/unit/`.
+> Usá ese valor en lugar de `tests/` en los comandos siguientes. Si el perfil no define `test_framework_config` (perfiles BC-first usan `component_structure.*.test_files` en su lugar), el default es `tests/unit/`.
 
 Según el stack, ejecutar tests con comandos apropiados:
 
@@ -906,7 +906,7 @@ pytest {UNIT_TEST_PATH} -v -s
 
 ### 5. Validar coverage
 
-**Objetivo mínimo:** El umbral de coverage está definido en el perfil activo — leé el campo `quality_gates.coverage_threshold` en `.claude/skills/implement-us/config.json` antes de evaluar.
+**Objetivo mínimo:** El umbral de coverage está definido en el perfil activo — leé el campo `quality_gates.coverage.min_percent` en `.claude/skills/implement-us/customizations/{PROFILE}.json` antes de evaluar.
 
 ```bash
 # Generar reporte de coverage
@@ -994,7 +994,7 @@ def client(test_db):
 
 ## Objetivo de Coverage
 
-**Target:** El umbral mínimo se lee del perfil activo (`quality_gates.coverage_threshold` en `.claude/skills/implement-us/config.json`)
+**Target:** El umbral mínimo se lee del perfil activo (`quality_gates.coverage.min_percent` en `.claude/skills/implement-us/customizations/{PROFILE}.json`)
 
 **Qué debe estar cubierto:**
 - ✅ Todos los métodos públicos

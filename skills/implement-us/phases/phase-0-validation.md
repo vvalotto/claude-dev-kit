@@ -83,15 +83,20 @@ Extraé de la HU:
 
 ## Paso 5 — Validar arquitectura de referencia
 
-1. Leé el perfil activo del archivo `.claude/skills/implement-us/config.json`, clave `variables.architecture_pattern`. Registrá el valor en `context.md` como `Patrón activo`.
+1. **Determinar el perfil activo (`{PROFILE}`):**
+   - Leé `.claude/config.json` (generado por el instalador), clave `profile`. Ese valor es el nombre del perfil, ej. `fastapi-rest`, `hexagonal-ddd-bc`.
+   - Si `.claude/config.json` no existe o no tiene la clave `profile` (puede pasar con perfiles BC-first todavía no soportados por el instalador — ver `.claude/skills/implement-us/customizations/`), preguntá al usuario qué perfil de esa carpeta aplica al proyecto.
+   - Confirmá que existe `.claude/skills/implement-us/customizations/{PROFILE}.json`. Si no existe ningún archivo con ese nombre, **no avances** — informá al usuario antes de continuar.
 
-2. Buscá documentación de arquitectura del proyecto en:
+2. Leé `variables.architecture_pattern.default` de `.claude/skills/implement-us/customizations/{PROFILE}.json`. Registrá ambos valores en `context.md`: `Perfil activo` (el nombre determinado en el punto 1) y `Patrón arquitectónico` (este valor).
+
+3. Buscá documentación de arquitectura del proyecto en:
    - `docs/architecture*.md`
    - `ARCHITECTURE.md`
    - `README.md` (sección de arquitectura)
    - La ubicación indicada por el usuario en el Paso 3
 
-3. Si no existe ningún archivo de arquitectura:
+4. Si no existe ningún archivo de arquitectura:
 
    > **⚠️ Sin documentación de arquitectura.** El agente inferirá el patrón del código existente. Continuando.
 
@@ -205,7 +210,7 @@ Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (com
 - Quality report: quality/reports/{US_ID}-quality.json
 ```
 
-Los umbrales se leen del perfil activo en `.claude/skills/implement-us/config.json`.
+Los umbrales se leen de `.claude/skills/implement-us/customizations/{PROFILE}.json` (perfil activo determinado en el Paso 5).
 
 ---
 
@@ -227,7 +232,8 @@ Antes de avanzar a Fase 1, confirmá que:
 - [ ] Todas las herramientas requeridas están disponibles (pylint, radon, pytest, pytest-bdd)
 - [ ] Las fuentes de HU y arquitectura fueron consultadas al usuario (Paso 3)
 - [ ] La HU fue encontrada y sus datos extraídos
-- [ ] El patrón arquitectónico fue leído del config y registrado en context.md
+- [ ] El perfil activo fue determinado y `customizations/{PROFILE}.json` existe
+- [ ] El patrón arquitectónico fue leído del perfil activo y registrado en context.md
 - [ ] El tipo de HU fue clasificado y confirmado por el usuario
 - [ ] La decisión de BDD fue comunicada al usuario
 - [ ] `docs/plans/{US_ID}-context.md` existe en disco: `ls docs/plans/{US_ID}-context.md`
