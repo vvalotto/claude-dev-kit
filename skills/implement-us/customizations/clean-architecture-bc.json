@@ -1,0 +1,193 @@
+{
+  "_comment_profile": "Perfil genérico para Clean Architecture (Uncle Bob) organizada por Bounded Context",
+
+  "profile_metadata": {
+    "name": "clean-architecture-bc",
+    "display_name": "Clean Architecture BC-First",
+    "description": "Clean Architecture organizada por Bounded Context. entities → use_cases → interface_adapters → frameworks.",
+    "extends": "config.json",
+    "version": "1.0.0",
+    "author": "Claude Dev Kit",
+    "created": "2026-08-31",
+    "target_stack": "Python 3.10+ + FastAPI + SQLAlchemy async + PostgreSQL",
+    "architecture": "Clean Architecture BC-First (entities → use_cases → interface_adapters → frameworks)"
+  },
+
+  "variables": {
+    "architecture_pattern": {
+      "default": "clean-architecture",
+      "description": "Clean Architecture BC-first: entities → use_cases → interface_adapters → frameworks",
+      "available": ["clean-architecture"],
+      "layers": {
+        "entities": "Entities — reglas de negocio empresariales, sin dependencias externas",
+        "use_cases": "UseCases y Ports — reglas de negocio de la aplicación",
+        "interface_adapters": "Controllers y Gateways — adaptan datos entre use_cases y frameworks",
+        "frameworks": "Repositories, routers y drivers concretos (FastAPI, SQLAlchemy)"
+      },
+      "golden_rule": "<bc>/entities/ no importa nada fuera de su propio entities/. La dependencia siempre apunta hacia adentro (Dependency Rule)."
+    },
+    "component_type": {
+      "default": "Entity",
+      "description": "Tipo de componente Clean Architecture a implementar",
+      "available": [
+        "Entity",
+        "Port",
+        "UseCase",
+        "Repository",
+        "Gateway",
+        "Controller"
+      ]
+    },
+    "component_path": {
+      "default": "src/{bc}/entities/",
+      "description": "Ruta base según tipo de componente y BC",
+      "by_component": {
+        "Entity":     "src/{bc}/entities/",
+        "Port":       "src/{bc}/use_cases/ports/",
+        "UseCase":    "src/{bc}/use_cases/",
+        "Repository": "src/{bc}/frameworks/repositories/",
+        "Gateway":    "src/{bc}/interface_adapters/gateways/",
+        "Controller": "src/{bc}/interface_adapters/controllers/"
+      }
+    },
+    "test_framework": {
+      "default": "pytest + httpx",
+      "plugins": ["pytest-asyncio", "httpx", "pytest-cov", "pytest-bdd"]
+    },
+    "project_root": {
+      "default": "src/",
+      "description": "Raíz del código fuente — organizado por BC"
+    }
+  },
+
+  "component_structure": {
+    "bc_feature": {
+      "description": "BC completo con Clean Architecture",
+      "base_path": "src/{bc}/",
+      "implementation_order": [
+        "Entities",
+        "Ports",
+        "UseCases",
+        "Repositories",
+        "Gateways",
+        "Controllers"
+      ],
+      "_comment_order": "El orden es obligatorio: cada elemento depende del anterior (Dependency Rule — de adentro hacia afuera).",
+      "files": {
+        "entity": {
+          "path": "src/{bc}/entities/{nombre}.py",
+          "responsibilities": [
+            "Encapsula reglas de negocio empresariales del BC",
+            "Sin dependencias de use_cases/, interface_adapters/ ni frameworks/",
+            "Puede ser dataclass o clase plana con invariantes propias"
+          ]
+        },
+        "port": {
+          "path": "src/{bc}/use_cases/ports/{nombre}.py",
+          "responsibilities": [
+            "Define el contrato (interfaz) que necesita el UseCase",
+            "Solo métodos abstractos — sin implementación",
+            "Implementado en frameworks/ (Repository) o interface_adapters/ (Gateway)"
+          ]
+        },
+        "use_case": {
+          "path": "src/{bc}/use_cases/{nombre}_use_case.py",
+          "responsibilities": [
+            "Orquesta entities a través de los Ports para cumplir una regla de negocio de la aplicación",
+            "Recibe input DTO, retorna output DTO — sin depender de frameworks",
+            "Sin lógica de presentación ni de persistencia"
+          ]
+        },
+        "repository_impl": {
+          "path": "src/{bc}/frameworks/repositories/{nombre}_repository.py",
+          "responsibilities": [
+            "Implementa el Port de persistencia definido en use_cases/ports/",
+            "Traduce entre entities y el mecanismo de persistencia (SQLAlchemy)",
+            "Sin lógica de negocio"
+          ]
+        },
+        "gateway": {
+          "path": "src/{bc}/interface_adapters/gateways/{nombre}_gateway.py",
+          "responsibilities": [
+            "Implementa el Port hacia un servicio externo (no persistencia): notificaciones, pagos, APIs de terceros",
+            "Traduce entre entities/DTOs del use case y el formato del servicio externo",
+            "Sin lógica de negocio"
+          ]
+        },
+        "controller": {
+          "path": "src/{bc}/interface_adapters/controllers/{nombre}_controller.py",
+          "responsibilities": [
+            "Traduce input externo (HTTP request) a input DTO del UseCase",
+            "Invoca el UseCase y traduce su output DTO a la respuesta externa",
+            "Solo importa use_cases/ — nunca entities/ ni frameworks/ directamente"
+          ]
+        },
+        "api_router": {
+          "path": "src/{bc}/frameworks/api/router.py",
+          "responsibilities": [
+            "Framework HTTP (FastAPI) — expone endpoints y delega en el Controller",
+            "Traduce excepciones de dominio a códigos de estado HTTP",
+            "Capa más externa — conoce todo, es conocida por nada"
+          ]
+        }
+      },
+      "test_files": {
+        "test_entity":   "tests/unit/{bc}/test_{nombre}.py",
+        "test_use_case": "tests/unit/{bc}/test_{nombre}_use_case.py",
+        "test_gateway":  "tests/unit/{bc}/test_{nombre}_gateway.py",
+        "test_integration": "tests/integration/{bc}/test_{nombre}.py"
+      }
+    }
+  },
+
+  "quality_gates": {
+    "codeguard": {
+      "enabled": true,
+      "tool": "codeguard",
+      "command": "codeguard src/{bc}/ --format json",
+      "notes": "CodeGuard orquesta pylint + radon + designreviewer. Usar codeguard, nunca radon directamente."
+    },
+    "pylint": {
+      "enabled": true,
+      "min_score": 8.0,
+      "scope": "src/{bc}/entities/ + src/{bc}/use_cases/",
+      "notes": "Invocado por CodeGuard"
+    },
+    "cyclomatic_complexity": {
+      "enabled": true,
+      "max_per_function": 10,
+      "tool": "radon (vía CodeGuard)"
+    },
+    "coverage": {
+      "enabled": true,
+      "min_percent": 90.0,
+      "tool": "pytest-cov",
+      "scope": "src/{bc}/entities/ + src/{bc}/use_cases/",
+      "notes": "interface_adapters y frameworks no cuentan para el umbral mínimo"
+    }
+  },
+
+  "design_patterns": {
+    "clean_architecture": {
+      "description": "Clean Architecture BC-First",
+      "import_rules": [
+        "entities/: sin imports fuera de su propio entities/ (Dependency Rule)",
+        "use_cases/: importa entities/, nunca interface_adapters/ ni frameworks/",
+        "interface_adapters/: importa use_cases/, nunca frameworks/ directamente",
+        "frameworks/: implementa Ports de use_cases/ports/ y conecta todo (capa más externa)"
+      ],
+      "bc_communication": "Solo a través de Ports (use_cases/ports/). Nunca imports directos entre BCs.",
+      "acl_location": "interface_adapters/gateways/ del BC consumidor"
+    },
+    "dependency_rule": {
+      "description": "Las dependencias del código fuente solo pueden apuntar hacia adentro. Nada en un círculo interno puede saber algo sobre un círculo externo.",
+      "dto_note": "Los datos que cruzan los límites de capa son estructuras simples (DTOs), nunca entities ni modelos de framework."
+    }
+  },
+
+  "bdd_config": {
+    "runner": "pytest-bdd",
+    "language_note": "NO usar # language: es — pytest-bdd 8.x requiere English keywords (Given/When/Then)",
+    "tag_prefix": "@US-"
+  }
+}

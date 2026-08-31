@@ -16,14 +16,15 @@ Este archivo proporciona orientación a Claude Code al trabajar en este reposito
 
 ```
 claude-dev-kitc/
-├── skills/implement-us/       # Skill principal (orquestador + 10 fases + 5 perfiles)
+├── skills/implement-us/       # Skill principal (orquestador + 10 fases + 7 perfiles)
 │   ├── skill.md               # Orquestador — leer primero al trabajar con el skill
 │   ├── artifacts.md           # Mapa centralizado de artefactos y rutas canónicas
 │   ├── conventions.md         # Convención estructural de archivos de fase
 │   ├── config.json            # Configuración base genérica
 │   ├── phases/                # phase-0-validation.md … phase-9-final-report.md
 │   └── customizations/        # pyqt-mvc.json, fastapi-rest.json, flask-rest.json,
-│                              #   flask-webapp.json, generic-python.json
+│                              #   flask-webapp.json, generic-python.json, hexagonal-ddd-bc.json,
+│                              #   clean-architecture-bc.json
 ├── templates/                 # Templates parametrizados con {VARIABLE} y {SNIPPET:id}
 │   ├── bdd/scenario.feature
 │   ├── planning/implementation-plan.md
@@ -81,6 +82,7 @@ El skill guía la implementación de una historia de usuario a través de **10 f
 | `flask-webapp` | Flask Web | BFF + SSR | 90% |
 | `generic-python` | Python genérico | Flexible | 95% |
 | `hexagonal-ddd-bc` | Python DDD | Hexagonal + BC-first | 90% |
+| `clean-architecture-bc` | FastAPI + SQLAlchemy async | Clean Architecture + BC-first | 90% |
 
 ---
 

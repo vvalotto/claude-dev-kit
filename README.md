@@ -111,6 +111,7 @@ Personaliza el framework para tu stack tecnológico:
 | **flask-webapp** | Flask Web | BFF + SSR | pytest-flask | 90% |
 | **generic-python** | Python | Flexible | pytest | 95% |
 | **hexagonal-ddd-bc** | Python DDD | Hexagonal + BC-first | pytest | 90% |
+| **clean-architecture-bc** | FastAPI + SQLAlchemy async | Clean Architecture + BC-first | pytest-asyncio | 90% |
 
 **Ver:** [Guía de Personalización](docs/user/customization.md)
 

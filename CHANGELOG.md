@@ -7,6 +7,13 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Agregado
+
+- Nuevo perfil `clean-architecture-bc` en `customizations/`: Clean Architecture (Uncle Bob)
+  organizada por Bounded Context, capas `entities → use_cases → interface_adapters → frameworks`,
+  componentes `Entity`, `Port`, `UseCase`, `Repository`, `Gateway`, `Controller`. Target stack:
+  FastAPI + SQLAlchemy async + PostgreSQL. Cierra #55.
+
 ### Corregido
 
 - Renombrado `templates/testing/test-unit.py` a `templates/testing/test-unit.py.tpl` para que los
