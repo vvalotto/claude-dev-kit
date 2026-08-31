@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
-[![Tests](https://img.shields.io/badge/tests-142%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-146%20passed-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen.svg)](tests/)
 
 ---
@@ -17,7 +17,7 @@ Claude Dev Kit es un framework instalable que **automatiza el ciclo completo de 
 
 **¿Por qué usarlo?**
 - ✅ **Automatiza** el flujo de trabajo: Desde BDD hasta reporte final
-- ✅ **Personalizable** por stack: PyQt, FastAPI, Flask REST, Flask WebApp, Python genérico
+- ✅ **Personalizable** por stack: PyQt, FastAPI, Flask REST, Flask WebApp, Python genérico, Hexagonal DDD BC-first, Clean Architecture BC-first
 - ✅ **Trackea tiempo** automáticamente por fase y tarea
 - ✅ **Genera** BDD, planes, tests, documentación y reportes
 - ✅ **Valida calidad** con quality gates (Pylint, coverage, complejidad)
@@ -38,7 +38,8 @@ cd ~/mi-proyecto-python
 # 3. Ejecutar instalador
 python ~/.claude-dev-kit/install/installer.py
 
-# 4. Seleccionar perfil (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python)
+# 4. Seleccionar perfil (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp,
+#    generic-python, hexagonal-ddd-bc, clean-architecture-bc)
 # El instalador te guiará interactivamente
 ```
 

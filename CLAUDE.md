@@ -45,7 +45,7 @@ claude-dev-kitc/
 │   ├── examples/              # Tutoriales por stack
 │   └── mejoras/               # Registro de hallazgos y planes de mejora
 ├── examples/                  # Proyectos de ejemplo completos con tests
-├── tests/                     # Suite de tests del framework (142 tests, 99% cobertura)
+├── tests/                     # Suite de tests del framework (146 tests, 99% cobertura)
 └── gestion/                   # Tickets y progreso del proyecto
 ```
 
