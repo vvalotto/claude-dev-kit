@@ -8,7 +8,7 @@ Este archivo proporciona orientación a Claude Code al trabajar en este reposito
 
 **Claude Dev Kit** es un framework de desarrollo agnóstico de dominio que automatiza la implementación de historias de usuario con Claude Code. Proporciona skills reutilizables, templates y un sistema de tracking de tiempo.
 
-**Estado Actual:** v1.4.1 — Estable y completo. El framework está publicado y en uso.
+**Estado Actual:** v1.5.0 — Estable y completo. El framework está publicado y en uso.
 
 ---
 
@@ -151,4 +151,4 @@ main                    # Releases de producción
 
 ---
 
-**Última Actualización:** 2026-05-18 — v1.4.1
+**Última Actualización:** 2026-08-31 — v1.5.0

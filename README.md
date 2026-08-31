@@ -2,7 +2,7 @@
 
 > Framework agnóstico de dominio para implementación automatizada de historias de usuario con Claude Code
 
-[![Version](https://img.shields.io/badge/version-1.4.1-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.4.1)
+[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.5.0)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
@@ -200,6 +200,14 @@ Templates parametrizados con variables y snippets:
 
 ## 🗺️ Roadmap
 
+### v1.5.0 ✅ (Completado — 2026-08-31)
+
+- ✅ Nuevo perfil `clean-architecture-bc`: Clean Architecture BC-first, target FastAPI + SQLAlchemy async
+- ✅ Nuevo skill `/adapt-project`: calibra `implement-us` a proyectos sin perfil bundleado (#41)
+- ✅ Docs de fase ya no hardcodean el perfil `hexagonal-ddd-bc`; leen umbrales y rutas del perfil activo real
+- ✅ Fase 7 acota `codeguard` a archivos modificados por la US, no todo el árbol del componente
+- ✅ Template `test-unit.py` renombrado a `.tpl` — ya no rompe hooks de pre-commit del proyecto consumidor
+
 ### v1.4.1 ✅ (Completado — 2026-05-18)
 
 - ✅ Instalador: eliminada dependencia de `pyyaml`; configuración migrada a JSON (stdlib pura)
@@ -234,10 +242,10 @@ Templates parametrizados con variables y snippets:
 - ✅ Sistema de tracking de tiempo automático (5 skills)
 - ✅ 5 ejemplos funcionales completos con tests
 - ✅ Suite de tests del framework
-- ✅ Skill `/adapt-project` para calibrar `implement-us` a proyectos sin perfil bundleado (#41)
 
-### Futuro (v1.5)
+### Futuro (v1.6)
 
+- Instalador (`--profile`) soporta los perfiles BC-first `hexagonal-ddd-bc` y `clean-architecture-bc` (#56)
 - Soporte para proyectos TypeScript/Node.js
 - Integración con GitHub Actions para quality gates automáticos
 - Dashboard web para tracking de tiempo

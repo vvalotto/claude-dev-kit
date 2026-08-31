@@ -7,6 +7,10 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+---
+
+## [1.5.0] - 2026-08-31
+
 ### Agregado
 
 - Nuevo perfil `clean-architecture-bc` en `customizations/`: Clean Architecture (Uncle Bob)
