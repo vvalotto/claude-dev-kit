@@ -7,6 +7,10 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+---
+
+## [1.6.0] - 2026-08-31
+
 ### Agregado
 
 - Instalador (`--profile`): registrados los perfiles `hexagonal-ddd-bc` y `clean-architecture-bc`
@@ -17,6 +21,14 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
   `customizations/{perfil}.json`, que es lo que `implement-us` realmente lee en runtime — el
   `CLAUDE.md` generado es solo referencia inicial). Sin cambios en `install/installer.py`: ambas
   funciones (`merge_configs`, `generate_claude_md`) ya eran genéricas. Cierra #56.
+
+### Documentación
+
+- Barrido completo de `docs/user/` e `install/README.md` para reflejar los 7 perfiles
+  instalables: secciones nuevas en `install/README.md`, transcripción del menú interactivo del
+  instalador actualizada (`docs/user/getting-started.md`, `docs/user/installation.md`), tabla de
+  perfiles y valores válidos de `profile` (`docs/user/customization.md`,
+  `docs/user/configuration.md`).
 
 ---
 

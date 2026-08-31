@@ -2,7 +2,7 @@
 
 > Framework agnóstico de dominio para implementación automatizada de historias de usuario con Claude Code
 
-[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.5.0)
+[![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.6.0)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
@@ -200,6 +200,11 @@ Templates parametrizados con variables y snippets:
 
 ## 🗺️ Roadmap
 
+### v1.6.0 ✅ (Completado — 2026-08-31)
+
+- ✅ Instalador (`--profile`) soporta los 2 perfiles BC-first `hexagonal-ddd-bc` y `clean-architecture-bc` (#56)
+- ✅ Documentación de usuario actualizada a los 7 perfiles instalables (`install/README.md`, `docs/user/`)
+
 ### v1.5.0 ✅ (Completado — 2026-08-31)
 
 - ✅ Nuevo perfil `clean-architecture-bc`: Clean Architecture BC-first, target FastAPI + SQLAlchemy async
@@ -243,9 +248,10 @@ Templates parametrizados con variables y snippets:
 - ✅ 5 ejemplos funcionales completos con tests
 - ✅ Suite de tests del framework
 
-### Futuro (v1.6)
+### Futuro (v1.7)
 
-- Instalador (`--profile`) soporta los perfiles BC-first `hexagonal-ddd-bc` y `clean-architecture-bc` (#56)
+- `CLAUDE.md` autogenerado para perfiles BC-first muestra capas y orden de implementación, no solo lista plana de componentes (#57)
+- Referencias colgantes a templates BDD por stack (`pyqt-scenario.feature`, `api-scenario.feature`) que no existen en `templates/bdd/` (#58)
 - Soporte para proyectos TypeScript/Node.js
 - Integración con GitHub Actions para quality gates automáticos
 - Dashboard web para tracking de tiempo
