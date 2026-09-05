@@ -116,6 +116,8 @@ Documentación interna y análisis:
 - [examples/flask-rest-api-project.md](ExamplesFlaskRestApiProject) - API REST con Flask
 - [examples/flask-webapp-project.md](ExamplesFlaskWebappProject) - WebApp con Flask
 - [examples/generic-python.md](ExamplesGenericPython) - Proyecto Python genérico
+- [examples/hexagonal-ddd-bc-project.md](ExamplesHexagonalDddBcProject) - Reservas con Hexagonal DDD BC-First
+- [examples/clean-architecture-bc-project.md](ExamplesCleanArchitectureBcProject) - Suscripciones con Clean Architecture BC-First
 
 ---
 
