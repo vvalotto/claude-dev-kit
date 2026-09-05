@@ -301,6 +301,55 @@ class ClaudeDevKitInstaller:
             with open(config_file, 'w', encoding='utf-8') as f:
                 json.dump(merged_config, f, indent=2, ensure_ascii=False)
 
+    def load_bc_first_layers(self, profile: str) -> Optional[Dict[str, Any]]:
+        """
+        Leer capas, orden de implementación y regla de dependencia de un
+        perfil BC-first desde su customization (fuente real que usa
+        `implement-us` en runtime), sin duplicar esa información en
+        `install/config.json`.
+
+        Args:
+            profile: Nombre del perfil seleccionado
+
+        Returns:
+            Dict con 'layers' (Dict[str, str]), 'implementation_order'
+            (List[str]) y 'golden_rule' (str) si el perfil es BC-first;
+            None si el perfil no define esta estructura (perfiles no
+            BC-first, o customization inexistente).
+        """
+        customization_path = (
+            self.kit_root / 'skills' / 'implement-us' / 'customizations' / f'{profile}.json'
+        )
+
+        if not customization_path.exists():
+            return None
+
+        try:
+            with open(customization_path, 'r', encoding='utf-8') as f:
+                customization = json.load(f)
+        except json.JSONDecodeError:
+            return None
+
+        architecture_pattern = customization.get('variables', {}).get('architecture_pattern', {})
+        layers = architecture_pattern.get('layers')
+
+        implementation_order = None
+        for structure in customization.get('component_structure', {}).values():
+            if 'implementation_order' in structure:
+                implementation_order = structure['implementation_order']
+                break
+
+        # La firma de un perfil BC-first: capas descriptas por nombre (dict,
+        # no lista plana como en pyqt-mvc) + orden de implementación obligatorio.
+        if not isinstance(layers, dict) or not implementation_order:
+            return None
+
+        return {
+            'layers': layers,
+            'implementation_order': implementation_order,
+            'golden_rule': architecture_pattern.get('golden_rule', ''),
+        }
+
     def generate_claude_md(self, project_dir: Path, profile: str, dry_run: bool = False) -> None:
         """
         Generar CLAUDE.md si no existe.
@@ -317,6 +366,26 @@ class ClaudeDevKitInstaller:
             return
 
         profile_config = self.config['profiles'][profile]
+        bc_first_layers = self.load_bc_first_layers(profile)
+
+        layers_section = ""
+        if bc_first_layers:
+            layers_table = chr(10).join(
+                f'| `{name}` | {description} |'
+                for name, description in bc_first_layers['layers'].items()
+            )
+            order_list = ' → '.join(bc_first_layers['implementation_order'])
+            layers_section = f"""
+## Capas y Orden de Implementación
+
+| Capa | Contiene |
+|------|----------|
+{layers_table}
+
+**Orden obligatorio de implementación:** {order_list}
+
+**Regla de dependencia:** {bc_first_layers['golden_rule']}
+"""
 
         content = f"""# CLAUDE.md
 
@@ -333,7 +402,7 @@ Este archivo proporciona orientación a Claude Code al trabajar con este proyect
 ## Tipos de Componentes
 
 {chr(10).join(f'- {ct}' for ct in profile_config['component_types'])}
-
+{layers_section}
 ## Patrones de Diseño Comunes
 
 {chr(10).join(f'- {p}' for p in profile_config['patterns'])}

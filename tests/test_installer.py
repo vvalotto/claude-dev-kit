@@ -237,6 +237,45 @@ class TestGenerateClaudeMd:
         content = (tmp_path / "CLAUDE.md").read_text()
         assert "Port" in content  # component_type compartido por ambos perfiles
 
+    @pytest.mark.parametrize("profile", ["hexagonal-ddd-bc", "clean-architecture-bc"])
+    def test_bc_first_profiles_include_layers_and_order(self, installer, tmp_path, profile):
+        """CLAUDE.md de perfiles BC-first incluye capas, orden y regla de dependencia."""
+        installer.generate_claude_md(tmp_path, profile)
+        content = (tmp_path / "CLAUDE.md").read_text()
+        assert "## Capas y Orden de Implementación" in content
+        assert "Orden obligatorio de implementación" in content
+        assert "Regla de dependencia" in content
+
+    def test_non_bc_first_profile_omits_layers_section(self, installer, tmp_path):
+        """CLAUDE.md de un perfil no BC-first no incluye la sección de capas."""
+        installer.generate_claude_md(tmp_path, "pyqt-mvc")
+        content = (tmp_path / "CLAUDE.md").read_text()
+        assert "## Capas y Orden de Implementación" not in content
+
+
+# =============================================================================
+# Tests: load_bc_first_layers
+# =============================================================================
+
+class TestLoadBcFirstLayers:
+
+    @pytest.mark.parametrize("profile", ["hexagonal-ddd-bc", "clean-architecture-bc"])
+    def test_returns_layers_for_bc_first_profiles(self, installer, profile):
+        """Perfiles BC-first devuelven capas, orden y regla de dependencia."""
+        result = installer.load_bc_first_layers(profile)
+        assert result is not None
+        assert isinstance(result["layers"], dict) and result["layers"]
+        assert isinstance(result["implementation_order"], list) and result["implementation_order"]
+        assert result["golden_rule"]
+
+    def test_returns_none_for_non_bc_first_profile(self, installer):
+        """Un perfil sin implementation_order/layers dict devuelve None (ej. pyqt-mvc)."""
+        assert installer.load_bc_first_layers("pyqt-mvc") is None
+
+    def test_returns_none_for_unknown_profile(self, installer):
+        """Un perfil sin customization en disco devuelve None."""
+        assert installer.load_bc_first_layers("no-existe") is None
+
 
 # =============================================================================
 # Tests: run_validation

@@ -7,6 +7,16 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Mejorado
+
+- `install/installer.py`: `generate_claude_md()` ahora agrega, para los perfiles BC-first
+  (`hexagonal-ddd-bc`, `clean-architecture-bc`), una sección "Capas y Orden de
+  Implementación" con la tabla de capas, el `implementation_order` obligatorio y la regla
+  de dependencia — leídos directamente de `customizations/{perfil}.json` (fuente real que
+  ya usa `implement-us` en runtime) vía el nuevo método `load_bc_first_layers()`, sin
+  duplicar esa información en `install/config.json`. Los otros 5 perfiles no se ven
+  afectados. Cierra #57.
+
 ### Arreglado
 
 - `templates/bdd/`: creados los 5 templates BDD referenciados por `bdd_config` pero
