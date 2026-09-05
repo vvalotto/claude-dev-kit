@@ -194,12 +194,21 @@ Templates parametrizados con variables y snippets:
 | [Flask-REST](docs/examples/flask-rest-api-project.md) | Contacts API | 38 tests, 94% cov |
 | [Flask-WebApp](docs/examples/flask-webapp-project.md) | Blog fullstack | 43 tests, 99% cov |
 | [Python Genérico](docs/examples/generic-python.md) | CSV Tool CLI | 90 tests, 98% cov |
+| [Hexagonal DDD BC-First](docs/examples/hexagonal-ddd-bc-project.md) | Reservas API | 39 tests, 100% cov (domain+application) |
+| [Clean Architecture BC-First](docs/examples/clean-architecture-bc-project.md) | Suscripciones (alta/baja) | 25 tests, 100% cov (entities+use_cases) |
 
 > 📖 **[Wiki](https://github.com/vvalotto/claude-dev-kit/wiki)** — Documentación completa en GitHub Wiki
 
 ---
 
 ## 🗺️ Roadmap
+
+### v1.7.0 ✅ (Completado — 2026-09-05)
+
+- ✅ `CLAUDE.md` autogenerado para perfiles BC-first muestra capas y orden de implementación, no solo lista plana de componentes (#57)
+- ✅ Referencias colgantes a templates BDD/testing por stack (`pyqt-scenario.feature`, `api-scenario.feature`, `test-integration.py`) que no existían en `templates/` (#58)
+- ✅ Tutorial y ejemplo funcional para el perfil `hexagonal-ddd-bc` — Reservas API (#59)
+- ✅ Tutorial y ejemplo funcional para el perfil `clean-architecture-bc` — Suscripciones (#60)
 
 ### v1.6.0 ✅ (Completado — 2026-08-31)
 
@@ -249,10 +258,8 @@ Templates parametrizados con variables y snippets:
 - ✅ 5 ejemplos funcionales completos con tests
 - ✅ Suite de tests del framework
 
-### Futuro (v1.7)
+### Futuro
 
-- `CLAUDE.md` autogenerado para perfiles BC-first muestra capas y orden de implementación, no solo lista plana de componentes (#57)
-- Referencias colgantes a templates BDD por stack (`pyqt-scenario.feature`, `api-scenario.feature`) que no existen en `templates/bdd/` (#58)
 - Soporte para proyectos TypeScript/Node.js
 - Integración con GitHub Actions para quality gates automáticos
 - Dashboard web para tracking de tiempo

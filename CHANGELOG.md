@@ -7,6 +7,19 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Agregado
+
+- `examples/code/reservas-hexagonal/`: proyecto de ejemplo funcional para el perfil
+  `hexagonal-ddd-bc` (dominio Reservas) — BC completo (`domain → application →
+  infrastructure → api`), 39 tests (unitarios + integración + BDD), Pylint 9.60/10,
+  coverage 100% en `domain/`+`application/` (umbral 90%). Tutorial narrativo en
+  `docs/examples/hexagonal-ddd-bc-project.md`. Cierra #59.
+- `examples/code/suscripciones-clean-arch/`: proyecto de ejemplo funcional para el perfil
+  `clean-architecture-bc` (dominio Suscripciones) — BC completo (`entities → use_cases →
+  interface_adapters → frameworks`), 25 tests (unitarios + integración + BDD), Pylint
+  9.67/10, coverage 100% en `entities/`+`use_cases/` (umbral 90%). Tutorial narrativo en
+  `docs/examples/clean-architecture-bc-project.md`. Cierra #60.
+
 ### Mejorado
 
 - `install/installer.py`: `generate_claude_md()` ahora agrega, para los perfiles BC-first
