@@ -152,7 +152,7 @@
       "duration_max": 60,
       "approval_required": false,
       "agent_file": "phases/phase-5-integration-tests.md",
-      "output_template": "templates/testing/test-integration.py"
+      "output_template": "templates/testing/test-integration.py.tpl"
     },
     "6": {
       "name": "Validación BDD",

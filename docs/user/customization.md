@@ -185,7 +185,7 @@ Modifica templates para tu proyecto.
 │   └── task-breakdown.md
 ├── testing/
 │   ├── test-unit.py.tpl
-│   └── test-integration.py
+│   └── test-integration.py.tpl
 └── reporting/
     └── implementation-report.md
 ```

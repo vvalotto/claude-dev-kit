@@ -39,6 +39,8 @@ Crear tests que validen la integración entre componentes implementados, simulan
 - **Unitarios:** Prueban componentes aislados con mocks
 - **Integración:** Prueban componentes trabajando juntos con dependencias reales o parcialmente mockeadas
 
+**Template:** `.claude/templates/testing/test-integration.py.tpl`
+
 ---
 
 ## Estrategias de Integración por Stack

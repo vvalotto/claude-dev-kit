@@ -74,7 +74,7 @@ Archivos en `tests/integration/test_{feature}_integration.py` por flujo crítico
 
 | Template | Ruta en `config.json` |
 |---|---|
-| Test de integración genérico | `templates/testing/test-integration.py` |
+| Test de integración genérico | `templates/testing/test-integration.py.tpl` |
 
 Los perfiles definen `snippets.test_integration_class` con ejemplos concretos por stack.
 

@@ -7,6 +7,22 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ## [Sin publicar]
 
+### Arreglado
+
+- `templates/bdd/`: creados los 5 templates BDD referenciados por `bdd_config` pero
+  inexistentes en disco — `steps.py` (genérico, referenciado desde `config.json` base),
+  `pyqt-scenario.feature` y `pyqt-steps.py` (perfil `pyqt-mvc`), `api-scenario.feature` y
+  `api-steps.py` (perfil `fastapi-rest`). Un agente ejecutando Fase 1 o Fase 6 con alguno de
+  estos perfiles podía intentar leer un archivo inexistente. Se auditó `feature_template` en
+  `flask-webapp.json`: es una clave homónima pero de un concepto distinto (template HTML de
+  componente), no una referencia BDD colgante — no requirió cambios. Cierra #58.
+- `templates/testing/test-integration.py.tpl`: mismo patrón de bug detectado al auditar el
+  resto de `_template`/`output_template` del repo — Fase 5 declaraba en `config.json` un
+  `output_template` inexistente (`test-integration.py`, sin `.tpl`) y ni siquiera lo
+  instruía leer (a diferencia de Fase 4, que sí lee su template). Se creó el template
+  siguiendo la convención de `test-unit.py.tpl`, se corrigió la extensión en `config.json`
+  y se agregó la instrucción de lectura en `phase-5-integration-tests.md`.
+
 ---
 
 ## [1.6.0] - 2026-08-31
