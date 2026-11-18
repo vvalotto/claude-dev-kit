@@ -14,7 +14,7 @@ Este skill utiliza las siguientes variables definidas en `config.json` y persona
 
 | Variable | Descripción | Valor Default | Ejemplos por Perfil |
 |----------|-------------|---------------|---------------------|
-| `{ARCHITECTURE_PATTERN}` | Patrón arquitectónico del proyecto | `generic` | **PyQt:** `mvc`<br>**FastAPI:** `layered`<br>**Generic:** `generic` |
+| `{ARCHITECTURE_PATTERN}` | Patrón arquitectónico del proyecto | `generic` | **PyQt:** `mvc`<br>**FastAPI:** `layered`<br>**Generic:** `generic`<br>**Hexagonal BC:** `hexagonal`<br>**Clean BC:** `clean-architecture` |
 | `{COMPONENT_TYPE}` | Tipo de componente a implementar | `Component` | **PyQt:** `Panel`, `Dialog`<br>**FastAPI:** `Endpoint`, `Service`<br>**Generic:** `Module` |
 | `{COMPONENT_PATH}` | Ruta base para componentes | `src/{name}/` | **PyQt:** `app/presentacion/{name}/`<br>**FastAPI:** `app/{layer}/{name}/`<br>**Generic:** `src/{name}/` |
 | `{TEST_FRAMEWORK}` | Framework de testing | `pytest` | **PyQt:** `pytest + pytest-qt`<br>**FastAPI:** `pytest + httpx`<br>**Generic:** `pytest` |
@@ -63,6 +63,7 @@ El skill es **framework-agnostic** y se adapta automáticamente según el perfil
 - **FastAPI:** Implementación de endpoints REST con arquitectura en capas
 - **Flask REST / Flask Webapp:** Implementación de APIs y webapps con Flask
 - **Generic Python:** Implementación de módulos Python genéricos
+- **Hexagonal DDD BC / Clean Architecture BC:** Implementación por Bounded Context con orden de implementación obligatorio por capas
 
 > **📖 Referencia:** Si ninguno de los perfiles bundleados en `customizations/` describe la arquitectura real del proyecto, corré `/adapt-project` una vez antes de la primera US — genera un perfil custom calibrado a la estructura real en vez de forzar un perfil bundleado que no encaja.
 
@@ -223,7 +224,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 **Acciones:**
 - Consolidar métricas de todas las fases
 - Generar reporte de implementación
-- Calcular varianza de estimación vs tiempo real
+- Consolidar el tiempo real registrado por el tracking
 - Exportar métricas para análisis histórico
 
 **Aprobación:** Automática
@@ -263,24 +264,26 @@ Si una fase falla, seguí este protocolo en orden:
 
 ## Tracking de Tiempo
 
-El skill usa el sistema de tracking integrado (`.claude/tracking/track.py`) para:
+El skill usa el sistema de tracking integrado (`.claude/tracking/tracker_cli.py`) para:
 - Registrar tiempo real por fase y por tarea (Fase 3)
 - Acumular datos empíricos de performance del agente a lo largo del tiempo
 - Generar reportes históricos comparables entre ejecuciones del agente
 
-> **Nota (PRIN-001):** Las estimaciones de duración definidas en los archivos de fase son referencias de complejidad relativa basadas en esfuerzo humano. No representan tiempos esperados de ejecución del agente. El tracking registra tiempos reales sin comparar contra estimaciones humanas.
+> **Nota (PRIN-001):** El skill no maneja estimaciones de tiempo. El tracking registra únicamente tiempos reales del agente, por fase y por tarea.
 
 **Comandos CLI:**
 
 | Comando | Cuándo usarlo |
 |---------|--------------|
-| `python .claude/tracking/track.py start-phase N "Nombre"` | Al inicio de cada fase (N = 0..9) |
-| `python .claude/tracking/track.py end-phase N` | Al cerrar cada fase |
-| `python .claude/tracking/track.py start-task "nombre"` | Al iniciar cada tarea dentro de Fase 3 |
-| `python .claude/tracking/track.py end-task "nombre"` | Al completar cada tarea dentro de Fase 3 |
-| `python .claude/tracking/track.py end-tracking` | **Solo en Fase 9**, al finalizar la US completa |
+| `python .claude/tracking/tracker_cli.py init {US_ID} "{US_TITLE}" {STORY_POINTS} {PRODUCT}` | **Solo en Fase 0**, antes de `start-phase 0` |
+| `python .claude/tracking/tracker_cli.py start-phase N "Nombre"` | Al inicio de cada fase (N = 0..9) |
+| `python .claude/tracking/tracker_cli.py end-phase N` | Al cerrar cada fase |
+| `python .claude/tracking/tracker_cli.py start-task {TASK_ID} "Nombre" {TIPO}` | Al iniciar cada tarea dentro de Fase 3 |
+| `python .claude/tracking/tracker_cli.py end-task {TASK_ID} [archivo_creado]` | Al completar cada tarea dentro de Fase 3 |
+| `python .claude/tracking/tracker_cli.py status` | Para consultar el estado del tracking activo |
+| `python .claude/tracking/tracker_cli.py end` | **Solo en Fase 9**, al finalizar la US completa |
 
-> **`end-tracking` vs `end-phase`:** `end-phase` cierra únicamente la fase actual. `end-tracking` cierra el tracking completo de la US: calcula el tiempo total real acumulado, guarda el histórico en disco y genera el reporte de tiempo final. Solo debe invocarse una vez, al final de Fase 9, después de `end-phase 9`.
+> **`end` vs `end-phase`:** `end-phase` cierra únicamente la fase actual. `end` cierra el tracking completo de la US: lo marca como completado y muestra el tiempo total acumulado (no genera reportes; para eso está `/track-report`). Solo debe invocarse una vez, al final de Fase 9, después de `end-phase 9`.
 
 ---
 

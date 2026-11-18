@@ -47,6 +47,24 @@ Mapeá los valores obtenidos a los placeholders del template:
 
 No uses valores hardcodeados ni los reconstruyas de memoria. El `quality.json` es la fuente de verdad.
 
+> Si `mi_min` es `null`, el perfil no define umbral de Índice de Mantenibilidad: en la fila de MI del reporte escribí `N/A (el perfil no define umbral de MI)` en la columna Umbral y `—` en Estado.
+
+## 🔴 Acción Requerida — Obtener el tiempo real
+
+Antes de completar `{ACTUAL_TIME}` en el template:
+
+Obtené el tiempo real registrado por el tracking (todavía activo en esta fase):
+
+```bash
+# Tiempo total efectivo (descuenta pausas)
+python .claude/tracking/tracker_cli.py status
+
+# Tiempo real por fase, en segundos
+jq -r '.phases[] | "\(.phase_number) \(.phase_name): \(.elapsed_seconds)s"' .claude/tracking/{US_ID}-tracking.json
+```
+
+Usá los minutos **efectivos** de `status` como `{ACTUAL_TIME}` (es el tiempo hasta este momento; el tracking se cierra al final de la fase). No estimes ni reconstruyas tiempos de memoria.
+
 ---
 
 ## Acción
@@ -67,9 +85,7 @@ Generar un reporte estructurado que documente todo el proceso de implementación
 ## Resumen Ejecutivo
 - **Historia de Usuario:** {US_ID} - {US_TITLE}
 - **Puntos estimados:** {STORY_POINTS}
-- **Tiempo estimado:** {ESTIMATED_TIME}
 - **Tiempo real:** {ACTUAL_TIME}
-- **Varianza:** {VARIANCE} ({VARIANCE_PERCENTAGE}%)
 - **Estado:** ✅ COMPLETADO
 - **Fecha completado:** {COMPLETION_DATE}
 
@@ -105,9 +121,7 @@ Generar un reporte estructurado que documente todo el proceso de implementación
 
 - **Historia de Usuario:** {US_ID} - {US_TITLE}
 - **Puntos estimados:** {STORY_POINTS}
-- **Tiempo estimado:** {ESTIMATED_TIME}
 - **Tiempo real:** {ACTUAL_TIME}
-- **Varianza:** {VARIANCE} ({VARIANCE_PERCENTAGE}%)
 - **Estado:** ✅ COMPLETADO
 - **Fecha completado:** {COMPLETION_DATE}
 
@@ -426,8 +440,10 @@ def generar_reporte(us_id, component_path, metricas, archivos, tests):
     with open(quality_file) as f:
         quality = json.load(f)
 
-    # Leer time tracking
-    time_data = tracker.get_report(us_id)
+    # Leer time tracking (tiempo real efectivo, descontando pausas)
+    with open(f".claude/tracking/{us_id}-tracking.json") as f:
+        tracking = json.load(f)
+    tiempo_real_min = tracking["timeline"]["effective_seconds"] // 60
 
     # Generar markdown
     report = f"""# Reporte de Implementación: {us_id}
@@ -435,7 +451,7 @@ def generar_reporte(us_id, component_path, metricas, archivos, tests):
 ## Resumen Ejecutivo
 
 - **Historia:** {us_id}
-- **Tiempo real:** {time_data['total_time']}
+- **Tiempo real:** {tiempo_real_min} min
 - **Estado:** ✅ COMPLETADO
 - **Fecha:** {datetime.now().strftime('%Y-%m-%d')}
 
@@ -444,7 +460,7 @@ def generar_reporte(us_id, component_path, metricas, archivos, tests):
 | Métrica | Valor | Estado |
 |---------|-------|--------|
 | Pylint | {quality['metricas']['pylint']}/10 | ✅ |
-| CC | {quality['metricas']['cc_promedio']} | ✅ |
+| CC | {quality['metricas']['cc_max']} | ✅ |
 | MI | {quality['metricas']['mi_promedio']} | ✅ |
 | Coverage | {quality['metricas']['coverage']}% | ✅ |
 
@@ -521,8 +537,9 @@ python .claude/tracking/tracker_cli.py end
 
 > **¿Qué hace `end`?** Es el único punto del skill donde se invoca este subcomando.
 > A diferencia de `end-phase` (que cierra solo la fase actual), `end` cierra el
-> tracking completo de la US: calcula el tiempo total real acumulado en todas las fases,
-> guarda el histórico en `.claude/tracking/` y genera el reporte de tiempo final.
+> tracking completo de la US: lo marca como completado en
+> `.claude/tracking/{US_ID}-tracking.json` y muestra el tiempo total acumulado.
+> No genera ningún reporte: para el detalle por fase usá `/track-report`.
 > Debe ejecutarse **después** de `end-phase 9`, no en lugar de él.
 
 ---
@@ -532,7 +549,7 @@ python .claude/tracking/tracker_cli.py end
 Al finalizar esta fase:
 
 ✅ Reporte completo de implementación generado
-✅ Resumen ejecutivo con tiempos y varianza
+✅ Resumen ejecutivo con tiempo real
 ✅ Lista completa de componentes implementados
 ✅ Métricas de calidad documentadas
 ✅ Tests y cobertura reportados

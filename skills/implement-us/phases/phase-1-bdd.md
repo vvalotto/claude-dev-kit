@@ -36,6 +36,7 @@ Leé los criterios de aceptación directamente del archivo de la HU. La fuente e
 > - PyQt: `.claude/templates/bdd/pyqt-scenario.feature`
 > - FastAPI: `.claude/templates/bdd/api-scenario.feature`
 > - Flask REST / Flask Webapp / Generic: `.claude/templates/bdd/scenario.feature`
+> - Hexagonal DDD BC / Clean Architecture BC: `.claude/templates/bdd/scenario.feature`. Además leé `bdd_config` del perfil (`customizations/{PROFILE}.json`): respetá `language_note` (no usar `# language: es`; pytest-bdd requiere keywords en inglés) y `tag_prefix` (`@US-`)
 >
 > Usá el template como **referencia estructural** — respetá el formato de cabecera (Feature, tags, idioma), pero completá el contenido con los escenarios específicos de la HU. No copies el template literal; adaptalo.
 

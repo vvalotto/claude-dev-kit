@@ -220,7 +220,7 @@ El skill integra tracking automático de tiempo. Cada fase registra su inicio y 
 | `/track-status` | Ver estado actual y tiempo acumulado |
 | `/track-report {US_ID}` | Generar reporte para la US |
 
-El tracking acumula datos empíricos de performance del agente y no se compara con estimaciones humanas.
+El tracking acumula datos empíricos de performance del agente (tiempos reales por fase y por tarea).
 
 ---
 

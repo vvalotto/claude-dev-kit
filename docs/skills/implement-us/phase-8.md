@@ -80,10 +80,10 @@ Ninguno externo. Los ejemplos de actualización están embebidos en el archivo d
 
 ## Métricas de Tiempo
 
-| Fase | Estimado | Real | Varianza |
-|------|----------|------|----------|
-| ... | ... | ... | ... |
-| **Total** | **Xh** | **Yh** | **±Z** |
+| Fase | Tiempo real |
+|------|-------------|
+| ... | ... |
+| **Total** | **Yh** |
 
 ## Lecciones Aprendidas
 
@@ -117,7 +117,7 @@ find . -iname "ARCHITECTURE*" -o -iname "architecture*" -o -name "*.puml" 2>/dev
 ### Convenciones
 
 - El discovery de arquitectura (Paso 2) es **imperativo** (`🔴`) — no se omite aunque el usuario no lo pida.
-- Si el CLI de tracking no está disponible, anotar explícitamente: *"Tracking no disponible — tiempos estimados."*
+- Si el CLI de tracking no está disponible, anotar explícitamente: *"Tracking no disponible — sin datos de tiempo."* (no se estiman tiempos)
 - La aprobación del usuario es requerida antes de avanzar a Fase 9.
 
 ### Dependencias

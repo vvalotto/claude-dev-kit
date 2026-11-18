@@ -231,7 +231,13 @@ pylint {COMPONENT_PATH}/ --output-format=text
 
 ```bash
 # Complejidad Ciclomática
-radon cc {COMPONENT_PATH}/ -a -s -j > quality/reports/{US_ID}-cc.json
+radon cc {COMPONENT_PATH}/ -s -j > quality/reports/{US_ID}-cc.json
+
+# CC máx por función (valor a comparar con el umbral → campo `cc_max` de quality.json)
+jq '[.[][] | .complexity] | max' quality/reports/{US_ID}-cc.json
+
+# CC promedio (solo informativo → campo `cc_promedio`)
+radon cc {COMPONENT_PATH}/ -a -s | tail -1
 
 # Índice de Mantenibilidad
 radon mi {COMPONENT_PATH}/ -s -j > quality/reports/{US_ID}-mi.json
@@ -283,6 +289,8 @@ Crear archivo JSON con todas las métricas:
 
 > Antes de generar el archivo, leé los umbrales del perfil activo:
 > `cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.quality_gates'`
+> `cc_max` es la complejidad de la función más compleja y es el valor que se compara con el umbral; `cc_promedio` es solo informativo.
+>
 > Reemplazá `{PYLINT_MIN}`, `{CC_MAX}`, `{MI_MIN}`, `{COVERAGE_MIN}` con los valores obtenidos.
 
 ```json
@@ -292,6 +300,7 @@ Crear archivo JSON con todas las métricas:
   "componente": "{COMPONENT_PATH}",
   "metricas": {
     "pylint": 0.0,
+    "cc_max": 0,
     "cc_promedio": 0.0,
     "mi_promedio": 0.0,
     "coverage": 0.0
@@ -309,22 +318,28 @@ Crear archivo JSON con todas las métricas:
 
 **Script de generación (opcional):**
 
-> Los umbrales se leen desde el config del perfil activo — no están hardcodeados.
+> Los umbrales se leen del config base y del perfil activo (el perfil tiene prioridad) — no están hardcodeados. Si el perfil no define `maintainability_index`, MI no es un gate: `mi_min` queda en `null` y `mi_promedio` es solo informativo.
 
 ```python
 import json
 from datetime import datetime
 from pathlib import Path
 
-def leer_umbrales_perfil(config_path=".claude/skills/implement-us/customizations/{PROFILE}.json"):
-    """Leer umbrales de quality gates desde el perfil activo."""
-    with open(config_path) as f:
-        config = json.load(f)
-    qg = config["quality_gates"]
+def leer_umbrales_perfil(profile_path=".claude/skills/implement-us/customizations/{PROFILE}.json",
+                        base_path=".claude/skills/implement-us/config.json"):
+    """Leer umbrales de quality gates: config base + overrides del perfil activo.
+
+    Algunos perfiles (ej. generic-python) no definen quality_gates y heredan el
+    config base; otros (BC-first) no definen maintainability_index.
+    """
+    with open(base_path) as f:
+        qg = dict(json.load(f).get("quality_gates", {}))
+    with open(profile_path) as f:
+        qg.update(json.load(f).get("quality_gates", {}))
     return {
         "pylint_min": qg["pylint"]["min_score"],
         "cc_max": qg["cyclomatic_complexity"]["max_per_function"],
-        "mi_min": qg["maintainability_index"]["min_score"],
+        "mi_min": qg.get("maintainability_index", {}).get("min_score"),  # None si el perfil no lo define
         "coverage_min": qg["coverage"]["min_percent"]
     }
 
@@ -332,8 +347,8 @@ def todas_metricas_pasan(metricas, umbrales):
     """Validar que todas las métricas superan los umbrales del perfil activo."""
     return (
         metricas['pylint'] >= umbrales['pylint_min'] and
-        metricas['cc_promedio'] <= umbrales['cc_max'] and
-        metricas['mi_promedio'] > umbrales['mi_min'] and
+        metricas['cc_max'] <= umbrales['cc_max'] and
+        (umbrales['mi_min'] is None or metricas['mi_promedio'] > umbrales['mi_min']) and
         metricas['coverage'] >= umbrales['coverage_min']
     )
 
@@ -370,7 +385,7 @@ def generar_reporte_quality(us_id, component_path, metricas):
 |---------|--------|-------------|
 | Pylint | ≥ `pylint.min_score` del perfil activo | Calidad de código y estilo |
 | CC máx/función | ≤ `cyclomatic_complexity.max_per_function` del perfil activo | Complejidad por función |
-| MI promedio | > `maintainability_index.min_score` del perfil activo | Mantenibilidad |
+| MI promedio | > `maintainability_index.min_score` del perfil activo (solo si el perfil lo define) | Mantenibilidad |
 | Coverage | ≥ `coverage.min_percent` del perfil activo | Cobertura de tests |
 
 **Estado:** `APROBADO` si todas pasan, `RECHAZADO` si alguna falla
@@ -444,6 +459,8 @@ def generar_reporte_quality(us_id, component_path, metricas):
 
 Automatizar quality gates en pipeline:
 
+> Reemplazá `{PYLINT_MIN}` y `{COVERAGE_MIN}` con los umbrales del perfil activo (`quality_gates` en `customizations/{PROFILE}.json`); no los hardcodees.
+
 ```yaml
 # .github/workflows/quality-gates.yml
 name: Quality Gates
@@ -458,15 +475,15 @@ jobs:
 
       - name: Run Pylint
         run: |
-          pylint {COMPONENT_PATH}/ --fail-under=8.0
+          pylint {COMPONENT_PATH}/ --fail-under={PYLINT_MIN}
 
       - name: Check Coverage
         run: |
-          pytest --cov={COMPONENT_PATH} --cov-fail-under=95
+          pytest --cov={COMPONENT_PATH} --cov-fail-under={COVERAGE_MIN}
 
       - name: Calculate Complexity
         run: |
-          radon cc {COMPONENT_PATH}/ -a --total-average
+          radon cc {COMPONENT_PATH}/ -a --total-average  # informativo: el criterio es el CC máximo por función
 ```
 
 **Beneficio:** Bloquear merge si quality gates no pasan
@@ -515,6 +532,7 @@ Creá el archivo con los valores reales obtenidos en los pasos anteriores:
   "componente": "{COMPONENT_PATH}",
   "metricas": {
     "pylint": 0.0,
+    "cc_max": 0,
     "cc_promedio": 0.0,
     "mi_promedio": 0.0,
     "coverage": 0.0

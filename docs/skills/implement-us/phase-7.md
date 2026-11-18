@@ -90,8 +90,8 @@ Ninguno externo. El formato de `quality.json` está embebido en el archivo de fa
   "componente": "{COMPONENT_PATH}",
   "metricas": {
     "pylint": 0.0,
+    "cc_max": 0,
     "cc_promedio": 0.0,
-    "cc_max_por_funcion": 0,
     "mi_promedio": 0.0,
     "coverage": 0.0
   },

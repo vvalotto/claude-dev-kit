@@ -185,7 +185,6 @@
   },
   "messages": {
     "welcome": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n🚀 Claude Dev Kit - Installer v1.0\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n",
-    "profile_selection": "Selecciona el perfil para tu proyecto:\n\n1. PyQt + MVC (pyqt-mvc)\n   └─ PyQt6 applications with MVC architecture\n\n2. FastAPI + REST (fastapi-rest)\n   └─ FastAPI REST APIs with layered architecture\n\n3. Flask REST API (flask-rest)\n   └─ Flask REST APIs with layered architecture (sync)\n\n4. Flask WebApp (flask-webapp)\n   └─ Flask fullstack webapps with Jinja2 templates and SSR\n\n5. Generic Python (generic-python)\n   └─ Generic Python projects without specific framework\n",
     "success": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✅ Instalación completada exitosamente!\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nPróximos pasos:\n1. Revisar CLAUDE.md generado\n2. Configurar tu proyecto en .claude/config.json\n3. Ejecutar: /implement-us US-001\n",
     "validation_running": "🔍 Ejecutando validación de instalación...\n",
     "already_exists": "⚠️  El directorio .claude/ ya existe.\n\nOpciones:\n- Usar --force para sobrescribir\n- Eliminar .claude/ manualmente\n- Cancelar instalación\n"

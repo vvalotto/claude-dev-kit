@@ -104,11 +104,7 @@ Ninguno externo. El template de `context.md` está embebido directamente en el a
   - cobertura ≥ {coverage_min}%
 
 ## Rutas de Artefactos
-- Contexto: docs/plans/{US_ID}-context.md
-- BDD feature: tests/features/{US_ID}-{nombre}.feature
-- Plan: docs/plans/{US_ID}-plan.md
-- Reporte: docs/reports/{US_ID}-report.md
-- Quality report: quality/reports/{US_ID}-quality.json
+Ver `.claude/skills/implement-us/artifacts.md` (fuente de verdad de rutas y nombres).
 ```
 
 ### Convenciones

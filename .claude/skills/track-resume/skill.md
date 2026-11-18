@@ -43,17 +43,8 @@ if not active_file:
 from tracking import TimeTracker
 from datetime import datetime, timezone
 
-# Leer metadata
-with open(active_file, 'r') as f:
-    data = json.load(f)
-
-metadata = data["metadata"]
-tracker = TimeTracker(
-    us_id=metadata["us_id"],
-    us_title=metadata["us_title"],
-    us_points=metadata["us_points"],
-    producto=metadata["producto"]
-)
+# Restaurar el estado completo (fases, tareas, pausas) desde el JSON activo
+tracker = TimeTracker.from_json(active_file)
 
 # Verificar pausa activa
 if not tracker.current_pause:

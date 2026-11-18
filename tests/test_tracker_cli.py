@@ -269,3 +269,22 @@ class TestFullCycle:
         assert len(loaded.phases) == 1
         assert loaded.phases[0].status == "completed"
         assert loaded.phases[0].tasks[0].status == "completed"
+
+
+class TestStartTaskEstimatedMinutesOptional:
+    """estimated_minutes es opcional: el skill registra solo tiempo real."""
+
+    def test_parser_default_zero(self, parser):
+        args = parser.parse_args(["start-task", "t001", "Tarea", "dominio"])
+        assert args.estimated_minutes == 0.0
+
+    def test_parser_acepta_valor_explicito(self, parser):
+        args = parser.parse_args(["start-task", "t001", "Tarea", "dominio", "20"])
+        assert args.estimated_minutes == 20.0
+
+    def test_start_task_sin_estimacion(self, parser, active_tracker):
+        cmd_init(parser.parse_args(["init", "US-2.0.0", "Otra historia", "2", "prod"]))
+        cmd_start_phase(parser.parse_args(["start-phase", "3", "Implementación", "--us-id", "US-2.0.0"]))
+        cmd_start_task(parser.parse_args(["start-task", "t001", "Tarea", "dominio", "--us-id", "US-2.0.0"]))
+        tracker = TimeTracker.load("US-2.0.0")
+        assert tracker.current_task.estimated_minutes == 0.0

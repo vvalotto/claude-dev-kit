@@ -121,7 +121,7 @@
     },
     "2": {
       "name": "Generación de Plan de Implementación",
-      "description": "Crear plan detallado con tareas, estimaciones y dependencias",
+      "description": "Crear plan detallado con tareas y dependencias",
       "duration_min": 20,
       "duration_max": 40,
       "approval_required": true,
@@ -197,7 +197,6 @@
     "auto_pause_on_approval": true,
     "storage_path": ".claude/tracking/",
     "report_format": "json",
-    "variance_threshold_percent": 20,
     "pause_reasons": [
       "Esperando aprobación del usuario",
       "Investigación de error",

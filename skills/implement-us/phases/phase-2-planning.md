@@ -58,6 +58,13 @@ Leé el patrón activo del perfil (`.claude/skills/implement-us/customizations/{
 > - Module (módulo principal)
 > - Utils (utilidades si son necesarias)
 > - Dependencias: Según necesidad del proyecto
+>
+> **Flask Webapp (BFF + SSR):**
+> - Leé `component_structure.page_feature` del perfil: define las capas (routes, API client, templates, assets frontend) y sus archivos
+>
+> **Perfiles BC-first (Hexagonal DDD BC, Clean Architecture BC):**
+> - Leé `component_structure.bc_feature` del perfil: `base_path` indica dónde va cada BC y `implementation_order` lista los componentes a crear y el orden obligatorio (cada uno depende del anterior)
+> - Incluí en el plan solo los componentes de esa lista que la US necesita, respetando el orden
 
 ---
 

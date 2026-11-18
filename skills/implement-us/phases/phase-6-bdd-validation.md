@@ -425,17 +425,17 @@ def sin_errores():
 
 ## Integración con CI/CD
 
-Generar reportes para pipeline:
+Generar reportes para pipeline (se ejecutan sobre `tests/step_defs/`, que es donde pytest-bdd carga los escenarios):
 
 ```bash
-# JUnit XML (Jenkins, GitLab CI)
-pytest tests/features/ --junit-xml=reports/bdd-junit.xml
+# JUnit XML (Jenkins, GitLab CI) — no requiere plugins extra
+pytest tests/step_defs/ --junit-xml=reports/bdd-junit.xml
 
-# HTML report (más legible)
-pytest tests/features/ --html=reports/bdd-report.html --self-contained-html
+# HTML report (más legible) — requiere: pip install pytest-html
+pytest tests/step_defs/ --html=reports/bdd-report.html --self-contained-html
 
-# JSON report (procesamiento automatizado)
-pytest tests/features/ --json-report --json-report-file=reports/bdd-report.json
+# JSON report (procesamiento automatizado) — requiere: pip install pytest-json-report
+pytest tests/step_defs/ --json-report --json-report-file=reports/bdd-report.json
 ```
 
 ---
