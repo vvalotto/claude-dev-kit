@@ -231,7 +231,13 @@ pylint {COMPONENT_PATH}/ --output-format=text
 
 ```bash
 # Complejidad Ciclomática
-radon cc {COMPONENT_PATH}/ -a -s -j > quality/reports/{US_ID}-cc.json
+radon cc {COMPONENT_PATH}/ -s -j > quality/reports/{US_ID}-cc.json
+
+# CC máx por función (valor a comparar con el umbral → campo `cc_max` de quality.json)
+jq '[.[][] | .complexity] | max' quality/reports/{US_ID}-cc.json
+
+# CC promedio (solo informativo → campo `cc_promedio`)
+radon cc {COMPONENT_PATH}/ -a -s | tail -1
 
 # Índice de Mantenibilidad
 radon mi {COMPONENT_PATH}/ -s -j > quality/reports/{US_ID}-mi.json
@@ -283,6 +289,8 @@ Crear archivo JSON con todas las métricas:
 
 > Antes de generar el archivo, leé los umbrales del perfil activo:
 > `cat .claude/skills/implement-us/customizations/{PROFILE}.json | jq '.quality_gates'`
+> `cc_max` es la complejidad de la función más compleja y es el valor que se compara con el umbral; `cc_promedio` es solo informativo.
+>
 > Reemplazá `{PYLINT_MIN}`, `{CC_MAX}`, `{MI_MIN}`, `{COVERAGE_MIN}` con los valores obtenidos.
 
 ```json
@@ -292,6 +300,7 @@ Crear archivo JSON con todas las métricas:
   "componente": "{COMPONENT_PATH}",
   "metricas": {
     "pylint": 0.0,
+    "cc_max": 0,
     "cc_promedio": 0.0,
     "mi_promedio": 0.0,
     "coverage": 0.0
@@ -332,7 +341,7 @@ def todas_metricas_pasan(metricas, umbrales):
     """Validar que todas las métricas superan los umbrales del perfil activo."""
     return (
         metricas['pylint'] >= umbrales['pylint_min'] and
-        metricas['cc_promedio'] <= umbrales['cc_max'] and
+        metricas['cc_max'] <= umbrales['cc_max'] and
         metricas['mi_promedio'] > umbrales['mi_min'] and
         metricas['coverage'] >= umbrales['coverage_min']
     )
@@ -515,6 +524,7 @@ Creá el archivo con los valores reales obtenidos en los pasos anteriores:
   "componente": "{COMPONENT_PATH}",
   "metricas": {
     "pylint": 0.0,
+    "cc_max": 0,
     "cc_promedio": 0.0,
     "mi_promedio": 0.0,
     "coverage": 0.0

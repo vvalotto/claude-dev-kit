@@ -444,7 +444,7 @@ def generar_reporte(us_id, component_path, metricas, archivos, tests):
 | Métrica | Valor | Estado |
 |---------|-------|--------|
 | Pylint | {quality['metricas']['pylint']}/10 | ✅ |
-| CC | {quality['metricas']['cc_promedio']} | ✅ |
+| CC | {quality['metricas']['cc_max']} | ✅ |
 | MI | {quality['metricas']['mi_promedio']} | ✅ |
 | Coverage | {quality['metricas']['coverage']}% | ✅ |
 
