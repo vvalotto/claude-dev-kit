@@ -65,7 +65,7 @@ Por cada tarea del plan de implementación, guiar al usuario a través de:
 1. Contexto de lo que se va a implementar
 2. Código propuesto basado en patrones del proyecto
 3. Aprobación antes de escribir
-4. Ejecución de tests básicos (si aplica)
+4. Verificación de sintaxis e imports (los tests se ejecutan en las Fases 4-6, no en esta)
 
 ---
 
@@ -794,7 +794,7 @@ Esto permite:
    - Ajustar el código
    - Re-presentar al usuario para aprobación
 
-3. **Re-ejecutar tests básicos**
+3. **Re-verificar sintaxis e imports** (paso 7 del flujo)
 
 4. **NO avanzar** hasta que la tarea esté funcionando
 
@@ -892,7 +892,7 @@ Al finalizar esta fase:
 
 ✅ Todos los componentes del plan están implementados
 ✅ Cada archivo fue revisado y aprobado por el usuario
-✅ Tests básicos de imports/sintaxis ejecutados
+✅ Sintaxis e imports verificados en cada archivo
 ✅ Plan actualizado con progreso en tiempo real
 ✅ Tracking de tiempo por tarea registrado
 
