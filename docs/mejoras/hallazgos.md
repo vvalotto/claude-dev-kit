@@ -41,8 +41,7 @@ Ninguno. F3-AMB2, F3-AMB4 y F7-AMB1 se corrigieron tras la auditoría (ver secci
 
 ## 🆕 Hallazgos nuevos (2026-11-18)
 
-| ID | Dónde | Descripción | Severidad |
-|----|-------|-------------|-----------|
+Ninguno abierto. Los 9 hallazgos nuevos (N-1 a N-9) se corrigieron y figuran en la sección de resueltos.
 
 ---
 
