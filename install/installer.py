@@ -565,7 +565,7 @@ Ejemplos:
   python installer.py --profile fastapi-rest --dry-run
 
   # Sobrescribir instalación existente
-  python installer.py --profile django-mvt --force --yes
+  python installer.py --profile flask-rest --force --yes
 
 Perfiles disponibles:
   - pyqt-mvc: PyQt6 + MVC architecture
@@ -573,13 +573,15 @@ Perfiles disponibles:
   - flask-rest: Flask + REST APIs (layered architecture)
   - flask-webapp: Flask + Fullstack Webapp (Jinja2 + SSR)
   - generic-python: Generic Python projects
+  - hexagonal-ddd-bc: Hexagonal DDD, organizado por Bounded Context
+  - clean-architecture-bc: Clean Architecture, organizado por Bounded Context
         """
     )
 
     parser.add_argument(
         '--profile',
         type=str,
-        help='Perfil a instalar (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python)'
+        help='Perfil a instalar (pyqt-mvc, fastapi-rest, flask-rest, flask-webapp, generic-python, hexagonal-ddd-bc, clean-architecture-bc)'
     )
 
     parser.add_argument(

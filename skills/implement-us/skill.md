@@ -14,7 +14,7 @@ Este skill utiliza las siguientes variables definidas en `config.json` y persona
 
 | Variable | Descripción | Valor Default | Ejemplos por Perfil |
 |----------|-------------|---------------|---------------------|
-| `{ARCHITECTURE_PATTERN}` | Patrón arquitectónico del proyecto | `generic` | **PyQt:** `mvc`<br>**FastAPI:** `layered`<br>**Generic:** `generic` |
+| `{ARCHITECTURE_PATTERN}` | Patrón arquitectónico del proyecto | `generic` | **PyQt:** `mvc`<br>**FastAPI:** `layered`<br>**Generic:** `generic`<br>**Hexagonal BC:** `hexagonal`<br>**Clean BC:** `clean-architecture` |
 | `{COMPONENT_TYPE}` | Tipo de componente a implementar | `Component` | **PyQt:** `Panel`, `Dialog`<br>**FastAPI:** `Endpoint`, `Service`<br>**Generic:** `Module` |
 | `{COMPONENT_PATH}` | Ruta base para componentes | `src/{name}/` | **PyQt:** `app/presentacion/{name}/`<br>**FastAPI:** `app/{layer}/{name}/`<br>**Generic:** `src/{name}/` |
 | `{TEST_FRAMEWORK}` | Framework de testing | `pytest` | **PyQt:** `pytest + pytest-qt`<br>**FastAPI:** `pytest + httpx`<br>**Generic:** `pytest` |
@@ -63,6 +63,7 @@ El skill es **framework-agnostic** y se adapta automáticamente según el perfil
 - **FastAPI:** Implementación de endpoints REST con arquitectura en capas
 - **Flask REST / Flask Webapp:** Implementación de APIs y webapps con Flask
 - **Generic Python:** Implementación de módulos Python genéricos
+- **Hexagonal DDD BC / Clean Architecture BC:** Implementación por Bounded Context con orden de implementación obligatorio por capas
 
 > **📖 Referencia:** Si ninguno de los perfiles bundleados en `customizations/` describe la arquitectura real del proyecto, corré `/adapt-project` una vez antes de la primera US — genera un perfil custom calibrado a la estructura real en vez de forzar un perfil bundleado que no encaja.
 

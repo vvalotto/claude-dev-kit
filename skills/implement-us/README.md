@@ -11,7 +11,7 @@ Documentación técnica de la arquitectura y estructura interna del skill.
 El skill `implement-us` guía paso a paso la implementación de una Historia de Usuario en proyectos Python, adaptándose automáticamente al stack tecnológico mediante perfiles de configuración.
 
 **Características:**
-- ✅ Framework-agnostic (PyQt, FastAPI, Flask REST, Flask Webapp, Python genérico)
+- ✅ Framework-agnostic (PyQt, FastAPI, Flask REST, Flask Webapp, Python genérico, Hexagonal DDD BC, Clean Architecture BC)
 - ✅ 10 fases de implementación (Fase 0: Validación hasta Fase 9: Reporte Final)
 - ✅ Generación automática de BDD, tests, documentación
 - ✅ Quality gates integrados (Pylint, CC, MI, Coverage)
@@ -57,7 +57,9 @@ skills/implement-us/
 │   ├── fastapi-rest.json
 │   ├── flask-rest.json
 │   ├── flask-webapp.json
-│   └── generic-python.json
+│   ├── generic-python.json
+│   ├── hexagonal-ddd-bc.json
+│   └── clean-architecture-bc.json
 └── README.md                  # Este archivo
 ```
 
@@ -228,6 +230,28 @@ src/my_module/
 
 ---
 
+### 6. Hexagonal DDD BC-First (`hexagonal-ddd-bc.json`)
+
+**Para:** Proyectos Python organizados por Bounded Context con arquitectura hexagonal y DDD
+
+**Características:**
+- Estructura `src/{bc}/` con capas domain → application → infrastructure → api
+- Orden de implementación obligatorio (`implementation_order`): ValueObjects → DomainEvents → AggregateRoot → Ports → CommandHandlers → QueryHandlers → Repositories → ApiRouter
+- Quality gates con CodeGuard (pylint + radon + designreviewer) acotado a los archivos de la US
+- Coverage 90%
+
+### 7. Clean Architecture BC-First (`clean-architecture-bc.json`)
+
+**Para:** Proyectos Python (FastAPI + SQLAlchemy async) organizados por Bounded Context con Clean Architecture
+
+**Características:**
+- Estructura `src/{bc}/` con capas entities → use_cases → interface_adapters → frameworks
+- Orden de implementación obligatorio por capas (`implementation_order`)
+- Quality gates con CodeGuard, igual que el perfil hexagonal
+- Coverage 90%
+
+---
+
 ## 🔧 Instalación
 
 El instalador del framework copiará esta estructura en `.claude/skills/implement-us/` y fusionará el perfil seleccionado con el config base.
@@ -241,6 +265,8 @@ python installer.py
 #   3) Flask REST
 #   4) Flask Webapp
 #   5) Generic Python
+#   6) Hexagonal DDD BC-First
+#   7) Clean Architecture BC-First
 ```
 
 **No interactivo:**
@@ -250,29 +276,31 @@ python installer.py --profile fastapi-rest --yes
 python installer.py --profile flask-rest --yes
 python installer.py --profile flask-webapp --yes
 python installer.py --profile generic-python --yes
+python installer.py --profile hexagonal-ddd-bc --yes
+python installer.py --profile clean-architecture-bc --yes
 ```
 
 ---
 
 ## 📊 Comparación de Perfiles
 
-| Característica | PyQt MVC | FastAPI REST | Flask REST | Flask Webapp | Generic Python |
-|----------------|----------|--------------|------------|--------------|----------------|
-| **Tamaño** | ~350 líneas | ~460 líneas | ~1000 líneas | ~1100 líneas | ~280 líneas |
-| **Overrides** | 8 variables | 8 variables | 8 variables + async | 7 variables + async | 2 variables |
-| **Arquitectura** | MVC | Layered (3) | Layered (3) | BFF + SSR | Flexible |
-| **Frontend** | Qt UI | No | No | **Sí (Jinja2 + JS)** | No |
-| **Files/Feature** | 3 (M+V+C) | 5 | 3-4 | **4-5 (route+template+css+js)** | 1-2 |
-| **Test Framework** | pytest-qt | pytest + httpx | pytest + Flask | pytest + Flask + mock | pytest |
-| **Fixtures** | qapp, qtbot | async_client, db | app, client | app, client | Ninguno |
-| **Async** | No | Sí (async/await) | No (sync) | No (sync) | Opcional |
-| **Coverage Min** | 90% | 95% | 95% | **90%** (solo backend) | 95% |
-| **Pylint Min** | 8.0 | 8.5 | 8.0 | 8.0 | 8.0 |
-| **OpenAPI** | - | Nativo | Flasgger | - | - |
-| **Patterns** | 4 | 5 | 5 | 5 | 2 |
-| **Complejidad** | Alta | Media | Media | Media-Alta | Baja |
-| **Opinionado** | Alto | Medio | Medio | Medio-Alto | Bajo |
-| **Proyecto Real** | simapp_termostato | - | app_termostato | webapp_termostato | - |
+| Característica | PyQt MVC | FastAPI REST | Flask REST | Flask Webapp | Generic Python | Hexagonal BC | Clean BC |
+|----------------|----------|--------------|------------|--------------|----------------|--------------|----------|
+| **Tamaño** | ~350 líneas | ~460 líneas | ~1000 líneas | ~1100 líneas | ~280 líneas | — | — |
+| **Overrides** | 8 variables | 8 variables | 8 variables + async | 7 variables + async | 2 variables | — | — |
+| **Arquitectura** | MVC | Layered (3) | Layered (3) | BFF + SSR | Flexible | Hexagonal + BC-first | Clean + BC-first |
+| **Frontend** | Qt UI | No | No | **Sí (Jinja2 + JS)** | No | No | No |
+| **Files/Feature** | 3 (M+V+C) | 5 | 3-4 | **4-5 (route+template+css+js)** | 1-2 | — | — |
+| **Test Framework** | pytest-qt | pytest + httpx | pytest + Flask | pytest + Flask + mock | pytest | pytest + httpx | pytest + httpx |
+| **Fixtures** | qapp, qtbot | async_client, db | app, client | app, client | Ninguno | — | — |
+| **Async** | No | Sí (async/await) | No (sync) | No (sync) | Opcional | Sí | Sí |
+| **Coverage Min** | 90% | 95% | 95% | **90%** (solo backend) | 95% | 90% | 90% |
+| **Pylint Min** | 8.0 | 8.5 | 8.0 | 8.0 | 8.0 | 8.0 | 8.0 |
+| **OpenAPI** | - | Nativo | Flasgger | - | - | — | — |
+| **Patterns** | 4 | 5 | 5 | 5 | 2 | — | — |
+| **Complejidad** | Alta | Media | Media | Media-Alta | Baja | — | — |
+| **Opinionado** | Alto | Medio | Medio | Medio-Alto | Bajo | — | — |
+| **Proyecto Real** | simapp_termostato | - | app_termostato | webapp_termostato | - | — | — |
 
 ---
 
@@ -326,4 +354,4 @@ Todas las variables configurables en los perfiles:
 
 ---
 
-**Última Actualización:** 2026-02-24 — v1.1: gates/checklists, tracking bash, protocolo de fallas, artifacts.md, conventions.md
+**Última Actualización:** 2026-11-18 — v1.7.0: 7 perfiles (incl. BC-first), tracking con tracker_cli.py

@@ -24,9 +24,9 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 | Estado | Cantidad |
 |--------|---------|
 | Hallazgos originales (2026-02-27) | 64 |
-| ✅ Resueltos | 65 |
+| ✅ Resueltos | 66 |
 | ⚠️ Vigentes | 0 |
-| 🆕 Nuevos (2026-11-18) | 8 (1 resuelto) |
+| 🆕 Nuevos (2026-11-18) | 9 (2 resueltos) |
 | **Abiertos en total** | **7** |
 
 > El resumen de la auditoría anterior indicaba 48 hallazgos; el recuento real de IDs listados era 64.
@@ -43,13 +43,13 @@ Ninguno. F3-AMB2, F3-AMB4 y F7-AMB1 se corrigieron tras la auditoría (ver secci
 
 | ID | Dónde | Descripción | Severidad |
 |----|-------|-------------|-----------|
-| N-2 | `skill.md`, `README.md`, `install/config.json` | La lista de perfiles de `skill.md` (Propósito y tabla de Variables), la tabla comparativa y los comandos de instalación de `README.md`, y `profile_selection` de `install/config.json` solo cubren los 5 perfiles originales. Además `README.md` y `skill.md` conservan footer de v1.1 (2026-02-24). | Baja |
 | N-3 | Fase 6 | La sección "Integración con CI/CD" ejecuta `pytest tests/features/ ...`, pero el propio archivo establece que pytest-bdd corre desde `tests/step_defs/` (los `.feature` no son tests por sí solos). Esos comandos no ejecutarían los escenarios. | Media |
 | N-4 | Fase 9, `docs/skills/implement-us/phase-9.md` | Se documenta que `tracker_cli.py end` "genera el reporte de tiempo final", pero `cmd_end` solo marca `completed_at` e imprime un resumen, y `TimeTracker.end_tracking` indica que los reportes "se generarán en una fase posterior". | Media |
 | N-5 | Fases 8 y 9 | No hay instrucción para obtener el tiempo real: `{ACTUAL_TIME}` y la tabla "Métricas de Tiempo" no indican qué comando usar (`status` solo da el total transcurrido). El script opcional de Fase 9 llama a `tracker.get_report(us_id)`, que no existe en `TimeTracker`, y `tracker` no está definido. | Media |
 | N-6 | Fase 7 | El ejemplo de CI/CD hardcodea `--fail-under=8.0` y `--cov-fail-under=95`, mientras el resto de la fase exige leer los umbrales del perfil activo. | Baja |
 | N-7 | Fase 0 | Paso 6 indica leer `unit_test_path` e `integration_test_path` del perfil para `pytest.ini`, pero el contenido de ejemplo fija `testpaths = tests` y no usa esas claves. El template de `context.md` (Paso 8) además repite rutas literales aunque remite a `artifacts.md`. | Baja |
 | N-8 | `templates/planning/implementation-plan.md` | El template del plan todavía incluye secciones "Tests" y "Validación" con estimaciones (`{UNIT_TESTS_TIME}`, `{INTEGRATION_TESTS_TIME}`), checklist de testing y "Coverage ≥ 95%" hardcodeado. Contradice la Fase 2 (F2-A2/OBS-4: el plan no incluye tests ni quality gates) y los umbrales por perfil. Fase 2 indica usar este template si existe en `.claude/templates/planning/`. | Media |
+| N-9 | Fases 7 y 9, perfiles BC-first | `hexagonal-ddd-bc` y `clean-architecture-bc` no definen `quality_gates.maintainability_index`, pero el snippet de Fase 7 lee `qg["maintainability_index"]["min_score"]` y Fase 9 mapea `mi_min` desde `quality.json`. Con esos perfiles el snippet falla (`KeyError`) y el reporte queda sin umbral de MI. | Media |
 
 ---
 
@@ -140,6 +140,7 @@ Verificados en 2026-11-18 contra el código actual.
 
 | ID | Cómo se resolvió |
 |----|------------------|
+| N-2 | `installer.py` (ejemplo `django-mvt` inexistente, lista de perfiles y ayuda de `--profile`), `install/config.json` (clave `profile_selection` sin uso eliminada), `skill.md` y `README.md` del skill cubren los 7 perfiles; footer actualizado a v1.7.0. |
 | N-1 | Fases 1, 2 y 3 cubren perfiles BC-first y Flask Webapp leyendo `bdd_config`, `bc_feature`/`page_feature` y un comando de verificación genérico. |
 
 ### Archivos genéricos
