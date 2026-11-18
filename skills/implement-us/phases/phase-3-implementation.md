@@ -711,6 +711,12 @@ python -c "from app.datos.{feature}.repositorio import {COMPONENT_NAME}Repositor
 python -m py_compile {COMPONENT_PATH}/{filename}.py
 ```
 
+**Perfiles sin comando propio (Hexagonal DDD BC, Clean Architecture BC, Flask Webapp, perfiles custom):**
+```bash
+python -m py_compile {ruta_del_archivo_creado}
+python -c "import {modulo}"   # {modulo}: ruta del archivo creado en notación de puntos, ej. src.pedidos.domain.pedido
+```
+
 > Los tests corresponden a Fase 4 (unitarios) y Fase 5 (integración). No ejecutar tests en esta fase.
 
 ---

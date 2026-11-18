@@ -24,10 +24,10 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 | Estado | Cantidad |
 |--------|---------|
 | Hallazgos originales (2026-02-27) | 64 |
-| ✅ Resueltos | 64 |
+| ✅ Resueltos | 65 |
 | ⚠️ Vigentes | 0 |
-| 🆕 Nuevos (2026-11-18) | 8 |
-| **Abiertos en total** | **8** |
+| 🆕 Nuevos (2026-11-18) | 8 (1 resuelto) |
+| **Abiertos en total** | **7** |
 
 > El resumen de la auditoría anterior indicaba 48 hallazgos; el recuento real de IDs listados era 64.
 
@@ -43,7 +43,6 @@ Ninguno. F3-AMB2, F3-AMB4 y F7-AMB1 se corrigieron tras la auditoría (ver secci
 
 | ID | Dónde | Descripción | Severidad |
 |----|-------|-------------|-----------|
-| N-1 | Fases 1, 2, 3 | Los perfiles `hexagonal-ddd-bc` y `clean-architecture-bc` no figuran en las referencias por stack: Fase 1 (lista de templates BDD), Fase 2 Paso 3 (componentes por patrón; tampoco aparece Flask Webapp) y Fase 3 Paso 7 (comandos de verificación de imports). Un agente con esos perfiles no tiene guía explícita en esos pasos. | Media |
 | N-2 | `skill.md`, `README.md`, `install/config.json` | La lista de perfiles de `skill.md` (Propósito y tabla de Variables), la tabla comparativa y los comandos de instalación de `README.md`, y `profile_selection` de `install/config.json` solo cubren los 5 perfiles originales. Además `README.md` y `skill.md` conservan footer de v1.1 (2026-02-24). | Baja |
 | N-3 | Fase 6 | La sección "Integración con CI/CD" ejecuta `pytest tests/features/ ...`, pero el propio archivo establece que pytest-bdd corre desde `tests/step_defs/` (los `.feature` no son tests por sí solos). Esos comandos no ejecutarían los escenarios. | Media |
 | N-4 | Fase 9, `docs/skills/implement-us/phase-9.md` | Se documenta que `tracker_cli.py end` "genera el reporte de tiempo final", pero `cmd_end` solo marca `completed_at` e imprime un resumen, y `TimeTracker.end_tracking` indica que los reportes "se generarán en una fase posterior". | Media |
@@ -136,6 +135,12 @@ Verificados en 2026-11-18 contra el código actual.
 | F9-A3 | Usa `tracker_cli.py end`, documentado en `skill.md`. |
 | F9-AMB1 | Checklist exige presentar el reporte completo y la ruta en la conversación. |
 | F9-AMB2 | Ya no hay placeholders específicos de PyQt (`{FACTORY_CLASS}`, etc.) en "Próximos Pasos". |
+
+### Hallazgos nuevos corregidos
+
+| ID | Cómo se resolvió |
+|----|------------------|
+| N-1 | Fases 1, 2 y 3 cubren perfiles BC-first y Flask Webapp leyendo `bdd_config`, `bc_feature`/`page_feature` y un comando de verificación genérico. |
 
 ### Archivos genéricos
 
