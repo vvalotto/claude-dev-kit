@@ -453,6 +453,8 @@ def generar_reporte_quality(us_id, component_path, metricas):
 
 Automatizar quality gates en pipeline:
 
+> Reemplazá `{PYLINT_MIN}` y `{COVERAGE_MIN}` con los umbrales del perfil activo (`quality_gates` en `customizations/{PROFILE}.json`); no los hardcodees.
+
 ```yaml
 # .github/workflows/quality-gates.yml
 name: Quality Gates
@@ -467,15 +469,15 @@ jobs:
 
       - name: Run Pylint
         run: |
-          pylint {COMPONENT_PATH}/ --fail-under=8.0
+          pylint {COMPONENT_PATH}/ --fail-under={PYLINT_MIN}
 
       - name: Check Coverage
         run: |
-          pytest --cov={COMPONENT_PATH} --cov-fail-under=95
+          pytest --cov={COMPONENT_PATH} --cov-fail-under={COVERAGE_MIN}
 
       - name: Calculate Complexity
         run: |
-          radon cc {COMPONENT_PATH}/ -a --total-average
+          radon cc {COMPONENT_PATH}/ -a --total-average  # informativo: el criterio es el CC máximo por función
 ```
 
 **Beneficio:** Bloquear merge si quality gates no pasan
