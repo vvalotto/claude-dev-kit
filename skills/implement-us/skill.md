@@ -283,7 +283,7 @@ El skill usa el sistema de tracking integrado (`.claude/tracking/tracker_cli.py`
 | `python .claude/tracking/tracker_cli.py status` | Para consultar el estado del tracking activo |
 | `python .claude/tracking/tracker_cli.py end` | **Solo en Fase 9**, al finalizar la US completa |
 
-> **`end` vs `end-phase`:** `end-phase` cierra únicamente la fase actual. `end` cierra el tracking completo de la US: calcula el tiempo total real acumulado y guarda el histórico en disco. Solo debe invocarse una vez, al final de Fase 9, después de `end-phase 9`.
+> **`end` vs `end-phase`:** `end-phase` cierra únicamente la fase actual. `end` cierra el tracking completo de la US: lo marca como completado y muestra el tiempo total acumulado (no genera reportes; para eso está `/track-report`). Solo debe invocarse una vez, al final de Fase 9, después de `end-phase 9`.
 
 ---
 

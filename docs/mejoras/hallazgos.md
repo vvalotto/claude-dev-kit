@@ -24,10 +24,10 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 | Estado | Cantidad |
 |--------|---------|
 | Hallazgos originales (2026-02-27) | 64 |
-| ✅ Resueltos | 67 |
+| ✅ Resueltos | 68 |
 | ⚠️ Vigentes | 0 |
-| 🆕 Nuevos (2026-11-18) | 9 (3 resueltos) |
-| **Abiertos en total** | **6** |
+| 🆕 Nuevos (2026-11-18) | 9 (4 resueltos) |
+| **Abiertos en total** | **5** |
 
 > El resumen de la auditoría anterior indicaba 48 hallazgos; el recuento real de IDs listados era 64.
 
@@ -43,7 +43,6 @@ Ninguno. F3-AMB2, F3-AMB4 y F7-AMB1 se corrigieron tras la auditoría (ver secci
 
 | ID | Dónde | Descripción | Severidad |
 |----|-------|-------------|-----------|
-| N-4 | Fase 9, `docs/skills/implement-us/phase-9.md` | Se documenta que `tracker_cli.py end` "genera el reporte de tiempo final", pero `cmd_end` solo marca `completed_at` e imprime un resumen, y `TimeTracker.end_tracking` indica que los reportes "se generarán en una fase posterior". | Media |
 | N-5 | Fases 8 y 9 | No hay instrucción para obtener el tiempo real: `{ACTUAL_TIME}` y la tabla "Métricas de Tiempo" no indican qué comando usar (`status` solo da el total transcurrido). El script opcional de Fase 9 llama a `tracker.get_report(us_id)`, que no existe en `TimeTracker`, y `tracker` no está definido. | Media |
 | N-6 | Fase 7 | El ejemplo de CI/CD hardcodea `--fail-under=8.0` y `--cov-fail-under=95`, mientras el resto de la fase exige leer los umbrales del perfil activo. | Baja |
 | N-7 | Fase 0 | Paso 6 indica leer `unit_test_path` e `integration_test_path` del perfil para `pytest.ini`, pero el contenido de ejemplo fija `testpaths = tests` y no usa esas claves. El template de `context.md` (Paso 8) además repite rutas literales aunque remite a `artifacts.md`. | Baja |
@@ -139,6 +138,7 @@ Verificados en 2026-11-18 contra el código actual.
 
 | ID | Cómo se resolvió |
 |----|------------------|
+| N-4 | Fase 9, `skill.md` y `docs/skills/implement-us/phase-9.md` describen `end` tal como es: marca el cierre y muestra el tiempo total, sin generar reportes (se usa `/track-report`). |
 | N-3 | Fase 6: los comandos de CI/CD ejecutan `tests/step_defs/` e indican los plugins `pytest-html` y `pytest-json-report`. |
 | N-2 | `installer.py` (ejemplo `django-mvt` inexistente, lista de perfiles y ayuda de `--profile`), `install/config.json` (clave `profile_selection` sin uso eliminada), `skill.md` y `README.md` del skill cubren los 7 perfiles; footer actualizado a v1.7.0. |
 | N-1 | Fases 1, 2 y 3 cubren perfiles BC-first y Flask Webapp leyendo `bdd_config`, `bc_feature`/`page_feature` y un comando de verificación genérico. |

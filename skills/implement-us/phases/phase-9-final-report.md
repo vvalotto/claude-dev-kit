@@ -521,8 +521,9 @@ python .claude/tracking/tracker_cli.py end
 
 > **¿Qué hace `end`?** Es el único punto del skill donde se invoca este subcomando.
 > A diferencia de `end-phase` (que cierra solo la fase actual), `end` cierra el
-> tracking completo de la US: calcula el tiempo total real acumulado en todas las fases,
-> guarda el histórico en `.claude/tracking/` y genera el reporte de tiempo final.
+> tracking completo de la US: lo marca como completado en
+> `.claude/tracking/{US_ID}-tracking.json` y muestra el tiempo total acumulado.
+> No genera ningún reporte: para el detalle por fase usá `/track-report`.
 > Debe ejecutarse **después** de `end-phase 9`, no en lugar de él.
 
 ---

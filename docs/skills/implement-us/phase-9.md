@@ -63,7 +63,7 @@ Las métricas del reporte provienen directamente de `quality/reports/{US_ID}-qua
 
 ### Sobre `end`
 
-`end` es el cierre del tracking completo de la US. A diferencia de `end-phase N` (que cierra solo la fase actual), calcula el tiempo total acumulado en todas las fases, guarda el histórico en `.claude/tracking/` y genera el reporte de tiempo final. Se ejecuta **después** de `end-phase 9`, nunca en lugar de él.
+`end` es el cierre del tracking completo de la US. A diferencia de `end-phase N` (que cierra solo la fase actual), lo marca como completado en `.claude/tracking/{US_ID}-tracking.json` y muestra el tiempo total acumulado. No genera ningún reporte: para el detalle por fase se usa `/track-report`. Se ejecuta **después** de `end-phase 9`, nunca en lugar de él.
 
 ---
 
