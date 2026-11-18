@@ -37,11 +37,6 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 
 Ninguno. F3-AMB2, F3-AMB4 y F7-AMB1 se corrigieron tras la auditoría (ver sección de resueltos).
 
-----|------|-------------|-----------|
-| ~~F3-AMB2~~ | Fase 3 | La sección "Acción" lista como paso 4 *"Ejecución de tests básicos (si aplica)"*, pero el paso 7 del flujo dice *"No ejecutar tests en esta fase"*. Dos instrucciones contradictorias dentro del mismo archivo. | Media |
-| F3-AMB4 | Fase 3 | `start-task` recibe `{TASK_ID}`, `{TASK_TYPE}` y `{ESTIMATED_MINUTES}`, pero la fase no define de dónde salen ni qué valores admite `TASK_TYPE`. Fase 2 no genera esos campos en el plan. | Media |
-| F7-AMB1 | Fase 7 | El criterio de CC se corrigió en el texto (máximo por función, no promedio), pero el snippet `todas_metricas_pasan` sigue comparando `cc_promedio <= umbrales['cc_max']`, y el JSON de métricas solo guarda `cc_promedio`. Texto y código se contradicen. | Alta |
-
 ---
 
 ## 🆕 Hallazgos nuevos (2026-11-18)
