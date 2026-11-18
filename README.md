@@ -2,8 +2,8 @@
 
 > Framework agnóstico de dominio para implementación automatizada de historias de usuario con Claude Code
 
-[![Version](https://img.shields.io/badge/version-1.7.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.7.0)
-[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
+[![Version](https://img.shields.io/badge/version-1.8.0-blue.svg)](https://github.com/vvalotto/claude-dev-kit/releases/tag/v1.8.0)
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
 [![Tests](https://img.shields.io/badge/tests-156%20passed-brightgreen.svg)](tests/)
@@ -13,7 +13,7 @@
 
 ## 🎯 ¿Qué es Claude Dev Kit?
 
-Claude Dev Kit es un framework instalable que **automatiza el ciclo completo de implementación** de historias de usuario a través de 10 fases estructuradas, con tracking automático de tiempo y validación de calidad.
+Claude Dev Kit es un framework instalable que **automatiza el ciclo completo de implementación** de historias de usuario a través de 10 fases estructuradas, con tracking automático de tiempo real y validación de calidad, con puntos de aprobación del usuario en las fases clave.
 
 **¿Por qué usarlo?**
 - ✅ **Automatiza** el flujo de trabajo: Desde BDD hasta reporte final
@@ -62,17 +62,18 @@ EOF
 # Ejecutar skill
 /implement-us US-001
 
-# El skill automatiza las 10 fases:
-# 0. Validación ✅
-# 1. Escenarios BDD ✅
-# 2. Plan de implementación ✅
-# 3. Código base ✅
-# 4. Tests unitarios ✅
-# 5. Tests de integración ✅
-# 6. Validación BDD ✅
-# 7. Quality gates ✅
-# 8. Documentación ✅
-# 9. Reporte final ✅
+# El skill guía las 10 fases y te pide aprobación en los puntos clave
+# (clasificación de la HU, escenarios BDD, plan, cada tarea de código y documentación):
+# 0. Validación de contexto
+# 1. Escenarios BDD            ← requiere tu aprobación
+# 2. Plan de implementación    ← requiere tu aprobación
+# 3. Implementación            ← aprobás cada tarea
+# 4. Tests unitarios
+# 5. Tests de integración
+# 6. Validación BDD
+# 7. Quality gates
+# 8. Documentación             ← requiere tu aprobación
+# 9. Reporte final
 ```
 
 **Ver:** [Guía de Inicio Rápido](docs/user/getting-started.md) para tutorial completo.
@@ -88,12 +89,12 @@ EOF
 | **0. Validación** | Verifica herramientas, clasifica HU, decide BDD | `docs/plans/{US_ID}-context.md` |
 | **1. BDD** | Genera escenarios Gherkin | `tests/features/{US_ID}-{nombre}.feature` |
 | **2. Planning** | Crea plan detallado con tareas *(STOP — requiere aprobación)* | `docs/plans/{US_ID}-plan.md` |
-| **3. Implementación** | Genera código guiado por el plan en disco | `src/*.py` |
-| **4. Tests Unitarios** | Crea tests por componente | `tests/test_*.py` |
+| **3. Implementación** | Genera código tarea por tarea, con tu aprobación en cada una | Archivos de código según el perfil activo |
+| **4. Tests Unitarios** | Crea tests por componente | `tests/unit/test_*.py` |
 | **5. Tests Integración** | Tests end-to-end | `tests/integration/` |
-| **6. Validación BDD** | Ejecuta escenarios | pytest-bdd output |
+| **6. Validación BDD** | Implementa los steps y ejecuta los escenarios | `tests/step_defs/test_*_steps.py` |
 | **7. Quality Gates** | Valida métricas | `quality/reports/{US_ID}-quality.json` |
-| **8. Documentación** | Docstrings y comentarios | Código documentado |
+| **8. Documentación** | Actualiza el plan, el CHANGELOG y la documentación de arquitectura | Plan, `CHANGELOG.md` y docs actualizados |
 | **9. Reporte Final** | Resumen y métricas *(STOP — reporte debe existir)* | `docs/reports/{US_ID}-report.md` |
 
 **Ver:** [Documentación completa del skill](docs/skills/implement-us/index.md)
@@ -137,10 +138,10 @@ Tracking automático de tiempo por fase y tarea:
 # Ver reporte de US
 /track-report US-001
 
-# Output:
-# ⏱️ US-001: 1h 45min (est: 2h, -15min)
-# Fase 0: 2min | Fase 1: 5min | Fase 2: 8min ...
-# Varianza: -7.5% (mejor que estimado)
+# Output (resumen):
+# 📈 Reporte de Tracking - US-001
+# Tiempo total: 1h 45m | Efectivo: 1h 40m | Pausado: 5m
+# Fase 0: 2m | Fase 1: 5m | Fase 2: 8m ...
 ```
 
 **Ver:** [Tracking - Guía de Usuario](docs/user/tracking/user-guide.md)
@@ -292,13 +293,13 @@ git commit -m "feat: agregar feature X"
 git push origin feature/mi-feature
 ```
 
-**Ver:** [Guía de Contribución](CONTRIBUTING.md) (pendiente)
+**Guía de contribución:** pendiente de redacción. Mientras tanto, seguí las convenciones de commits y branching de [`CLAUDE.md`](CLAUDE.md).
 
 ---
 
 ## 📋 Prerequisitos
 
-- Python 3.9 o superior
+- Python 3.8 o superior
 - Git 2.0+
 - Claude Code CLI
 - Proyecto Python (opcional para pruebas)
@@ -309,8 +310,8 @@ git push origin feature/mi-feature
 
 ¿Encontraste un bug o tienes una sugerencia?
 
-- **Bug:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/new?template=bug_report.md)
-- **Feature Request:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/new?template=feature_request.md)
+- **Bug:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/new)
+- **Feature Request:** [Crear Issue](https://github.com/vvalotto/claude-dev-kit/issues/new)
 
 ---
 
