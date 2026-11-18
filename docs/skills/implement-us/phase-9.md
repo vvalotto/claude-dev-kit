@@ -14,7 +14,7 @@ Genera el reporte completo de la implementación consolidando datos de todas las
 2. Lee los umbrales reales desde `quality.json` (no los reconstruye de memoria)
 3. Genera `docs/reports/{US_ID}-report.md` con el resumen completo
 4. Presenta el reporte completo en la conversación con la ruta del archivo
-5. Cierra el tracking completo de la US (`end-phase 9` + `end-tracking`)
+5. Cierra el tracking completo de la US (`end-phase 9` + `end`)
 
 ### Qué esperar
 
@@ -61,9 +61,9 @@ Las métricas del reporte provienen directamente de `quality/reports/{US_ID}-qua
 [Sugerencias para continuación]
 ```
 
-### Sobre `end-tracking`
+### Sobre `end`
 
-`end-tracking` es el cierre del tracking completo de la US. A diferencia de `end-phase N` (que cierra solo la fase actual), calcula el tiempo total acumulado en todas las fases, guarda el histórico en `.claude/tracking/` y genera el reporte de tiempo final. Se ejecuta **después** de `end-phase 9`, nunca en lugar de él.
+`end` es el cierre del tracking completo de la US. A diferencia de `end-phase N` (que cierra solo la fase actual), calcula el tiempo total acumulado en todas las fases, guarda el histórico en `.claude/tracking/` y genera el reporte de tiempo final. Se ejecuta **después** de `end-phase 9`, nunca en lugar de él.
 
 ---
 
@@ -84,7 +84,7 @@ Las métricas del reporte provienen directamente de `quality/reports/{US_ID}-qua
 |---|---|---|
 | `docs/reports/{US_ID}-report.md` | Artefacto físico | Reporte completo de implementación |
 | Reporte presentado en conversación | En conversación | Contenido completo + ruta del archivo |
-| Tracking cerrado | Sistema | `end-phase 9` + `end-tracking` |
+| Tracking cerrado | Sistema | `end-phase 9` + `end` |
 
 ### Templates
 
@@ -125,19 +125,19 @@ Los valores hardcodeados en el template se reemplazan con los valores reales del
 
 ```bash
 # 1. Cerrar la fase 9
-python .claude/tracking/track.py end-phase 9
+python .claude/tracking/tracker_cli.py end-phase 9
 
 # 2. Cerrar el tracking completo de la US
-python .claude/tracking/track.py end-tracking
+python .claude/tracking/tracker_cli.py end
 ```
 
-`end-tracking` es el único punto de todo el skill donde se invoca ese subcomando.
+`end` es el único punto de todo el skill donde se invoca ese subcomando.
 
 ### Convenciones
 
 - Las métricas del reporte se leen desde `quality.json`, nunca se reconstruyen desde memoria o desde las herramientas.
 - El reporte debe presentarse en la conversación con su contenido completo y la ruta del archivo.
-- `end-tracking` se ejecuta **después** de `end-phase 9`.
+- `end` se ejecuta **después** de `end-phase 9`.
 - El checklist de salida requiere verificar que `docs/reports/{US_ID}-report.md` existe en disco con `ls`.
 
 ### Dependencias
@@ -154,13 +154,13 @@ python .claude/tracking/track.py end-tracking
 - [ ] El reporte incluye métricas reales leídas desde `quality.json` (no reconstruidas)
 - [ ] El reporte fue presentado en la conversación con la ruta del archivo
 - [ ] `end-phase 9` ejecutado
-- [ ] `end-tracking` ejecutado
+- [ ] `end` ejecutado
 
 ### Estado en v1.3
 
 | ID | Descripción | Resolución |
 |---|---|---|
-| D9-1 | El subcomando `end-tracking` no estaba documentado en ningún archivo del skill | Se documentó en `skill.md` y en esta fase: qué hace, cuándo usarlo, y que es el único punto donde aparece |
+| D9-1 | El subcomando `end` no estaba documentado en ningún archivo del skill | Se documentó en `skill.md` y en esta fase: qué hace, cuándo usarlo, y que es el único punto donde aparece |
 | D9-2 | Los templates de reporte tenían placeholders `{PYLINT_MIN}` etc. pero no había instrucción de cómo obtener esos valores | Se agregó instrucción explícita: leer `quality.json → umbrales` con `jq` antes de completar el template; tabla de mapeo campo → placeholder incluida |
 
 ---

@@ -43,7 +43,7 @@ El agente **DEBE** ejecutar el contenido de esta sección antes de avanzar.
 >
 > Antes de cualquier otra acción en esta fase, ejecutá el siguiente comando:
 > ```bash
-> python .claude/tracking/track.py start-phase 7 "Quality Gates"
+> python .claude/tracking/tracker_cli.py start-phase 7 "Quality Gates"
 > ```
 > No avances al siguiente paso hasta que el comando se haya ejecutado exitosamente.
 
@@ -134,7 +134,7 @@ tracker.start_phase(7, "Quality Gates")
 **✅ Después (imperativo):**
 > **🔴 Acción Requerida — Iniciar tracking de fase**
 > Ejecutá antes de cualquier otra acción:
-> `python .claude/tracking/track.py start-phase 7 "Quality Gates"`
+> `python .claude/tracking/tracker_cli.py start-phase 7 "Quality Gates"`
 
 ---
 

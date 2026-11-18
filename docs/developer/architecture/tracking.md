@@ -15,18 +15,22 @@ Sistema de tracking automático de tiempo basado en dataclasses Python y persist
 - **TimeTracker**: Gestor central con métodos de lifecycle y persistencia
   - `from_json(path)`: classmethod que restaura el estado completo desde un archivo JSON existente
 
-#### track.py
+#### tracker_cli.py
 CLI de tracking invocado por el skill `/implement-us` en cada fase:
 
 | Comando | Descripción |
 |---------|-------------|
-| `start-phase N "nombre" --us US_ID` | Inicia una fase (crea tracking si es fase 0) |
-| `end-phase N` | Finaliza la fase activa |
-| `start-task "nombre"` | Inicia una tarea dentro de la fase activa |
-| `end-task "nombre"` | Finaliza la tarea activa |
-| `end-tracking` | Cierra el tracking de la US |
+| `init US_ID "título" puntos producto` | Crea el tracking de la US (Fase 0) |
+| `start-phase N "nombre"` | Inicia una fase |
+| `end-phase N` | Finaliza la fase |
+| `start-task ID "nombre" tipo minutos` | Inicia una tarea dentro de la fase activa |
+| `end-task ID [archivo]` | Finaliza la tarea |
+| `status` | Muestra el estado del tracking activo |
+| `end [US_ID]` | Cierra el tracking completo de la US |
 
-El argumento `--us US_ID` es requerido solo en `start-phase 0` (primera llamada, cuando aún no existe archivo de tracking). En el resto de comandos es opcional: si se omite, el CLI detecta automáticamente el archivo de tracking activo.
+Todos los subcomandos salvo `init` aceptan `--us-id` opcional; si se omite, el CLI detecta el tracking activo (`completed_at == null`).
+
+> `track.py` es el CLI legado (v1.3). Ya no lo usa ninguna fase del skill.
 
 #### reports.py
 - **format_duration()**: Formatea segundos a formato legible
@@ -135,22 +139,23 @@ storage_path: Path
 El skill `/implement-us` invoca el sistema de tracking mediante **directivas bash** al inicio y cierre de cada fase. Este es el mecanismo actual desde v1.1:
 
 ```bash
-# Fase 0: crear tracking e iniciar fase (--us requerido)
-python .claude/tracking/track.py start-phase 0 "Validación de Contexto" --us {US_ID}
+# Fase 0: crear tracking e iniciar fase
+python .claude/tracking/tracker_cli.py init {US_ID} "{US_TITLE}" {STORY_POINTS} {PRODUCT}
+python .claude/tracking/tracker_cli.py start-phase 0 "Validación de Contexto"
 
 # Fases 1-9: continuar tracking existente
-python .claude/tracking/track.py start-phase N "Nombre de Fase"
+python .claude/tracking/tracker_cli.py start-phase N "Nombre de Fase"
 
 # Al cerrar cada fase
-python .claude/tracking/track.py end-phase N
+python .claude/tracking/tracker_cli.py end-phase N
 
 # Al finalizar la US
-python .claude/tracking/track.py end-tracking
+python .claude/tracking/tracker_cli.py end
 ```
 
 Las instrucciones están en secciones `🔴 Acción Requerida` de cada archivo de fase, lo que garantiza que el agente las ejecuta en lugar de interpretarlas como documentación.
 
-> **Nota histórica:** El diseño original contemplaba llamadas directas a la API Python (`tracker.start_phase(N)`, `tracker.end_phase(N)`). Ese enfoque fue reemplazado en v1.1 porque el agente interpretaba esos bloques de código como ejemplos de documentación y no los ejecutaba (OBS-001). En v1.3 se creó `track.py` como punto de entrada CLI dedicado, reemplazando la referencia errónea a `time_tracker.py` como CLI que nunca existió.
+> **Nota histórica:** El diseño original contemplaba llamadas directas a la API Python (`tracker.start_phase(N)`, `tracker.end_phase(N)`). Ese enfoque fue reemplazado en v1.1 porque el agente interpretaba esos bloques de código como ejemplos de documentación y no los ejecutaba (OBS-001). En v1.3 se creó `track.py` como punto de entrada CLI y luego fue reemplazado por `tracker_cli.py`, que es el CLI vigente.
 
 **API Python de referencia (para desarrollo de nuevos skills de tracking):**
 ```python

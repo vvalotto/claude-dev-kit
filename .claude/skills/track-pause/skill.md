@@ -51,17 +51,8 @@ if not active_file:
 ```python
 from tracking import TimeTracker
 
-# Leer metadata
-with open(active_file, 'r') as f:
-    data = json.load(f)
-
-metadata = data["metadata"]
-tracker = TimeTracker(
-    us_id=metadata["us_id"],
-    us_title=metadata["us_title"],
-    us_points=metadata["us_points"],
-    producto=metadata["producto"]
-)
+# Restaurar el estado completo (fases, tareas, pausas) desde el JSON activo
+tracker = TimeTracker.from_json(active_file)
 
 # Pausar
 try:

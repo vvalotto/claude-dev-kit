@@ -299,4 +299,30 @@ Sin hallazgos — el README.md fue actualizado correctamente en v1.1. No contien
 
 ---
 
-*Última actualización: 2026-02-27 — Análisis completo: Fases 0-9 + skill.md, artifacts.md, conventions.md, README.md.*
+## Re-verificación parcial — 2026-11-18
+
+Verificación puntual contra el estado actual del repo (v1.7.0). **No** es una re-auditoría completa de las fases 0-9.
+
+### Resueltos (ya no aplican)
+
+| Hallazgo | Evidencia |
+|----------|-----------|
+| F7-A1 | Fase 7 usa comandos ejecutables reales |
+| F7-A2 | Ya no hay secciones TypeScript/Java/C# en `phase-7-quality-gates.md` |
+| F7-A3, F9-A2 | Fase 7 lee el umbral del perfil activo (`config.json`) |
+| F1-A2, F6-A2, F6-A3, ART-A1 | Ruta unificada: `tests/features/{US_ID}-*.feature` |
+| F0-A3, F3-A4, F8-A3, F9-A3 | Todas las fases usan `tracker_cli.py` (`init`, `start-phase`, `end-phase`, `start-task`, `end-task`, `end`) |
+| SK-A3, CON-A1 | Corregidos en `skill.md` y `conventions.md` (issue #61): usan `tracker_cli.py` y `end` |
+| OBS-3 | Cerrada: interfaz de tracking unificada en `tracker_cli.py` |
+
+### Hallazgo nuevo corregido (issue #63)
+
+`/track-pause`, `/track-resume` y `/track-status` construían un `TimeTracker` vacío con la metadata del JSON y luego guardaban, lo que podía pisar fases y pausas existentes. Ahora usan `TimeTracker.from_json(active_file)`.
+
+### Pendiente de re-auditar
+
+Los hallazgos de ambigüedad (AMB) de cada fase y el resto de los hallazgos "Nueva"/OBS-1/2/4/5/6 no fueron re-verificados en esta pasada; deben considerarse **potencialmente vigentes** hasta una auditoría completa.
+
+---
+
+*Última actualización: 2026-11-18 — Re-verificación parcial (ver sección anterior). Análisis completo original: 2026-02-27 — Fases 0-9 + skill.md, artifacts.md, conventions.md, README.md.* — Análisis completo: Fases 0-9 + skill.md, artifacts.md, conventions.md, README.md.*

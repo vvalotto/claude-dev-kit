@@ -263,7 +263,7 @@ Si una fase falla, seguí este protocolo en orden:
 
 ## Tracking de Tiempo
 
-El skill usa el sistema de tracking integrado (`.claude/tracking/track.py`) para:
+El skill usa el sistema de tracking integrado (`.claude/tracking/tracker_cli.py`) para:
 - Registrar tiempo real por fase y por tarea (Fase 3)
 - Acumular datos empíricos de performance del agente a lo largo del tiempo
 - Generar reportes históricos comparables entre ejecuciones del agente
@@ -274,13 +274,15 @@ El skill usa el sistema de tracking integrado (`.claude/tracking/track.py`) para
 
 | Comando | Cuándo usarlo |
 |---------|--------------|
-| `python .claude/tracking/track.py start-phase N "Nombre"` | Al inicio de cada fase (N = 0..9) |
-| `python .claude/tracking/track.py end-phase N` | Al cerrar cada fase |
-| `python .claude/tracking/track.py start-task "nombre"` | Al iniciar cada tarea dentro de Fase 3 |
-| `python .claude/tracking/track.py end-task "nombre"` | Al completar cada tarea dentro de Fase 3 |
-| `python .claude/tracking/track.py end-tracking` | **Solo en Fase 9**, al finalizar la US completa |
+| `python .claude/tracking/tracker_cli.py init {US_ID} "{US_TITLE}" {STORY_POINTS} {PRODUCT}` | **Solo en Fase 0**, antes de `start-phase 0` |
+| `python .claude/tracking/tracker_cli.py start-phase N "Nombre"` | Al inicio de cada fase (N = 0..9) |
+| `python .claude/tracking/tracker_cli.py end-phase N` | Al cerrar cada fase |
+| `python .claude/tracking/tracker_cli.py start-task {TASK_ID} "Nombre" {TIPO} {MINUTOS_ESTIMADOS}` | Al iniciar cada tarea dentro de Fase 3 |
+| `python .claude/tracking/tracker_cli.py end-task {TASK_ID} [archivo_creado]` | Al completar cada tarea dentro de Fase 3 |
+| `python .claude/tracking/tracker_cli.py status` | Para consultar el estado del tracking activo |
+| `python .claude/tracking/tracker_cli.py end` | **Solo en Fase 9**, al finalizar la US completa |
 
-> **`end-tracking` vs `end-phase`:** `end-phase` cierra únicamente la fase actual. `end-tracking` cierra el tracking completo de la US: calcula el tiempo total real acumulado, guarda el histórico en disco y genera el reporte de tiempo final. Solo debe invocarse una vez, al final de Fase 9, después de `end-phase 9`.
+> **`end` vs `end-phase`:** `end-phase` cierra únicamente la fase actual. `end` cierra el tracking completo de la US: calcula el tiempo total real acumulado y guarda el histórico en disco. Solo debe invocarse una vez, al final de Fase 9, después de `end-phase 9`.
 
 ---
 
