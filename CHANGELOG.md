@@ -9,6 +9,55 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.8.0] - 2026-11-18
+
+### Cambiado
+
+- **Estimaciones de tiempo eliminadas del skill `implement-us`.** El tracking registra solo
+  tiempo real. Fases 3, 8 y 9, `skill.md`, `config.json`, `artifacts.md`, las plantillas
+  (`templates/planning`, `templates/reporting`) y los docs ya no piden tiempo estimado ni
+  varianza. Las Fases 8 y 9 indican cómo obtener el tiempo real (`tracker_cli.py status` y
+  `timeline.effective_seconds` / `phases[].elapsed_seconds` del JSON de tracking).
+- `tracking/tracker_cli.py`: el parámetro `estimated_minutes` de `start-task` es opcional
+  (default 0). Se agregaron 3 tests.
+- Fase 7: el criterio de complejidad es el **máximo por función** (`cc_max` en `quality.json`),
+  no el promedio. La Fase 9 muestra `cc_max` en el reporte.
+- Fase 7: los umbrales se leen del `config.json` base combinado con el perfil activo (el perfil
+  tiene prioridad); antes fallaba con `generic-python`, que hereda `quality_gates`. Si ningún
+  nivel define `maintainability_index`, MI no es gate y el reporte muestra N/A.
+- `templates/planning/implementation-plan.md`: sin secciones de tests ni quality gates,
+  coherente con la Fase 2.
+- Fases 1, 2 y 3: cubren los perfiles BC-first y Flask Webapp (templates BDD, componentes por
+  patrón, verificación de imports).
+
+### Arreglado
+
+- `skill.md`, `conventions.md` y docs referenciaban `track.py`/`end-tracking`; ahora usan los
+  subcomandos reales de `tracker_cli.py` (`end`). `track.py` queda como CLI legado. Cierra #61.
+- `/track-pause`, `/track-resume` y `/track-status` creaban un `TimeTracker` vacío y podían
+  pisar fases y pausas existentes; ahora cargan el estado con `TimeTracker.from_json`. Cierra #63.
+- Fase 3: eliminada la contradicción sobre ejecutar tests (no se ejecutan; solo sintaxis e
+  imports) y definidos los parámetros de `start-task`.
+- Fase 6: los comandos de CI/CD ejecutan `tests/step_defs/` (antes `tests/features/`, que no
+  ejecuta escenarios) e indican los plugins requeridos.
+- Fase 7: el ejemplo de CI/CD usa los umbrales del perfil en vez de valores fijos.
+- Fase 0: `pytest.ini` aclarado (`testpaths = tests` es intencional) y `context.md` remite a
+  `artifacts.md` en vez de copiar las rutas.
+- `install/installer.py`: el ejemplo de `--help` usaba el perfil inexistente `django-mvt`;
+  la lista de perfiles y la ayuda de `--profile` ahora incluyen los 7. Se eliminó la clave
+  sin uso `profile_selection` de `install/config.json`.
+- `skills/implement-us/README.md` y `skill.md` documentan los 7 perfiles.
+- `.claude/skills/track-*`: carga de estado corregida (ver #63).
+
+### Documentación
+
+- `docs/mejoras/hallazgos.md`: auditoría completa de las fases 0-9 y archivos genéricos
+  (61 de 64 hallazgos originales ya resueltos; 3 vigentes y 9 nuevos corregidos). Cierra #62.
+- Se incorporaron `docs/examples/diagramas-componentes-ejemplos.md`, `docs/examples/diagramas/`
+  y `docs/presentaciones/` (material pendiente de revisión).
+
+---
+
 ## [1.7.0] - 2026-09-05
 
 ### Agregado
@@ -363,7 +412,9 @@ Cinco proyectos completos y funcionales generados usando el propio framework, ca
 
 ---
 
-[Sin publicar]: https://github.com/vvalotto/claude-dev-kit/compare/v1.4.1...HEAD
+[Sin publicar]: https://github.com/vvalotto/claude-dev-kit/compare/v1.8.0...HEAD
+[1.8.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.7.0...v1.8.0
+[1.7.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.6.0...v1.7.0
 [1.4.1]: https://github.com/vvalotto/claude-dev-kit/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/vvalotto/claude-dev-kit/compare/v1.1.0...v1.3.0

@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-stable-brightgreen.svg)](https://github.com/vvalotto/claude-dev-kit)
-[![Tests](https://img.shields.io/badge/tests-146%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-156%20passed-brightgreen.svg)](tests/)
 [![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen.svg)](tests/)
 
 ---
@@ -202,6 +202,14 @@ Templates parametrizados con variables y snippets:
 ---
 
 ## 🗺️ Roadmap
+
+### v1.8.0 ✅ (Completado — 2026-11-18)
+
+- ✅ Tracking de tiempo solo real: se eliminaron las estimaciones y la varianza del skill, las plantillas y los docs; `start-task` ya no requiere minutos
+- ✅ Auditoría completa de `hallazgos.md` (fases 0-9): todos los hallazgos resueltos (#62)
+- ✅ Docs del skill y `/track-*` alineados con `tracker_cli.py`; `/track-pause`, `/track-resume` y `/track-status` ya no pisan el estado (#61, #63)
+- ✅ Fase 7: criterio de CC por máximo por función y umbrales desde config base + perfil
+- ✅ Fases 1-3 cubren los perfiles BC-first y Flask Webapp; instalador y docs con los 7 perfiles
 
 ### v1.7.0 ✅ (Completado — 2026-09-05)
 
