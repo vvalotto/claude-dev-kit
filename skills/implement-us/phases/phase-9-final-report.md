@@ -47,6 +47,8 @@ Mapeá los valores obtenidos a los placeholders del template:
 
 No uses valores hardcodeados ni los reconstruyas de memoria. El `quality.json` es la fuente de verdad.
 
+> Si `mi_min` es `null`, el perfil no define umbral de Índice de Mantenibilidad: en la fila de MI del reporte escribí `N/A (el perfil no define umbral de MI)` en la columna Umbral y `—` en Estado.
+
 ## 🔴 Acción Requerida — Obtener el tiempo real
 
 Antes de completar `{ACTUAL_TIME}` en el template:

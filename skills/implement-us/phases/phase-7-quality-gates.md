@@ -318,22 +318,28 @@ Crear archivo JSON con todas las métricas:
 
 **Script de generación (opcional):**
 
-> Los umbrales se leen desde el config del perfil activo — no están hardcodeados.
+> Los umbrales se leen del config base y del perfil activo (el perfil tiene prioridad) — no están hardcodeados. Si el perfil no define `maintainability_index`, MI no es un gate: `mi_min` queda en `null` y `mi_promedio` es solo informativo.
 
 ```python
 import json
 from datetime import datetime
 from pathlib import Path
 
-def leer_umbrales_perfil(config_path=".claude/skills/implement-us/customizations/{PROFILE}.json"):
-    """Leer umbrales de quality gates desde el perfil activo."""
-    with open(config_path) as f:
-        config = json.load(f)
-    qg = config["quality_gates"]
+def leer_umbrales_perfil(profile_path=".claude/skills/implement-us/customizations/{PROFILE}.json",
+                        base_path=".claude/skills/implement-us/config.json"):
+    """Leer umbrales de quality gates: config base + overrides del perfil activo.
+
+    Algunos perfiles (ej. generic-python) no definen quality_gates y heredan el
+    config base; otros (BC-first) no definen maintainability_index.
+    """
+    with open(base_path) as f:
+        qg = dict(json.load(f).get("quality_gates", {}))
+    with open(profile_path) as f:
+        qg.update(json.load(f).get("quality_gates", {}))
     return {
         "pylint_min": qg["pylint"]["min_score"],
         "cc_max": qg["cyclomatic_complexity"]["max_per_function"],
-        "mi_min": qg["maintainability_index"]["min_score"],
+        "mi_min": qg.get("maintainability_index", {}).get("min_score"),  # None si el perfil no lo define
         "coverage_min": qg["coverage"]["min_percent"]
     }
 
@@ -342,7 +348,7 @@ def todas_metricas_pasan(metricas, umbrales):
     return (
         metricas['pylint'] >= umbrales['pylint_min'] and
         metricas['cc_max'] <= umbrales['cc_max'] and
-        metricas['mi_promedio'] > umbrales['mi_min'] and
+        (umbrales['mi_min'] is None or metricas['mi_promedio'] > umbrales['mi_min']) and
         metricas['coverage'] >= umbrales['coverage_min']
     )
 
@@ -379,7 +385,7 @@ def generar_reporte_quality(us_id, component_path, metricas):
 |---------|--------|-------------|
 | Pylint | ≥ `pylint.min_score` del perfil activo | Calidad de código y estilo |
 | CC máx/función | ≤ `cyclomatic_complexity.max_per_function` del perfil activo | Complejidad por función |
-| MI promedio | > `maintainability_index.min_score` del perfil activo | Mantenibilidad |
+| MI promedio | > `maintainability_index.min_score` del perfil activo (solo si el perfil lo define) | Mantenibilidad |
 | Coverage | ≥ `coverage.min_percent` del perfil activo | Cobertura de tests |
 
 **Estado:** `APROBADO` si todas pasan, `RECHAZADO` si alguna falla

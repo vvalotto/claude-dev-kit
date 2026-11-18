@@ -24,10 +24,10 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 | Estado | Cantidad |
 |--------|---------|
 | Hallazgos originales (2026-02-27) | 64 |
-| ✅ Resueltos | 72 |
+| ✅ Resueltos | 73 |
 | ⚠️ Vigentes | 0 |
-| 🆕 Nuevos (2026-11-18) | 9 (8 resueltos) |
-| **Abiertos en total** | **1** |
+| 🆕 Nuevos (2026-11-18) | 9 (9 resueltos) |
+| **Abiertos en total** | **0** |
 
 > El resumen de la auditoría anterior indicaba 48 hallazgos; el recuento real de IDs listados era 64.
 
@@ -43,7 +43,6 @@ Ninguno. F3-AMB2, F3-AMB4 y F7-AMB1 se corrigieron tras la auditoría (ver secci
 
 | ID | Dónde | Descripción | Severidad |
 |----|-------|-------------|-----------|
-| N-9 | Fases 7 y 9, perfiles BC-first | `hexagonal-ddd-bc` y `clean-architecture-bc` no definen `quality_gates.maintainability_index`, pero el snippet de Fase 7 lee `qg["maintainability_index"]["min_score"]` y Fase 9 mapea `mi_min` desde `quality.json`. Con esos perfiles el snippet falla (`KeyError`) y el reporte queda sin umbral de MI. | Media |
 
 ---
 
@@ -134,6 +133,7 @@ Verificados en 2026-11-18 contra el código actual.
 
 | ID | Cómo se resolvió |
 |----|------------------|
+| N-9 | Fases 7 y 9: el snippet de umbrales leía solo el archivo del perfil (fallaba con `generic-python`, que hereda `quality_gates` del config base). Ahora combina config base + perfil; si ningún nivel define `maintainability_index`, MI no es gate (`mi_min: null`) y el reporte de Fase 9 muestra N/A. Verificado ejecutando el snippet contra los 7 perfiles. Los perfiles BC-first heredan MI > 20 del base, coherente con `integracion-codeguard.md`. |
 | N-8 | `templates/planning/implementation-plan.md` sin secciones Tests/Validación ni checklist de Testing/Calidad (coherente con Fase 2). `TEST_FILE_PATTERN` quedó sin uso en ese template (sigue definido en los perfiles). |
 | N-7 | Fase 0: `pytest.ini` usa `testpaths = tests` con la aclaración de que es intencional (cubre unit, integration y step_defs); `context.md` remite a `artifacts.md` en vez de copiar las rutas. |
 | N-6 | Fase 7: el ejemplo de CI/CD usa `{PYLINT_MIN}` y `{COVERAGE_MIN}` del perfil; radon queda como dato informativo. |
@@ -168,4 +168,4 @@ Verificados en 2026-11-18 contra el código actual.
 
 ---
 
-*Última actualización: 2026-11-18 — Auditoría completa (v1.7.0).*
+*Última actualización: 2026-11-18 — Auditoría completa (v1.7.0). Todos los hallazgos de esta auditoría quedaron resueltos.*
