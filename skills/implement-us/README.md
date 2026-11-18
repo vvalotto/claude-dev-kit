@@ -354,4 +354,4 @@ Todas las variables configurables en los perfiles:
 
 ---
 
-**Última Actualización:** 2026-11-18 — v1.7.0: 7 perfiles (incl. BC-first), tracking con tracker_cli.py
+**Última Actualización:** 2026-11-18 — v1.8.0: 7 perfiles (incl. BC-first), tracking con tracker_cli.py
