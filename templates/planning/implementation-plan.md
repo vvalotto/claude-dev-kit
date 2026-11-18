@@ -4,10 +4,9 @@
 <!-- Variables disponibles:
   - US: {US_ID}, {US_TITLE}, {PRIORITY}, {STORY_POINTS}, {PRODUCT}
   - Usuario: {USER_ROLE}, {USER_WANT}, {USER_BENEFIT}
-  - Componentes: {COMPONENT_N_NAME}, {COMPONENT_N_TYPE}, {COMPONENT_N_PATH}, {COMPONENT_N_PATTERN}, {COMPONENT_N_TIME}
-  - Tests: {UNIT_TESTS_TIME}, {INTEGRATION_TESTS_TIME}
+  - Componentes: {COMPONENT_N_NAME}, {COMPONENT_N_TYPE}, {COMPONENT_N_PATH}, {COMPONENT_N_PATTERN}
   - Dependencias: {BLOCKING_US}, {RELATED_US}, {EXTERNAL_DEPS}
-  - Progreso: {CURRENT_STATE}, {COMPLETED_TASKS}, {TOTAL_TASKS}, {PROGRESS_PERCENTAGE}, {TIME_SPENT}, {TIME_REMAINING}
+  - Progreso: {CURRENT_STATE}, {COMPLETED_TASKS}, {TOTAL_TASKS}, {PROGRESS_PERCENTAGE}, {TIME_SPENT}
   - Notas: {IMPLEMENTATION_NOTES}, {LESSONS_LEARNED}
   - Revisión: {LAST_UPDATE}, {UPDATED_BY}
   - Snippets: {SNIPPET:integration_checklist}
@@ -39,7 +38,6 @@
 
 **Ubicación:** `{COMPONENT_1_PATH}`
 **Patrón:** {COMPONENT_1_PATTERN}
-**Estimación:** {COMPONENT_1_TIME}
 
 **Tareas:**
 - [ ] Crear archivo base con estructura
@@ -53,7 +51,6 @@
 
 **Ubicación:** `{COMPONENT_2_PATH}`
 **Patrón:** {COMPONENT_2_PATTERN}
-**Estimación:** {COMPONENT_2_TIME}
 
 **Tareas:**
 - [ ] Crear archivo base
@@ -68,15 +65,11 @@
 
 {TEST_FILE_PATTERN}
 
-**Estimación tests unitarios:** {UNIT_TESTS_TIME}
-
 ---
 
 ### Tests de Integración
 
 - [ ] `tests/test_{component_1}_integracion.py` - Flujo completo
-
-**Estimación tests integración:** {INTEGRATION_TESTS_TIME}
 
 ---
 
@@ -136,7 +129,6 @@
 **Tareas completadas:** {COMPLETED_TASKS}/{TOTAL_TASKS}
 **Progreso:** {PROGRESS_PERCENTAGE}%
 **Tiempo invertido:** {TIME_SPENT}
-**Tiempo estimado restante:** {TIME_REMAINING}
 
 ---
 

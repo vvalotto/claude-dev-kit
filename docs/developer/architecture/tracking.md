@@ -23,7 +23,7 @@ CLI de tracking invocado por el skill `/implement-us` en cada fase:
 | `init US_ID "título" puntos producto` | Crea el tracking de la US (Fase 0) |
 | `start-phase N "nombre"` | Inicia una fase |
 | `end-phase N` | Finaliza la fase |
-| `start-task ID "nombre" tipo minutos` | Inicia una tarea dentro de la fase activa |
+| `start-task ID "nombre" tipo [minutos]` | Inicia una tarea dentro de la fase activa (`minutos` es opcional, default 0; el skill no usa estimaciones) |
 | `end-task ID [archivo]` | Finaliza la tarea |
 | `status` | Muestra el estado del tracking activo |
 | `end [US_ID]` | Cierra el tracking completo de la US |

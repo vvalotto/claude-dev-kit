@@ -47,6 +47,22 @@ Mapeá los valores obtenidos a los placeholders del template:
 
 No uses valores hardcodeados ni los reconstruyas de memoria. El `quality.json` es la fuente de verdad.
 
+## 🔴 Acción Requerida — Obtener el tiempo real
+
+Antes de completar `{ACTUAL_TIME}` en el template:
+
+Obtené el tiempo real registrado por el tracking (todavía activo en esta fase):
+
+```bash
+# Tiempo total efectivo (descuenta pausas)
+python .claude/tracking/tracker_cli.py status
+
+# Tiempo real por fase, en segundos
+jq -r '.phases[] | "\(.phase_number) \(.phase_name): \(.elapsed_seconds)s"' .claude/tracking/{US_ID}-tracking.json
+```
+
+Usá los minutos **efectivos** de `status` como `{ACTUAL_TIME}` (es el tiempo hasta este momento; el tracking se cierra al final de la fase). No estimes ni reconstruyas tiempos de memoria.
+
 ---
 
 ## Acción
@@ -67,9 +83,7 @@ Generar un reporte estructurado que documente todo el proceso de implementación
 ## Resumen Ejecutivo
 - **Historia de Usuario:** {US_ID} - {US_TITLE}
 - **Puntos estimados:** {STORY_POINTS}
-- **Tiempo estimado:** {ESTIMATED_TIME}
 - **Tiempo real:** {ACTUAL_TIME}
-- **Varianza:** {VARIANCE} ({VARIANCE_PERCENTAGE}%)
 - **Estado:** ✅ COMPLETADO
 - **Fecha completado:** {COMPLETION_DATE}
 
@@ -105,9 +119,7 @@ Generar un reporte estructurado que documente todo el proceso de implementación
 
 - **Historia de Usuario:** {US_ID} - {US_TITLE}
 - **Puntos estimados:** {STORY_POINTS}
-- **Tiempo estimado:** {ESTIMATED_TIME}
 - **Tiempo real:** {ACTUAL_TIME}
-- **Varianza:** {VARIANCE} ({VARIANCE_PERCENTAGE}%)
 - **Estado:** ✅ COMPLETADO
 - **Fecha completado:** {COMPLETION_DATE}
 
@@ -426,8 +438,10 @@ def generar_reporte(us_id, component_path, metricas, archivos, tests):
     with open(quality_file) as f:
         quality = json.load(f)
 
-    # Leer time tracking
-    time_data = tracker.get_report(us_id)
+    # Leer time tracking (tiempo real efectivo, descontando pausas)
+    with open(f".claude/tracking/{us_id}-tracking.json") as f:
+        tracking = json.load(f)
+    tiempo_real_min = tracking["timeline"]["effective_seconds"] // 60
 
     # Generar markdown
     report = f"""# Reporte de Implementación: {us_id}
@@ -435,7 +449,7 @@ def generar_reporte(us_id, component_path, metricas, archivos, tests):
 ## Resumen Ejecutivo
 
 - **Historia:** {us_id}
-- **Tiempo real:** {time_data['total_time']}
+- **Tiempo real:** {tiempo_real_min} min
 - **Estado:** ✅ COMPLETADO
 - **Fecha:** {datetime.now().strftime('%Y-%m-%d')}
 
@@ -533,7 +547,7 @@ python .claude/tracking/tracker_cli.py end
 Al finalizar esta fase:
 
 ✅ Reporte completo de implementación generado
-✅ Resumen ejecutivo con tiempos y varianza
+✅ Resumen ejecutivo con tiempo real
 ✅ Lista completa de componentes implementados
 ✅ Métricas de calidad documentadas
 ✅ Tests y cobertura reportados

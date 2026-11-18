@@ -47,15 +47,24 @@ Actualizar documentos relevantes del proyecto para mantener la documentación si
    **Fecha completado:** 2026-02-11
    ```
 
-2. **Agregar tiempo real vs estimado:**
+2. **Agregar tiempo real registrado:**
+
+   Obtené el tiempo real registrado por el tracking (todavía activo en esta fase):
+   
+   ```bash
+   # Tiempo total efectivo (descuenta pausas)
+   python .claude/tracking/tracker_cli.py status
+   
+   # Tiempo real por fase, en segundos
+   jq -r '.phases[] | "\(.phase_number) \(.phase_name): \(.elapsed_seconds)s"' .claude/tracking/{US_ID}-tracking.json
+   ```
+
    ```markdown
    ## Métricas de Tiempo
 
-   - **Tiempo estimado:** 3h 00min
-   - **Tiempo real:** 2h 45min
-   - **Varianza:** -15 min (-8%)
+   - **Tiempo real total:** 2h 45min
    ```
-   > Si el CLI de tracking no está disponible, usá el tiempo real observado en la sesión o dejá la sección con los estimados del plan y una nota: *"Tracking no disponible — tiempos estimados."*
+   > Si el CLI de tracking no está disponible, dejá la sección con la nota: *"Tracking no disponible — sin datos de tiempo."* No estimes tiempos.
 
 3. **Agregar lecciones aprendidas (opcional pero recomendado):**
    ```markdown
@@ -78,17 +87,17 @@ Actualizar documentos relevantes del proyecto para mantener la documentación si
 
 ## Métricas de Tiempo
 
-| Fase | Estimado | Real | Varianza |
-|------|----------|------|----------|
-| BDD Scenarios | 20 min | 15 min | -5 min |
-| Plan | 15 min | 20 min | +5 min |
-| Implementation | 60 min | 55 min | -5 min |
-| Unit Tests | 30 min | 35 min | +5 min |
-| Integration Tests | 20 min | 20 min | 0 min |
-| BDD Validation | 15 min | 10 min | -5 min |
-| Quality Gates | 10 min | 10 min | 0 min |
-| Documentation | 10 min | 10 min | 0 min |
-| **Total** | **180 min** | **165 min** | **-15 min** |
+| Fase | Tiempo real |
+|------|-------------|
+| BDD Scenarios | 15 min |
+| Plan | 20 min |
+| Implementation | 55 min |
+| Unit Tests | 35 min |
+| Integration Tests | 20 min |
+| BDD Validation | 10 min |
+| Quality Gates | 10 min |
+| Documentation | 10 min |
+| **Total** | **175 min** |
 
 ## Lecciones Aprendidas
 

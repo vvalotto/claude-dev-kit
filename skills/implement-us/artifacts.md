@@ -63,7 +63,7 @@ Generado en Fase 0. Registra las decisiones de ejecución del skill: tipo de HU,
 Generado en Fase 1. Contiene los escenarios Gherkin (Given-When-Then) aprobados por el usuario. Fase 6 lo utiliza para crear los step definitions en `tests/step_defs/` y validar que todos los escenarios pasan.
 
 ### `docs/plans/{US_ID}-plan.md`
-Generado en Fase 2. Contiene el plan detallado de implementación con tareas, estimaciones de complejidad relativa y checkboxes de progreso. Fase 3 lo lee al inicio y actualiza los checkboxes después de cada tarea. Fase 9 lo utiliza para listar las tareas completadas en el reporte final.
+Generado en Fase 2. Contiene el plan detallado de implementación con tareas y checkboxes de progreso. Fase 3 lo lee al inicio y actualiza los checkboxes después de cada tarea. Fase 9 lo utiliza para listar las tareas completadas en el reporte final.
 
 ### `quality/reports/{US_ID}-pylint.json`
 Generado en Fase 7. Resultado del análisis de Pylint en formato JSON. Incluye score final y lista de issues detectados.

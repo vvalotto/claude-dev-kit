@@ -224,7 +224,7 @@ Este skill orquesta la implementación de una US a través de **9 fases secuenci
 **Acciones:**
 - Consolidar métricas de todas las fases
 - Generar reporte de implementación
-- Calcular varianza de estimación vs tiempo real
+- Consolidar el tiempo real registrado por el tracking
 - Exportar métricas para análisis histórico
 
 **Aprobación:** Automática
@@ -269,7 +269,7 @@ El skill usa el sistema de tracking integrado (`.claude/tracking/tracker_cli.py`
 - Acumular datos empíricos de performance del agente a lo largo del tiempo
 - Generar reportes históricos comparables entre ejecuciones del agente
 
-> **Nota (PRIN-001):** Las estimaciones de duración definidas en los archivos de fase son referencias de complejidad relativa basadas en esfuerzo humano. No representan tiempos esperados de ejecución del agente. El tracking registra tiempos reales sin comparar contra estimaciones humanas.
+> **Nota (PRIN-001):** El skill no maneja estimaciones de tiempo. El tracking registra únicamente tiempos reales del agente, por fase y por tarea.
 
 **Comandos CLI:**
 
@@ -278,7 +278,7 @@ El skill usa el sistema de tracking integrado (`.claude/tracking/tracker_cli.py`
 | `python .claude/tracking/tracker_cli.py init {US_ID} "{US_TITLE}" {STORY_POINTS} {PRODUCT}` | **Solo en Fase 0**, antes de `start-phase 0` |
 | `python .claude/tracking/tracker_cli.py start-phase N "Nombre"` | Al inicio de cada fase (N = 0..9) |
 | `python .claude/tracking/tracker_cli.py end-phase N` | Al cerrar cada fase |
-| `python .claude/tracking/tracker_cli.py start-task {TASK_ID} "Nombre" {TIPO} {MINUTOS_ESTIMADOS}` | Al iniciar cada tarea dentro de Fase 3 |
+| `python .claude/tracking/tracker_cli.py start-task {TASK_ID} "Nombre" {TIPO}` | Al iniciar cada tarea dentro de Fase 3 |
 | `python .claude/tracking/tracker_cli.py end-task {TASK_ID} [archivo_creado]` | Al completar cada tarea dentro de Fase 3 |
 | `python .claude/tracking/tracker_cli.py status` | Para consultar el estado del tracking activo |
 | `python .claude/tracking/tracker_cli.py end` | **Solo en Fase 9**, al finalizar la US completa |

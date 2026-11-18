@@ -81,9 +81,8 @@ Template para generar el plan de implementación detallado de una historia de us
 
 **Variables principales:**
 - `{US_ID}`, `{US_TITLE}`, `{PRIORITY}`, `{STORY_POINTS}`, `{PRODUCT}`
-- `{COMPONENT_*_NAME}`, `{COMPONENT_*_TYPE}`, `{COMPONENT_*_PATH}`, `{COMPONENT_*_TIME}`
+- `{COMPONENT_*_NAME}`, `{COMPONENT_*_TYPE}`, `{COMPONENT_*_PATH}`
 - `{TEST_FILE_PATTERN}` - Nombres de tests unitarios por perfil
-- `{UNIT_TESTS_TIME}`, `{INTEGRATION_TESTS_TIME}`
 
 **Snippets:**
 - `{SNIPPET:integration_checklist}` - Checklist de integración específica por stack
@@ -138,7 +137,7 @@ Template para generar el reporte final de implementación de una historia de usu
 - Todas las variables de US y componentes
 - `{ARCHITECTURE_DESCRIPTION}` - Descripción del patrón aplicado por perfil
 - Variables de métricas: `{PYLINT_SCORE}`, `{CC_AVG}`, `{MI_AVG}`, `{COVERAGE}`
-- Variables de tiempo: `{*_EST}`, `{*_ACTUAL}`, `{*_DIFF}`, `{ESTIMATION_ACCURACY}`
+- Variables de tiempo: `{*_ACTUAL}`
 
 **Snippets:**
 - `{SNIPPET:architecture_code_blocks}` - Código de integración específico por stack
@@ -185,11 +184,8 @@ Template para generar el reporte final de implementación de una historia de usu
 | | `{END_DATE}` | Fecha de fin | `2026-02-15` |
 | | `{LAST_UPDATE}` | Última actualización | `2026-02-14 10:30` |
 | | `{REPORT_DATE}` | Fecha del reporte | `2026-02-15` |
-| **Tiempos** | `{COMPONENT_*_TIME}` | Estimación por componente | `30 min` |
-| | `{UNIT_TESTS_TIME}` | Estimación tests unitarios | `1h` |
-| | `{INTEGRATION_TESTS_TIME}` | Estimación tests integración | `30 min` |
-| | `{TIME_SPENT}` | Tiempo real invertido | `2h 15min` |
-| | `{*_EST}`, `{*_ACTUAL}`, `{*_DIFF}` | Estimado vs real por fase | `1h`, `1.2h`, `+0.2h` |
+| **Tiempos** | `{TIME_SPENT}` | Tiempo real invertido | `2h 15min` |
+| | `{*_ACTUAL}` | Tiempo real por fase | `1.2h` |
 | **Métricas** | `{PYLINT_SCORE}` | Puntaje Pylint | `8.5` |
 | | `{CC_AVG}` | Complejidad Ciclomática promedio | `6.2` |
 | | `{MI_AVG}` | Índice de Mantenibilidad promedio | `65.3` |

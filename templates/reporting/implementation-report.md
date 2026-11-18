@@ -220,18 +220,16 @@
 
 ## Tiempo Invertido
 
-| Fase | Tiempo Estimado | Tiempo Real | Diferencia |
-|------|----------------|-------------|------------|
-| **Generación BDD** | {BDD_EST} | {BDD_ACTUAL} | {BDD_DIFF} |
-| **Plan** | {PLAN_EST} | {PLAN_ACTUAL} | {PLAN_DIFF} |
-| **Implementación** | {IMPL_EST} | {IMPL_ACTUAL} | {IMPL_DIFF} |
-| **Tests unitarios** | {UNIT_EST} | {UNIT_ACTUAL} | {UNIT_DIFF} |
-| **Tests integración** | {INT_EST} | {INT_ACTUAL} | {INT_DIFF} |
-| **Validación BDD** | {VAL_EST} | {VAL_ACTUAL} | {VAL_DIFF} |
-| **Quality gates** | {QG_EST} | {QG_ACTUAL} | {QG_DIFF} |
-| **TOTAL** | {TOTAL_EST} | {TOTAL_ACTUAL} | {TOTAL_DIFF} |
-
-**Accuracy:** {ESTIMATION_ACCURACY}%
+| Fase | Tiempo Real |
+|------|-------------|
+| **Generación BDD** | {BDD_ACTUAL} |
+| **Plan** | {PLAN_ACTUAL} |
+| **Implementación** | {IMPL_ACTUAL} |
+| **Tests unitarios** | {UNIT_ACTUAL} |
+| **Tests integración** | {INT_ACTUAL} |
+| **Validación BDD** | {VAL_ACTUAL} |
+| **Quality gates** | {QG_ACTUAL} |
+| **TOTAL** | {TOTAL_ACTUAL} |
 
 ---
 

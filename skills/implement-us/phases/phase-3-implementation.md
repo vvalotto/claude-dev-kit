@@ -82,7 +82,7 @@ Identificar la primera tarea no completada del plan generado en Fase 2.
 Ejecutá antes de comenzar la implementación de cada tarea:
 
 ```bash
-python .claude/tracking/tracker_cli.py start-task "{TASK_ID}" "{TASK_NAME}" "{TASK_TYPE}" {ESTIMATED_MINUTES}
+python .claude/tracking/tracker_cli.py start-task "{TASK_ID}" "{TASK_NAME}" "{TASK_TYPE}"
 ```
 
 **Valores de los parámetros:**
@@ -92,7 +92,6 @@ python .claude/tracking/tracker_cli.py start-task "{TASK_ID}" "{TASK_NAME}" "{TA
 | `{TASK_ID}` | `task_001`, `task_002`… en el orden en que aparecen las tareas en el plan |
 | `{TASK_NAME}` | Texto de la tarea tal como figura en el checklist de `docs/plans/{US_ID}-plan.md` |
 | `{TASK_TYPE}` | Nombre del componente según `component_structure` del perfil activo (ej. `modelo`, `vista`, `service`, `repository`). Es una etiqueta libre; el CLI no la valida |
-| `{ESTIMATED_MINUTES}` | `0`. El plan de Fase 2 no incluye estimaciones (ver nota PRIN-001 en `skill.md`); con `0` el tracker registra la varianza como 0% |
 
 ---
 

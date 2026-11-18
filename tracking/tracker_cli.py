@@ -9,7 +9,7 @@ Uso:
     python .claude/tracking/tracker_cli.py init US-1.0.0 "Título" 3 producto
     python .claude/tracking/tracker_cli.py start-phase 0 "Validación de Contexto"
     python .claude/tracking/tracker_cli.py end-phase 0
-    python .claude/tracking/tracker_cli.py start-task task_001 "Nombre" dominio 20
+    python .claude/tracking/tracker_cli.py start-task task_001 "Nombre" dominio
     python .claude/tracking/tracker_cli.py end-task task_001 src/modulo.py
     python .claude/tracking/tracker_cli.py status
     python .claude/tracking/tracker_cli.py end [us_id]
@@ -195,7 +195,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_st.add_argument("task_id", help="ID de la tarea (ej: task_001)")
     p_st.add_argument("task_name", help="Nombre de la tarea")
     p_st.add_argument("task_type", help="Tipo (dominio, infra, test, etc.)")
-    p_st.add_argument("estimated_minutes", type=float, help="Estimación en minutos")
+    p_st.add_argument("estimated_minutes", type=float, nargs="?", default=0.0, help="Estimación en minutos (opcional, default 0; el skill no usa estimaciones)")
     p_st.add_argument("--us-id", dest="us_id", default=None, help="us_id explícito (opcional)")
     p_st.set_defaults(func=cmd_start_task)
 
