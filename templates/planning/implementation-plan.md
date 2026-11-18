@@ -59,33 +59,6 @@
 
 ---
 
-## Tests
-
-### Tests Unitarios
-
-{TEST_FILE_PATTERN}
-
----
-
-### Tests de Integración
-
-- [ ] `tests/test_{component_1}_integracion.py` - Flujo completo
-
----
-
-## Validación
-
-### Escenarios BDD
-- [ ] `tests/features/{US_ID}-{name}.feature` - Todos los escenarios pasan
-
-### Quality Gates
-- [ ] Pylint ≥ 8.0
-- [ ] CC promedio ≤ 10
-- [ ] MI promedio > 20
-- [ ] Coverage ≥ 95%
-
----
-
 ## Dependencias
 
 **Historias bloqueantes:** {BLOCKING_US}
@@ -100,20 +73,6 @@
 - [ ] Componente 1 implementado
 - [ ] Componente 2 implementado
 {SNIPPET:integration_checklist}
-
-### Testing
-- [ ] Tests unitarios implementados
-- [ ] Tests unitarios pasan (100%)
-- [ ] Tests integración implementados
-- [ ] Tests integración pasan (100%)
-- [ ] Escenarios BDD implementados
-- [ ] Escenarios BDD pasan (100%)
-
-### Calidad
-- [ ] Pylint ejecutado y aprobado
-- [ ] Métricas CC/MI calculadas y aprobadas
-- [ ] Coverage ≥ 95%
-- [ ] Code review realizado
 
 ### Documentación
 - [ ] Docstrings agregados

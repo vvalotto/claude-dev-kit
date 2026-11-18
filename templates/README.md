@@ -82,7 +82,6 @@ Template para generar el plan de implementación detallado de una historia de us
 **Variables principales:**
 - `{US_ID}`, `{US_TITLE}`, `{PRIORITY}`, `{STORY_POINTS}`, `{PRODUCT}`
 - `{COMPONENT_*_NAME}`, `{COMPONENT_*_TYPE}`, `{COMPONENT_*_PATH}`
-- `{TEST_FILE_PATTERN}` - Nombres de tests unitarios por perfil
 
 **Snippets:**
 - `{SNIPPET:integration_checklist}` - Checklist de integración específica por stack
@@ -171,7 +170,6 @@ Template para generar el reporte final de implementación de una historia de usu
 | **Arquitectura** | `{ARCHITECTURE_PATTERN}` | Patrón arquitectónico | `mvc`, `layered`, `mvt` |
 | | `{ARCHITECTURE_DESCRIPTION}` | Descripción del patrón aplicado | (multilinea, por perfil) |
 | **Testing** | `{TEST_FRAMEWORK}` | Framework de testing | `pytest-qt`, `pytest`, `pytest-asyncio` |
-| | `{TEST_FILE_PATTERN}` | Patrón de nombres de tests | (multilinea, por perfil) |
 | | `{TEST_CLASS_ORGANIZATION_COMMENT}` | Organización de clases de tests | (multilinea, por perfil) |
 | **BDD** | `{FEATURE_TITLE}` | Título del feature | `Display de Temperatura` |
 | | `{APP_INIT_STEP}` | Paso de inicialización de app | (por perfil) |
