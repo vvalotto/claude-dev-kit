@@ -24,10 +24,10 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 | Estado | Cantidad |
 |--------|---------|
 | Hallazgos originales (2026-02-27) | 64 |
-| ✅ Resueltos | 61 |
-| ⚠️ Vigentes | 3 |
-| 🆕 Nuevos (2026-11-18) | 7 |
-| **Abiertos en total** | **10** |
+| ✅ Resueltos | 64 |
+| ⚠️ Vigentes | 0 |
+| 🆕 Nuevos (2026-11-18) | 8 |
+| **Abiertos en total** | **8** |
 
 > El resumen de la auditoría anterior indicaba 48 hallazgos; el recuento real de IDs listados era 64.
 
@@ -35,9 +35,10 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 
 ## ⚠️ Hallazgos vigentes (de la auditoría anterior)
 
-| ID | Fase | Descripción | Severidad |
-|----|------|-------------|-----------|
-| F3-AMB2 | Fase 3 | La sección "Acción" lista como paso 4 *"Ejecución de tests básicos (si aplica)"*, pero el paso 7 del flujo dice *"No ejecutar tests en esta fase"*. Dos instrucciones contradictorias dentro del mismo archivo. | Media |
+Ninguno. F3-AMB2, F3-AMB4 y F7-AMB1 se corrigieron tras la auditoría (ver sección de resueltos).
+
+----|------|-------------|-----------|
+| ~~F3-AMB2~~ | Fase 3 | La sección "Acción" lista como paso 4 *"Ejecución de tests básicos (si aplica)"*, pero el paso 7 del flujo dice *"No ejecutar tests en esta fase"*. Dos instrucciones contradictorias dentro del mismo archivo. | Media |
 | F3-AMB4 | Fase 3 | `start-task` recibe `{TASK_ID}`, `{TASK_TYPE}` y `{ESTIMATED_MINUTES}`, pero la fase no define de dónde salen ni qué valores admite `TASK_TYPE`. Fase 2 no genera esos campos en el plan. | Media |
 | F7-AMB1 | Fase 7 | El criterio de CC se corrigió en el texto (máximo por función, no promedio), pero el snippet `todas_metricas_pasan` sigue comparando `cc_promedio <= umbrales['cc_max']`, y el JSON de métricas solo guarda `cc_promedio`. Texto y código se contradicen. | Alta |
 
@@ -54,6 +55,7 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 | N-5 | Fases 8 y 9 | No hay instrucción para obtener el tiempo real: `{ACTUAL_TIME}` y la tabla "Métricas de Tiempo" no indican qué comando usar (`status` solo da el total transcurrido). El script opcional de Fase 9 llama a `tracker.get_report(us_id)`, que no existe en `TimeTracker`, y `tracker` no está definido. | Media |
 | N-6 | Fase 7 | El ejemplo de CI/CD hardcodea `--fail-under=8.0` y `--cov-fail-under=95`, mientras el resto de la fase exige leer los umbrales del perfil activo. | Baja |
 | N-7 | Fase 0 | Paso 6 indica leer `unit_test_path` e `integration_test_path` del perfil para `pytest.ini`, pero el contenido de ejemplo fija `testpaths = tests` y no usa esas claves. El template de `context.md` (Paso 8) además repite rutas literales aunque remite a `artifacts.md`. | Baja |
+| N-8 | `templates/planning/implementation-plan.md` | El template del plan todavía incluye secciones "Tests" y "Validación" con estimaciones (`{UNIT_TESTS_TIME}`, `{INTEGRATION_TESTS_TIME}`), checklist de testing y "Coverage ≥ 95%" hardcodeado. Contradice la Fase 2 (F2-A2/OBS-4: el plan no incluye tests ni quality gates) y los umbrales por perfil. Fase 2 indica usar este template si existe en `.claude/templates/planning/`. | Media |
 
 ---
 
@@ -105,6 +107,8 @@ Verificados en 2026-11-18 contra el código actual.
 | F3-A3 | Paso 6 usa el tool `Write`, sin pseudocódigo. |
 | F3-A4 | `start-task`/`end-task` coinciden con `tracker_cli.py`. |
 | F3-AMB1 | Paso 5 define el flujo de `edit` (describir cambios o pegar código, y re-aprobar). |
+| F3-AMB2 | Corregido tras la auditoría: la fase no ejecuta tests; solo verifica sintaxis e imports. |
+| F3-AMB4 | Corregido tras la auditoría: tabla en el paso 2 que define `TASK_ID`, `TASK_NAME`, `TASK_TYPE` y `ESTIMATED_MINUTES`. |
 | F3-AMB3 | El tracking se inicia antes que cualquier otra acción. |
 
 ### Fases 4, 5 y 6
@@ -128,6 +132,7 @@ Verificados en 2026-11-18 contra el código actual.
 | F7-A1 | Precondición con comandos ejecutables. |
 | F7-A2 | Sin secciones de lenguajes no Python. |
 | F7-A3, F9-A2 | Umbrales leídos del perfil activo (`config.json` / `quality.json → umbrales`). |
+| F7-AMB1 | Corregido tras la auditoría: `quality.json` incluye `cc_max` y el snippet lo compara contra el umbral; `cc_promedio` es informativo. |
 | F7-AMB2 | Comandos con `{COMPONENT_PATH}`; la ruta `src/` de CodeGuard es propia de perfiles BC-first. |
 | F8-A1, F9-A1 | Sin referencias a Django. |
 | F8-A2, F8-AMB2 | Paso 2 🔴 "Discovery de documentación de arquitectura" con `grep`/`find` (OBS-1). |
