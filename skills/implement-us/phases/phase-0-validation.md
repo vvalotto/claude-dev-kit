@@ -129,7 +129,7 @@ max-line-length=120
 disable=C0114,C0115,C0116
 ```
 
-**Contenido mínimo de `pytest.ini`** (leé `test_framework_config.unit_test_path` e `integration_test_path` del perfil activo):
+**Contenido mínimo de `pytest.ini`:**
 
 ```ini
 [pytest]
@@ -138,6 +138,8 @@ python_files = test_*.py
 python_classes = Test*
 python_functions = test_*
 ```
+
+> `testpaths = tests` es intencional: abarca los tests unitarios, de integración y los `step_defs/` BDD (Fases 4 a 7). No lo restrinjas a `unit_test_path`/`integration_test_path`, o quedarían afuera los tests BDD.
 
 > ✅ Creado `.pylintrc` con score mínimo {pylint_min}
 > ✅ Creado `pytest.ini` con testpaths = tests
@@ -176,7 +178,7 @@ Presentá la clasificación al usuario con las opciones:
 
 Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (completando todos los campos con los datos reales).
 
-> **📖 Referencia:** Las rutas de artefactos provienen de `.claude/skills/implement-us/artifacts.md`. Si cambian las convenciones de rutas, ese archivo es la fuente de verdad.
+> **📖 Referencia:** Las rutas de artefactos no se copian en `context.md`: se leen de `.claude/skills/implement-us/artifacts.md`, que es la fuente de verdad.
 
 ```markdown
 # Contexto de Ejecución — {US_ID}
@@ -207,11 +209,7 @@ Creá el archivo `docs/plans/{US_ID}-context.md` con el siguiente contenido (com
   - cobertura ≥ {coverage_min}%
 
 ## Rutas de Artefactos
-- Contexto: docs/plans/{US_ID}-context.md
-- BDD feature: tests/features/{US_ID}-{nombre}.feature
-- Plan: docs/plans/{US_ID}-plan.md
-- Reporte: docs/reports/{US_ID}-report.md
-- Quality report: quality/reports/{US_ID}-quality.json
+Ver `.claude/skills/implement-us/artifacts.md` (fuente de verdad de rutas y nombres).
 ```
 
 Los umbrales se leen de `.claude/skills/implement-us/customizations/{PROFILE}.json` (perfil activo determinado en el Paso 5).

@@ -24,10 +24,10 @@ Inventario de ajustes y ambigüedades del skill `implement-us`.
 | Estado | Cantidad |
 |--------|---------|
 | Hallazgos originales (2026-02-27) | 64 |
-| ✅ Resueltos | 70 |
+| ✅ Resueltos | 71 |
 | ⚠️ Vigentes | 0 |
-| 🆕 Nuevos (2026-11-18) | 9 (6 resueltos) |
-| **Abiertos en total** | **3** |
+| 🆕 Nuevos (2026-11-18) | 9 (7 resueltos) |
+| **Abiertos en total** | **2** |
 
 > El resumen de la auditoría anterior indicaba 48 hallazgos; el recuento real de IDs listados era 64.
 
@@ -43,7 +43,6 @@ Ninguno. F3-AMB2, F3-AMB4 y F7-AMB1 se corrigieron tras la auditoría (ver secci
 
 | ID | Dónde | Descripción | Severidad |
 |----|-------|-------------|-----------|
-| N-7 | Fase 0 | Paso 6 indica leer `unit_test_path` e `integration_test_path` del perfil para `pytest.ini`, pero el contenido de ejemplo fija `testpaths = tests` y no usa esas claves. El template de `context.md` (Paso 8) además repite rutas literales aunque remite a `artifacts.md`. | Baja |
 | N-8 | `templates/planning/implementation-plan.md` | El template del plan todavía incluye secciones "Tests" y "Validación" (las estimaciones de tiempo ya se eliminaron), checklist de testing y "Coverage ≥ 95%" hardcodeado. Contradice la Fase 2 (F2-A2/OBS-4: el plan no incluye tests ni quality gates) y los umbrales por perfil. Fase 2 indica usar este template si existe en `.claude/templates/planning/`. | Media |
 | N-9 | Fases 7 y 9, perfiles BC-first | `hexagonal-ddd-bc` y `clean-architecture-bc` no definen `quality_gates.maintainability_index`, pero el snippet de Fase 7 lee `qg["maintainability_index"]["min_score"]` y Fase 9 mapea `mi_min` desde `quality.json`. Con esos perfiles el snippet falla (`KeyError`) y el reporte queda sin umbral de MI. | Media |
 
@@ -136,6 +135,7 @@ Verificados en 2026-11-18 contra el código actual.
 
 | ID | Cómo se resolvió |
 |----|------------------|
+| N-7 | Fase 0: `pytest.ini` usa `testpaths = tests` con la aclaración de que es intencional (cubre unit, integration y step_defs); `context.md` remite a `artifacts.md` en vez de copiar las rutas. |
 | N-6 | Fase 7: el ejemplo de CI/CD usa `{PYLINT_MIN}` y `{COVERAGE_MIN}` del perfil; radon queda como dato informativo. |
 | N-5 | Se eliminaron las estimaciones de tiempo del skill, las plantillas y los docs (decisión: el foco es el registro real). Fases 8 y 9 indican cómo obtener el tiempo real (`tracker_cli.py status` y el JSON de tracking); el script opcional de Fase 9 lee `timeline.effective_seconds`. `start-task` ya no requiere minutos estimados (parámetro opcional, con tests). |
 | N-4 | Fase 9, `skill.md` y `docs/skills/implement-us/phase-9.md` describen `end` tal como es: marca el cierre y muestra el tiempo total, sin generar reportes (se usa `/track-report`). |
